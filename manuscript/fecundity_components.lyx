@@ -470,12 +470,9 @@ Fitness differences between parental lines
 \end_layout
 
 \begin_layout Standard
-To assess the relative importance of fitness components to adaptive differentiat
-ion we first examined which traits best explain overall differences in fitness
- between local and non-local genotypes.
- We calculated selection coefficients in terms of overall fitness (seed
- number per seedling), as well as two components of fecundity (fruit number
- per reproductive plant and seed number per fruit) and survival.
+To assess the relative impact of traits on adaptive differentiation we expressed
+ differences in trait means between parental lines as the selective advantage
+ of the local genotype.
  We calculated selection coefficients as 
 \begin_inset Formula $s=1-w_{A}/w_{B}$
 \end_inset
@@ -496,6 +493,12 @@ key "gillespie2010population"
 \end_inset
 
 .
+ We calculated selection coefficients for overall fitness in terms of both
+ fruit number per seedling and seed number per seedling, reflecting fitness
+ estimates excluding and including information on seed number.
+ We also estimated selection coefficients for two components of fecundity
+ (fruit number per reproductive plant and seed number per fruit) and survival.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -508,15 +511,19 @@ We estimated confidence intervals around estimates of
  calculated selection coefficients for each bootstrap sample.
  We estimated 95% confidence intervals for each coefficient as the 25th
  and 975th quantiles of these values.
- We declared selection to be significantly different from zero if confidence
- intervals did not overlap zero 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "nakagawa2007effect"
-
-\end_inset
-
-.
+ We estimate two-tailed 
+\emph on
+p-
+\emph default
+values for the null hypothesis that there is no adaptive differentiation
+ as the twice the proportion of bootstrap values overlapping zero.
+ It is more difficult to determine whether selection coefficients for the
+ two measures of overall fitness, fruit number per adult plant and seed
+ number per adult plant, differ from one another because these estimates
+ are based on common data on fruit number, and as such are not independent.
+ Rather than perform a formal test, we instead simply asked whether the
+ coefficient for seed number per adult plant was beyond the 95% confidence
+ interval for the coefficient for fruit number per adult plant.
 \end_layout
 
 \begin_layout Subsection
@@ -625,7 +632,7 @@ Results
 \end_layout
 
 \begin_layout Subsection
-Selection on seed number
+Adaptive differentiation through seed number
 \end_layout
 
 \begin_layout Standard
@@ -637,7 +644,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename ../figures/phenotype_distributions.eps
+	filename /home/thoel507/Documents/arabidopsis_postdoc/fecundity_components/figures/selection.eps
 
 \end_inset
 
@@ -648,117 +655,10 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Fecundity its components in Italy (A, C, E) and Sweden (B, D, F) in each
- year.
- Closed and open circles show means for the Italian and Swedish parental
- lines respectively, with approximate 95% confidence intervals (SE*1.96).
- Asterisks indicate the significance level of the difference between parents
- at the 0.05 (*), 0.01 (**) or 0.001 (***) levels.
- Violins show the distributions of RIL means.
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:fecundity-distributions"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-At the Italian site the local parent consistently produced between 1.5- and
- 1.8-fold more seeds per fruit, 4.8- to 31.2-fold more fruits per reproductive
- plant, and 6.0- to 8.0-fold more seeds per reproductive plant than the non-local
- parent (figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:fecundity-distributions"
-
-\end_inset
-
-B, C and E).
- These differences were highly significant in all cases (p<0.0001; table
- S1).
- Parental means were generally towards the tails of the distributions of
- RIL means, although we found some transgressive variation in all years.
-\end_layout
-
-\begin_layout Standard
-In Sweden, fruit number per plant for the local parent was 1.2-fold higher
- than the non-local parent in 2012 (p=0.003) and 0.8-fold lower in 2011(p=0.006).
- There was no statistically significant differences between the parents
- in 2010, 2013 or 2014 (figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:fecundity-distributions"
-
-\end_inset
-
-B, table S1).
- Seed number per fruit was 1.3- and 1.4-fold higher for the local parent in
- 2010 (p<0.001) and 2014 (p=0.022) respectively, with no significant differences
- between the parents in other years (p
-\begin_inset Formula $\geq0.174$
-\end_inset
-
-) (figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:fecundity-distributions"
-
-\end_inset
-
-D, table S1).
- Seed number per plant for the local parents was signfiicantly higher than
- the non-local parent in 2010, 2012 and 2014, and lower in 2011 (p
-\begin_inset Formula $\leq0.008$
-\end_inset
-
-; figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:fecundity-distributions"
-
-\end_inset
-
-F, table S1).
- There was considerable transgressive variation among RILs in Sweden for
- all three traits.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide true
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename ../figures/selection.eps
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Selection coefficients in terms of fecundity only (circles) or fecundity
- and survival (triangles).
- Negative values indicate that the local genotype had lower relative fitness
- than the non-local genotype.
+Selective advantage of the local parental genotypes.
+ Selection coefficients for survival to reproduction, fruit number per adult
+ plant, seed number per fruit and seed number per planted seedling.
+ Error bars show 95% confidence intervals.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -780,16 +680,13 @@ name "fig:selection"
 \end_layout
 
 \begin_layout Standard
-In Italy, selection on seed number per reproductive adult (
-\begin_inset Formula $\bar{s}=0.86$
+At both sites and in both years the local genotype had significantly higher
+ overall fitness (expressed as seed number per planted seedling) than the
+ non-local genotype (
+\begin_inset Formula $p\leq0.001$
 \end_inset
 
- across years), explains most of the overall differences in seed number
- per planted seedling (
-\begin_inset Formula $\bar{s}=0.92$
-\end_inset
-
-; figure 
+ in all cases; figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:selection"
@@ -797,49 +694,124 @@ reference "fig:selection"
 \end_inset
 
 ).
- Differences in fecundity between the parents correspond to strong selection
- acting on fruit number per plant (
-\begin_inset Formula $\bar{s}=0.77$
+ This advantage was more than twice as strong in Italy (
+\begin_inset Formula $s=$
 \end_inset
 
-), and seed number per fruit (
-\begin_inset Formula $\bar{s}=0.37)$
+0.95, 0.89) than in Sweden (
+\begin_inset Formula $s=$
 \end_inset
 
-.
- By including information on seed number per fruit we are able to explain
- and additional 
-\begin_inset Formula $\Delta s=0.09$
-\end_inset
-
- units of selection in terms of seed number per reproductive plant and 
-\begin_inset Formula $\Delta s=0.05$
-\end_inset
-
- units of selection in terms of seed number per planted seedling than if
- we had considered fecundity only through fruit number per reproductive
- plant.
+0.26, 0.41).
 \end_layout
 
 \begin_layout Standard
-In Sweden, selection on seed number per reproductive adult (
-\begin_inset Formula $\bar{s}=0.06$
+At the Italian site the local advantage was reflected in significant selection
+ through survival (
+\begin_inset Formula $s\geq$
 \end_inset
 
-) explains only a smaller proportion of the differences in seed number per
- planted seedling (
-\begin_inset Formula $\bar{s=0.57})$
+0.33, 
+\begin_inset Formula $p<0.001$
 \end_inset
 
-.
- Selection acts on components of fecundity in different directions in different
- years, and in different directions on different components within a single
- year.
- When selection on fruit number per plant is significant in 2011 and 2012
- it explains most of the selection on seed number per plant.
- In 2010 and 2014 there is significant selection on seed number per fruit,
- which drives selection seed number per reproductive plant that we would
- not have detected had we considered fruit number per plant alone.
+), fruit number per adult plant (
+\begin_inset Formula $s\geq$
+\end_inset
+
+0.69, 
+\begin_inset Formula $p<0.001$
+\end_inset
+
+) and seed number per fruit (
+\begin_inset Formula $s<0.33$
+\end_inset
+
+, 
+\begin_inset Formula $p<0.001$
+\end_inset
+
+).
+ When information on seed number is included in estimates of overall fitness
+ the advantage to the local genotype increased by 
+\begin_inset Formula $\Delta s=0.024$
+\end_inset
+
+ in 2010 and 
+\begin_inset Formula $\Delta s=0.094$
+\end_inset
+
+ in 2011.
+ In both years the estimate of selection for seed number per seedling did
+ not overlap with the 95% confidence intervals for the estimate for fruit
+ number per seedling.
+\end_layout
+
+\begin_layout Standard
+In Sweden in 2010 we observed significant selection through seed number
+ per fruit (
+\begin_inset Formula $s=$
+\end_inset
+
+0.21, 
+\begin_inset Formula $p<0.001$
+\end_inset
+
+), but no significant selection through survival (
+\begin_inset Formula $s=0.12,$
+\end_inset
+
+ 
+\begin_inset Formula $p=0.174$
+\end_inset
+
+) or fruit number per adult plant (
+\begin_inset Formula $s=-0.09$
+\end_inset
+
+, 
+\begin_inset Formula $p=0.238$
+\end_inset
+
+).
+ In 2011, we observed significant selection through survival (
+\begin_inset Formula $s=0.53,$
+\end_inset
+
+
+\begin_inset Formula $p<0.001$
+\end_inset
+
+), but not through fruit number per adult plant (
+\begin_inset Formula $s=-0.19$
+\end_inset
+
+, 
+\begin_inset Formula $p=0.082$
+\end_inset
+
+) or seed number per fruit (
+\begin_inset Formula $s=-0.017$
+\end_inset
+
+, 
+\begin_inset Formula $p=0.780$
+\end_inset
+
+).
+ Including information on seed number into fitness estimates increased the
+ advantage to the local genotype by 
+\begin_inset Formula $\Delta s$
+\end_inset
+
+=0.21 in 2010 and decreased the advantage by 
+\begin_inset Formula $\Delta s=0.010$
+\end_inset
+
+ in 2011.
+ In neither year was the increase in selection coefficient greater than
+ the confidence interval around the coefficient for fruit number per adult
+ plant.
 \end_layout
 
 \begin_layout Subsection
@@ -894,79 +866,53 @@ name "fig:scatter-plots"
 \end_layout
 
 \begin_layout Standard
-Correlations between fruit number per plant and seed number per fruit were
- significnatly greater than zero in all years in both Italy (
-\begin_inset Formula $0.41\leq r\leq0.65$
+We found strong positive correlations between fruit number per adult plant
+ and seed number per fruit, as well as between survival and seed number
+ per adult plant in both years in Italy, and in Sweden in 2011 (
+\begin_inset Formula $r\geq0.31$
 \end_inset
 
 , 
-\begin_inset Formula $\bar{r}=0.50$
+\begin_inset Formula $p<0.0001;$
 \end_inset
 
-) and Sweden (
-\begin_inset Formula $0.13\leq r\leq0.69$
-\end_inset
-
-, 
-\begin_inset Formula $\bar{r}=0.44$
-\end_inset
-
-; figure 
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:scatter-plots"
 
 \end_inset
 
-A).
-\end_layout
-
-\begin_layout Standard
-Winter survival was positively correlated with seed number per fruit in
- all years in Italy (
-\begin_inset Formula $0.18\leq r\leq0.54$
-\end_inset
-
-, 
-\begin_inset Formula $\bar{r}=0.34$
-\end_inset
-
-) and weakly positively correlated in 2012 (
+).
+ In Sweden in 2010 the correlation between fruit number per adult plant
+ and seed number per fruit was weaker but still significant (
 \begin_inset Formula $r=0.13$
 \end_inset
 
-) and 2014 (
-\begin_inset Formula $r=0.15)$
+, 
+\begin_inset Formula $p=0.011$
 \end_inset
 
- in Sweden (figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:scatter-plots"
-
+), while survival and seed number per seedling showed no significant correlation
+ (
+\begin_inset Formula $r=0.05$
 \end_inset
 
-B).
- In other years correlation coefficients were not significantly different
- from zero.
+, 
+\begin_inset Formula $p=0.32$
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Standard
-Seed mass was positively correlated with seed number per fruit in Italy
- in 2012 (
-\begin_inset Formula $r=0.30$
+We found no significant correlations between seed mass and seed number per
+ adult plant in Italy in either year, nor in Sweden in 2011 (
+\begin_inset Formula $r\leq0.07$
 \end_inset
 
-) and 2014 (
-\begin_inset Formula $r=0.18$
-\end_inset
-
-), and negatively correlated in Sweden in 2010 (
-\begin_inset Formula $r=-0.20$
-\end_inset
-
-) and 2012 (
-\begin_inset Formula $r=0.19$
+, 
+\begin_inset Formula $p\geq0.19$
 \end_inset
 
 ; figure 
@@ -976,8 +922,55 @@ reference "fig:scatter-plots"
 
 \end_inset
 
-C).
- In other years the relationship was not significantly different from zero.
+).
+ In Sweden in 2010 we found significant negative relationship between these
+ variables (
+\begin_inset Formula $r=-0.20$
+\end_inset
+
+, 
+\begin_inset Formula $p<0.001$
+\end_inset
+
+).
+ Neither coefficients nor 
+\emph on
+p-
+\emph default
+values changed substantially when potential outlier lines with seed mass
+ greater than 35mg were excluded (Italy 2010: 
+\begin_inset Formula $r=0.08$
+\end_inset
+
+, 
+\begin_inset Formula $p=0.127$
+\end_inset
+
+; Italy 2011: 
+\begin_inset Formula $r=0.03$
+\end_inset
+
+, 
+\begin_inset Formula $p=0.554$
+\end_inset
+
+; Sweden 2010: 
+\begin_inset Formula $r=-0.18$
+\end_inset
+
+, 
+\begin_inset Formula $p=0.001$
+\end_inset
+
+; Sweden 2011: 
+\begin_inset Formula $r=0.08$
+\end_inset
+
+, 
+\begin_inset Formula $p=0.129$
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Subsection
