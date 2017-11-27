@@ -88,31 +88,35 @@ Arabidopsis thaliana
 \end_layout
 
 \begin_layout Author
-Thomas James Ellis, Chris Oakley, Froukje Postma, Jon Ågren
+Thomas James Ellis, Froukje Postma, Chris Oakley, Jon Ågren
 \end_layout
 
 \begin_layout Abstract
-As populations adapt to their local environment, we expect selection to
- tune investment in different life history stages to maximise reproductive
- success.
- We large reciprocal transplants at two sites over five years we examined
- the extent to which components of fecundity contribute to local adaptation
- in 
-\emph on
-Arabidopsis thaliana
-\emph default
-.
- We found strong selection for both fruit number per plant and seed number
- per fruit.
- Fecundity components were strongly positively correlated with one another,
- as well as with survival,but we found no trade-off between fecundity and
- seed mass.
- QTL analyses found that fecundity components share a common genetic basis,
- and that both antagonistic and conditionally neutral allelic effects contribute
- to local adaptation.
- At both sites, the fittest individuals were able to invest in all fitness
- traits, suggesting that variation in fitness is driven primarily in differences
- in overall resource availability.
+Local adaptation can be expressed through several components of fitness,
+ some of which may be linked by trade-offs.
+ Assessments of the strength of local adaptation and its genetic basis should
+ thus include as many components of fitness as possible.
+ We quantified local adaptation and examined its genetic basis by mapping
+ quantitative trait loci (QTL) for fitness and its components in a population
+ of recombinant inbred lines (RILs) derived from a cross between two locally
+ adapted populations of Arabidopsis thaliana planted at the sites of the
+ two source populations in two years.
+ We specifically examined whether number of seeds per fruit is negatively
+ correlated with fruit production or seed size, and thus whether the inclusion
+ of this fitness component would reduce estimates of local adaptation.
+ The local genotype outperformed the non-local genotype in terms of both
+ number of fruits and number of seeds per fruit.
+ In the RIL population, the two fecundity components were positively correlated,
+ and fecundity was positively correlated with survival.
+ We found only limited evidence of a trade-off with seed size.
+ With a few exceptions, QTL for number of fruits and number of seeds per
+ fruit mapped to the same genomic regions, with allelic effects in the same
+ direction.
+ The results suggest that estimates of the strength of local adaptation
+ increase if both fecundity components are considered, and that variation
+ in overall vigour rather than trade-offs underlie differences observed
+ in individual components of fecundity and fitness.
+ 
 \end_layout
 
 \begin_layout Section
@@ -139,10 +143,10 @@ key "lack1947significance,stearns1992"
 \end_inset
 
 .
- Given that the amount of resources available is always finite, there must
- necessarily be trade-offs in the amount of resources which can be allocated
- to different traits, relected in negative correlations between fitness-related
- traits 
+ Given that the amount of resources available is finite, there must necessarily
+ be trade-offs in the amount of resources which can be allocated to different
+ traits, reflected in negative correlations between fitness-related traits
+ 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "stearns1992,roff2002life"
@@ -159,9 +163,8 @@ key "hereford2009quantitative"
 \end_inset
 
 .
- One the other hand, when variation in overall resource availability is
- large, this can overwhelm variation in allocation strategy, leading to
- positive correlations between traits 
+ However, when variation in the ability to acquire resources is large, this
+ can lead to positive correlations between traits 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "vannoordwijk1986"
@@ -169,15 +172,15 @@ key "vannoordwijk1986"
 \end_inset
 
 .
- These two scenarios are important for local adaptation because they can
- either constrain or facilitate the response to local selection pressures.
+ We currently know little about the extent to which local adaptation entails
+ tuning allocation to different traits, or an increase in the ability to
+ acquire resources.
 \end_layout
 
 \begin_layout Standard
 Maximising reproductive output is vital for maximising evolutionary fitness.
- For plants, fecundity depends on the number of seeds produced, and this
- can be achieved by increasing fruit number or increasing seed number per
- fruit 
+ In plants, fecundity is determined by the number of fruits produced, and
+ by the number of seeds per fruit 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "silvertown1989paradox"
@@ -185,9 +188,8 @@ key "silvertown1989paradox"
 \end_inset
 
 .
- Seed number is a highly plastic trait that can vary enormously in response
- to resource availability and abiotic pressures, even among individuals
- with identical genotypes 
+ Seed production is a highly plastic trait that can vary enormously in response
+ to variation in resource availability 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "puckridge1967competition,lloyd1987selection,sadras2007evolutionary"
@@ -218,15 +220,15 @@ key "agren_reciprocal_2012,hall2006divergent"
 ).
  It is therefore unclear the extent to which different components of fecundity
  contribute to overall differences in reproductive success, nor whether
- they constrain or complement one another.
+ they are negatively or positively correlated.
 \end_layout
 
 \begin_layout Standard
-Investment in fecundity may also show complex relationships with other fitness-r
-elated traits.
- Energy allocated to reproduction reduces that available for investment
- in defence against parasites and predators, or abiotic stressors such as
- cold tolerance 
+Fecundity may also show complex relationships with other fitness-related
+ traits.
+ Resources allocated to reproduction are not available for investment in
+ defence against parasites and predators, or abiotic stressors such as cold
+ 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "stearns1992,roff2002life"
@@ -245,17 +247,16 @@ key "geber1990cost"
 \end_inset
 
 .
- Similarly, providing additional resources to offspring through increased
- seed size may increase the fitness of the offspring 
+ Providing additional resources to offspring through increased seed size
+ may increase the fitness of the offspring 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "venable1992size,leishman2000evolutionary"
+key "smith1974optimal"
 
 \end_inset
 
-.
- Comparisons across species have confirmed a negative correlation between
- seed mass and number 
+, and there is ample evidence of negative correlations between seed mass
+ and seed number across species 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "salisbury1942,moles2004seedling,moles2006seed,sera2004number"
@@ -287,13 +288,13 @@ key "silvertown1989paradox,venable1992size"
 \end_inset
 
 .
- Interactions between fitness traits will depend strongly on the environmental
- conditions, and need to be examined in the specific local context.
+ It is therefore unclear whether investment in seed size places a constraint
+ on the ability to adpat to local adaptation through increased fecundity.
 \end_layout
 
 \begin_layout Standard
 Important insight into the process of local adaptation can be gained by
- examining the genetic architecture underlying adapative traits 
+ examining the genetic architecture of fitness traits 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "merila1999genetic,mauricio2001mapping"
@@ -301,52 +302,55 @@ key "merila1999genetic,mauricio2001mapping"
 \end_inset
 
 .
- Firstly, information about the number and location of quantitative trait
- loci (QTL) with detectable effects on phenotypic variation can reveal the
- extent to which QTL for fitness-related traits are found in the same regions
- of the genome, and hence whether relationships between phenotypes share
- a common genetic basis.
- Secondly, the change in phenotype associated with alleles at these loci
- can be used to infer the genetic mechanisms that have contributed to trade-offs
- in fitness at the level of contributing loci.
- For example, are fitness differences driven by antagonistic pleiotropy,
- where the local allele is favoured and the non-local allele disfavoured?
- Alternatively, do we observe conditionally neutral effects, where local
- alleles confer an advantage in one environment, but have no effect at other
- sites 
+ Information about the number and location of quantitative trait loci (QTL)
+ with detectable effects on phenotypic variation can reveal the extent to
+ which QTL for different components of fitness are found in the same regions
+ of the genome, as would be expect if they share a common genetic basis.
+ The change in phenotype associated with alleles at these loci can be used
+ to infer the genetic mechanisms underlying adpative differentiation 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "kawecki2004conceptual,anderson2011evolutionary"
-
-\end_inset
-
-? Because allelic effects depend strongly on the environment it is essential
- to assess their contribution under field conditions 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "anderson2013evolution"
+key "kawecki2004conceptual,savolainen2013ecological,tiffin2014advances"
 
 \end_inset
 
 .
- Reciprocal transplant experiments using mapping populations at the sites
- of origin are an excellent tool to investigate the architecture of local
- adaptation in situ.
+ When there are correlations among components of fitness at the phenotypic
+ level, is this reflected in correlated effects of individual QTL on each
+ trait, or is this due to the effects of independent loci? Do alleles that
+ increase fitness in one environment impose a fitness cost in another environmen
+t? Despite extensive evidence that natural populations are locally adapted
+ 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "leimu2008meta,hereford2009quantitative"
+
+\end_inset
+
+, our understanding of the underlying genetic architecture and mechanisms
+ remains limited (reviewed in 
+\begin_inset CommandInset citation
+LatexCommand citealp
+key "wadgymar2017identifying"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Standard
-In this study we investigate the adaptive significance and genetic basis
- of components of fecundity in 
+In this study we examine variation in components of fecundity and seed mass
+ in 
 \emph on
-Arabidopsis thaliana
+Arabidopsis thaliana, 
 \emph default
-.
+and investigate the genetic basis of these traits.
  We carried out reciprocal transplant experiments using a large RIL population
- and the parental lines at the source sites in central Sweden and Italy
- over five years.
+ and the parental lines at the source sites in northern Sweden and central
+ Italy over two years.
  Previous work has shown that the parental lines are locally adapted, and
- identified winter survival in Sweden and fruit production in Italy as major
- determinants of fitness 
+ identified survival in Sweden and both survival and fruit production in
+ Italy as major determinants of fitness 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "agren_reciprocal_2012"
@@ -354,27 +358,14 @@ key "agren_reciprocal_2012"
 \end_inset
 
 .
- Although not the focus of their study, 
-\begin_inset CommandInset citation
-LatexCommand citet
-key "agren_reciprocal_2012"
-
-\end_inset
-
- also presented preliminary data suggesting that the local genotype produced
- more seeds per fruit than the non-local genotype, and hence that fruit
- number alone is likely to be an underestimate of total fecundity.
-\end_layout
-
-\begin_layout Standard
-Here, we explicitly examine the contribution of two components of fecundity,
- fruit number and seed number per fruit, to local adaptation.
- Specifically we ask: (1) what is the relative strength of selection acting
- on each trait? (2) Are there trade-offs between components of fecundity
- or (3) between fecundity and survival or seed size? (4) Do we find large-effect
- QTL for fecundity components, and do they share a common genetic architecture?
- Our results reveal that genetic variation in seed traits makes an important
- contribution to local adaptation though effects on fecundity.
+ Here, we quantified the contribution of two components of fecundity, fruit
+ number per adult plant and seed number per fruit, as well as survival to
+ adaptive differentiation at the two sites.
+ We then examine correlations between fecundity, survival and seed mass
+ to identify possible trade-offs among adaptive traits.
+ Finally, we use the RIL population to identify QTL for seed mass, fruit
+ number per plant, seed number per fruit and seed number per plant to test
+ the extent to which these traits share a common genetic basis.
 \end_layout
 
 \begin_layout Section
@@ -445,7 +436,14 @@ At each site-year experiment we also collected a single mature but unopened
 We also used these data to estimate proxies for total fecundity and total
  fitness.
  We estimated seed number per reproductive plant as the product of fruit
- number per plant and seed number per fruit.
+ number per plant and seed number per fruit 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "maddox1983experimental"
+
+\end_inset
+
+.
  Likewise, we estimated seed number per planted seedling as the product
  of fruit number per planted seedling by fruit number per plant.
  Since we did not have data on seed number per fruit for all individuals
@@ -778,7 +776,7 @@ In Sweden in 2010 we observed significant selection through seed number
 \begin_inset Formula $s=0.53,$
 \end_inset
 
-
+ 
 \begin_inset Formula $p<0.001$
 \end_inset
 
@@ -974,266 +972,106 @@ values changed substantially when potential outlier lines with seed mass
 \end_layout
 
 \begin_layout Subsection
-Genetic basis of seed trait variation
+Position and effects of QTL
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float table
 wide true
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
-
-\lang english
 \begin_inset Tabular
-<lyxtabular version="3" rows="11" columns="11">
+<lyxtabular version="3" rows="17" columns="6">
 <features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
-<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
 <row>
-<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
+trait
+\end_layout
 
-\lang english
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
 site
 \end_layout
 
 \end_inset
 </cell>
-<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\lang english
 year
 \end_layout
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-fruits per plant
+n.
+ QTL
 \end_layout
 
 \end_inset
 </cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+LOD
 \end_layout
 
 \end_inset
 </cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-seeds per fruit
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-seeds per plant
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+% variance explained
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \lang english
-n.
- QTL
+seed mass
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-LOD
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \lang english
-PVE
+italy
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-n.
- QTL
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-LOD
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-PVE
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-n.
- QTL
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-LOD
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-PVE
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="3" alignment="center" valignment="middle" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-Italy
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1244,18 +1082,278 @@ Italy
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \lang english
-10
+2 (1)
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+8.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+9.7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+2011
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+5 (3)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+17
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+19.1
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+sweden
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+2010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+6 (4)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+29.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+30.3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+2011
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+5 (4)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+17.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+21.7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fruit per adult
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+italyitaly
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+2010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+10 (8)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1266,7 +1364,7 @@ Italy
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1277,18 +1375,245 @@ Italy
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" usebox="none">
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \lang english
-4
+2011
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+8 (7)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+67.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+54.4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+sweden
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+2010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+3 (1)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+8.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+9.2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+2011
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+7 (6)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+35.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+33.8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+seeds per fruit
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+italy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+2010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+4 (3)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1299,7 +1624,7 @@ Italy
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1310,18 +1635,247 @@ Italy
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" usebox="none">
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \lang english
-8
+2011
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+6 (4)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+39.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+38.2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+sweden
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+2010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+4 (4)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+25.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+26.7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+2011
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+5 (5)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+26.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+30.2
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+seeds per adult
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+italy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+2010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\lang english
+8 (8)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1332,7 +1886,7 @@ Italy
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1345,7 +1899,7 @@ Italy
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1354,7 +1908,16 @@ Italy
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1365,84 +1928,18 @@ Italy
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \lang english
-8
+10 (8)
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-67.9
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-54.4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-39.2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-38.2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-10
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1453,7 +1950,7 @@ Italy
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1466,7 +1963,7 @@ Italy
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1475,372 +1972,18 @@ Italy
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-2012
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \lang english
-10
+sweden
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-80.6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-60.6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-16.8
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-18.3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-8
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-57.8
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-50.1
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-2013
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-32.2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-32.1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-13.8
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-23.4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-23.5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-36.4
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-2014
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-7
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-42.8
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-38.9
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-22.1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-22.6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-8
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-40.7
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-37.5
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-Sweden
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1851,84 +1994,18 @@ Sweden
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \lang english
-3
+3 (1)
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-8.3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-9.2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-25.6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-26.7
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1939,7 +2016,7 @@ Sweden
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1952,7 +2029,7 @@ Sweden
 </cell>
 </row>
 <row>
-<cell multirow="4" alignment="center" valignment="top" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1961,7 +2038,16 @@ Sweden
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1972,84 +2058,18 @@ Sweden
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \lang english
-7
+5 (4)
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-35.6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-33.8
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-26.6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-30.2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2060,255 +2080,13 @@ Sweden
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
 \lang english
 29.9
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-2012
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-11.2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-12.1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-7.7
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-8.6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-8
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-8.9
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-2014
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-3
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-13.9
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-14.9
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-2.4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-3.6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-1
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-2.8
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" bottomline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\lang english
-4.2
 \end_layout
 
 \end_inset
@@ -2325,9 +2103,9 @@ Sweden
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Summary of QTL models in each year and site, showing number of QTL detected,
- LOD score of the model and the percentage of the total phenotypic variation
- explained (PVE) by the QTL model.
+Summary of QTL models in each year and site.
+ QTL numbers show the total number of QTL detected, followed by the number
+ of well-defined QTL with credible intervals narrower than 15.2cM.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -2349,114 +2127,737 @@ name "tab:QTL-summary"
 \end_layout
 
 \begin_layout Standard
-In the five years of study in Italy we identified 7-10 QTL for fruit number
- per plant, 3-6 QTL for seed number for seed number per fruit and 3-10 QTL
- for seed number per plant (tables 
+In each site-year experiment we detected between 2 and 6 QTL for seed mass,
+ 3-10 QTL for fruit number per adult plant, 4-6 QTL for seed number per
+ fruit and 3-10 QTL for seed number per plant (tables 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:QTL-summary"
 
 \end_inset
 
- and S2-4).
- In Sweden, the model selection algorithm did not find any significant QTL
- in 2013 for any trait.
- In the remaining years we found found 3-7 QTL for fruit number per plant,
- 1-4 QTL for seed number per fruit and 1-5 QTL for seed number per plant.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide true
-sideways false
-status collapsed
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/thoel507/Documents/arabidopsis_postdoc/Seed size/figures/QTL_positions_clusters.eps
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-QTL locations for fruit number per plant (F), seed number per fruit (S)
- and seed number per plant (T) in Italy (red) and Sweden (blue).
- Chevrons show point estimates of QTL detected in individual years.
- Where positions are identical this is show with heavier chevrons.
- Direction of the chevrons indicate the direction of effect of the Swedish
- allele.
- Veritcal lines show the range of point estimates in each QTL cluster.
- If a cluster was not detected at a site, this is indicated by a black line.
- Names of QTL clusters are shown on the left-hand side.
- Grey boxes show regions previously found to harbour QTL for fruit number.
-\begin_inset CommandInset label
-LatexCommand label
-name "fig:QTL-cluster-positions"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-After grouping QTL in individual years we recovered 17 QTL clusters for
- fruit number per plant, 11 for seed number per fruit and 19 for seed number
- per plant (figure 
+, supporting tables 1-4, supporting figures 1-4).
+ When poorly defined QTL with 95% Bayesian credible intervals greater than
+ 15.2cM were removed, 1-4, 1-8, 4-6 and 1-8 QTL remained for each trait respeciti
+vely (figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:QTL-cluster-positions"
+reference "fig:QTL-positions"
 
 \end_inset
 
-, tables S5-7).
- In all but one case, effect sizes of loci identified in individual years
- within in each cluster were in the same direction at a single site.
- The exception is F5:1, where the Swedish allele was associated with a decrease
- in fruit number per plant in 2010, but with an increase in 2013 (figures
- S1 and S4).
+, table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:QTL-summary"
+
+\end_inset
+
+, supporting tables 1-4).
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
+\begin_inset Float table
 wide false
 sideways false
 status collapsed
 
 \begin_layout Plain Layout
-\begin_inset Graphics
-	filename /home/thoel507/Documents/arabidopsis_postdoc/Seed size/figures/effect_plots_clusters.eps
+\begin_inset Tabular
+<lyxtabular version="3" rows="9" columns="8">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+trait
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+site
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+year
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+position 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+position 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+effect size
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+LOD
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+% var.
+ explained
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+seed mass
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sweden
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2011
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2:22.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5:2.6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.384 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.4
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+fruits per adult
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+italy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5:7.7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5:70.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.277
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sweden
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2011
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1:61.8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3:26.7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-2.99
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8.7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7.0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+seeds per fruit
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+italy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2011
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1:5.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5:15.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.794
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.6
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sweden
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1:22.7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5:70.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-0.675
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.7
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sweden
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2011
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1:61.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3:21.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-1.44
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7.8
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+seeds per adult
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+italy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3:6.3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5:12.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-26.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2.7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1.9
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sweden
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2011
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1:61.1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3:24.4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-127
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9.0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Effect sizes of 19 QTL positions on fruit number per plant, seed number,
- per fruit and seed number per plant in Italy (red) and Sweden (blue) over
- five years.
- Closed circles show loci with effects significant different from zero.
- Error bars show 95% bootstrap confidence intervals.
- Asterisks indicate significant site-by-locus interactions.
- 
+Epistatic QTL.
+ QTL positions show chromosome number followed by marker position (cM).
+ Effect sizes are given for the Swedish allele.
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:effect-sizes"
+name "tab:Epistatic-QTL"
 
 \end_inset
 
@@ -2474,83 +2875,130 @@ name "fig:effect-sizes"
 \end_layout
 
 \begin_layout Standard
-In the models of 19 QTL positions for data from all five years, 15, ten
- and twelve loci showed a significant allelic effect at one or both sites
- for fruit number per plant, seed number per fruit and seed number per plant
- respectively (figure 
+We also identified between one and three pairs of loci showing significant
+ epistatic interactions for each trait (table 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:effect-sizes"
+reference "tab:Epistatic-QTL"
 
 \end_inset
 
 ).
- Significant effects favour the local allele in all cases except for the
- effect of T3:1, for which the non-local allele is associated with increased
- fruit number per plant, and has no significant effect on seed number per
- fruit or per plant.
- We found seven loci (T1:3, T2:1, T2:2, T3:1, T3:3, T5:2 and T5:4) that
- showed evidence of a trade-off between sites for fruit number per plant,
- four for seed number per fruit (T1:5, T2:1, T5:2, T5:3 and T5:4) and six
- for seed number per plant (T1:3, T2:1, T2:2, T5:2, T5:3 and T5:3).
+ No pair of epistatic loci showed a significant epistatic effect in more
+ than one site-year experiment for the same trait.
 \end_layout
 
 \begin_layout Standard
-For four QTL clusters in Sweden (T1:3, T1:4, T3:2 and T5:3), the direction
- of effects inferred from individual years favoured the non-local allele
- for one or more traits (figures 
+All well-defined QTL for seed number per adult plant colocalised with QTL
+ for fruit number per plant and/or seed number per plant (figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:QTL-cluster-positions"
-
-\end_inset
-
-, 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:effect-sizes"
-
-\end_inset
-
-, S1-3).
- In all cases this was true in a single year only (figure S4).
- Effects at these loci in the combined model across years either favoured
- the local allele, or were not significantly different from zero (figure
- 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:QTL-cluster-positions"
+reference "fig:QTL-positions"
 
 \end_inset
 
 ).
+ All 12 such QTL detected in Italy colocalised with QTL for fruit number
+ per plant, of which five also colocalised with a QTL for seed number per
+ plant.
+ In Sweden by contrast, the five QTL for seed number per adult plant detected
+ all colocalised with QTL for seed number per fruit.
+ We found two QTL for seed number per adult plant in Sweden (chromosome
+ 1, 22.7cM in 2010 and chromosome 4, 42.3cM in 2011) which would not have
+ been detected based on fruit number alone.
+ A third QTL (chromosome 3, 24.4cM) colocalises with distinct QTL for fruit
+ number per adult plant and seed number per fruit.
+\end_layout
+
+\begin_layout Standard
+In Italy, the Swedish alleles at QTL for fruit number per adult plant, seed
+ number per fruit and seed number per adult plant were mostly associated
+ with a decrease in fecundity (figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:QTL-positions"
+
+\end_inset
+
+, supporting tables 1-4).
+ This was true for all QTL except the locus at the beginning of chromosome
+ 3 detected for fruit and seed number per adult plant, and for the epistatic
+ interaction detected in 2011 for seed number per fruit (table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Epistatic-QTL"
+
+\end_inset
+
+).
+ In Sweden, the Swedish allele for four out of seven, two out of four and
+ two out of three QTL for fruit number per adult plant, seed number per
+ fruit and seed number per adult plant respectively were associated with
+ a decrease in fecundity (figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:QTL-positions"
+
+\end_inset
+
+, supporting tables 1-4).
+ The Swedish/Swedish genotype at each of the four pairs of epistatic loci
+ detected in Sweden for fecundity or either component were also associated
+ with reduced fecundity (table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Epistatic-QTL"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+We detected one instance of a trade-off in allelic effects between sites
+ acting through both fruit number per adult plant and seed number per adult
+ plant at the end of chromosome 5.
+ Furthermore, we found that the Swedish allele for the QTL at the end of
+ chromosome 1 was associated with increased seed number per fruit, but decreased
+ fruit number per adult plant in Sweden.
+ This represents a trade-off for the effect on different traits at the same
+ QTL.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
 wide true
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
-\align center
 \begin_inset Graphics
-	filename /home/thoel507/Documents/arabidopsis_postdoc/Seed size/figures/effects_by_trait.eps
+	filename ../figures/QTL_positions_clusters.eps
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Scatter plot of effect sizes of the local allele at 19 QTL positions on
- fecundity components at each site.
- Closed circles are loci with significant effects on both traits, open circles
- have significant effects on a single trait, and crosses are non-significant
- for both traits.
+Well defined QTL in each site-year experiment.
+ Lanes show QTL for seed mass (SM), fruit number per adult plant (F/A),
+ seed number per fruit (S/F) and seed number per adult plant (S/A).
+ Arrows indicate QTL position and the effect of the Swedish genotype (upward:
+ increased phenotype; downward: decreased phenotype) in Italy (red) and
+ Sweden (blue).
+ Open arrows show QTL found in 2010, and closed arrows 2011.
+ Direction of the chevrons indicate the direction of effect of the Swedish
+ allele.
+ Veritcal lines show the 95% Bayesian credible intervals for QTL position.
+ For clarity QTL with credible intervals longer than 15.2cM are not shown.
+ 
 \begin_inset CommandInset label
 LatexCommand label
-name "fig:effects-by-trait"
+name "fig:QTL-positions"
 
 \end_inset
 
@@ -2568,27 +3016,14 @@ name "fig:effects-by-trait"
 \end_layout
 
 \begin_layout Standard
-Eight and four of the 19 fecundity QTL had significant effects on both component
-s of fecundity in Italy and Sweden respectively (figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:effects-by-trait"
-
-\end_inset
-
-).
- In all cases, the local alleles at these loci were associated with positive
- effects on both components of fecundity.
- Overall, eleven and 15 of the 19 loci showed positive effects on both component
-s of fecundity (i.e.
- they are found in the upper-right-hand quadrant of figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:effects-by-trait"
-
-\end_inset
-
-), although these were not significant both traits.
+We detected four QTL for seed mass in Italy.
+ The 95% Bayesian credible intervals for three of these QTL overlapped with
+ those for seed number per adult plant.
+ Alleles for two of these QTL were associated with opposite effects on the
+ two traits.
+ In Sweden, two of the five QTL detected for seed mass had credible intervals
+ that overlapped those for QTL for seed number per adult plant.
+ In both cases, allelic effects on the two traits were in the opposite direction.
 \end_layout
 
 \begin_layout Section
@@ -2597,62 +3032,50 @@ Discussion
 
 \begin_layout Standard
 This study investigated natural genetic variation for fecundity and its
- components among wild accessions and a recombinant inbred line population
+ components among wild accessions and in a recombinant inbred line population
  of 
 \emph on
 A.
  thaliana
 \emph default
 .
- Our results show that differences in overall seed number per plant between
- local and non-local genotypes are driven by differences in both fruit number
- per plant and seed number per fruit.
- We found strong positive correlations between components of fecundity and
- between fecundity and survival to reproduction, traits that represent major
- components of overall fitness.
- Despite this, we found little constraint of seed mass on fecundity.
- Large-effect QTL for total fecundity could be explained by QTL associated
- with one or both components of fecundity.
+ Our results show that seed number per fruit contributes to the fecundity
+ advantage of the local geneotypes in both Italy and Sweden.
+ We found positive correlations between components of fecundity at both
+ sites, and between fecundity and survival to reproduction in both years
+ in Italy and in one year in Sweden.
+ QTL for seed number per fruit largely overlap with those for fruit number
+ per adult plant, suggesting a common genetic basis.
  Local alleles tended to favour the local genotype, with positive effects
  acting through both fecundity components.
- Together, these results indicate that the process of local adaptation in
- 
+ Together, these results indicate that several components of fitness contribute
+ to local adaptation in 
 \emph on
 A.
- thaliana 
+ thaliana
 \emph default
-involves maximising fitness in many fitness traits, with little evidence
- of trade-offs between traits, and that these trends are reflected at the
- genetic level.
+, with little evidence of trade-offs between components.
 \end_layout
 
 \begin_layout Standard
 We found contrasting patterns of the contribution of fecundity to fitness
  at the two sites.
- In Italy, differences in fecundity explain most of the differences in fitness
- between parental lines (figure 
+ In Italy, the selective advantage to the local genotype through fruit number
+ per plant was approximately twice as large as that through seed number
+ per fruit in both years (figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:selection"
 
 \end_inset
 
-, see also 
-\begin_inset CommandInset citation
-LatexCommand citealp
-key "agren_reciprocal_2012"
-
-\end_inset
-
 ).
- The advantage to the local genotype through fruit number per plant was
- approximately twice as large as that on seed number per fruit.
- Nevertheless, the mean selection of 
-\begin_inset Formula $\bar{s}=0.37$
+ Nevertheless, selection through seed number per fruit of at least 
+\begin_inset Formula $s\geq0.33$
 \end_inset
 
- through seed number per fruit represents strong selection, and is of similar
- magnitude to values compiled by 
+ represents strong selection, and is of similar magnitude to values compiled
+ by 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "endler1986"
@@ -2660,13 +3083,35 @@ key "endler1986"
 \end_inset
 
  for fecundity traits in other systems.
- By including information on seed number we are able to explain a substantially
- greater fitness difference between the parents in all years in Italy.
+ Furthermore, we are able to detect a significantly greater fitness advantage
+ when this is expressed as seed number per seedling than when this is measured
+ simply as fruit number per seedling.
 \end_layout
 
 \begin_layout Standard
-In Sweden, differences in fecundity contribute considerably less to differences
- in fitness than do differences in survival to reproduction 
+In Sweden, previous work has demonstrated that differences in fecundity
+ contribute less to adpative differentiation than do differences in survival
+ to reproduction 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "agren_reciprocal_2012,agren_genetic_2013"
+
+\end_inset
+
+.
+ Consistent with this, we found that selection coefficients for fecundity
+ components were substantially weaker in Sweden than in Italy in both year,
+ and selection through survival showed significant differentation in 2011
+ (figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:selection"
+
+\end_inset
+
+).
+ In 2010 winter temperatures were especially mild, and native voles destroyed
+ a large proportion of the plants at random 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "agren_reciprocal_2012"
@@ -2674,70 +3119,193 @@ key "agren_reciprocal_2012"
 \end_inset
 
 .
- This is reflected in only weak selection on fecundity components in Sweden,
- which in one case significantly favoured the non-local genotype.
- The relative importance of fecundity components varied between years, with
- fruit number per plant explaining overall fecundity differences in 2011
- and 2012, and seed number per fruit explaining fecundity differences in
- 2010 and 2014.
- As such, information on seed number allowed us to detect fecundity diferences
- between the parents in two additional years, that would not have been found
- had we considered only fruit number per plant alone.
+ As such, selection through survival was very weak in 2010, and seed number
+ per fruit was the only fitness component to show significant differentiation
+ between the parents.
+ By including this fitness components we were also able to detect difference
+ in overall fitness which was not detected based on fruit number per plant
+ alone (
+\begin_inset CommandInset citation
+LatexCommand citealp
+key "agren_reciprocal_2012"
+
+\end_inset
+
+; figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:selection"
+
+\end_inset
+
+).
+ This demonstrates that variation in seed number per fruit can be as important
+ as variation in survival in maintaining fitness differences in Sweden.
 \end_layout
 
 \begin_layout Standard
-Reproduction requires enormous investment in resources, and as such we would
+Reproduction requires investment of finite resources, and as such we would
  expect to find trade-offs between fecundity and other fitness traits.
  In fact, we found consistent positive relationships between fecundity component
-s, and between fecundity and survival, regardless of site.
+s at both sites, and between fecundity and survival in Italy and in 2011
+ in Sweden (figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:scatter-plots"
+
+\end_inset
+
+).
+ Lines with the highest fitness show increased fruit number, seed number
+ and survival concomitantly.
  This suggests that variation in fecundity between RILs is driven primarily
- by variation in the overall amounts of resources available to invest in
- all traits 
+ by variation in the ability to acquire resources from the environment 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "vannoordwijk1986"
 
 \end_inset
 
-, with the fittest lines able to increase fruit number, seed number and
- survival.
- This does not mean that variation in allocation strategy does not exist,
- simply that any trade-offs between traits are overwhelmed by variation
- in resource availability.
- We found only weak or non-significant correlations between fecundity and
- seed mass.
- It thus appears that investment in seed mass puts negligible constraint
- on fecundity in 
-\emph on
-A.
- thaliana 
-\emph default
-despite substantial variation in resource availability.
-\end_layout
-
-\begin_layout Standard
-QTL analyses revealed that patterns of phenotypic variation in fecundity
- and its components are reflected in the genetic architecture of these traits.
- Of the loci with significant effects on each trait the local allele was
- associated with an increase in fecundity in all but one case (figure 
+.
+ This does not mean that trade-offs between fitness components do not exist,
+ simply that any trade-offs are overwhelmed by variation in resource acqusition.
+ By the same logic, the much stronger correlations observed in Italy than
+ in Sweden are evidence that the variation in resource acquisition is much
+ greater in Italy than in Sweden, perhaps because of the long period of
+ snow cover in Sweden when plants are dormant (figure 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "fig:effect-sizes"
+reference "fig:scatter-plots"
 
 \end_inset
 
 ).
- This effect was clearer in Italy than Sweden, where fecundity contributes
- more strongly to fitness than in Sweden (
-\begin_inset CommandInset citation
-LatexCommand citep
-key "agren_reciprocal_2012"
+ These data demonstrate that local adaptation is driven by parallel evolution
+ of correlated traits, but that the importance if these correlations depends
+ on local environmental conditions.
+\end_layout
+
+\begin_layout Standard
+Several lines of evidence indicate that variation in seed mass places little
+ constraint on fecundity.
+ Firstly, we found only weak or negligible correlations between fecundity
+ and seed mass (figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:scatter-plots"
 
 \end_inset
 
-.
- It was also clearer for fruit number per plant than for seed number per
- fruit, refelecting the stronger selection observed on fruit number (figure
+).
+ However, this outcome is expected when there is substantial variation in
+ resource status 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "venable1992size"
+
+\end_inset
+
+, so the lack of correlation itself is not definitive evidence of a lack
+ of constraint.
+ Nevertheless, if there were such a correlation, we would expect to see
+ QTL with antagonistic effects on seed mass and fecundity regardless of
+ resource status.
+ In fact we found that only a small number of fecundity QTL colocalised
+ with QTL for seed mass, indicating that there is little shared genetic
+ basis between these traits (figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:QTL-positions"
+
+\end_inset
+
+).
+ While these data do not allow us to rule out a trade-off between seed mass
+ and fecundity entirely, they do indicate that the importance of seed mass
+ in determing variation in adult fitness is dwarfed by variation in resource
+ acquisition.
+\end_layout
+
+\begin_layout Standard
+QTL analyses revealed that major-effect loci for fecundity traits largely
+ map to the same regions of the genome (figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:QTL-positions"
+
+\end_inset
+
+), suggesting a shared genetic basis for these traits.
+ One explanation for this is that QTL directly affect variation in resource
+ acquisition, and what we observe are their indirect effects on correlated
+ traits.
+ However, we cannot eliminate the alternative hypothesis that there are
+ multiple tightly linked loci with distinct effects on each component of
+ fecundity.
+ QTL for seed number per plant showed contrasting patterns of association
+ with QTL for fecundity components at the two sites.
+ In Italy, all QTL for seed number per plant colocalised with QTL for fruit
+ number per plant, but only a subset of QTL for seed number per plant.
+ In Sweden, we observed the opposite pattern.
+ These observations are consistent with the stronger selection observed
+ through fruit number per adult plant in Italy and seed number per fruit
+ in Sweden (figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:selection"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Patterns of allelic effects for fecundity QTL also differed between sites.
+ In Italy, the local alleles at almost all QTL for fecundity and its components
+ were associated with an increase in fecundity (table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Epistatic-QTL"
+
+\end_inset
+
+ and supporting tables 1-4, figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:QTL-positions"
+
+\end_inset
+
+).
+ These effects contribute to the consistent and strong local advantage observed
+ for these traits at this site (figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:selection"
+
+\end_inset
+
+).
+ In Sweden, the additive effects of approximately half of local alleles
+ at QTL for the same traits were associated with a decrease in fecundity
+ (figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:QTL-positions"
+
+\end_inset
+
+), as were the epistatic effects of the local genotype for all four pairs
+ of loci with significant interaction effects (table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Epistatic-QTL"
+
+\end_inset
+
+).
+ The apparent abundance of maladaptive alleles detected in the RILs is reflected
+ in the lack of adaptive differentiation observed between the parents (figure
  
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2746,110 +3314,60 @@ reference "fig:selection"
 \end_inset
 
 ).
- Furthermore, the majority of loci with a significant effect on overall
- fecundity showed significant positive effects on both components of fecundity
- (figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:effects-by-trait"
-
-\end_inset
-
-).
- This indicates that the positive relationships observed between phenotypes
- are reflected in the allelic effects of the underlying loci.
+ Despite this, all local alleles at QTL detected for seed number per fruit
+ and per plant in Sweden in 2010 increased fecundity, consistent with the
+ significant differentiation through these traits observed in that experiment.
+ These observations point to a close concordance between adaptive phenotypic
+ differences between the parents and the allelic effects of the underlying
+ large-effect QTL.
 \end_layout
 
 \begin_layout Standard
-Combining data from multiple years in our QTL analyses provided substantial
- additional insight into the allelic effects of adpative loci.
- When we consider data for each experiment separately, most QTL clusters
- were only identified in a single experiment (figure 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:QTL-cluster-positions"
-
-\end_inset
-
-, tables S5-7).
- Moreover, these analyses identifed evidence for trade-offs between sites
- at only three loci (F2:2, F5:5 and T5:4).
- When data for multiple years are combined we found that most loci have
- significant effects across years that are too subtle to be detected in
- any single year (figures 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:effect-sizes"
-
-\end_inset
-
- and S4).
- This allowed us to identify three loci with significant trade-offs for
- fecundity and both components, and five additional loci with evidence for
- trade-offs for one or both components of fecundity.
- For those loci with no globally significant effect on fecundity or its
- components, the effect sizes are generally in the direction favouring the
- local allele (figures 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:effect-sizes"
-
-\end_inset
-
- and 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "fig:effects-by-trait"
-
-\end_inset
-
-).
- It is therefore likely that antagonistic pleiotropy makes a greater contributio
-n to adpative differences between genotypes than our data imply, but that
- these effects are below the threshold of statistical significance.
- This general difficultly of detecting antagonistic pleiotropy has been
- noted for other systems 
+We found only one instance of antagonistic pleiotropy in allelic effects.
+ This was manifested as a trade-off in fruit and seed number per plants
+ associated with the QTL at the end of chromosome five.
+ This is in contrast to the results of 
 \begin_inset CommandInset citation
-LatexCommand citep
-before "e.g. "
-key "kawecki2004conceptual,anderson2013genetic"
-
-\end_inset
-
-.
- These data highlight the value of multi-year studies in evaluating the
- effects of QTL to the process of adaptation.
-\end_layout
-
-\begin_layout Standard
-In conclusion, this study demonstrates that both fruit number per plant
- and seed number per fruit contribute to differences in fitness between
- local and non-local genotypes in 
-\emph on
-A.
- thaliana
-\emph default
-.
- We found no evidence for trade-offs between fecundity components, but rather
- that selection favours genotypes which are able to invest increased resources
- in across fitness traits.
- An interesting corollary of this finding is that it suggests that fecundity
- and survival traits are only the proximate causes of variation in fitness
- in a given environment, and that the ultimate driver of local adaptation
- is selection for some as-yet unmeasured trait related to resource use or
- efficiency.
- If true, this would suggest that the shared genetic basis among fecundity
- components and other traits 
-\begin_inset CommandInset citation
-LatexCommand citep
+LatexCommand citet
 key "agren_genetic_2013"
 
 \end_inset
 
- are in fact due to correlation with QTL for this putative trait.
- Nevertheless, an understadning of the proximate and ultimate causes of
- variation in fitness is vital to obtain a complete picture of the process
- of adaptation.
+, who found evidence of antagonistic pleiotropy at ten regions across the
+ genome using data on both survival and fecundity from the same experiments.
+ The discrepancy is likley to be due to QTL for freezing tolerance that
+ increase survival in Sweden, but carry a substantial cost in Italy 
+\begin_inset CommandInset citation
+LatexCommand citep
+key "oakley2014qtl"
+
+\end_inset
+
+.
+ Interestingly, we detected one QTL at the end of chromosome 1 in Sweden
+ for which the local allele was associated with increased seed number per
+ fruit but decreased fruit number per plant.
+ This seems to represent a QTL with .
+ Although these traits generally show positive correlations at the phenotypic
+ level and a shared genetic basis, this locus seems to show antagonistic
+ effects on individual fecundity components.
+\end_layout
+
+\begin_layout Standard
+In conclusion, this study has demonstrated that local adaptation in 
+\emph on
+A.
+ thaliana 
+\emph default
+is driven by changes in multiple components of fitness simultaneously, and
+ variation in seed number per fruit makes an important contribution to adaptive
+ differentiation.
+ Our results imply that variation in resource acquisition rather than resource
+ allocation strategy is the main determinant in the differences in fecundity
+ and fitness we observe.
+ In ongoing work we are investigating adaptation to soil type and resource
+ use to begin to elucidate the mechanisms which link resource acquisition
+ to adaptive differentiation.
 \end_layout
 
 \begin_layout Section
@@ -2857,9 +3375,13 @@ Acknowledgements
 \end_layout
 
 \begin_layout Standard
-We thank Jenny Glans, Matthias Vass, Judith Trunscke and Linus Vikström
- for counting and weighing seeds, and a large number of volunteers who assisted
- with transplanting and harvesting field experiments.
+This work was made possible by the help of Jenny Glans, Matthias Vass, Judith
+ Trunscke, Linus Vikström and Francesco Spada, and a large number of volunteers
+ who assisted with transplanting and harvesting field experiments.
+ We also thank P.
+ Falzini and Y.
+ Jonsson for permission to conduct experiments on their land, and to the
+ Botanical Garden of Rome for the generous use of their facilities.
 \end_layout
 
 \begin_layout Standard
