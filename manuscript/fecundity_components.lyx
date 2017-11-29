@@ -82,9 +82,10 @@
 \begin_body
 
 \begin_layout Title
-The contribution of seed size and number to local adaptation in 
+Positive correlations among fecundity components boost estimates of local
+ adaptation in
 \emph on
-Arabidopsis thaliana
+ Arabidopsis thaliana
 \end_layout
 
 \begin_layout Author
@@ -183,7 +184,7 @@ Maximising reproductive output is vital for maximising evolutionary fitness.
  by the number of seeds per fruit 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "silvertown1989paradox"
+key "salisbury1942,silvertown1989paradox"
 
 \end_inset
 
@@ -208,12 +209,12 @@ key "latta2009testing,hall2010local,fournier2011map,hancock2011adaptation,agren_
 
 \end_inset
 
-), yet seed production per fruit has received relatively cursory attention
- (e.g.
+), yet seed production per fruit under field conditions has received relatively
+ cursory attention (e.g.
  
 \begin_inset CommandInset citation
 LatexCommand citealp
-key "agren_reciprocal_2012,hall2006divergent"
+key "agren_reciprocal_2012,hall2006divergent,maddox1983experimental"
 
 \end_inset
 
@@ -305,7 +306,7 @@ key "merila1999genetic,mauricio2001mapping"
  Information about the number and location of quantitative trait loci (QTL)
  with detectable effects on phenotypic variation can reveal the extent to
  which QTL for different components of fitness are found in the same regions
- of the genome, as would be expect if they share a common genetic basis.
+ of the genome, as would be expected if they share a common genetic basis.
  The change in phenotype associated with alleles at these loci can be used
  to infer the genetic mechanisms underlying adpative differentiation 
 \begin_inset CommandInset citation
@@ -316,19 +317,18 @@ key "kawecki2004conceptual,savolainen2013ecological,tiffin2014advances"
 
 .
  When there are correlations among components of fitness at the phenotypic
- level, is this reflected in correlated effects of individual QTL on each
- trait, or is this due to the effects of independent loci? Do alleles that
- increase fitness in one environment impose a fitness cost in another environmen
-t? Despite extensive evidence that natural populations are locally adapted
- 
+ level, is this due to correlated effects of individual QTL on multiple
+ traits? Do alleles that increase fitness in one environment impose a fitness
+ cost in another environment? Despite extensive evidence that natural population
+s are locally adapted 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "leimu2008meta,hereford2009quantitative"
 
 \end_inset
 
-, our understanding of the underlying genetic architecture and mechanisms
- remains limited (reviewed in 
+, our understanding of the underlying architecture and mechanisms of the
+ genetic basis of local adaptation remains limited (reviewed in 
 \begin_inset CommandInset citation
 LatexCommand citealp
 key "wadgymar2017identifying"
@@ -339,28 +339,28 @@ key "wadgymar2017identifying"
 \end_layout
 
 \begin_layout Standard
-In this study we examine variation in components of fecundity and seed mass
- in 
+In this study we investigate the traits that contribute to adaptive differentiat
+ion in fecundity in 
 \emph on
 Arabidopsis thaliana, 
 \emph default
-and investigate the genetic basis of these traits.
- We carried out reciprocal transplant experiments using a large RIL population
- and the parental lines at the source sites in northern Sweden and central
- Italy over two years.
- Previous work has shown that the parental lines are locally adapted, and
- identified survival in Sweden and both survival and fruit production in
- Italy as major determinants of fitness 
+and examine trade-offs among and the genetic basis of these traits.
+ Previous studies described reciprocal transplant experiments using a large
+ RIL population and parental lines at source sites in northern Sweden and
+ central Italy over two years 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "agren_reciprocal_2012"
+key "agren_reciprocal_2012,agren_genetic_2013"
 
 \end_inset
 
 .
- Here, we quantified the contribution of two components of fecundity, fruit
- number per adult plant and seed number per fruit, as well as survival to
- adaptive differentiation at the two sites.
+ These studies showed that parental genotypes are locally adapted, and identifie
+d survival in Sweden and both survival and fruit production in Italy as
+ major determinants of fitness.
+ Here, we quantify adaptive differentiation at the two sites through two
+ components of fecundity, fruit number per adult plant and seed number per
+ fruit, as well as survival.
  We then examine correlations between fecundity, survival and seed mass
  to identify possible trade-offs among adaptive traits.
  Finally, we use the RIL population to identify QTL for seed mass, fruit
@@ -379,6 +379,13 @@ Data collection
 \begin_layout Standard
 Data on survival, fecundity and fitness are taken from experiments in 2010
  and 2011 described in detail by 
+\begin_inset CommandInset citation
+LatexCommand citet
+key "agren_reciprocal_2012"
+
+\end_inset
+
+ and 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "agren_genetic_2013"
@@ -409,9 +416,9 @@ key "agren_genetic_2013"
 
 \end_inset
 
-: (1) survival to reproduction, (2) number of fruits for per plant that
- survived to reproduction (a measure of fecundity), and (3) number of fruits
- per planted seedling (a measure of overall fitness).
+: (1) survival to reproduction, (2) number of fruits per adult plant (a
+ measure of fecundity), and (3) number of fruits per planted seedling (a
+ measure of overall fitness).
  For subsequent analyses we used the mean of trait values across individuals
  of the same genotype.
 \end_layout
@@ -436,7 +443,7 @@ At each site-year experiment we also collected a single mature but unopened
 We also used these data to estimate proxies for total fecundity and total
  fitness.
  We estimated seed number per reproductive plant as the product of fruit
- number per plant and seed number per fruit 
+ number per adult plant and seed number per fruit 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "maddox1983experimental"
@@ -445,15 +452,15 @@ key "maddox1983experimental"
 
 .
  Likewise, we estimated seed number per planted seedling as the product
- of fruit number per planted seedling by fruit number per plant.
+ of fruit number per seedling by fruit number per plant.
  Since we did not have data on seed number per fruit for all individuals
  for which data on fruit number was available, we instead multiplied line-mean
  seed number by individual fruit number values.
 \end_layout
 
 \begin_layout Standard
-Data manipulations and all subsequent statistical analyses were performed
- in RStudio 0.99.1266 using R 3.3.1 
+Data handling and statistical analyses were performed in RStudio 1.0.153 using
+ R 3.4.2 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "r_core_team,rstudio"
@@ -500,11 +507,8 @@ key "gillespie2010population"
 \end_layout
 
 \begin_layout Standard
-We estimated confidence intervals around estimates of 
-\begin_inset Formula $s$
-\end_inset
-
- by parametric bootstrapping.
+We estimated confidence intervals for selection coeffcients by parametric
+ bootstrapping.
  We resampled the data for each experiment with replacement 1000 times and
  calculated selection coefficients for each bootstrap sample.
  We estimated 95% confidence intervals for each coefficient as the 25th
@@ -529,23 +533,22 @@ Correlations between traits
 \end_layout
 
 \begin_layout Standard
-To assess the strength of trade-offs among traits we calculate Spearman's
+To assess the strength of trade-offs among traits we calculated Spearman's
  rank correlation coefficient, 
 \begin_inset Formula $r$
 \end_inset
 
-, between RIL means for each site-year combination.
+, between RIL means in each site-year experiment.
  We examined relationships between three pairs of traits: (1) components
  of fecundity (fruit number per reproductive plant and seed number per fruit),
  (2) survival and fecundity (seed number per reproductive plant), and (3)
  fecundity and investment in offspring (seed number per reproductive plant
  and seed mass).
- We performed analyses for data for each site-year experiment separately.
 \end_layout
 
 \begin_layout Standard
 A small number of lines appeared to be outliers that showed consistently
- showed low fecundity, but unusually high seed mass (figure 
+ showed low fecundity but unusually high seed mass (figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:scatter-plots"
@@ -563,9 +566,9 @@ QTL mapping
 \end_layout
 
 \begin_layout Standard
-We used the R/qtl package in R to map QTL for four traits: seed mass fruit
- number per reproductive plant, seed number per fruit and seed number per
- reproductive plant 
+We used the R/qtl package in R to map QTL for four traits: seed mass, fruit
+ number per adult plant, seed number per fruit, and seed number per adult
+ plant 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "broman2009guide,r_core_team"
@@ -603,8 +606,8 @@ key "broman2009guide"
 \end_layout
 
 \begin_layout Standard
-We considered QTL identified for different sites, years or traits to be
- map to the same genomic region if the maximum-likelihood estimate of their
+We considered QTL identified for different sites, years or traits to colocalise
+ to the same genomic region if the maximum-likelihood estimate of their
  positions were within 2cM of each other, or if the 95% Bayesian credible
  intervals for these estimates overlapped.
  This approach simplifies interpretation of QTL results, but risks losing
@@ -637,7 +640,7 @@ Adaptive differentiation through seed number
 \begin_inset Float figure
 wide true
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -678,9 +681,9 @@ name "fig:selection"
 \end_layout
 
 \begin_layout Standard
-At both sites and in both years the local genotype had significantly higher
- overall fitness (expressed as seed number per planted seedling) than the
- non-local genotype (
+The local genotype had significantly higher overall fitness (expressed as
+ seed number per planted seedling) than the non-local genotype at both sites
+ and in both years (
 \begin_inset Formula $p\leq0.001$
 \end_inset
 
@@ -732,11 +735,11 @@ At the Italian site the local advantage was reflected in significant selection
 ).
  When information on seed number is included in estimates of overall fitness
  the advantage to the local genotype increased by 
-\begin_inset Formula $\Delta s=0.024$
+\begin_inset Formula $\Delta s=0.02$
 \end_inset
 
  in 2010 and 
-\begin_inset Formula $\Delta s=0.094$
+\begin_inset Formula $\Delta s=0.10$
 \end_inset
 
  in 2011.
@@ -789,7 +792,7 @@ In Sweden in 2010 we observed significant selection through seed number
 \end_inset
 
 ) or seed number per fruit (
-\begin_inset Formula $s=-0.017$
+\begin_inset Formula $s=-0.02$
 \end_inset
 
 , 
@@ -803,7 +806,7 @@ In Sweden in 2010 we observed significant selection through seed number
 \end_inset
 
 =0.21 in 2010 and decreased the advantage by 
-\begin_inset Formula $\Delta s=0.010$
+\begin_inset Formula $\Delta s=0.01$
 \end_inset
 
  in 2011.
@@ -820,7 +823,7 @@ Correlations with fecundity
 \begin_inset Float figure
 wide true
 sideways false
-status open
+status collapsed
 
 \begin_layout Plain Layout
 \align center
@@ -874,7 +877,7 @@ We found strong positive correlations between fruit number per adult plant
 \begin_inset Formula $p<0.0001;$
 \end_inset
 
- 
+ figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:scatter-plots"
@@ -897,7 +900,7 @@ reference "fig:scatter-plots"
 \end_inset
 
 , 
-\begin_inset Formula $p=0.32$
+\begin_inset Formula $p=0.321$
 \end_inset
 
 ).
@@ -910,7 +913,7 @@ We found no significant correlations between seed mass and seed number per
 \end_inset
 
 , 
-\begin_inset Formula $p\geq0.19$
+\begin_inset Formula $p\geq0.186$
 \end_inset
 
 ; figure 
@@ -921,8 +924,8 @@ reference "fig:scatter-plots"
 \end_inset
 
 ).
- In Sweden in 2010 we found significant negative relationship between these
- variables (
+ In Sweden in 2010 we found a significant negative relationship between
+ these variables (
 \begin_inset Formula $r=-0.20$
 \end_inset
 
@@ -931,7 +934,7 @@ reference "fig:scatter-plots"
 \end_inset
 
 ).
- Neither coefficients nor 
+ Neither test statistics nor 
 \emph on
 p-
 \emph default
@@ -1326,7 +1329,7 @@ fruit per adult
 \begin_layout Plain Layout
 
 \lang english
-italyitaly
+italy
 \end_layout
 
 \end_inset
@@ -2105,7 +2108,7 @@ sweden
 \begin_layout Plain Layout
 Summary of QTL models in each year and site.
  QTL numbers show the total number of QTL detected, followed by the number
- of well-defined QTL with credible intervals narrower than 15.2cM.
+ of well-defined QTL with credible intervals narrower than 15.2cM in brackets.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -2127,9 +2130,9 @@ name "tab:QTL-summary"
 \end_layout
 
 \begin_layout Standard
-In each site-year experiment we detected between 2 and 6 QTL for seed mass,
- 3-10 QTL for fruit number per adult plant, 4-6 QTL for seed number per
- fruit and 3-10 QTL for seed number per plant (tables 
+In each site-year experiment we detected 2-6 QTL for seed mass, 3-10 QTL
+ for fruit number per adult plant, 4-6 QTL for seed number per fruit and
+ 3-10 QTL for seed number per plant (tables 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "tab:QTL-summary"
@@ -2902,7 +2905,8 @@ reference "fig:QTL-positions"
  per plant, of which five also colocalised with a QTL for seed number per
  plant.
  In Sweden by contrast, the five QTL for seed number per adult plant detected
- all colocalised with QTL for seed number per fruit.
+ all colocalised with QTL for seed number per fruit, of which three also
+ colocalised with a QTL for fruit number per adult plant.
  We found two QTL for seed number per adult plant in Sweden (chromosome
  1, 22.7cM in 2010 and chromosome 4, 42.3cM in 2011) which would not have
  been detected based on fruit number alone.
@@ -2911,9 +2915,9 @@ reference "fig:QTL-positions"
 \end_layout
 
 \begin_layout Standard
-In Italy, the Swedish alleles at QTL for fruit number per adult plant, seed
- number per fruit and seed number per adult plant were mostly associated
- with a decrease in fecundity (figure 
+In Italy, almost all Swedish alleles at QTL for fruit number per adult plant,
+ seed number per fruit and seed number per adult plant were associated with
+ a decrease in fecundity (figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:QTL-positions"
@@ -2942,7 +2946,7 @@ reference "fig:QTL-positions"
 \end_inset
 
 , supporting tables 1-4).
- The Swedish/Swedish genotype at each of the four pairs of epistatic loci
+ The two-locus local genotype at each of the four pairs of epistatic loci
  detected in Sweden for fecundity or either component were also associated
  with reduced fecundity (table 
 \begin_inset CommandInset ref
@@ -2955,7 +2959,7 @@ reference "tab:Epistatic-QTL"
 \end_layout
 
 \begin_layout Standard
-We detected one instance of a trade-off in allelic effects between sites
+We detected one instance of a trade-off between sites in allelic effects
  acting through both fruit number per adult plant and seed number per adult
  plant at the end of chromosome 5.
  Furthermore, we found that the Swedish allele for the QTL at the end of
@@ -2969,7 +2973,7 @@ We detected one instance of a trade-off in allelic effects between sites
 \begin_inset Float figure
 wide true
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -2991,10 +2995,9 @@ Well defined QTL in each site-year experiment.
  increased phenotype; downward: decreased phenotype) in Italy (red) and
  Sweden (blue).
  Open arrows show QTL found in 2010, and closed arrows 2011.
- Direction of the chevrons indicate the direction of effect of the Swedish
- allele.
- Veritcal lines show the 95% Bayesian credible intervals for QTL position.
- For clarity QTL with credible intervals longer than 15.2cM are not shown.
+ Veritcal bars show the 95% Bayesian credible intervals for QTL position.
+ For clarity QTL with credible intervals longer than 15.2cM are not shown;
+ see supporting figures 1-4.
  
 \begin_inset CommandInset label
 LatexCommand label
@@ -3039,17 +3042,18 @@ A.
  thaliana
 \emph default
 .
- Our results show that seed number per fruit contributes to the fecundity
- advantage of the local geneotypes in both Italy and Sweden.
+ Our results show that differences in seed number per fruit contribute to
+ the fecundity advantage of the local genotypes in both Italy and Sweden.
+ When we include number of seeds per fruit in our fitness estimate, we find
+ that the advantage of the local genotypes is greater than would be indicated
+ based on survival and fruit production only.
  We found positive correlations between components of fecundity at both
  sites, and between fecundity and survival to reproduction in both years
  in Italy and in one year in Sweden.
  QTL for seed number per fruit largely overlap with those for fruit number
  per adult plant, suggesting a common genetic basis.
- Local alleles tended to favour the local genotype, with positive effects
- acting through both fecundity components.
- Together, these results indicate that several components of fitness contribute
- to local adaptation in 
+ These results indicate that several components of fitness contribute to
+ local adaptation in 
 \emph on
 A.
  thaliana
@@ -3060,9 +3064,9 @@ A.
 \begin_layout Standard
 We found contrasting patterns of the contribution of fecundity to fitness
  at the two sites.
- In Italy, the selective advantage to the local genotype through fruit number
- per plant was approximately twice as large as that through seed number
- per fruit in both years (figure 
+ In both years in Italy, the selective advantage of the local genotype through
+ fruit number per plant was approximately twice as large as that through
+ seed number per fruit (figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:selection"
@@ -3070,7 +3074,7 @@ reference "fig:selection"
 \end_inset
 
 ).
- Nevertheless, selection through seed number per fruit of at least 
+ Nevertheless, selection through seed number per fruit of 
 \begin_inset Formula $s\geq0.33$
 \end_inset
 
@@ -3110,7 +3114,7 @@ reference "fig:selection"
 \end_inset
 
 ).
- In 2010 winter temperatures were especially mild, and native voles destroyed
+ In 2010, winter temperatures were especially mild, and native voles destroyed
  a large proportion of the plants at random 
 \begin_inset CommandInset citation
 LatexCommand citep
@@ -3122,9 +3126,9 @@ key "agren_reciprocal_2012"
  As such, selection through survival was very weak in 2010, and seed number
  per fruit was the only fitness component to show significant differentiation
  between the parents.
- By including this fitness components we were also able to detect difference
+ By including this fitness component we were also able to detect a difference
  in overall fitness which was not detected based on fruit number per plant
- alone (
+ alone in this year (
 \begin_inset CommandInset citation
 LatexCommand citealp
 key "agren_reciprocal_2012"
@@ -3180,9 +3184,9 @@ reference "fig:scatter-plots"
 \end_inset
 
 ).
- These data demonstrate that local adaptation is driven by parallel evolution
- of correlated traits, but that the importance if these correlations depends
- on local environmental conditions.
+ These findings demonstrate that local adaptation is driven by parallel
+ evolution of correlated traits, but that the importance if these correlations
+ depends on local environmental conditions.
 \end_layout
 
 \begin_layout Standard
@@ -3197,16 +3201,16 @@ reference "fig:scatter-plots"
 \end_inset
 
 ).
- However, this outcome is expected when there is substantial variation in
- resource status 
+ However, a true trade-off between seed size and number may be masked when
+ there is variation in resource status unless correlation patterns are carefully
+ accounted for via path analysis 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "venable1992size"
 
 \end_inset
 
-, so the lack of correlation itself is not definitive evidence of a lack
- of constraint.
+.
  Nevertheless, if there were such a correlation, we would expect to see
  QTL with antagonistic effects on seed mass and fecundity regardless of
  resource status.
@@ -3220,10 +3224,10 @@ reference "fig:QTL-positions"
 \end_inset
 
 ).
- While these data do not allow us to rule out a trade-off between seed mass
- and fecundity entirely, they do indicate that the importance of seed mass
- in determing variation in adult fitness is dwarfed by variation in resource
- acquisition.
+ Although we cannot therefore rule out the possibility of a negative statistical
+ relationship between seed mass and fecundity, we can conclude that the
+ biological importance of this trade-off to variation in adult fitness is
+ dwarfed by variation in resource acquisition.
 \end_layout
 
 \begin_layout Standard
@@ -3239,17 +3243,17 @@ reference "fig:QTL-positions"
  One explanation for this is that QTL directly affect variation in resource
  acquisition, and what we observe are their indirect effects on correlated
  traits.
- However, we cannot eliminate the alternative hypothesis that there are
- multiple tightly linked loci with distinct effects on each component of
- fecundity.
+ Alternatively, there are multiple tightly linked loci with distinct effects
+ on each component of fecundity, but it is impossible to distinguish these
+ hypotheses based on these data alone.
  QTL for seed number per plant showed contrasting patterns of association
  with QTL for fecundity components at the two sites.
  In Italy, all QTL for seed number per plant colocalised with QTL for fruit
  number per plant, but only a subset of QTL for seed number per plant.
  In Sweden, we observed the opposite pattern.
- These observations are consistent with the stronger selection observed
- through fruit number per adult plant in Italy and seed number per fruit
- in Sweden (figure 
+ These observations are consistent with the stronger selection on the parental
+ lines observed through fruit number per adult plant in Italy and seed number
+ per fruit in Sweden (figure 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:selection"
@@ -3323,20 +3327,24 @@ reference "fig:selection"
 \end_layout
 
 \begin_layout Standard
-We found only one instance of antagonistic pleiotropy in allelic effects.
- This was manifested as a trade-off in fruit and seed number per plants
- associated with the QTL at the end of chromosome five.
- This is in contrast to the results of 
+We found surprisingly little evidence for antagonistic pleiotropic effects
+ of QTL at each site or on different traits.
+ Only a singleQTL at the end of chromosome five showed antagonistic effects
+ between the two sites, manifested through effects on fruit and seed number
+ per adults plant.
+ This is in contrast to previous observations of trade-offs at ten regions
+ across the genome using data on both survival and fecundity from the same
+ experiments 
 \begin_inset CommandInset citation
-LatexCommand citet
+LatexCommand citep
 key "agren_genetic_2013"
 
 \end_inset
 
-, who found evidence of antagonistic pleiotropy at ten regions across the
- genome using data on both survival and fecundity from the same experiments.
- The discrepancy is likley to be due to QTL for freezing tolerance that
- increase survival in Sweden, but carry a substantial cost in Italy 
+.
+ The discrepancy may be due to QTL for freezing tolerance that were not
+ considered here, that increase survival in Sweden but carry a substantial
+ cost in Italy 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "oakley2014qtl"
@@ -3347,7 +3355,6 @@ key "oakley2014qtl"
  Interestingly, we detected one QTL at the end of chromosome 1 in Sweden
  for which the local allele was associated with increased seed number per
  fruit but decreased fruit number per plant.
- This seems to represent a QTL with .
  Although these traits generally show positive correlations at the phenotypic
  level and a shared genetic basis, this locus seems to show antagonistic
  effects on individual fecundity components.
@@ -3360,8 +3367,8 @@ A.
  thaliana 
 \emph default
 is driven by changes in multiple components of fitness simultaneously, and
- variation in seed number per fruit makes an important contribution to adaptive
- differentiation.
+ that variation in seed number per fruit makes an important contribution
+ to adaptive differentiation.
  Our results imply that variation in resource acquisition rather than resource
  allocation strategy is the main determinant in the differences in fecundity
  and fitness we observe.
