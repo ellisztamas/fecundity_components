@@ -1,0 +1,645 @@
+---
+title: "Components of fecundity and local adaptation in *A. thaliana*"
+author: "Tom Ellis"
+date: "31st October, 2017"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+```
+
+```{r parents-summary}
+# parental means
+# individual parents.
+seed_par <- read.csv(file = '../data_files/individual_parents_massnumber.csv')
+frut_par <- read.csv('../data_files/individual_parents_nfruit.csv')
+# site-year identifers
+frut_par$siteyear <- paste(frut_par$site, frut_par$year)
+seed_par$siteyear <- paste(seed_par$site, seed_par$year)
+# survival
+frut_par$survival <- as.integer(!is.na(frut_par$fruit_per_plant))
+
+parents <- data.frame(
+  variable = rep(c("seed_mass", "number_per_fruit", "fruit_per_plant","fruit_per_seed","survival"), each=4),
+  site     = rep(c("italy", "sweden"), 5, each=2),
+  year     = rep(rep(c(2010:2011), 2), 5),
+  it_parent= c(
+    tapply(seed_par$mean_mass_ug   [seed_par$genotype=="italy"], seed_par$siteyear[seed_par$genotype=="italy"], mean, na.rm=T),
+    tapply(seed_par$nseeds         [seed_par$genotype=="italy"], seed_par$siteyear[seed_par$genotype=="italy"], mean, na.rm=T),
+    tapply(frut_par$fruit_per_plant[frut_par$genotype=="italy"], frut_par$siteyear[frut_par$genotype=="italy"], mean, na.rm=T),
+    tapply(frut_par$fruit_per_seed [frut_par$genotype=="italy"], frut_par$siteyear[frut_par$genotype=="italy"], mean, na.rm=T),
+    tapply(frut_par$survival       [frut_par$genotype=="italy"], frut_par$siteyear[frut_par$genotype=="italy"], mean, na.rm=T)),
+  it_se = c(
+    tapply(seed_par$mean_mass_ug   [seed_par$genotype=="italy"], seed_par$siteyear[seed_par$genotype=="italy"], sd, na.rm=T),
+    tapply(seed_par$nseeds         [seed_par$genotype=="italy"], seed_par$siteyear[seed_par$genotype=="italy"], sd, na.rm=T),
+    tapply(frut_par$fruit_per_plant[frut_par$genotype=="italy"], frut_par$siteyear[frut_par$genotype=="italy"], sd, na.rm=T),
+    tapply(frut_par$fruit_per_seed [frut_par$genotype=="italy"], frut_par$siteyear[frut_par$genotype=="italy"], sd, na.rm=T),
+    tapply(frut_par$survival       [frut_par$genotype=="italy"], frut_par$siteyear[frut_par$genotype=="italy"], sd, na.rm=T)),
+  it_n = c(
+    tapply(!is.na(seed_par$mean_mass_ug   [seed_par$genotype=="italy"]), seed_par$siteyear[seed_par$genotype=="italy"], sum),
+    tapply(!is.na(seed_par$nseeds         [seed_par$genotype=="italy"]), seed_par$siteyear[seed_par$genotype=="italy"], sum),
+    tapply(!is.na(frut_par$fruit_per_plant[frut_par$genotype=="italy"]), frut_par$siteyear[frut_par$genotype=="italy"], sum),
+    tapply(!is.na(frut_par$fruit_per_seed [frut_par$genotype=="italy"]), frut_par$siteyear[frut_par$genotype=="italy"], sum),
+    tapply(!is.na(frut_par$survival       [frut_par$genotype=="italy"]), frut_par$siteyear[frut_par$genotype=="italy"], sum)),
+  sw_parent= c(
+    tapply(seed_par$mean_mass_ug   [seed_par$genotype=="sweden"], seed_par$siteyear[seed_par$genotype=="sweden"], mean, na.rm=T),
+    tapply(seed_par$nseeds         [seed_par$genotype=="sweden"], seed_par$siteyear[seed_par$genotype=="sweden"], mean, na.rm=T),
+    tapply(frut_par$fruit_per_plant[frut_par$genotype=="sweden"], frut_par$siteyear[frut_par$genotype=="sweden"], mean, na.rm=T),
+    tapply(frut_par$fruit_per_seed [frut_par$genotype=="sweden"], frut_par$siteyear[frut_par$genotype=="sweden"], mean, na.rm=T),
+    tapply(frut_par$survival       [frut_par$genotype=="sweden"], frut_par$siteyear[frut_par$genotype=="sweden"], mean, na.rm=T)),
+  sw_se= c(
+    tapply(seed_par$mean_mass_ug   [seed_par$genotype=="sweden"], seed_par$siteyear[seed_par$genotype=="sweden"], sd, na.rm=T),
+    tapply(seed_par$nseeds         [seed_par$genotype=="sweden"], seed_par$siteyear[seed_par$genotype=="sweden"], sd, na.rm=T),
+    tapply(frut_par$fruit_per_plant[frut_par$genotype=="sweden"], frut_par$siteyear[frut_par$genotype=="sweden"], sd, na.rm=T),
+    tapply(frut_par$fruit_per_seed [frut_par$genotype=="sweden"], frut_par$siteyear[frut_par$genotype=="sweden"], sd, na.rm=T),
+    tapply(frut_par$survival       [frut_par$genotype=="sweden"], frut_par$siteyear[frut_par$genotype=="sweden"], sd, na.rm=T)),
+  sw_n= c(
+    tapply(!is.na(seed_par$mean_mass_ug   [seed_par$genotype=="sweden"]), seed_par$siteyear[seed_par$genotype=="sweden"], sum),
+    tapply(!is.na(seed_par$nseeds         [seed_par$genotype=="sweden"]), seed_par$siteyear[seed_par$genotype=="sweden"], sum),
+    tapply(!is.na(frut_par$fruit_per_plant[frut_par$genotype=="sweden"]), frut_par$siteyear[frut_par$genotype=="sweden"], sum),
+    tapply(!is.na(frut_par$fruit_per_seed [frut_par$genotype=="sweden"]), frut_par$siteyear[frut_par$genotype=="sweden"], sum),
+    tapply(!is.na(frut_par$survival       [frut_par$genotype=="sweden"]), frut_par$siteyear[frut_par$genotype=="sweden"], sum))
+)
+# correct SD to SE
+parents$it_se <- parents$it_se / sqrt(parents$it_n -1)
+parents$sw_se <- parents$sw_se / sqrt(parents$sw_n -1)
+
+# insert mean seed numbers for each line in each site-year combination.
+ix <- which(frut_par$genotype=="italy")
+frut_par$seed_numb[ix] <- parents$it_parent[match(frut_par$siteyear, paste(parents$site, parents$year))+4][ix]
+sx <- which(frut_par$genotype=="sweden")
+frut_par$seed_numb[sx] <- parents$sw_parent[match(frut_par$siteyear, paste(parents$site, parents$year))+4][sx]
+# Estimates of total fecundity and total fitness.
+frut_par$tofu <- frut_par$fruit_per_plant * frut_par$seed_numb
+frut_par$tfit <- frut_par$fruit_per_seed  * frut_par$seed_numb
+
+# put together a data frame of data on seeds per reproductive plant.
+tofu <- data.frame(
+  variable = rep("total_fecundity", 4),
+  site     = rep(c("italy", "sweden"), each=2),
+  year     = rep(2010:2011, 2)
+)
+tofu$it_parent <- tapply(frut_par$tofu[frut_par$genotype=="italy"],  frut_par$siteyear[frut_par$genotype=="italy"],  mean, na.rm=T)
+tofu$it_se     <- tapply(frut_par$tofu[frut_par$genotype=="italy"], frut_par$siteyear[frut_par$genotype=="italy"], sd, na.rm=T)/
+  sqrt(tapply(!is.na(frut_par$tofu[frut_par$genotype=="italy"]),  frut_par$siteyear[frut_par$genotype=="italy"],  sum)-1)
+tofu$it_n      <- tapply(!is.na(frut_par$tofu[frut_par$genotype=="italy"]),  frut_par$siteyear[frut_par$genotype=="italy"],  sum)
+tofu$sw_parent <- tapply(frut_par$tofu[frut_par$genotype=="sweden"], frut_par$siteyear[frut_par$genotype=="sweden"], mean, na.rm=T)
+tofu$sw_se     <- tapply(frut_par$tofu[frut_par$genotype=="sweden"], frut_par$siteyear[frut_par$genotype=="sweden"], sd, na.rm=T)/
+  sqrt(tapply(!is.na(frut_par$tofu[frut_par$genotype=="sweden"]),  frut_par$siteyear[frut_par$genotype=="sweden"],  sum)-1)
+tofu$sw_n      <- tapply(!is.na(frut_par$tofu[frut_par$genotype=="sweden"]),  frut_par$siteyear[frut_par$genotype=="sweden"],  sum)
+
+# data frame on seeds per planted seed.
+tfit <- data.frame(
+  variable = rep("total_fitness", 4),
+  site     = rep(c("italy", "sweden"), each=2),
+  year     = rep(2010:2011, 2)
+)
+tfit$it_parent <- tapply(frut_par$tfit[frut_par$genotype=="italy"],  frut_par$siteyear[frut_par$genotype=="italy"],  mean, na.rm=T)
+tfit$it_se     <- tapply(frut_par$tfit[frut_par$genotype=="italy"], frut_par$siteyear[frut_par$genotype=="italy"], sd, na.rm=T)/
+  sqrt(tapply(!is.na(frut_par$tfit[frut_par$genotype=="italy"]),  frut_par$siteyear[frut_par$genotype=="italy"],  sum)-1)
+tfit$it_n      <- tapply(!is.na(frut_par$tfit[frut_par$genotype=="italy"]),  frut_par$siteyear[frut_par$genotype=="italy"],  sum)
+tfit$sw_parent <- tapply(frut_par$tfit[frut_par$genotype=="sweden"], frut_par$siteyear[frut_par$genotype=="sweden"], mean, na.rm=T)
+tfit$sw_se     <- tapply(frut_par$tfit[frut_par$genotype=="sweden"], frut_par$siteyear[frut_par$genotype=="sweden"], sd, na.rm=T)/
+  sqrt(tapply(!is.na(frut_par$tfit[frut_par$genotype=="sweden"]),  frut_par$siteyear[frut_par$genotype=="sweden"],  sum)-1)
+tfit$sw_n      <- tapply(!is.na(frut_par$tfit[frut_par$genotype=="sweden"]),  frut_par$siteyear[frut_par$genotype=="sweden"],  sum)
+
+# bind table together
+parents <- rbind(parents, tofu, tfit)
+# difference betwee parents
+parents$delta <- abs(parents$it_parent - parents$sw_parent)
+```
+
+```{r wilcox tests, include=F, eval=F}
+# empty lists to store tests
+siteyear <- sort(unique(seed_par$siteyear))
+numb_wilcox <- frut_wilcox <- tofu_wilcox <- tfit_wilcox <- mass_wilcox <- vector('list', length(siteyear))
+
+# run tests
+for(y in 1:4){ # seed number
+  this_exp <- seed_par[seed_par$siteyear == siteyear[y],]
+  numb_wilcox[[y]] <- wilcox.test(nseeds       ~ genotype, data=this_exp)
+  mass_wilcox[[y]] <- wilcox.test(mean_mass_ug ~ genotype, data=this_exp)
+}
+
+for(y in 1:4){
+  this_exp <- frut_par[frut_par$siteyear == siteyear[y],]
+  frut_wilcox[[y]] <- wilcox.test(fruit_per_plant ~ genotype, data=this_exp)
+  frut_wilcox[[y]] <- wilcox.test(fruit_per_plant ~ genotype, data=this_exp)
+  tofu_wilcox[[y]] <- wilcox.test(tofu            ~ genotype, data=this_exp)
+  tfit_wilcox[[y]] <- wilcox.test(tfit            ~ genotype, data=this_exp)
+}
+pwilcox <- data.frame(siteyear = siteyear,
+                      numb = sapply(numb_wilcox, function(x) x$p.value),
+                      mass = sapply(mass_wilcox, function(x) x$p.value),
+                      frut = sapply(frut_wilcox, function(x) x$p.value),
+                      tofu = sapply(tofu_wilcox, function(x) x$p.value),
+                      tfit = sapply(tfit_wilcox, function(x) x$p.value)
+                      )
+
+utable <- data.frame(siteyear = siteyear,
+           frut_u = sapply(frut_wilcox, function(x) x$statistic),
+           frut_p = sapply(frut_wilcox, function(x) x$p.value),
+           numb_u = sapply(numb_wilcox, function(x) x$statistic),
+           numb_p = sapply(numb_wilcox, function(x) x$p.value),
+           tfit_u = sapply(tfit_wilcox, function(x) x$statistic),
+           tfitu_p = sapply(tfit_wilcox, function(x) x$p.value)
+)
+
+# Export the table of test statistics for the supporting information.
+write.csv(utable, '../tables/mannwhitneyu_parental_means.csv', row.names = F)
+```
+
+```{r selection-bootstraps, cache=T, cache.lazy=T}
+siteyear <- sort(unique(seed_par$siteyear))
+
+# function to bootrap confidence intervals.
+sboot <- function(group, nreps){
+  dfrut <- frut_par[frut_par$siteyear == group,]
+  dseed <- seed_par[seed_par$siteyear == group,]
+  dt <- matrix(0, nreps, 5)
+  for(i in 1:nreps){
+    this_exp1 <- dfrut[sample(1:nrow(dfrut), nrow(dfrut), replace = T),]
+    this_exp2 <- dseed[sample(1:nrow(dseed), nrow(dseed), replace = T),]
+    pmeans <- data.frame(tapply(this_exp1$survival,        this_exp1$genotype, mean, na.rm=T),
+                         tapply(this_exp1$fruit_per_plant, this_exp1$genotype, mean, na.rm=T),
+                         tapply(this_exp2$nseeds,          this_exp2$genotype, mean, na.rm=T),
+                         tapply(this_exp1$fruit_per_seed,  this_exp1$genotype, mean, na.rm=T),
+                         tapply(this_exp1$tfit,            this_exp1$genotype, mean, na.rm=T))
+    pmeans <- t(pmeans) / apply(pmeans,2,max)
+    if("italy" %in% strsplit(group, " ")[[1]])  pmeans <- (pmeans[,1]-pmeans[,2])
+    if("sweden" %in% strsplit(group, " ")[[1]]) pmeans <- (pmeans[,2]-pmeans[,1])
+    dt[i, ] <- as.numeric(pmeans)
+  }
+  return(dt)
+}
+# perform bootsraps
+nreps <- 1000
+sel_boots <- lapply(siteyear, function(x) sboot(x, nreps))
+sel_cis <- lapply(sel_boots, function(x) apply(x, 2, quantile, c(0.025, 0.975)))
+names(sel_cis) <- siteyear
+
+mean(sel_boots[[2]][,5] - sel_boots[[2]][,4] <0)
+sel_cis
+
+```
+
+Selection coefficients for fecundity, its components and survival at the two sites. Now that there are only two years of data I can include 95% confidence intervals (dervived from bootstrapping). These are well away from zero in Italy. In Sweden they generally overlap zero, except for survival in 2011 and seed number per fruit in 2010. The latter is especially interesting because this was the tricky vole year when fecundity differences were not previously detected.
+
+```{r fig:selection, fig.height=11/2.54}
+# FITNESS DIFFERENCES AMONG PARENTS
+maxvals <- apply(parents[,c(4,7)], 1, max) # get the fittest phenotype in each site-year combination.
+# relative fitnesses of the Italian and Swedish parents.
+parents$it_relw <- parents$it_parent / maxvals
+parents$sw_relw <- parents$sw_parent / maxvals
+# selective advantage of the local morph
+parents$s[parents$site == 'italy']  <- parents$it_relw[parents$site == 'italy']  - parents$sw_relw[parents$site == 'italy']
+parents$s[parents$site == 'sweden'] <- parents$sw_relw[parents$site == 'sweden'] - parents$it_relw[parents$site == 'sweden']
+
+os <- 0.1
+ix <- match(c("survival", "fruit_per_plant",  "number_per_fruit", "fruit_per_seed", "total_fitness"), parents$variable)
+
+setEPS()
+postscript(file = '../figures/selection.eps', family = "Times", width=16.9/2.54, height = 11/2.54)
+
+par(mfrow=c(1,2), mar=c(5,4,1,0)+0.1, oma=c(0,0,1,1), family="Times", cex=0.9)
+plot(c(0.5,5.5), c(-0.4,1), type='n', axes=F, xlab = "", ylab='selection coefficient', main="2010")
+axis(2); axis(1, 1:5, c("survival","fruits per\nadult","seeds per\nfruit", "fruits per\nseedling","seeds per\nseedling"), las=2)
+box(); grid()
+abline(0,0, lty=2)
+
+segments(1:length(ix)-os, sel_cis$`italy 2010`[1,], 1:length(ix)-os, sel_cis$`italy 2010`[2,])
+segments(1:length(ix)+os, sel_cis$`sweden 2010`[1,], 1:length(ix)+os, sel_cis$`sweden 2010`[2,])
+points(1:length(ix)-os, parents$s[ix  ], pch=16)
+points(1:length(ix)+os, parents$s[ix+2], pch=21, bg='white')
+legend(3, -0.15, c("Italy", "Sweden"), pch=c(16, 21), bg='white', bty='n')
+
+plot(c(0.5,5.5), c(-0.4,1), type='n', axes=F, xlab = "", ylab='', main=2011)
+axis(2); axis(1, 1:length(ix), c("survival","fruits per\nadult","seeds per\nfruit","fruits per\nseedling","seeds per\nseedling"), las=2)
+box(); grid()
+abline(0,0, lty=2)
+
+segments(1:length(ix)-os, sel_cis$`italy 2011`[1,], 1:length(ix)-os, sel_cis$`italy 2011`[2,])
+segments(1:length(ix)+os, sel_cis$`sweden 2011`[1,], 1:length(ix)+os, sel_cis$`sweden 2011`[2,])
+
+points(1:length(ix)-os, parents$s[ix+1], pch=16)
+points(1:length(ix)+os, parents$s[ix+3], pch=21, bg='white')
+dev.off()
+```
+
+Scatter plots and Spearman rank correlation coefficients of three pairs of variables in each site and year:
+
+1. **Components of fecundity** (seed number per fruit vs. fruit number per plant) are significantly positively correlated in all four site-year combinations, although the relationship is weak in Sweden in 2010.
+2. **Components of overall fitness** (survival to reproduction vs. seed number per plant) are positively correlated in Italy in both years, and in Sweden in 2011.
+3. **Fecundity and offspring investment** (seed mass vs. seed number per plant) show no relationship in Italy, nor in Sweden in 2011. In 2010 there is a weak negative relationship, which seems to be driven by a small number of lines with low fecundity but heavy seeds. These three lines are represented by 3, 4 and 6 replicates for Sweden in 2010, so this is unlikely to simply be an artefact. In general though, seed mass does not seem to place a constraint on fecundity.
+
+```{r fig:scatter-plots, fig.height=16/2.56, fig.width=19.6/2.56}
+# RIL phenotypes
+ril_numb <- read.csv('../data_files/RIL_seeds_per_fruit.csv')
+ril_mass <- read.csv('../data_files/RIL_seed_mass.csv')
+ril_frut <- read.csv("../data_files/RIL_fruits_per_adult.csv")
+ril_tofu <- read.csv('../data_files/RIL_seeds_per_adult.csv')
+ril_surv <- read.csv('../data_files/RIL_survival.csv')
+
+ril_mass <- ril_mass[match(ril_frut$genotype, ril_mass$genotype),]
+ril_numb <- ril_numb[match(ril_frut$genotype, ril_numb$genotype),]
+ril_tofu <- ril_tofu[match(ril_frut$genotype, ril_tofu$genotype),]
+ril_surv <- ril_surv[match(ril_frut$genotype, ril_surv$genotype),]
+
+cortests <- list(cor.test(ril_frut$mean_it2010, ril_numb$mean_it2010, method = 's'),
+                 cor.test(ril_frut$mean_it2011, ril_numb$mean_it2011, method = 's'),
+                 cor.test(ril_frut$mean_sw2010, ril_numb$mean_sw2010, method = 's'),
+                 cor.test(ril_frut$mean_sw2011, ril_numb$mean_sw2011, method = 's'),
+                 
+                 cor.test(ril_tofu$mean_it2010, ril_surv$mean_it2010, method = 's'),
+                 cor.test(ril_tofu$mean_it2011, ril_surv$mean_it2011, method = 's'),
+                 cor.test(ril_tofu$mean_sw2010, ril_surv$mean_sw2010, method = 's'),
+                 cor.test(ril_tofu$mean_sw2011, ril_surv$mean_sw2011, method = 's'),
+                 
+                 cor.test(ril_tofu$mean_it2010, ril_mass$mean_it2010, method = 's'),
+                 cor.test(ril_tofu$mean_it2011, ril_mass$mean_it2011, method = 's'),
+                 cor.test(ril_tofu$mean_sw2010, ril_mass$mean_sw2010, method = 's'),
+                 cor.test(ril_tofu$mean_sw2011, ril_mass$mean_sw2011, method = 's'))
+
+corsumm <- data.frame(rho = round(sapply(cortests, function(x) x$estimate),2),
+                      p   = round(sapply(cortests, function(x) x$p.value), 3))
+corsumm$tp <- ifelse(corsumm$p < 0.0001, "p<0.0001", paste("p=",corsumm$p, sep=""))
+
+# setEPS()
+# postscript(file = '../figures/trait_correlations.eps', family = "Times", width=16.9/2.56, height = 16/2.56)
+par(mfrow=c(3,4), mar=c(4,3,1,0)+0.1, oma=c(0,1,1,1))
+# Frut vs seed number
+plot(ril_frut$mean_it2010, ril_numb$mean_it2010, xlim=c(0,40), ylim=c(10,45), xlab="", ylab="", main="Italy 2010", pch=1)
+text(40, 10, paste("r=",corsumm$rho[1], "\n",  corsumm$tp[1], sep=""), c(1,0))
+title(ylab="seed number per fruit", line=2)
+
+plot(ril_frut$mean_it2011, ril_numb$mean_it2011, xlim=c(0,30), ylim=c(10,45), xlab="", ylab="", main="Italy 2011", pch=1)
+text(30, 10, paste("r=",corsumm$rho[2], "\n",  corsumm$tp[2], sep=""), c(1,0))
+plot(ril_frut$mean_sw2010, ril_numb$mean_sw2010, xlim=c(10,100), ylim=c(10,50), xlab="", ylab="", main="Sweden 2010", pch=1)
+text(100, 10, paste("r=",corsumm$rho[3], "\n",  corsumm$tp[3], sep=""), c(1,0))
+
+plot(ril_frut$mean_sw2011, ril_numb$mean_sw2011, xlim=c(0,100), ylim=c(10,50), xlab="", ylab="", main="Sweden 2011", pch=1)
+text(100, 10, paste("r=",corsumm$rho[4], "\n",  corsumm$tp[4], sep=""), c(1,0))
+title(xlab="fruit number per plant", line=-32.7, outer=T)
+
+# fecundity vs survival
+plot(ril_tofu$mean_it2010, ril_surv$mean_it2010, xlim=c(0,1600), xlab="", ylab="")
+text(1550, 0.25, paste("r=",corsumm$rho[5], "\n",  corsumm$tp[5], sep=""), c(1,0))
+title(ylab="survival", line=2)
+plot(ril_tofu$mean_it2011, ril_surv$mean_it2011, xlim=c(0,1000),  xlab="", ylab="")
+text(1000, 0.45, paste("r=",corsumm$rho[6], "\n",  corsumm$tp[6], sep=""), c(1,0))
+
+plot(ril_tofu$mean_sw2010, ril_surv$mean_sw2010,  xlim=c(0,5500), ylim=c(0, 1), xlab="", ylab="")
+text(5500, 0, paste("r=",corsumm$rho[7], "\n",  corsumm$tp[7], sep=""), c(1,0))
+
+plot(ril_tofu$mean_sw2011, ril_surv$mean_sw2011,  xlim=c(0,4000), ylim=c(0,1), xlab="", ylab="")
+text(4000, 0, paste("r=",corsumm$rho[8], "\n",  corsumm$tp[8], sep=""), c(1,0))
+title(xlab="seed number per plant", outer=T, line=-17)
+
+# fecundity vs seed mass
+plot(ril_tofu$mean_it2010, ril_mass$mean_it2010, xlim=c(0,1600), ylim=c(10,45), xlab="", ylab="")
+text(1550, 10, paste("r=",corsumm$rho[9], "\n",  corsumm$tp[9], sep=""), c(1,0))
+title(ylab="mean seed mass (mg)", line=2)
+title(xlab="seed number per plant", ylab="", outer=T, line=-1.5)
+
+plot(ril_tofu$mean_it2011, ril_mass$mean_it2011, xlim=c(0,1000), ylim=c(10,40), xlab="", ylab="")
+text(1000, 10, paste("r=",corsumm$rho[10], "\n",  corsumm$tp[10], sep=""), c(1,0))
+
+plot(ril_tofu$mean_sw2010, ril_mass$mean_sw2010, xlim=c(0,6000), ylim=c(15,45), xlab="", ylab="")
+text(6000, 15, paste("r=",corsumm$rho[11], "\n",  corsumm$tp[11], sep=""), c(1,0))
+
+plot(ril_tofu$mean_sw2011, ril_mass$mean_sw2011, xlim=c(0,3500), ylim=c(15,50), xlab="", ylab="")
+text(3500, 15, paste("r=",corsumm$rho[12], "\n",  corsumm$tp[12], sep=""), c(1,0))
+
+#dev.off()
+```
+
+In each site-year experiment there are a between one and three lines with unsually large seed mass (>35ug) which might be driving the correlations. 
+
+* **Italy 2010**: lines `r na.omit(ril_mass$genotype[ril_mass$mean_it2010 > 35])`
+* **Italy 2011**: lines `r na.omit(ril_mass$genotype[ril_mass$mean_it2011 > 35])`
+* **Sweden 2010**: lines `r na.omit(ril_mass$genotype[ril_mass$mean_sw2010 > 35])`
+* **Sweden 2011**: lines `r na.omit(ril_mass$genotype[ril_mass$mean_sw2011 > 35])`
+
+If we repeat the correlations between seed mass and fecundity but exclude these lines, the test statistics and p-values are altered only slightly, so these lines cannot be exerting undue weight.
+
+```{r correlation-no-outliers}
+cortests2 <- list(cor.test(ril_tofu$mean_it2010[ril_mass$mean_it2010 < 35], ril_mass$mean_it2010[ril_mass$mean_it2010 < 35], method = 's'),
+                 cor.test(ril_tofu$mean_it2011[ril_mass$mean_it2011 < 35], ril_mass$mean_it2011[ril_mass$mean_it2011 < 35], method = 's'),
+                 cor.test(ril_tofu$mean_sw2010[ril_mass$mean_sw2010 < 35], ril_mass$mean_sw2010[ril_mass$mean_sw2010 < 35], method = 's'),
+                 cor.test(ril_tofu$mean_sw2011[ril_mass$mean_sw2011 < 35], ril_mass$mean_sw2011[ril_mass$mean_sw2011 < 35], method = 's'))
+
+corsumm2 <- data.frame(experiment = siteyear,
+                       rho = round(sapply(cortests2, function(x) x$estimate),2),
+                       p   = round(sapply(cortests2, function(x) x$p.value), 3))
+knitr::kable(corsumm2)
+```
+
+Summary information of the QTL data files.
+
+```{r import qtl data, cache=T, cache.lazy=T}
+# Import R/qtl data on seed number, mass and total estimated fitness (seed number * total fruit number).
+library("qtl", quietly = T)
+massqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_mass.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
+frutqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_frut.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
+seedqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_seed.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
+tofuqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_tofu.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
+tfitqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_tfit.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
+ffitqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_ffit.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
+survqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_surv.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
+
+# state that this is RIL data from a selfer
+massqtl <- convert2riself(massqtl)
+frutqtl <- convert2riself(frutqtl)
+seedqtl <- convert2riself(seedqtl)
+tofuqtl <- convert2riself(tofuqtl)
+tfitqtl <- convert2riself(tfitqtl)
+ffitqtl <- convert2riself(ffitqtl)
+survqtl <- convert2riself(survqtl)
+# get genotype probabilities for each rqtl object
+massqtl <- calc.genoprob(massqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
+frutqtl <- calc.genoprob(frutqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
+seedqtl <- calc.genoprob(seedqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
+tofuqtl <- calc.genoprob(tofuqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
+tfitqtl <- calc.genoprob(tfitqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
+ffitqtl <- calc.genoprob(ffitqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
+survqtl <- calc.genoprob(survqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
+# coerce values based on <3 values to NA
+for(c in 2:5){
+  massqtl$pheno[,c][massqtl$pheno[,c+4] <3] <- NA
+  seedqtl$pheno[,c][seedqtl$pheno[,c+4] <3] <- NA
+}
+# import Rdata objects containing stepwise QTL fitting results.
+load('../qtl_mapping/stepwise_mass.Rdata')
+load('../qtl_mapping/stepwise_frut.Rdata')
+load('../qtl_mapping/stepwise_seed.Rdata')
+load('../qtl_mapping/stepwise_tofu.Rdata')
+load('../qtl_mapping/stepwise_ffit.Rdata'); ffit_stepwise <- stepwise; rm(stepwise)
+load('../qtl_mapping/stepwise_tfit.Rdata'); tfit_stepwise <- stepwise; rm(stepwise)
+load('../qtl_mapping/stepwise_surv.Rdata'); surv_stepwise <- stepwise; rm(stepwise)
+```
+
+
+```{r drop1 analyses, cache=T, cache.lazy=TRUE}
+# empty lists for the model fits.
+seed_fit <- mass_fit <- tofu_fit <- frut_fit <- ffit_fit <- tfit_fit <- surv_fit <- vector('list', 4) 
+names(seed_fit) <- names(mass_fit) <- names(tofu_fit) <- names(frut_fit)<-names(ffit_fit)<-names(tfit_fit)<-names(surv_fit)<- names(mass_stepwise)
+
+# drop one analyses for each site-year combination.
+for(y in 1:4){
+  mass_fit[[y]] <- fitqtl(massqtl, pheno.col=y+1,  qtl=mass_stepwise[[y]], formula=formula(mass_stepwise[[y]]),
+                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
+  frut_fit[[y]] <- fitqtl(frutqtl, pheno.col=y+1,  qtl=frut_stepwise[[y]], formula=formula(frut_stepwise[[y]]),
+                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
+  seed_fit[[y]] <- fitqtl(seedqtl, pheno.col=y+1,  qtl=seed_stepwise[[y]], formula=formula(seed_stepwise[[y]]),
+                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
+  tofu_fit[[y]] <- fitqtl(tofuqtl, pheno.col=y+1,  qtl=tofu_stepwise[[y]], formula=formula(tofu_stepwise[[y]]),
+                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
+  tfit_fit[[y]] <- fitqtl(tfitqtl, pheno.col=y+1,  qtl=tfit_stepwise[[y]], formula=formula(tfit_stepwise[[y]]),
+                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
+  ffit_fit[[y]] <- fitqtl(ffitqtl, pheno.col=y+1,  qtl=ffit_stepwise[[y]], formula=formula(ffit_stepwise[[y]]),
+                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
+  if(y != 3){ # there were no QTL for survival in Sweden in 2010.
+    surv_fit[[y]] <- fitqtl(survqtl, pheno.col=y+1,  qtl=surv_stepwise[[y]], formula=formula(surv_stepwise[[y]]),
+                            method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
+  }
+}
+```
+
+Summary table of stepwise QTL models derived for each trait.
+
+```{r tab:summary of QTL models}
+qtl_summary_table <- data.frame(
+  trait = rep(c("mean seed mass", "fruits", "seeds per fruit", "total fecundity"), each=4),
+  site = rep(c('italy', 'italy', 'sweden','sweden'), 4),
+  year = rep(2010:2011, 8),
+  number_of_QTL = c(sapply(mass_stepwise, function(x) x$n.qtl),
+                    sapply(frut_stepwise, function(x) x$n.qtl),
+                    sapply(seed_stepwise, function(x) x$n.qtl),
+                    sapply(tofu_stepwise, function(x) x$n.qtl)),
+  LOD  = c(round(unlist(sapply(mass_fit, function(x) x$result.full[1,4])),1),
+           round(unlist(sapply(frut_fit, function(x) x$result.full[1,4])),1),
+           round(unlist(sapply(seed_fit, function(x) x$result.full[1,4])),1),
+           round(unlist(sapply(tofu_fit, function(x) x$result.full[1,4])),1)),
+  PVE  = c(round(unlist(sapply(mass_fit, function(x) x$result.full[1,5])),1),
+           round(unlist(sapply(frut_fit, function(x) x$result.full[1,5])),1),
+           round(unlist(sapply(seed_fit, function(x) x$result.full[1,5])),1),
+           round(unlist(sapply(tofu_fit, function(x) x$result.full[1,5])),1))
+  )
+
+knitr::kable(qtl_summary_table, row.names = F)
+
+write.csv(qtl_summary_table, file = "../tables/qtl_model_summaries.csv", row.names = F)
+```
+
+I grouped QTL for each trait if their 95% credible intervals overlapped in Italy (red) and Sweden (blue). I excluded QTL with credible intervals linger than 15.2cM. The plot below shows the extent of the credible intervals of each cluster with chevrons to indicate the position of each consituent QTL. Chevrons point upwards if the Swedish reference allele increased the value of the trait, and dowwards if it decreased it.
+
+There are several clear results from this:
+
+* All QTL for total fecundity can be explained by QTL for one or both components of fecundity.
+* QTL for fecundity and its components in Italy all have effects in the expected direction, except for one cluster at the start of chr 3 for fruit number and total fecundity. This is consistent with the clear differences in fecundity we observe at the phenotypic level.
+* In Sweden, fecundity QTL are approximately just as likely to increase as decrease fecundity. This also matches the weak adaptive difference between the parents seen in Sweden.
+* There is a clear trade-off for fecundity between sites at the end of chromosome five.
+* Where QTL for components of fecundity at the same site overlap, the allelic effect is in the same direction; the correlation observed at the phenotypic level is reflected in effects at major QTL.
+
+There may also be trade-offs among traits:
+
+* The QTL at the end of chromosome 1 seem have opposite effects on fruit number per plant and seed number per fruit. There may be conflict for allocation at individual loci even though the overall phenotypic correlation is positive.
+* Where QTL for seed mass overlap with QTL for fecundity and its components (start if chr. 1, end of chr. 2, start of chr. 5) the effect is in the opposite direction. This is suggestive of reduced investment in offspring with increased fecundity.
+
+```{r fig:mass-fecundity-qtl}
+library(qtltools)
+mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
+
+# setEPS()
+# postscript('../figures/QTL_mass_fecundity.eps', width=25/2.56, height = 16/2.54, family='Times')
+pdf('../figures/QTL_mass_fecundity.pdf', width=25/2.56, height = 16.9/2.54, family='Times')
+par(mfrow=c(1,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), family='Times')
+
+pos_plot <- plotQTL(1:5, mloc, nlanes = 16)
+plotQTL_base(pos_plot, by=20, maxy = 10)
+text(35, -95, "Chromosome")
+
+# import fitness boxes and plot.
+boxes <- read.csv("../data_files/fitness_boxes.csv")
+boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
+for(b in 1:nrow(boxes)) plotQTL_box(pos_plot, boxes$track[b], boxes$upper[b], boxes$lower[b], border = F, col='gray75', lwd=2)
+
+# Lanes dividers
+segments(pos_plot$lane_margins[-1,], 0,
+         pos_plot$lane_margins[-1,], rep(-pos_plot$track_lengths, each=16),
+         lty=c(2,2,2,1), col=c('gray50','gray50','gray50',1))
+plotQTL_lanes(pos_plot, lty=0)
+# Lane labels
+text(pos_plot$lane_margins[seq(3,17,4),], 8, c("SM", "F/A", "S/F", "S/A"), col=1, cex=1, srt=90, adj=c(0.5,0.5))
+text(pos_plot$lane_margins[seq(2,16,2),], 2, c("2010", "2011"), cex=0.7, adj=c(0.5,0.5), srt=90)
+
+colvec=c("red3", "red3","blue4","blue4")
+for(i in 1:4){
+  y <- c(1,3,2,4)[i]
+  plotQTL_qtl(pos_plot, mass_stepwise[[y]], mass_fit[[y]], fill_cutoff = 15.2, lane = i   , col=colvec[y])
+  plotQTL_qtl(pos_plot, frut_stepwise[[y]], frut_fit[[y]], fill_cutoff = 15.2, lane = i+4 , col=colvec[y])
+  plotQTL_qtl(pos_plot, seed_stepwise[[y]], seed_fit[[y]], fill_cutoff = 15.2, lane = i+8 , col=colvec[y])
+  plotQTL_qtl(pos_plot, tofu_stepwise[[y]], tofu_fit[[y]], fill_cutoff = 15.2, lane = i+12, col=colvec[y])
+}
+dev.off()
+```
+
+```{r fig:fecundity-fitness-qtl}
+library(qtltools)
+mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
+
+# setEPS()
+# postscript('./figures/QTL_survival_fitness.eps', width=25/2.56, height = 16/2.54, family='Times')
+pdf('../figures/QTL_survival_fitness.pdf', width=25/2.56, height = 16.9/2.54, family='Times')
+
+par(mfrow=c(1,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), family='Times')
+
+pos_plot <- plotQTL(1:5, mloc, nlanes = 20)
+plotQTL_base(pos_plot, by=20, maxy = 10)
+text(35, -95, "Chromosome")
+
+# import fitness boxes and plot.
+boxes <- read.csv("../data_files/fitness_boxes.csv")
+boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
+for(b in 1:nrow(boxes)) plotQTL_box(pos_plot, boxes$track[b], boxes$upper[b], boxes$lower[b], border = F, col='gray75', lwd=2)
+
+# Lanes dividers
+segments(pos_plot$lane_margins[-1,], 0,
+         pos_plot$lane_margins[-1,], rep(-pos_plot$track_lengths, each=pos_plot$nlanes),
+         lty=c(2,2,2,1), col=c('gray50','gray50','gray50',1))
+plotQTL_lanes(pos_plot, lty=0)
+# Lane labels
+text(pos_plot$lane_margins[seq(3,21,4),], 8, c("Surv","F/A", "S/A", "F/S", "S/S"), col=1, cex=1, srt=90, adj=c(0.5,0.5))
+text(pos_plot$lane_margins[seq(2,21,2),], 2, c("2010", "2011"), cex=0.7, adj=c(0.5,0.5), srt=90)
+
+colvec=c("red3", "red3","blue4","blue4")
+for(i in 1:4){
+  y <- c(1,3,2,4)[i]
+  if(y != 3){ # no QTL for survival in 2010 in Sweden
+  plotQTL_qtl(pos_plot, surv_stepwise[[y]], surv_fit[[y]], fill_cutoff = 15.2, lane = i   , col=colvec[y])
+  }
+  plotQTL_qtl(pos_plot, frut_stepwise[[y]], frut_fit[[y]], fill_cutoff = 15.2, lane = i+4 , col=colvec[y])
+  plotQTL_qtl(pos_plot, tofu_stepwise[[y]], tofu_fit[[y]], fill_cutoff = 15.2, lane = i+8 , col=colvec[y])
+  plotQTL_qtl(pos_plot, ffit_stepwise[[y]], ffit_fit[[y]], fill_cutoff = 15.2, lane = i+12, col=colvec[y])
+  plotQTL_qtl(pos_plot, tfit_stepwise[[y]], tfit_fit[[y]], fill_cutoff = 15.2, lane = i+16, col=colvec[y])
+}
+dev.off()
+
+```
+
+```{r cluster-qtl, include=FALSE}
+# cluster QTL based on credible intervals.
+# In fact we did this before, but I will repeat the code here for context.
+library(qtltools)
+# clustering for QTL at both sites
+# clusters <- list(mass = cluster_qtl(1:5, mass_stepwise, mass_fit, 15.2),
+                 # frut = cluster_qtl(1:5, frut_stepwise, frut_fit, 15.2),
+                 # seed = cluster_qtl(1:5, seed_stepwise, seed_fit, 15.2),
+                 # tofu = cluster_qtl(1:5, tofu_stepwise, tofu_fit, 15.2))
+cluster_bysite <- list(mass_it = cluster_qtl(1:5, mass_stepwise[1:2], mass_fit[1:2], 15.2),
+                       mass_sw = cluster_qtl(1:5, mass_stepwise[3:4], mass_fit[3:4], 15.2),
+                       frut_it = cluster_qtl(1:5, frut_stepwise[1:2], frut_fit[1:2], 15.2),
+                       frut_sw = cluster_qtl(1:5, frut_stepwise[3:4], frut_fit[3:4], 15.2),
+                       seed_it = cluster_qtl(1:5, seed_stepwise[1:2], seed_fit[1:2], 15.2),
+                       seed_sw = cluster_qtl(1:5, seed_stepwise[3:4], seed_fit[3:4], 15.2),
+                       tofu_it = cluster_qtl(1:5, tofu_stepwise[1:2], tofu_fit[1:2], 15.2),
+                       tofu_sw = cluster_qtl(1:5, tofu_stepwise[3:4], tofu_fit[3:4], 15.2))
+```
+
+```{r fig:cluster-positions, include=FALSE}
+library(qtltools)
+mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
+
+# setEPS()
+# postscript('./figures/QTL_positions_clusters.eps', width=16.9/2.56, height = 5, family='Times')
+par(mfrow=c(1,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), family='Times')
+
+pos_plot <- plotQTL(1:5, mloc, nlanes = 8, left_gap = 5)
+plotQTL_base(pos_plot, by=20, maxy = 10)
+text(40, -95, "chromosome")
+
+# import fitness boxes and plot.
+boxes <- read.csv("../data_files/fitness_boxes.csv")
+boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
+for(b in 1:nrow(boxes)) plotQTL_box(pos_plot, boxes$track[b], boxes$upper[b], boxes$lower[b], border = F, col='gray75', lwd=2)
+
+# Lanes and labels
+plotQTL_lanes(pos_plot, lty=0)
+for(i in seq(1,9,2)) segments(pos_plot$lane_margins[i,], 0, pos_plot$lane_margins[i,], -pos_plot$track_lengths, lty='dashed', col='gray50')
+# text(pos_plot$lane_centres[c(2,5),], 6, c("Italy", "Sweden"), col=c('red3','blue4'), cex=0.7, srt=00, adj=c(0.5,0.5))
+text(pos_plot$lane_margins[seq(2,9,2),], 2, c("mass" ,"fruits", "seeds", "fecundity"), col=1, cex=0.7, adj=c(0,0.5), srt=90)
+
+colvec <- rep(c('red3','blue4'), 4)
+for(lane in 1:8){
+  thisobj<- cluster_bysite[[lane]]$full.list
+  # count number of matchin positions
+  ctab <- table(thisobj$ML_bayesint)
+  thisobj$lwd <- ctab[match(thisobj$ML_bayesint, names(ctab))] # number of experiments
+  thisobj <- thisobj[unique(match(thisobj$name, thisobj$name)),] # remove duplicate positions
+  # plot ML positions in esch year
+  os <- ifelse(thisobj$effect_sizes < 0, 0.1, -0.1)
+  arrows(pos_plot$lane_centres[lane, thisobj$chr], -thisobj$ML_bayesint+os,
+         pos_plot$lane_centres[lane, thisobj$chr], -thisobj$ML_bayesint-os,
+         length = 0.05, lwd=thisobj$lwd, col=colvec[lane])
+  
+  thissumm<- cluster_bysite[[lane]]$summary
+  segments(pos_plot$lane_centres[lane, thisobj$chr], -thisobj$min_bayesint,
+       pos_plot$lane_centres[lane, thisobj$chr], -thisobj$max_bayesint,
+       col=colvec[lane])
+}
+
+```
+
+```{r fig:two symbols, include=FALSE}
+library(qtltools)
+mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
+
+# setEPS()
+# postscript('../figures/QTL_positions_clusters.eps', width=16.9/2.54, height = 15/2.54, family='Times')
+# pdf('../figures/QTL_positions_clusters.pdf', width=16.9/2.54, height = 15/2.54, family='Times')
+par(mfrow=c(1,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), family='Times')
+
+pos_plot <- plotQTL(1:5, mloc, nlanes = 8, left_gap = 5)
+plotQTL_base(pos_plot, by=20, maxy = 5)
+text(40, -95, "Chromosome")
+
+# import fitness boxes and plot.
+# boxes <- read.csv("../data_files/fitness_boxes.csv")
+# boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
+# for(b in 1:nrow(boxes)) plotQTL_box(pos_plot, boxes$track[b], boxes$upper[b], boxes$lower[b], border = F, col='gray75', lwd=2)
+
+# Lanes and labels
+plotQTL_lanes(pos_plot, lty=0)
+for(i in seq(1,9,2)) segments(pos_plot$lane_margins[i,], 0, pos_plot$lane_margins[i,], -pos_plot$track_lengths, lty='dashed', col='gray50')
+# text(pos_plot$lane_centres[c(2,5),], 6, c("Italy", "Sweden"), col=c('red3','blue4'), cex=0.7, srt=00, adj=c(0.5,0.5))
+text(pos_plot$lane_margins[seq(2,9,2),], 2, c("SM" ,"F/A", "S/F", "S/A"), col=1, cex=0.7, adj=c(0,0.5), srt=90)
+
+colvec <- rep(c('red3','blue4'), 4)
+for(lane in 1:8){
+  thisobj<- cluster_bysite[[lane]]$full.list
+  thisobj$pch <- ifelse(thisobj$effect_sizes >0, 24, 25)
+  # count number of matchin positions
+  ctab <- table(thisobj$ML_bayesint)
+  thisobj$lwd <- ctab[match(thisobj$ML_bayesint, names(ctab))] # number of experiments
+  thisobj <- thisobj[unique(match(thisobj$name, thisobj$name)),] # remove duplicate positions
+  # plot ML positions in esch year
+  os <- ifelse(thisobj$effect_sizes < 0, 0.1, -0.1)
+  # plot bayesian CIs
+  thissumm<- cluster_bysite[[lane]]$summary
+  segments(pos_plot$lane_centres[lane, thisobj$chr], -thisobj$min_bayesint,
+       pos_plot$lane_centres[lane, thisobj$chr], -thisobj$max_bayesint,
+       col=colvec[lane], lwd=2)
+  # plot positions
+  ex <- thisobj$experiment == 1
+  points(pos_plot$lane_centres[lane, thisobj$chr[ex]], -thisobj$ML_bayesint[ex],
+         col=colvec[lane], pch= thisobj$pch[ex], bg='white', lwd=2)
+  ex <- thisobj$experiment == 2
+  points(pos_plot$lane_centres[lane, thisobj$chr[ex]], -thisobj$ML_bayesint[ex],
+         col=colvec[lane], pch= thisobj$pch[ex], bg=colvec[lane])
+}
+
+# dev.off()
+```
