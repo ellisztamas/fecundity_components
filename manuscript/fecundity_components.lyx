@@ -33,7 +33,7 @@
 \bibtex_command default
 \index_command default
 \paperfontsize default
-\spacing single
+\spacing double
 \use_hyperref false
 \papersize default
 \use_geometry true
@@ -93,30 +93,38 @@ Thomas James Ellis, Froukje Postma, Chris Oakley, Jon Ågren
 \end_layout
 
 \begin_layout Abstract
-Local adaptation can be expressed through several components of fitness,
- some of which may be linked by trade-offs.
+Local adaptation can be expressed through several components of fitness.
+ Variation in resource status can lead to negative or positive correlations
+ among these components, which will constrain or facilitate adaptive differentia
+tion.
  Assessments of the strength of local adaptation and its genetic basis should
  thus include as many components of fitness as possible.
  We quantified local adaptation and examined its genetic basis by mapping
  quantitative trait loci (QTL) for fitness and its components in a population
  of recombinant inbred lines (RILs) derived from a cross between two locally
- adapted populations of Arabidopsis thaliana planted at the sites of the
- two source populations in two years.
- We specifically examined whether number of seeds per fruit is negatively
- correlated with fruit production or seed size, and thus whether the inclusion
- of this fitness component would reduce estimates of local adaptation.
- The local genotype outperformed the non-local genotype in terms of both
- number of fruits and number of seeds per fruit.
- In the RIL population, the two fecundity components were positively correlated,
- and fecundity was positively correlated with survival.
+ adapted populations of 
+\emph on
+Arabidopsis thaliana
+\emph default
+ planted at the sites of the two source populations in two years.
+ We specifically compared the components of fecundity expressed through
+ seed and fruit production to seed mass and survival.
+ When information on seed number is included in estimates of fitness, we
+ detected a greater advantage to the local genotype above than was detected
+ through fruit number and survival only.
+ In the RIL population we found positive genetic correlations between fruit
+ number and seed number per fruit were positively correlated, and between
+ overall fecundity and survival.
  We found only limited evidence of a trade-off with seed size.
- With a few exceptions, QTL for number of fruits and number of seeds per
- fruit mapped to the same genomic regions, with allelic effects in the same
- direction.
+ QTL for number of fruits and number of seeds per fruit, and for overall
+ fecundity and survival frequently mapped to the same genomic regions, and
+ in all but one case allelic effects were in the same direction.
  The results suggest that estimates of the strength of local adaptation
- increase if both fecundity components are considered, and that variation
- in overall vigour rather than trade-offs underlie differences observed
- in individual components of fecundity and fitness.
+ increase if both fecundity components are considered, and that correlations
+ among fitness components have facilitated local adaptation.
+ We propose that variation in resource acquisition or efficiency rather
+ than trade-offs underlie differences observed in individual components
+ of fecundity and fitness.
  
 \end_layout
 
@@ -727,7 +735,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename /home/thoel507/Documents/arabidopsis_postdoc/fecundity_components/figures/selection.eps
+	filename ../figures/selection.eps
 
 \end_inset
 
@@ -2298,7 +2306,7 @@ Pleiotropic QTL effects
 \begin_inset Float figure
 wide true
 sideways false
-status collapsed
+status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
@@ -2321,7 +2329,7 @@ QTL for fitness components in each site-year combination.
  Arrows indicate most-likely QTL position and the effect of the Swedish
  genotype (upward: increased phenotype; downward: decreased phenotype) in
  Italy (red) and Sweden (blue).
- Veritcal bars show the 95% Bayesian credible intervals for QTL position.
+ Vertical bars show the 95% Bayesian credible intervals for QTL position.
  Open arrows show QTL with credible intervals >15.2cM.
  Labels on the right of chromosome indicate QTL with pleiotropic effects
  on components of fecundity (c), fecundity and survival (s) and fecundity
@@ -2411,33 +2419,69 @@ Discussion
 \end_layout
 
 \begin_layout Standard
-Our results demonstrate that positive correlations among these components
- contribute to the adaptive advantage of locally-adapted genotypes in 
+This study investigated natural genetic variation for fecundity and its
+ components among two wild accessions and in a recombinant inbred line populatio
+n of 
 \emph on
 A.
  thaliana
 \emph default
 .
- When we include number of seeds per fruit in the estimate of fitness, the
- advantage of the local genotypes is greater than would be indicated based
- on survival and fruit production only in three of four site-year combinations.
+ When fitness is quantified as number of seeds per reproductive plant rather
+ than on fruit number and survival alone, we were able to detect a greater
+ advantage of the local genotypes in three of four site-year combinations.
  We found positive genetic correlations between components of fecundity
  in all site-year combinations, and between survival and fecundity in both
  years in Italy and in one year in Sweden.
  QTL-mapping revealed evidence of extensive pleiotropic effects on components
  of fecundity, and on fecundity and survival.
- In all but one case, QTL showed positive pleiototropic effects, with alleles
+ In all but one case, QTL showed positive pleiotropic effects, with alleles
  being associated with an increase or decrease in both fitness components.
- These results indicate that variation in resource acquisition predominates
- over variation in resource-allocation strategy 
+ These results demonstrate positive correlations among components of fecundity
+ and survival contribute to the adaptive advantage of locally-adapted genotypes
+ in 
+\emph on
+A.
+ thaliana
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+The preponderance of positive genetic correlations indicates that variation
+ is resource status predominates over variation in resource allocation 
 \begin_inset CommandInset citation
 LatexCommand citep
-key "vannoordwijk1986"
+key "vannoordwijk1986,houle1991genetic"
 
 \end_inset
 
-, and hence that selection for increased resource acquisition has played
- a major role in the process of local adaptation in these populations.
+.
+ This suggests there has been selection either for more effective uptake
+ of critical resources at each site, and/or for more efficient use of these
+ resources.
+ Recent work has investigated adaptation to environments with clear abiotic
+ stressors, such as saline or seprentine soils 
+\begin_inset CommandInset citation
+LatexCommand citep
+after "(cite D. Salt's paper as well?"
+before "e.g."
+key "brady2005evolutionary,lowry2009genetic"
+
+\end_inset
+
+.
+ However, there is no such obvious stressor at these sites, so it may be
+ that resource status reflects selection for increased uptake of limiting
+ resources at each site.
+ Although questions remain about the specific mechanisms involved, our results
+ demonstrate that selection for resource use is likely to be an important
+ driver of local adaptation in 
+\emph on
+A.
+ thaliana
+\emph default
+.
 \end_layout
 
 \begin_layout Subsection
@@ -2484,13 +2528,13 @@ These findings indicate that there is some variation in allocation strategy,
 \end_layout
 
 \begin_layout Standard
-The observation of positive pleiotropy is in contrast to those found in
- the related species 
+The observation of positive pleiotropy is in contrast to results for the
+ related species 
 \emph on
-Boechera stricta 
+Boechera stricta.
+ 
 \emph default
-using a similar experimental design.
- Here, 
+Using a similar experimental design, 
 \begin_inset CommandInset citation
 LatexCommand citet
 key "anderson2014strong"
@@ -2522,34 +2566,31 @@ key "rose1982antagonistic,curtsinger1994antagonistic"
  However, since both species are mostly self-pollinating, this is unlikely.
 
 \emph on
- A.
+ B.
+ stricta 
+\emph default
+is perennial, and the trade-off observed is between fecundity and survival
+ 
+\emph on
+after
+\emph default
+ reproduction.
+ As a winter annual, 
+\emph on
+A.
  thaliana
 \emph default
- is a winter annual, and rapid autumn growth is associated with both high
- survival and increased fecundity 
+ does not have the opportunity to trade future survival for current reproduction.
+ Rather, rapid autumn growth is associated with both high survival and increased
+ fecundity 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "akiyama2014conflicting"
 
 \end_inset
 
-.
- Efficient resource acquisition in autumn might therefore drive both survival
- and fecundity.
- Since 
-\emph on
-B.
- stricta 
-\emph default
-is perennial, there may be greater scope for variation in allocation strategy
- between current and future reproduction 
-\begin_inset CommandInset citation
-LatexCommand citep
-key "stearns1992"
-
-\end_inset
-
-.
+, and efficient resource acquisition in autumn might therefore drive the
+ correlation between these fitness components.
  It is possible that broader life history strategy has important implications
  for the relative contribution of resource acquisition and allocation to
  local adaptation.
@@ -2621,7 +2662,7 @@ reference "fig:QTL-positions"
 We found quite different patterns of covariation and genetic architecture
  for seed mass than for fitness components.
  On one hand, QTL for seed mass tended to have antagonistic pleiotropic
- effects on fecundity, and we found a weak trade-off between seed mass and
+ effects on fecundity, and we detected a trade-off between seed mass and
  fecundity in 2010 in Sweden (fig.
  
 \begin_inset CommandInset ref
@@ -2648,10 +2689,10 @@ reference "fig:scatter-plots"
 \end_inset
 
 ), suggesting that any constraint imposed by seed mass on fecundity is small.
- Seed traits are distinct from the other traits considered in this study
- in that it is not components of fitness, but traits expected to influence
- fitness at germination and establishment, with cascading effects on later
- life-history stages 
+ Seed mass is distinct from the other traits considered in this study in
+ that it is not a component of fitness, but a quantitative trait expected
+ to influence fitness at germination and establishment, with cascading effects
+ on later life-history stages 
 \begin_inset CommandInset citation
 LatexCommand citep
 key "moles2006seed,postma_early_2016"
@@ -2660,8 +2701,8 @@ key "moles2006seed,postma_early_2016"
 
 .
  In this study we examined plants transplanted as seedlings and harvested
- as adults, and as such we were not able to detect possible early-stage
- fitness effects.
+ as adults, and as such we may have missed possible early-stage fitness
+ effects.
  It remains possible that an investigation focussing on offspring fitness
  would reveal a clearer pattern of the relationship between seed mass and
  fitness.
