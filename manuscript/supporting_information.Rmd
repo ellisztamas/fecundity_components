@@ -1,7 +1,7 @@
 ---
 title: "Supporting information"
 author: "Tom Ellis"
-date: "June 14, 2017"
+date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
   pdf_document:
     fig_caption: yes
@@ -9,7 +9,7 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, fig.pos = 'H')
 library("qtl", quietly = T)
 library(qtltools)
 ```
@@ -78,6 +78,8 @@ for(y in 1:4){
 }
 ```
 
+\newpage
+
 ```{r tab:individual-mass-qtl}
 siteyear <- c("italy 2010", "italy 2011", "sweden 2010", "sweden 2011")
 
@@ -96,6 +98,8 @@ knitr::kable(mass_tab[,c("experiment","chr","position","LOD", "effect_sizes","PV
              caption="QTL for seed mass identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals.")
 ```
 
+\newpage
+
 ```{r tab:individual-frut-qtl}
 # fruit per plant
 frut_tab <- list(bayesint_table(frut_stepwise$it2010, frut_fit$it2010),
@@ -109,8 +113,10 @@ frut_tab$position <- paste(round(frut_tab$ML_bayesint,1), " (", round(frut_tab$m
 # print the table
 knitr::kable(frut_tab[,c("experiment","chr","position","LOD", "effect_sizes","PVE")], digits = c(0,0,0,1,3,1),
              col.names = c("experiment","chromosome","position (cM)","LOD", "effect size","% var. explained"),
-             caption="QTL for fruit number per adult plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals.")
+             caption="QTL for fruit number per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals.")
 ```
+
+\newpage
 
 ```{r tab:individual-numb-qtl}
 # seed number per fruit
@@ -128,6 +134,8 @@ knitr::kable(seed_tab[,c("experiment","chr","position","LOD", "effect_sizes","PV
              caption="QTL for seed number per fruit identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals.")
 ```
 
+\newpage
+
 ```{r tab:individual-tofu-qtl}
 # total fecundity
 tofu_tab <- list(bayesint_table(tofu_stepwise$it2010, tofu_fit$it2010),
@@ -141,11 +149,40 @@ tofu_tab$position <- paste(round(tofu_tab$ML_bayesint,1), " (", round(tofu_tab$m
 # print the table
 knitr::kable(tofu_tab[,c("experiment","chr","position","LOD", "effect_sizes","PVE")], digits = c(0,0,0,1,1,1),
              col.names = c("experiment","chromosome","position (cM)","LOD", "effect size","% var. explained"),
-             caption = "QTL for seed number per adult plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals.")
+             caption = "QTL for seed number per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals.")
 
 ```
 
-```{r fig:ind-years-mass, fig.width=21/2.54, fig.cap="Figure S1: QTL for seed mass in each year in Italy (red) and Sweden (blue). Arrows show the maximum-likelihood position of the QTL and bars indicate the extent of 95% Bayesian credible intervals. The direction of the arrow indicates the direction of effect of the Swedish allele on the phenotype. Open triangles are 'poorly defined' QTL with credible intervals greater than 15.2cM."}
+```{r tab: epistatic-qtl}
+
+lst <- list(mass_fit$sw2011, frut_fit$it2010, frut_fit$sw2011, 
+     seed_fit$it2011, seed_fit$sw2010, seed_fit$sw2011, tofu_fit$it2010, tofu_fit$sw2011)
+
+epi_fun <- function(x) {
+  d <- summary(x)
+  i <- nrow(d$result.drop)
+  c(row.names(d$ests)[i+1], d$ests[i, 1], d$result.drop[i, c(3,4)])
+}
+
+epi_tab <- cbind(trait = c("seed mass", 
+                           "fruits per reproductive adult", "fruits per reproductive adult", "fruits per reproductive adult",
+                           "seeds per fruit", "seeds per fruit",
+                           "seeds per reproductive adult", "seeds per reproductive adult"),
+                 site = c("sweden", "italy", "sweden", "italy", "sweden", "sweden", "italy", "sweden"),
+                 year = c(2011, 2010, 2011, 2011, 2010, 2011, 2010, 2011),
+                 as.data.frame(t(sapply(lst, epi_fun)))
+)
+colnames(epi_tab) <- c("trait",   "site", "year", "loci", "effect size", "LOD", "% variance explained")
+for(c in 5:7) epi_tab[,c] <- as.numeric(as.vector(epi_tab[,c]))
+
+knitr::kable(epi_tab, digits = 2,
+             caption = "Pairs of significant epistatic QTL.")
+rm(lst)
+```
+
+\newpage
+
+```{r fig:ind-years-mass, include=F, fig.width=21/2.54, fig.cap="Figure S1: QTL for seed mass in each year in Italy (red) and Sweden (blue). Arrows show the maximum-likelihood position of the QTL and bars indicate the extent of 95% Bayesian credible intervals. The direction of the arrow indicates the direction of effect of the Swedish allele on the phenotype. Open triangles are 'poorly defined' QTL with credible intervals greater than 15.2cM."}
 mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
 # pdf('../figures/QTL_positions_frut.pdf', width=23/2.56, height = 18/2.56, family='Times')
 par(mfrow=c(1,1), mar=c(0,3,0,0)+0.1, oma=c(1,0,0,0), family='Times')
@@ -169,8 +206,7 @@ for(y in 1:4){
 }
 ```
 
-
-```{r fig:ind-years-frut, fig.width=21/2.54, fig.cap="QTL for fruit number per adult plant in each year in Italy (red) and Sweden (blue). Arrows show the maximum-likelihood position of the QTL and bars indicate the extent of 95% Bayesian credible intervals. The direction of the arrow indicates the direction of effect of the Swedish allele on the phenotype. Open triangles are 'poorly defined' QTL with credible intervals greater than 15.2cM."}
+```{r fig:ind-years-frut, include=F, fig.width=21/2.54, fig.cap="QTL for fruit number per reproductive plant in each year in Italy (red) and Sweden (blue). Arrows show the maximum-likelihood position of the QTL and bars indicate the extent of 95% Bayesian credible intervals. The direction of the arrow indicates the direction of effect of the Swedish allele on the phenotype. Open triangles are 'poorly defined' QTL with credible intervals greater than 15.2cM."}
 library(qtl)
 library(qtltools)
 mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
@@ -198,7 +234,7 @@ for(y in 1:4){
 }
 ```
 
-```{r fig:ind-years-seednumber, fig.width=21/2.54, fig.cap="QTL for seed number per plant in each year in Italy (red) and Sweden (blue). Arrows show the maximum-likelihood position of the QTL and bars indicate the extent of 95% Bayesian credible intervals. The direction of the arrow indicates the direction of effect of the Swedish allele on the phenotype. Open triangles are 'poorly defined' QTL with credible intervals greater than 15.2cM."}
+```{r fig:ind-years-seednumber, include=F, fig.width=21/2.54, fig.cap="QTL for seed number per plant in each year in Italy (red) and Sweden (blue). Arrows show the maximum-likelihood position of the QTL and bars indicate the extent of 95% Bayesian credible intervals. The direction of the arrow indicates the direction of effect of the Swedish allele on the phenotype. Open triangles are 'poorly defined' QTL with credible intervals greater than 15.2cM."}
 mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
 # pdf('../figures/QTL_positions_tofu.pdf', width=23/2.56, height = 18/2.56, family='Times')
 par(mfrow=c(1,1), mar=c(0,3,0,0)+0.1, oma=c(1,0,0,0), family='Times')
@@ -224,7 +260,7 @@ for(y in 1:4){
 
 ```
 
-```{r fig:ind-years-fecundity, fig.width=21/2.54, fig.cap="QTL for seed number per adult plant in each year in Italy (red) and Sweden (blue). Arrows show the maximum-likelihood position of the QTL and bars indicate the extent of 95% Bayesian credible intervals. The direction of the arrow indicates the direction of effect of the Swedish allele on the phenotype. Open triangles are 'poorly defined' QTL with credible intervals greater than 15.2cM."}
+```{r fig:ind-years-fecundity, include=F, fig.width=21/2.54, fig.cap="QTL for seed number per reproductive plant in each year in Italy (red) and Sweden (blue). Arrows show the maximum-likelihood position of the QTL and bars indicate the extent of 95% Bayesian credible intervals. The direction of the arrow indicates the direction of effect of the Swedish allele on the phenotype. Open triangles are 'poorly defined' QTL with credible intervals greater than 15.2cM."}
 mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
 # pdf('../figures/QTL_positions_tofu.pdf', width=23/2.56, height = 18/2.56, family='Times')
 par(mfrow=c(1,1), mar=c(0,3,0,0)+0.1, oma=c(1,0,0,0), family='Times')
@@ -250,7 +286,7 @@ for(y in 1:4){
 
 ```
 
-```{r fig: epistatic-mass, fig.width=8/2.54, fig.cap="Interaction plots for the epistatic interaction detected for seed mass, showing mean and standard errors for each genotype x genotype combination."}
+```{r fig: epistatic-mass, fig.width=8/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for the epistatic interaction detected for seed mass, showing mean and standard errors for each genotype x genotype combination."}
 # seed mass
 par(mfrow=c(1,1))
 effectplot(massqtl, pheno.col = "mean_sw2010", mname1 = "2@22.6", mname2 = "5@2.6", add.legend = F,
@@ -258,7 +294,7 @@ effectplot(massqtl, pheno.col = "mean_sw2010", mname1 = "2@22.6", mname2 = "5@2.
 legend(0.9,26.8, c("QTL 3:65.9","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
 ```
 
-```{r fig: epistatic-seed, fig.width=16.9/2.54, fig.height=10/2.54, fig.cap="Interaction plots for epistatic interactions detected for seed number per fruit, showing mean and standard errors for each genotype x genotype combination."}
+```{r fig: epistatic-seed, fig.width=16.9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for seed number per fruit, showing mean and standard errors for each genotype x genotype combination."}
 # seed number per fruit
 par(mfrow=c(1,3))
 effectplot(seedqtl, pheno.col = "mean_it2011", mname1 = "1@5.3", mname2 = "5@15.0", add.legend = F,
@@ -274,26 +310,26 @@ effectplot(seedqtl, pheno.col = "mean_sw2011", mname1 = "2@22.6", mname2 = "5@2.
 legend(1.4,29.7, c("QTL 2:22.6","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
 ```
 
-```{r fig: epistatic-frut, fig.width=16.9/2.54, fig.height=10/2.54, fig.cap="Interaction plots for epistatic interactions detected for fruit number per adult plant, showing mean and standard errors for each genotype x genotype combination."}
+```{r fig: epistatic-frut, fig.width=16.9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for fruit number per reproductive plant, showing mean and standard errors for each genotype x genotype combination."}
 #fruit number per plant
 par(mfrow=c(1,2))
 effectplot(frutqtl, pheno.col = "mean_it2010", mname1 = "5@7.7", mname2 = "5@70.1", add.legend = F,
-           main = "Italy 2010", xlab="QTL 5:70.1", ylab="fruit number per adult plant")
+           main = "Italy 2010", xlab="QTL 5:70.1", ylab="fruit number per reproductive plant")
 legend(1.4,16, c("QTL 5:7.7","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
 effectplot(frutqtl, pheno.col = "mean_sw2011", mname1 = "1@61.8", mname2 = "3@26.7", add.legend = F, ylim=c(16,30),
-           main = "Sweden 2011", xlab="QTL 3:26.7", ylab="fruit number per adult plant")
+           main = "Sweden 2011", xlab="QTL 3:26.7", ylab="fruit number per reproductive plant")
 legend(0.8,21, c("QTL 1:61.8","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
 ```
 
-```{r fig: epistatic-tofu, fig.width=16.9/2.54, fig.height=10/2.54, fig.cap="Interaction plots for epistatic interactions detected for seed number per adult plant, showing mean and standard errors for each genotype x genotype combination."}
+```{r fig: epistatic-tofu, fig.width=16.9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for seed number per reproductive plant, showing mean and standard errors for each genotype x genotype combination."}
 # seed number per plant
 par(mfrow=c(1,2))
 effectplot(tofuqtl, pheno.col = "mean_it2010", mname1 = "3@6.3", mname2 = "5@12.0", add.legend = F,
-           main = "Italy 2010", xlab="QTL 5:12.0", ylab="seed number per adult plant")
+           main = "Italy 2010", xlab="QTL 5:12.0", ylab="seed number per reproductive plant")
 legend(1.4,450, c("QTL 3:6.3","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
 
 effectplot(tofuqtl, pheno.col = "mean_sw2011", mname1 = "1@61.1", mname2 = "3@24.4", add.legend = F, ylim=c(500,1100),
-           main = "Sweden 2011", xlab="QTL 3:24.4", ylab="seed number per adult plant")
+           main = "Sweden 2011", xlab="QTL 3:24.4", ylab="seed number per reproductive plant")
 legend(0.8,700, c("QTL 1.61.1","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
 
 ```
