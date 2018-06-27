@@ -300,25 +300,20 @@ ril_frut <- read.csv("data_files/RIL_fruits_per_adult.csv")
 ril_tofu <- read.csv('data_files/RIL_seeds_per_adult.csv')
 ril_surv <- read.csv('data_files/RIL_survival.csv')
 
-ril_mass <- ril_mass[match(ril_frut$genotype, ril_mass$genotype),]
-ril_numb <- ril_numb[match(ril_frut$genotype, ril_numb$genotype),]
-ril_tofu <- ril_tofu[match(ril_frut$genotype, ril_tofu$genotype),]
-ril_surv <- ril_surv[match(ril_frut$genotype, ril_surv$genotype),]
-
-cortests <- list(cor.test(ril_frut$mean_it2010, ril_numb$mean_it2010, method = 's'),
-                 cor.test(ril_frut$mean_it2011, ril_numb$mean_it2011, method = 's'),
-                 cor.test(ril_frut$mean_sw2010, ril_numb$mean_sw2010, method = 's'),
-                 cor.test(ril_frut$mean_sw2011, ril_numb$mean_sw2011, method = 's'),
+cortests <- list(cor.test(ril_frut$it2010, ril_numb$it2010, method = 's'),
+                 cor.test(ril_frut$it2011, ril_numb$it2011, method = 's'),
+                 cor.test(ril_frut$sw2010, ril_numb$sw2010, method = 's'),
+                 cor.test(ril_frut$sw2011, ril_numb$sw2011, method = 's'),
                  
-                 cor.test(ril_tofu$mean_it2010, ril_surv$mean_it2010, method = 's'),
-                 cor.test(ril_tofu$mean_it2011, ril_surv$mean_it2011, method = 's'),
-                 cor.test(ril_tofu$mean_sw2010, ril_surv$mean_sw2010, method = 's'),
-                 cor.test(ril_tofu$mean_sw2011, ril_surv$mean_sw2011, method = 's'),
+                 cor.test(ril_tofu$it2010, ril_surv$it2010, method = 's'),
+                 cor.test(ril_tofu$it2011, ril_surv$it2011, method = 's'),
+                 cor.test(ril_tofu$sw2010, ril_surv$sw2010, method = 's'),
+                 cor.test(ril_tofu$sw2011, ril_surv$sw2011, method = 's'),
                  
-                 cor.test(ril_tofu$mean_it2010, ril_mass$mean_it2010, method = 's'),
-                 cor.test(ril_tofu$mean_it2011, ril_mass$mean_it2011, method = 's'),
-                 cor.test(ril_tofu$mean_sw2010, ril_mass$mean_sw2010, method = 's'),
-                 cor.test(ril_tofu$mean_sw2011, ril_mass$mean_sw2011, method = 's'))
+                 cor.test(ril_tofu$it2010, ril_mass$it2010, method = 's'),
+                 cor.test(ril_tofu$it2011, ril_mass$it2011, method = 's'),
+                 cor.test(ril_tofu$sw2010, ril_mass$sw2010, method = 's'),
+                 cor.test(ril_tofu$sw2011, ril_mass$sw2011, method = 's'))
 
 corsumm <- data.frame(rho = round(sapply(cortests, function(x) x$estimate),2),
                       p   = round(sapply(cortests, function(x) x$p.value), 3))
@@ -328,46 +323,46 @@ corsumm$tp <- ifelse(corsumm$p < 0.0001, "p < 0.0001", paste("p = ",corsumm$p, s
 # postscript(file = '../figures/trait_correlations.eps', family = "Times", width=16.9/2.56, height = 16/2.56)
 par(mfrow=c(3,4), mar=c(4,3,1,0)+0.1, oma=c(0,1,1,1))
 # Frut vs seed number
-plot(ril_frut$mean_it2010, ril_numb$mean_it2010, xlim=c(0,40), ylim=c(10,45), xlab="", ylab="", main="Italy 2010", pch=1)
+plot(ril_frut$it2010, ril_numb$it2010, xlim=c(0,40), ylim=c(10,45), xlab="", ylab="", main="Italy 2010", pch=1)
 text(40, 10, paste("r = ",corsumm$rho[1], "\n",  corsumm$tp[1], sep=""), c(1,0))
 title(ylab="seed number per fruit", line=2)
 
-plot(ril_frut$mean_it2011, ril_numb$mean_it2011, xlim=c(0,30), ylim=c(10,45), xlab="", ylab="", main="Italy 2011", pch=1)
+plot(ril_frut$it2011, ril_numb$it2011, xlim=c(0,30), ylim=c(10,45), xlab="", ylab="", main="Italy 2011", pch=1)
 text(30, 10, paste("r = ",corsumm$rho[2], "\n",  corsumm$tp[2], sep=""), c(1,0))
-plot(ril_frut$mean_sw2010, ril_numb$mean_sw2010, xlim=c(10,100), ylim=c(10,50), xlab="", ylab="", main="Sweden 2010", pch=1)
+plot(ril_frut$sw2010, ril_numb$sw2010, xlim=c(10,100), ylim=c(10,50), xlab="", ylab="", main="Sweden 2010", pch=1)
 text(100, 10, paste("r = ",corsumm$rho[3], "\n",  corsumm$tp[3], sep=""), c(1,0))
 
-plot(ril_frut$mean_sw2011, ril_numb$mean_sw2011, xlim=c(0,100), ylim=c(10,50), xlab="", ylab="", main="Sweden 2011", pch=1)
+plot(ril_frut$sw2011, ril_numb$sw2011, xlim=c(0,100), ylim=c(10,50), xlab="", ylab="", main="Sweden 2011", pch=1)
 text(100, 10, paste("r = ",corsumm$rho[4], "\n",  corsumm$tp[4], sep=""), c(1,0))
 title(xlab="fruit number per plant", line=-32.7, outer=T)
 
 # fecundity vs survival
-plot(ril_tofu$mean_it2010, ril_surv$mean_it2010, xlim=c(0,1600), xlab="", ylab="")
+plot(ril_tofu$it2010, ril_surv$it2010, xlim=c(0,1600), xlab="", ylab="")
 text(1550, 0.25, paste("r = ",corsumm$rho[5], "\n",  corsumm$tp[5], sep=""), c(1,0))
 title(ylab="survival", line=2)
-plot(ril_tofu$mean_it2011, ril_surv$mean_it2011, xlim=c(0,1000),  xlab="", ylab="")
+plot(ril_tofu$it2011, ril_surv$it2011, xlim=c(0,1000),  xlab="", ylab="")
 text(1000, 0.45, paste("r = ",corsumm$rho[6], "\n",  corsumm$tp[6], sep=""), c(1,0))
 
-plot(ril_tofu$mean_sw2010, ril_surv$mean_sw2010,  xlim=c(0,5500), ylim=c(0, 1), xlab="", ylab="")
+plot(ril_tofu$sw2010, ril_surv$sw2010,  xlim=c(0,5500), ylim=c(0, 1), xlab="", ylab="")
 text(5500, 0, paste("r = ",corsumm$rho[7], "\n",  corsumm$tp[7], sep=""), c(1,0))
 
-plot(ril_tofu$mean_sw2011, ril_surv$mean_sw2011,  xlim=c(0,4000), ylim=c(0,1), xlab="", ylab="")
+plot(ril_tofu$sw2011, ril_surv$sw2011,  xlim=c(0,4000), ylim=c(0,1), xlab="", ylab="")
 text(4000, 0, paste("r = ",corsumm$rho[8], "\n",  corsumm$tp[8], sep=""), c(1,0))
 title(xlab="seed number per plant", outer=T, line=-17)
 
 # fecundity vs seed mass
-plot(ril_tofu$mean_it2010, ril_mass$mean_it2010, xlim=c(0,1600), ylim=c(10,45), xlab="", ylab="")
+plot(ril_tofu$it2010, ril_mass$it2010, xlim=c(0,1600), ylim=c(10,45), xlab="", ylab="")
 text(1550, 10, paste("r = ",corsumm$rho[9], "\n",  corsumm$tp[9], sep=""), c(1,0))
 title(ylab="mean seed mass (mg)", line=2)
 title(xlab="seed number per plant", ylab="", outer=T, line=-1.5)
 
-plot(ril_tofu$mean_it2011, ril_mass$mean_it2011, xlim=c(0,1000), ylim=c(10,40), xlab="", ylab="")
+plot(ril_tofu$it2011, ril_mass$it2011, xlim=c(0,1000), ylim=c(10,40), xlab="", ylab="")
 text(1000, 10, paste("r = ",corsumm$rho[10], "\n",  corsumm$tp[10], sep=""), c(1,0))
 
-plot(ril_tofu$mean_sw2010, ril_mass$mean_sw2010, xlim=c(0,6000), ylim=c(15,45), xlab="", ylab="")
+plot(ril_tofu$sw2010, ril_mass$sw2010, xlim=c(0,6000), ylim=c(15,45), xlab="", ylab="")
 text(6000, 15, paste("r = ",corsumm$rho[11], "\n",  corsumm$tp[11], sep=""), c(1,0))
 
-plot(ril_tofu$mean_sw2011, ril_mass$mean_sw2011, xlim=c(0,3500), ylim=c(15,50), xlab="", ylab="")
+plot(ril_tofu$sw2011, ril_mass$sw2011, xlim=c(0,3500), ylim=c(15,50), xlab="", ylab="")
 text(3500, 15, paste("r = ",corsumm$rho[12], "\n",  corsumm$tp[12], sep=""), c(1,0))
 
 #dev.off()
@@ -384,10 +379,10 @@ If we repeat the correlations between seed mass and fecundity but exclude these 
 
 ```{r correlation-no-outliers}
 cortests2 <- list(
-  cor.test(ril_tofu$mean_it2010[ril_mass$mean_it2010 < 35], ril_mass$mean_it2010[ril_mass$mean_it2010 < 35], method = 's'),
-  cor.test(ril_tofu$mean_it2011[ril_mass$mean_it2011 < 35], ril_mass$mean_it2011[ril_mass$mean_it2011 < 35], method = 's'),
-  cor.test(ril_tofu$mean_sw2010[ril_mass$mean_sw2010 < 35], ril_mass$mean_sw2010[ril_mass$mean_sw2010 < 35], method = 's'),
-  cor.test(ril_tofu$mean_sw2011[ril_mass$mean_sw2011 < 35], ril_mass$mean_sw2011[ril_mass$mean_sw2011 < 35], method = 's')
+  cor.test(ril_tofu$it2010[ril_mass$it2010 < 35], ril_mass$it2010[ril_mass$it2010 < 35], method = 's'),
+  cor.test(ril_tofu$it2011[ril_mass$it2011 < 35], ril_mass$it2011[ril_mass$it2011 < 35], method = 's'),
+  cor.test(ril_tofu$sw2010[ril_mass$sw2010 < 35], ril_mass$sw2010[ril_mass$sw2010 < 35], method = 's'),
+  cor.test(ril_tofu$sw2011[ril_mass$sw2011 < 35], ril_mass$sw2011[ril_mass$sw2011 < 35], method = 's')
   )
 
 corsumm2 <- data.frame(experiment = siteyear,

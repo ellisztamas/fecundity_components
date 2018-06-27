@@ -19,6 +19,7 @@ traits <- c(
   "surv") # 7. Survival
 # parameters to input
 ix <- traits[2] # pull out the name of the trait we are mapping here
+path <- paste("data_files/rqtl_", ix, ".csv", sep="")
 
 t0 <- proc.time() # save the system time.
 cat("Stepwise QTL analysis for R/QTL file", path,"\n")
@@ -29,8 +30,7 @@ cat("Started", format(Sys.time(),usetz = TRUE), "\n\n")
 ###############
 library("qtl",  lib.loc='~/R/x86_64-redhat-linux-gnu-library/3.5')
 library("snow", lib.loc='~/R/x86_64-redhat-linux-gnu-library/3.5')
-# import cross object
-path <- paste("data_files/rqtl_", ix, ".csv", sep="")
+
 # create r/qtl object from the file created above.
 cross <- read.cross("csv", "", path, na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
 cross <- convert2riself(cross) # state that this is RIL data from a selfer
