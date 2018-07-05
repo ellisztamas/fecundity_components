@@ -1,24 +1,55 @@
 ---
-title: "Posotive correlations among components of fecundity boost estimates of local adaptation in *A. thaliana*"
+title: Positive correlations among components of fecundity boost estimates of local
+  adaptation in *A. thaliana*
 author: "Tom Ellis"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
   bookdown::pdf_book:
     toc: no
+  bookdown::html_document2: null
+  bookdown::word_document2: null
   pdf_document:
     citation_package: natbib
     fig_caption: yes
     keep_tex: yes
-  bookdown::word_document2: null
+bibliography: /home/thoel507/Dropbox/bibtex_files/tellis.bib
 documentclass: article
-header-includes:
-    - \usepackage{setspace}\doublespacing
-# fontfamily: mathpazo
+fontfamily: mathpazo
 # fontsize: 12pt
 # geometry: margin=1in
-bibliography: /home/thoel507/Dropbox/bibtex_files/tellis.bib
+header-includes: \usepackage{setspace}\doublespacing
 csl: /home/thoel507/Dropbox/bibtex_files/evolution.csl
-abstract: "Insight into the processes governing adaptive differentiation among natural populations requires reliable estimates of the strength and direction of selection. However, estimates of selection and local adaptation typically consider only one or a few components of fitness and may therefore miss trade-offs expressed as conflicting selection acting through other components of fitness. We quantified local adaptation and examined its genetic basis by mapping quantitative trait loci (QTL) for fitness and its components in a population of recombinant inbred lines (RILs) derived from a cross between two locally adapted populations of Arabidopsis thaliana planted at the sites of the two source populations in two years. Specifically, we examined whether estimates of local adaptation were affected by considering number of seeds per fruit and not only fruit production when quantifying fecundity, and we tested for trade-offs between number of seeds per fruit and number of fruits per reproducing plant, between fecundity (total seed production per reproducing plant) and survival, and between fecundity and seed size. The local genotype had a greater advantage over the non-local genotype when information on seed number per fruit was included in estimates of fitness compared to when it was not, but the effect was with one exception not strong. In the RIL population, fruit number per reproducing plant and seed number per fruit were positively correlated genetically in all four site × year combinations examined, as were fecundity and survival in three of four site × year combinations. Seed size and number of seeds produced were significantly and negatively correlated only in Sweden in one year. Several QTL for number of fruits and number of seeds per fruit, and for overall fecundity and survival mapped to the same genomic regions, and in all but one case allelic effects were in the same direction. Two of four QTL for seed mass in Italy, and one of seven in Sweden showed antagonistic pleiotropic effects on fecundity. The results show that consideration of seed production per fruit may in some years substantially increase estimates of the strength of local adaptation. The predominance of positive genetic correlations among fitness components and of positive pleiotropic effects of fitness QTL suggest that local adaptation largely reflects the evolution of increased ability to acquire resources (“condition”), rather than shifts in the relative allocation to different life-history traits. "
+abstract: 'Insight into the processes governing adaptive differentiation among natural
+  populations requires reliable estimates of the strength and direction of selection.
+  However, estimates of selection and local adaptation typically consider only one
+  or a few components of fitness and may therefore miss trade-offs expressed as conflicting
+  selection acting through other components of fitness. We quantified local adaptation
+  and examined its genetic basis by mapping quantitative trait loci (QTL) for fitness
+  and its components in a population of recombinant inbred lines (RILs) derived from
+  a cross between two locally adapted populations of Arabidopsis thaliana planted
+  at the sites of the two source populations in two years. Specifically, we examined
+  whether estimates of local adaptation were affected by considering number of seeds
+  per fruit and not only fruit production when quantifying fecundity, and we tested
+  for trade-offs between number of seeds per fruit and number of fruits per reproducing
+  plant, between fecundity (total seed production per reproducing plant) and survival,
+  and between fecundity and seed size. The local genotype had a greater advantage
+  over the non-local genotype when information on seed number per fruit was included
+  in estimates of fitness compared to when it was not, but the effect was with one
+  exception not strong. In the RIL population, fruit number per reproducing plant
+  and seed number per fruit were positively correlated genetically in all four site
+  × year combinations examined, as were fecundity and survival in three of four site
+  × year combinations. Seed size and number of seeds produced were significantly and
+  negatively correlated only in Sweden in one year. Several QTL for number of fruits
+  and number of seeds per fruit, and for overall fecundity and survival mapped to
+  the same genomic regions, and in all but one case allelic effects were in the same
+  direction. Two of four QTL for seed mass in Italy, and one of seven in Sweden showed
+  antagonistic pleiotropic effects on fecundity. The results show that consideration
+  of seed production per fruit may in some years substantially increase estimates
+  of the strength of local adaptation. The predominance of positive genetic correlations
+  among fitness components and of positive pleiotropic effects of fitness QTL suggest
+  that local adaptation largely reflects the evolution of increased ability to acquire
+  resources (“condition”), rather than shifts in the relative allocation to different
+  life-history traits. '
 ---
 
 ```{r setup, include=FALSE}
@@ -157,46 +188,6 @@ parents <- rbind(parents, tofu, tfit)
 parents$delta <- abs(parents$it_parent - parents$sw_parent)
 ```
 
-```{r wilcox tests, include=F, eval=F}
-# empty lists to store tests
-siteyear <- sort(unique(seed_par$siteyear))
-numb_wilcox <- frut_wilcox <- tofu_wilcox <- tfit_wilcox <- mass_wilcox <- vector('list', length(siteyear))
-
-# run tests
-for(y in 1:4){ # seed number
-  this_exp <- seed_par[seed_par$siteyear == siteyear[y],]
-  numb_wilcox[[y]] <- wilcox.test(nseeds       ~ genotype, data=this_exp)
-  mass_wilcox[[y]] <- wilcox.test(mean_mass_ug ~ genotype, data=this_exp)
-}
-
-for(y in 1:4){
-  this_exp <- frut_par[frut_par$siteyear == siteyear[y],]
-  frut_wilcox[[y]] <- wilcox.test(fruit_per_plant ~ genotype, data=this_exp)
-  frut_wilcox[[y]] <- wilcox.test(fruit_per_plant ~ genotype, data=this_exp)
-  tofu_wilcox[[y]] <- wilcox.test(tofu            ~ genotype, data=this_exp)
-  tfit_wilcox[[y]] <- wilcox.test(tfit            ~ genotype, data=this_exp)
-}
-pwilcox <- data.frame(siteyear = siteyear,
-                      numb = sapply(numb_wilcox, function(x) x$p.value),
-                      mass = sapply(mass_wilcox, function(x) x$p.value),
-                      frut = sapply(frut_wilcox, function(x) x$p.value),
-                      tofu = sapply(tofu_wilcox, function(x) x$p.value),
-                      tfit = sapply(tfit_wilcox, function(x) x$p.value)
-                      )
-
-utable <- data.frame(siteyear = siteyear,
-           frut_u = sapply(frut_wilcox, function(x) x$statistic),
-           frut_p = sapply(frut_wilcox, function(x) x$p.value),
-           numb_u = sapply(numb_wilcox, function(x) x$statistic),
-           numb_p = sapply(numb_wilcox, function(x) x$p.value),
-           tfit_u = sapply(tfit_wilcox, function(x) x$statistic),
-           tfitu_p = sapply(tfit_wilcox, function(x) x$p.value)
-)
-
-# Export the table of test statistics for the supporting information.
-write.csv(utable, '../tables/mannwhitneyu_parental_means.csv', row.names = F)
-```
-
 ```{r selection-bootstraps, cache=T, cache.lazy=T}
 # Formatting of parental data is done in a separate script.
 source("R/parents.R")
@@ -245,7 +236,7 @@ We considered QTL identified for different sites, years or traits to be distinct
 
 # Results 
 ## Seed number per fruit influences estimates of selection
-```{r selection, fig.height=11/2.54, fig.cap="Selection coefficients for fitness components and fitness estimates between parental lines. Error bars show 95% confidence intervals. Positive values indicate selection favouring the local genotype, negative values selection favouring the non-local genotype."}
+```{r selection, fig.height=11/2.54, fig.cap="Selection coefficients for fitness components and fitness estimates between parental lines. Error bars show 95% confidence intervals. Positive values indicate selection favouring the local genotype, negative values selection favouring the non-local genotype.", include=T}
 # FITNESS DIFFERENCES AMONG PARENTS
 maxvals <- apply(parents[,c(4,7)], 1, max) # get the fittest phenotype in each site-year combination.
 # relative fitnesses of the Italian and Swedish parents.
@@ -261,7 +252,7 @@ ix <- match(c("survival", "fruit_per_plant",  "number_per_fruit", "fruit_per_see
 # setEPS()
 # postscript(file = '../figures/selection.eps', family = "Times", width=16.9/2.54, height = 11/2.54)
 
-par(mfrow=c(1,2), mar=c(5,4,1,0)+0.1, oma=c(0,0,1,1), family="Times", cex=0.9)
+par(mfrow=c(1,2), mar=c(5,4,1,0)+0.1, oma=c(0,0,1,1), cex=0.9)
 plot(c(0.5,5.5), c(-0.4,1), type='n', axes=F, xlab = "", ylab='Selection coefficient', main="2010")
 axis(2); axis(1, 1:5, c("survival","fruits per\nadult","seeds per\nfruit", "fruits per\nseedling","seeds per\nseedling"), las=2)
 box(); grid()
@@ -393,68 +384,7 @@ knitr::kable(corsumm2)
 
 Summary information of the QTL data files.
 
-```{r import qtl data, eval=FALSE}
-# Import R/qtl data on seed number, mass and total estimated fitness (seed number * total fruit number).
-library("qtl", quietly = T)
-massqtl <- read.cross("csv", "", "data_files/rqtl_mass.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
-frutqtl <- read.cross("csv", "", "data_files/rqtl_frut.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
-seedqtl <- read.cross("csv", "", "data_files/rqtl_seed.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
-tofuqtl <- read.cross("csv", "", "data_files/rqtl_tofu.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
-tfitqtl <- read.cross("csv", "", "data_files/rqtl_tfit.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
-ffitqtl <- read.cross("csv", "", "data_files/rqtl_ffit.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
-survqtl <- read.cross("csv", "", "data_files/rqtl_surv.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
-
-# state that this is RIL data from a selfer
-massqtl <- convert2riself(massqtl)
-frutqtl <- convert2riself(frutqtl)
-seedqtl <- convert2riself(seedqtl)
-tofuqtl <- convert2riself(tofuqtl)
-tfitqtl <- convert2riself(tfitqtl)
-ffitqtl <- convert2riself(ffitqtl)
-survqtl <- convert2riself(survqtl)
-# get genotype probabilities for each rqtl object
-massqtl <- calc.genoprob(massqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-frutqtl <- calc.genoprob(frutqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-seedqtl <- calc.genoprob(seedqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-tofuqtl <- calc.genoprob(tofuqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-tfitqtl <- calc.genoprob(tfitqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-ffitqtl <- calc.genoprob(ffitqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-survqtl <- calc.genoprob(survqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-# coerce values based on <3 values to NA
-for(c in 2:5){
-  massqtl$pheno[,c][massqtl$pheno[,c+4] <3] <- NA
-  seedqtl$pheno[,c][seedqtl$pheno[,c+4] <3] <- NA
-}
-# import ste objects containing stepwise QTL fitting results.
-saveRDS(mass_stepwise, file = "output/stepwise_mass.rds")
-saveRDS(frut_stepwise, file = "output/stepwise_frut.rds")
-saveRDS(seed_stepwise, file = "output/stepwise_seed.rds")
-saveRDS(tofu_stepwise, file = "output/stepwise_tofu.rds")
-saveRDS(ffit_stepwise, file = "output/stepwise_ffit.rds")
-saveRDS(tfit_stepwise, file = "output/stepwise_tfit.rds")
-saveRDS(surv_stepwise, file = "output/stepwise_surv.rds")
-
-
-
-x <- readRDS('output/stepwise_mass.rds')
-fitqtl(massqtl, pheno.col=y+1,  qtl=mass_stepwise[[y]], formula=formula(mass_stepwise[[y]]),
-                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-
-
-stepwise_models <- list(
-  mass = readRDS('output/stepwise_mass.rds'),
-  frut = readRDS('output/stepwise_mass.rds'),
-  seed = readRDS('output/stepwise_mass.rds'),
-  tofu = readRDS('output/stepwise_mass.rds'),
-  ffit = readRDS('output/stepwise_mass.rds'),
-  tfit = readRDS('output/stepwise_mass.rds'),
-  surv = readRDS('output/stepwise_mass.rds')
-)
-
-
-```
-
-```{r import qtl data, include=FALSE}
+```{r import-qtl-data, include=FALSE}
 # Import R/qtl data on seed number, mass and total estimated fitness (seed number * total fruit number).
 library("qtl", quietly = T)
 
@@ -506,14 +436,19 @@ for(i in traits){
 
 # remove the entry for Survival in Sweden 2010 from qtlmodels
 # qtlmodels$surv <- qtlmodels$surv[c("it2010", "it2011", "sw2011")]
-qtlfits$surv$sw2010
+# qtlfits$surv$sw2010
+
+saveRDS(qtlmodels,   file='output/qtl_stepwise_models.rds')
+saveRDS(qtlfits,     file='output/qtl_model_fits.rds')
+
 ```
 
-```{r cluster-qtl}
+```{r cluster-qtl, include=F}
 qtlclusters  <- lapply(traits, function(x) return(NULL))
 names(qtlclusters) <- traits
 
 # perform QTL clustering for each trait
+library(qtltools)
 for(i in traits){
   if(i == "surv"){
     dat <- cluster_qtl(1:5, qtlmodels[[i]][c(1,2,4)], qtlfits[[i]][c(1,2,4)], 15.2)$full.list
@@ -524,34 +459,12 @@ for(i in traits){
   qtlclusters[[i]] <- as.data.frame(do.call('rbind', qtlboxes))
   colnames(qtlclusters[[i]]) <- c("chr", "lower", "upper")
 }
+
+saveRDS(qtlclusters, file='output/qtl_clusters.rds')
+
 ```
 
 
-```{r drop1 analyses, cache=T, cache.lazy=TRUE}
-# empty lists for the model fits.
-seed_fit <- mass_fit <- tofu_fit <- frut_fit <- ffit_fit <- tfit_fit <- surv_fit <- vector('list', 4) 
-names(seed_fit) <- names(mass_fit) <- names(tofu_fit) <- names(frut_fit)<-names(ffit_fit)<-names(tfit_fit)<-names(surv_fit)<- names(mass_stepwise)
-
-# drop one analyses for each site-year combination.
-for(y in 1:4){
-  mass_fit[[y]] <- fitqtl(massqtl, pheno.col=y+1,  qtl=mass_stepwise[[y]], formula=formula(mass_stepwise[[y]]),
-                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-  frut_fit[[y]] <- fitqtl(frutqtl, pheno.col=y+1,  qtl=frut_stepwise[[y]], formula=formula(frut_stepwise[[y]]),
-                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-  seed_fit[[y]] <- fitqtl(seedqtl, pheno.col=y+1,  qtl=seed_stepwise[[y]], formula=formula(seed_stepwise[[y]]),
-                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-  tofu_fit[[y]] <- fitqtl(tofuqtl, pheno.col=y+1,  qtl=tofu_stepwise[[y]], formula=formula(tofu_stepwise[[y]]),
-                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-  tfit_fit[[y]] <- fitqtl(tfitqtl, pheno.col=y+1,  qtl=tfit_stepwise[[y]], formula=formula(tfit_stepwise[[y]]),
-                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-  ffit_fit[[y]] <- fitqtl(ffitqtl, pheno.col=y+1,  qtl=ffit_stepwise[[y]], formula=formula(ffit_stepwise[[y]]),
-                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-  if(y != 3){ # there were no QTL for survival in Sweden in 2010.
-    surv_fit[[y]] <- fitqtl(survqtl, pheno.col=y+1,  qtl=surv_stepwise[[y]], formula=formula(surv_stepwise[[y]]),
-                            method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-  }
-}
-```
 
 Summary table of stepwise QTL models derived for each trait.
 
@@ -594,16 +507,19 @@ There may also be trade-offs among traits:
 * The QTL at the end of chromosome 1 seem have opposite effects on fruit number per plant and seed number per fruit. There may be conflict for allocation at individual loci even though the overall phenotypic correlation is positive.
 * Where QTL for seed mass overlap with QTL for fecundity and its components (start if chr. 1, end of chr. 2, start of chr. 5) the effect is in the opposite direction. This is suggestive of reduced investment in offspring with increased fecundity.
 
-```{r qtl-pleiotropy, eval=F, fig.cap="QTL for fitness components in each site-year combination. Lanes show QTL for fruit number per reproductive plant (Fruits/RP), seed number per fruit (Seeds/fr), seed number per reproductive plant (Seeds/RP), seed mass (Sd mass) and survival (Surv). Arrows indicate most-likely QTL position and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). Vertical bars show the 95% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals >15.2cM. Labels on the right of chromosome indicate QTL with pleiotropic effects on components of fecundity (c), fecundity and survival (s) and fecundity and seed mass (m) in Italy (red) and Sweden (blue)."}
+
+QTL for fruit number per reproductive plant (Fruits/RP), seed number per fruit (Seeds/fr), seed number per reproductive plant (Seeds/RP), seed mass (Sd mass) and survival (Surv). Arrows indicate most-likely QTL position with the 95% Bayesian credible intervals, and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). 
+
+```{r qtl-pleiotropy, out.extra='angle=90', fig.width=26/2.54, fig.height=16.9/2.54, fig.cap="QTL for fruit number per reproductive plant (Fruits/RP), seed number per fruit (Seeds/fr), seed number per reproductive plant (Seeds/RP), seed mass (Sd mass) and survival (Surv). Arrows indicate most-likely QTL position and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). Vertical bars show the 95\\% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals 15.2cM. Labels on the right of chromosome indicate QTL with pleiotropic effects on components of fecundity (c), fecundity and survival (s) and fecundity and seed mass (m) in Italy (red) and Sweden (blue). Grey boxes indicate the range of colocalising QTL for a single trait across site-year combinations."}
 mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
 
 colvec=c("red3", "red3","blue4","blue4")
 #setEPS()
 #postscript('../figures/QTL_pleiotropy.eps', width=25/2.56, height = 16/2.54)
-# pdf('figures/QTL_pleiotropy.pdf', width=25/2.56, height = 16.9/2.54)
+pdf('figures/QTL_pleiotropy.pdf', width=25/2.56, height = 16.9/2.54, paper='A4r')
 
 ts <- 0.2
-par(mfrow=c(2,1), mar=c(1,3,1,0)+0.1, oma=c(0,0,0,0), cex=0.8)
+par(mfrow=c(2,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), cex=0.8)
 
 chr123 <- plotQTL(1:3, mloc, nlanes = 20)
 plotQTL_base(chr123, by=20, maxy = 10)
@@ -704,277 +620,43 @@ text(chr45$lane_margins[21, c("5","5","5")] + ts,
 text(chr45$lane_margins[21, "5"] + ts,
      -70,
      "cs", col='blue4', adj = 0)
-```
 
-```{r fig:qtl-pleiotropy, eval=F, fig.cap="QTL for fitness components in each site-year combination. Lanes show QTL for fruit number per reproductive plant (Fruits/RP), seed number per fruit (Seeds/fr), seed number per reproductive plant (Seeds/RP), seed mass (Sd mass) and survival (Surv). Arrows indicate most-likely QTL position and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). Vertical bars show the 95% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals >15.2cM. Labels on the right of chromosome indicate QTL with pleiotropic effects on components of fecundity (c), fecundity and survival (s) and fecundity and seed mass (m) in Italy (red) and Sweden (blue)."}
-library(qtltools)
-mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
-
-colvec=c("red3", "red3","blue4","blue4")
-#setEPS()
-#postscript('../figures/QTL_pleiotropy.eps', width=25/2.56, height = 16/2.54)
-pdf('figures/QTL_pleiotropy.pdf', width=25/2.56, height = 16.9/2.54)
-
-ts <- 0.2
-par(mfrow=c(2,1), mar=c(1,3,1,0)+0.1, oma=c(0,0,0,0), cex=0.8)
-
-chr123 <- plotQTL(1:3, mloc, nlanes = 20)
-plotQTL_base(chr123, by=20, maxy = 10)
-#text(35, -95, "Chromosome")
-
-# import fitness boxes and plot.
-# boxes <- read.csv("data_files/fitness_boxes.csv")
-# boxes$track <- match(boxes$chr, colnames(chr123$lane_margins)) # vector denoting which track to plot to.
-# for(b in 1:nrow(boxes)) plotQTL_box(chr123, boxes$track[b], boxes$upper[b], boxes$lower[b], border = F, col='gray75', lwd=2)
-
-# Lanes dividers
-segments(chr123$lane_margins, 0,
-         chr123$lane_margins, rep(-chr123$track_lengths, each=21),
-         lty=2, col='gray50')
-segments(chr123$lane_margins[seq(1,22,4),], 00,
-         chr123$lane_margins[seq(1,22,4),], rep(-chr123$track_lengths, each=6),
-         lty=1, col=1)
-plotQTL_lanes(chr123, lty=0)
-# Lane labels
-text(chr123$lane_margins[seq(3,21,4),], 10, c("Fruits/RP", "Seeds/fr", "Seeds/RP", "Sd mass", "Surv"), col=1, cex=0.6, srt=0, adj=c(0.5,0.5))
-text(chr123$lane_centres, 2, c("10", "11"), cex=0.6, adj=c(0.5,0.5), srt=0, col='gray30')
-text(chr123$lane_margins[seq(2,21,2),], 6, c("IT", "SW"), cex=0.6, adj=c(0.5,0.5), srt=0, col=c('red3','blue4'))
-
-os <- 0.2
-segments(chr123$lane_margins[seq(1,19,2),] + os, 4, 
-         chr123$lane_margins[seq(3,21,2),] - os, 4, col=c('red3','blue4'), lwd=1)
-# 
-# xv1 <- as.vector(chr123$lane_margins[seq(2,21,4),])
-# xv2 <- as.vector(chr123$lane_margins[seq(4,21,4),])
-# for(i in 1:length(xv1)){
-#   underlined(xv1[i], 6, "IT", cex=0.7, srt=0, col='red3')
-#   underlined(xv2[i], 6, "SW", cex=0.7, srt=0, col='blue4')
-# }
-for(i in 1:4){
-  plotQTL_qtl(chr123, frut_stepwise[[i]], frut_fit[[i]], fill_cutoff = 15.2, lane = i   , col=colvec[i])
-  plotQTL_qtl(chr123, seed_stepwise[[i]], seed_fit[[i]], fill_cutoff = 15.2, lane = i+4 , col=colvec[i])
-  plotQTL_qtl(chr123, tofu_stepwise[[i]], tofu_fit[[i]], fill_cutoff = 15.2, lane = i+8 , col=colvec[i])
-  plotQTL_qtl(chr123, mass_stepwise[[i]], mass_fit[[i]], fill_cutoff = 15.2, lane = i+12, col=colvec[i])
-  if(i != 3){ # no QTL for survival in 2010 in Sweden
-  plotQTL_qtl(chr123, surv_stepwise[[i]], surv_fit[[i]], fill_cutoff = 15.2, lane = i+16,  col=colvec[i])
-  }
-}
-# label pleiotropic regions
-text(chr123$lane_margins[21, c(1,1,1,2,3,3)] + ts,
-     -c(11,58, 83, 53, 18, 63),
-     c("cm","cs","s","s","c","m"), col='red3', adj = 0)
-text(chr123$lane_margins[21, c(1,1,1)] + ts,
-     -c(23,61,77),
-     c("m","c","c"), col='blue4', adj = 0)
-
-
-chr45 <- plotQTL(4:5, mloc, nlanes = 20)
-plotQTL_base(chr45, by=20, maxy = 10)
-#text(35, -95, "Chromosome")
-
-# import fitness boxes and plot.
-# boxes <- read.csv("../data_files/fitness_boxes.csv")
-# boxes$track <- match(boxes$chr, colnames(chr45$lane_margins)) # vector denoting which track to plot to.
-# for(b in 1:nrow(boxes)) plotQTL_box(chr45, boxes$track[b], boxes$upper[b], boxes$lower[b], border = F, col='gray75', lwd=2)
-
-# Lanes dividers
-segments(chr45$lane_margins, 0,
-         chr45$lane_margins, rep(-chr45$track_lengths, each=21),
-         lty=2, col='gray50')
-# segments(chr45$lane_margins[seq(3,17,4),], 0,
-#          chr45$lane_margins[seq(3,17,4),], rep(-chr45$track_lengths, each=4),
-#          lty=1, col=1)
-segments(chr45$lane_margins[seq(1,21,4),], 00,
-         chr45$lane_margins[seq(1,21,4),], rep(-chr45$track_lengths, each=6),
-         lty=1, col=1)
-plotQTL_lanes(chr45, lty=0)
-# Lane labels
-text(chr45$lane_margins[seq(3,21,4),], 10, c("Fruits/RP", "Seeds/fr", "Seeds/RP","Sd mass", "Surv"), col=1, cex=0.6, srt=0, adj=c(0.5,0.5))
-text(chr45$lane_centres, 2, c("10", "11"), cex=0.7, adj=c(0.5,0.5), srt=0, col='gray30')
-text(chr45$lane_margins[seq(2,21,2),], 6, c("IT", "SW"), cex=0.6, adj=c(0.5,0.5), srt=0, col=c('red3','blue4'))
-
-os <- 0.2
-segments(chr45$lane_margins[seq(1,19,2),] + os, 4, 
-         chr45$lane_margins[seq(3,21,2),] - os, 4, col=c('red3','blue4'), lwd=1)
-# 
-# xv1 <- as.vector(chr45$lane_margins[seq(2,21,4),])
-# xv2 <- as.vector(chr45$lane_margins[seq(4,21,4),])
-# for(i in 1:length(xv1)){
-#   underlined(xv1[i], 6, "It", cex=0.7, srt=0, col='red3')
-#   underlined(xv2[i], 6, "Sw", cex=0.7, srt=0, col='blue4')
-# }
-
-for(i in 1:4){
-  plotQTL_qtl(chr45, frut_stepwise[[i]], frut_fit[[i]], fill_cutoff = 15.2, lane = i   , col=colvec[i])
-  plotQTL_qtl(chr45, seed_stepwise[[i]], seed_fit[[i]], fill_cutoff = 15.2, lane = i+4 , col=colvec[i])
-  plotQTL_qtl(chr45, tofu_stepwise[[i]], tofu_fit[[i]], fill_cutoff = 15.2, lane = i+8 , col=colvec[i])
-  plotQTL_qtl(chr45, mass_stepwise[[i]], mass_fit[[i]], fill_cutoff = 15.2, lane = i+12, col=colvec[i])
-  if(i != 3){ # no QTL for survival in 2010 in Sweden
-  plotQTL_qtl(chr45, surv_stepwise[[i]], surv_fit[[i]], fill_cutoff = 15.2, lane = i+16, col=colvec[i])
-  }
-}
-# label pleiotropic regions
-text(chr45$lane_margins[21, c("5","5","5")] + ts,
-     -c(11,55,74),
-     c("csm","fs","s"), col='red3', adj = 0)
-text(chr45$lane_margins[21, "5"] + ts,
-     -70,
-     "cs", col='blue4', adj = 0)
 dev.off()
 ```
 
-```{r fig:qtl-fitness, eval=F}
+```{r fitness-qtl, eval=T, fig.cap="QTL for estimates of overall fitness in each site-year combination. Lanes show QTL for fruit number per planted seedling (Fruits/sdl) and seed number per seedling (Seeds/sdl). Arrows indicate most-likely QTL position and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). Vertical bars show the 95% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals >15.2cM. Grey boxes indicate the range of colocalising QTL for a single trait across site-year combinations."}
 library(qtltools)
 mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
-colvec=c("red3", "red3","blue4","blue4")
-
-# pdf('../figures/QTL_fitness.pdf', width=25/2.56, height = 16.9/2.54)
-
-par(mfrow=c(2,1), mar=c(1,3,1,0)+0.1, oma=c(0,0,0,0), cex=0.8)
-
-chr123 <- plotQTL(1:3, mloc, nlanes = 16)
-plotQTL_base(chr123, by=20, maxy = 10)
-#text(35, -95, "Chromosome")
-
-# import fitness boxes and plot.
-# boxes <- read.csv("../data_files/fitness_boxes.csv")
-# boxes$track <- match(boxes$chr, colnames(chr123$lane_margins)) # vector denoting which track to plot to.
-# for(b in 1:nrow(boxes)) plotQTL_box(chr123, boxes$track[b], boxes$upper[b], boxes$lower[b], border = F, col='gray75', lwd=2)
-
-# Lanes dividers
-segments(chr123$lane_margins, 0,
-         chr123$lane_margins, rep(-chr123$track_lengths, each=17),
-         lty=2, col='gray50')
-segments(chr123$lane_margins[seq(1,17,4),], 0,
-         chr123$lane_margins[seq(1,17,4),], rep(-chr123$track_lengths, each=5),
-         lty=1, col=1)
-plotQTL_lanes(chr123, lty=0)
-# Lane labels
-text(chr123$lane_margins[seq(3,17,4),], 10, c("Fruits/RP", "Seeds/RP", "Fruits/sdl", "Seeds/sdl"), col=1, cex=0.6, srt=0, adj=c(0.5,0.5))
-text(chr123$lane_centres, 2, c("10", "11"), cex=0.6, adj=c(0.5,0.5), srt=0, col='gray30')
-text(chr123$lane_margins[seq(2,17,2),], 6, c("IT", "SW"), cex=0.6, adj=c(0.5,0.5), srt=0, col=c('red3','blue4'))
-
-os <- 0.2
-segments(chr123$lane_margins[seq(1,15,2),] + os, 4, 
-         chr123$lane_margins[seq(3,17,2),] - os, 4, col=c('red3','blue4'), lwd=1)
-# xv1 <- as.vector(chr123$lane_margins[seq(2,17,4),])
-# xv2 <- as.vector(chr123$lane_margins[seq(4,17,4),])
-# for(i in 1:length(xv1)){
-#   underlined(xv1[i], 6, "It", cex=0.7, srt=0, col='red3')
-#   underlined(xv2[i], 6, "Sw", cex=0.7, srt=0, col='blue4')
-# }
-
-for(i in 1:4){
-  plotQTL_qtl(chr123, frut_stepwise[[i]], frut_fit[[i]], fill_cutoff = 15.2, lane = i   , col=colvec[i], lwd=2)
-  plotQTL_qtl(chr123, tofu_stepwise[[i]], tofu_fit[[i]], fill_cutoff = 15.2, lane = i+4 , col=colvec[i], lwd=2)
-  plotQTL_qtl(chr123, ffit_stepwise[[i]], ffit_fit[[i]], fill_cutoff = 15.2, lane = i+8 , col=colvec[i], lwd=2)
-  plotQTL_qtl(chr123, tfit_stepwise[[i]], tfit_fit[[i]], fill_cutoff = 15.2, lane = i+12, col=colvec[i], lwd=2)
-}
-
-
-
-chr45 <- plotQTL(c(4,5), mloc, nlanes = 16)
-plotQTL_base(chr45, by=20, maxy = 10)
-#text(35, -95, "Chromosome")
-
-# import fitness boxes and plot.
-# boxes <- read.csv("../data_files/fitness_boxes.csv")
-# boxes$track <- match(boxes$chr, colnames(chr45$lane_margins)) # vector denoting which track to plot to.
-# for(b in 1:nrow(boxes)) plotQTL_box(chr45, boxes$track[b], boxes$upper[b], boxes$lower[b], border = F, col='gray75', lwd=2)
-
-# Lanes dividers
-segments(chr45$lane_margins, 0,
-         chr45$lane_margins, rep(-chr45$track_lengths, each=17),
-         lty=2, col='gray50')
-# segments(chr45$lane_margins[seq(3,17,4),], 0,
-#          chr45$lane_margins[seq(3,17,4),], rep(-chr45$track_lengths, each=4),
-#          lty=1, col=1)
-segments(chr45$lane_margins[seq(1,17,4),], 0,
-         chr45$lane_margins[seq(1,17,4),], rep(-chr45$track_lengths, each=5),
-         lty=1, col=1)
-plotQTL_lanes(chr45, lty=0)
-# Lane labels
-text(chr45$lane_margins[seq(3,17,4),], 10, c("Fruits/RP", "Seeds/RP", "Fruits/sdl", "Seeds/sdl"), col=1, cex=0.6, srt=0, adj=c(0.5,0.5))
-text(chr45$lane_centres, 2, c("10", "11"), cex=0.6, adj=c(0.5,0.5), srt=0, col='gray30')
-text(chr45$lane_margins[seq(2,17,2),], 6, c("IT", "SW"), cex=0.6, adj=c(0.5,0.5), srt=0, col=c('red3','blue4'))
-
-os <- 0.2
-segments(chr45$lane_margins[seq(1,15,2),] + os, 4, 
-         chr45$lane_margins[seq(3,17,2),] - os, 4, col=c('red3','blue4'), lwd=1)
-
-# xv1 <- as.vector(chr45$lane_margins[seq(2,17,4),])
-# xv2 <- as.vector(chr45$lane_margins[seq(4,17,4),])
-# for(i in 1:length(xv1)){
-#   underlined(xv1[i], 6, "It", cex=0.7, srt=0, col='red3')
-#   underlined(xv2[i], 6, "Sw", cex=0.7, srt=0, col='blue4')
-# }
-
-colvec=c("red3", "red3","blue4","blue4")
-for(i in 1:4){
-  plotQTL_qtl(chr45, frut_stepwise[[i]], frut_fit[[i]], fill_cutoff = 15.2, lane = i   , col=colvec[i], lwd=2)
-  plotQTL_qtl(chr45, tofu_stepwise[[i]], tofu_fit[[i]], fill_cutoff = 15.2, lane = i+4 , col=colvec[i], lwd=2)
-  plotQTL_qtl(chr45, ffit_stepwise[[i]], ffit_fit[[i]], fill_cutoff = 15.2, lane = i+8 , col=colvec[i], lwd=2)
-  plotQTL_qtl(chr45, tfit_stepwise[[i]], tfit_fit[[i]], fill_cutoff = 15.2, lane = i+12, col=colvec[i], lwd=2)
-}
-# dev.off()
-```
-
-```{r fig:mass-fecundity-qtl, eval=F}
-library(qtltools)
-mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
-
-# setEPS()
-# postscript('../figures/QTL_mass_fecundity.eps', width=25/2.56, height = 16/2.54, family='Times')
-pdf('../figures/QTL_mass_fecundity.pdf', width=25/2.56, height = 16.9/2.54, family='Times')
-par(mfrow=c(1,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), family='Times')
-
-pos_plot <- plotQTL(1:5, mloc, nlanes = 16)
-plotQTL_base(pos_plot, by=20, maxy = 10)
-text(35, -95, "Chromosome")
-
-# import fitness boxes and plot.
-boxes <- read.csv("../data_files/fitness_boxes.csv")
-boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
-for(b in 1:nrow(boxes)) plotQTL_box(pos_plot, boxes$track[b], boxes$upper[b], boxes$lower[b], border = F, col='gray75', lwd=2)
-
-# Lanes dividers
-segments(pos_plot$lane_margins[-1,], 0,
-         pos_plot$lane_margins[-1,], rep(-pos_plot$track_lengths, each=16),
-         lty=c(2,2,2,1), col=c('gray50','gray50','gray50',1))
-plotQTL_lanes(pos_plot, lty=0)
-# Lane labels
-text(pos_plot$lane_margins[seq(3,17,4),], 8, c("SM", "F/A", "S/F", "S/A"), col=1, cex=1, srt=90, adj=c(0.5,0.5))
-text(pos_plot$lane_margins[seq(2,16,2),], 2, c("2010", "2011"), cex=0.7, adj=c(0.5,0.5), srt=90)
-
-colvec=c("red3", "red3","blue4","blue4")
-for(i in 1:4){
-  y <- c(1,3,2,4)[i]
-  plotQTL_qtl(pos_plot, mass_stepwise[[y]], mass_fit[[y]], fill_cutoff = 15.2, lane = i   , col=colvec[y])
-  plotQTL_qtl(pos_plot, frut_stepwise[[y]], frut_fit[[y]], fill_cutoff = 15.2, lane = i+4 , col=colvec[y])
-  plotQTL_qtl(pos_plot, seed_stepwise[[y]], seed_fit[[y]], fill_cutoff = 15.2, lane = i+8 , col=colvec[y])
-  plotQTL_qtl(pos_plot, tofu_stepwise[[y]], tofu_fit[[y]], fill_cutoff = 15.2, lane = i+12, col=colvec[y])
-}
-dev.off()
-```
-
-```{r fig:fecundity-fitness-qtl, eval=F}
-library(qtltools)
-mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
 
 # setEPS()
 # postscript('./figures/QTL_survival_fitness.eps', width=25/2.56, height = 16/2.54, family='Times')
-pdf('../figures/QTL_survival_fitness.pdf', width=25/2.56, height = 16.9/2.54, family='Times')
+pdf('figures/QTL_fitness.pdf', width=16.9/2.56, height = 12/2.54, family='Times')
 
 par(mfrow=c(1,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), family='Times')
 
-pos_plot <- plotQTL(1:5, mloc, nlanes = 20)
+pos_plot <- plotQTL(1:5, mloc, nlanes = 8)
 plotQTL_base(pos_plot, by=20, maxy = 10)
 text(35, -95, "Chromosome")
 
-# import fitness boxes and plot.
-boxes <- read.csv("../data_files/fitness_boxes.csv")
-boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
-for(b in 1:nrow(boxes)) plotQTL_box(pos_plot, boxes$track[b], boxes$upper[b], boxes$lower[b], border = F, col='gray75', lwd=2)
+pos_counter <- 1
+for(t in c("ffit", "tfit")){
+  # indicate extent of overlapping QTL with grey boxes.
+  boxes <- qtlclusters[[t]]
+  boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
+  boxes <- boxes[boxes$chr %in% 1:5,]
+  for(b in 1:nrow(boxes)){
+    plotQTL_box(pos_plot, boxes$track[b],
+                -boxes$upper[b], -boxes$lower[b],
+                left_lane = pos_counter, right_lane = pos_counter+4,
+                border = F, col='gray75', lwd=2)
+  }
+  # plot QTL positions
+  for(i in 1:4){
+    plotQTL_qtl(pos_plot, qtlmodels[[t]][[i]], qtlfits[[t]][[i]],
+                fill_cutoff = 15.2, lane = i+pos_counter-1, col=colvec[i])
+  }
+  pos_counter <- pos_counter + 4
+}
 
 # Lanes dividers
 segments(pos_plot$lane_margins[-1,], 0,
@@ -982,134 +664,13 @@ segments(pos_plot$lane_margins[-1,], 0,
          lty=c(2,2,2,1), col=c('gray50','gray50','gray50',1))
 plotQTL_lanes(pos_plot, lty=0)
 # Lane labels
-text(pos_plot$lane_margins[seq(3,21,4),], 8, c("Surv","F/A", "S/A", "F/S", "S/S"), col=1, cex=1, srt=90, adj=c(0.5,0.5))
-text(pos_plot$lane_margins[seq(2,21,2),], 2, c("2010", "2011"), cex=0.7, adj=c(0.5,0.5), srt=90)
+text(pos_plot$lane_margins[c(3,7),], 8, c("Fruits/sdl", "Seeds/sdl"), col=1, cex=0.6, srt=0, adj=c(0.5,0.5))
+# text(pos_plot$lane_margins[seq(2,21,2),], 2, c("2010", "2011"), cex=0.7, adj=c(0.5,0.5), srt=90)
+text(pos_plot$lane_centres, 2, c("10", "11"), cex=0.6, adj=c(0.5,0.5), srt=0, col='gray30')
+text(pos_plot$lane_margins[seq(2,9,2),], 6, c("IT", "SW"), cex=0.6, adj=c(0.5,0.5), srt=0, col=c('red3','blue4'))
 
 colvec=c("red3", "red3","blue4","blue4")
-for(i in 1:4){
-  y <- c(1,3,2,4)[i]
-  if(y != 3){ # no QTL for survival in 2010 in Sweden
-  plotQTL_qtl(pos_plot, surv_stepwise[[y]], surv_fit[[y]], fill_cutoff = 15.2, lane = i   , col=colvec[y])
-  }
-  plotQTL_qtl(pos_plot, frut_stepwise[[y]], frut_fit[[y]], fill_cutoff = 15.2, lane = i+4 , col=colvec[y])
-  plotQTL_qtl(pos_plot, tofu_stepwise[[y]], tofu_fit[[y]], fill_cutoff = 15.2, lane = i+8 , col=colvec[y])
-  plotQTL_qtl(pos_plot, ffit_stepwise[[y]], ffit_fit[[y]], fill_cutoff = 15.2, lane = i+12, col=colvec[y])
-  plotQTL_qtl(pos_plot, tfit_stepwise[[y]], tfit_fit[[y]], fill_cutoff = 15.2, lane = i+16, col=colvec[y])
-}
+
 dev.off()
 
-```
-
-```{r cluster-qtl, eval=FALSE}
-# cluster QTL based on credible intervals.
-# In fact we did this before, but I will repeat the code here for context.
-library(qtltools)
-# clustering for QTL at both sites
-# clusters <- list(mass = cluster_qtl(1:5, mass_stepwise, mass_fit, 15.2),
-                 # frut = cluster_qtl(1:5, frut_stepwise, frut_fit, 15.2),
-                 # seed = cluster_qtl(1:5, seed_stepwise, seed_fit, 15.2),
-                 # tofu = cluster_qtl(1:5, tofu_stepwise, tofu_fit, 15.2))
-cluster_bysite <- list(mass_it = cluster_qtl(1:5, mass_stepwise[1:2], mass_fit[1:2], 15.2),
-                       mass_sw = cluster_qtl(1:5, mass_stepwise[3:4], mass_fit[3:4], 15.2),
-                       frut_it = cluster_qtl(1:5, frut_stepwise[1:2], frut_fit[1:2], 15.2),
-                       frut_sw = cluster_qtl(1:5, frut_stepwise[3:4], frut_fit[3:4], 15.2),
-                       seed_it = cluster_qtl(1:5, seed_stepwise[1:2], seed_fit[1:2], 15.2),
-                       seed_sw = cluster_qtl(1:5, seed_stepwise[3:4], seed_fit[3:4], 15.2),
-                       tofu_it = cluster_qtl(1:5, tofu_stepwise[1:2], tofu_fit[1:2], 15.2),
-                       tofu_sw = cluster_qtl(1:5, tofu_stepwise[3:4], tofu_fit[3:4], 15.2))
-```
-
-```{r fig:cluster-positions, eval=FALSE}
-library(qtltools)
-mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
-
-# setEPS()
-# postscript('./figures/QTL_positions_clusters.eps', width=16.9/2.56, height = 5, family='Times')
-par(mfrow=c(1,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), family='Times')
-
-pos_plot <- plotQTL(1:5, mloc, nlanes = 8, left_gap = 5)
-plotQTL_base(pos_plot, by=20, maxy = 10)
-text(40, -95, "chromosome")
-
-# import fitness boxes and plot.
-boxes <- read.csv("../data_files/fitness_boxes.csv")
-boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
-for(b in 1:nrow(boxes)) plotQTL_box(pos_plot, boxes$track[b], boxes$upper[b], boxes$lower[b], border = F, col='gray75', lwd=2)
-
-# Lanes and labels
-plotQTL_lanes(pos_plot, lty=0)
-for(i in seq(1,9,2)) segments(pos_plot$lane_margins[i,], 0, pos_plot$lane_margins[i,], -pos_plot$track_lengths, lty='dashed', col='gray50')
-# text(pos_plot$lane_centres[c(2,5),], 6, c("Italy", "Sweden"), col=c('red3','blue4'), cex=0.7, srt=00, adj=c(0.5,0.5))
-text(pos_plot$lane_margins[seq(2,9,2),], 2, c("mass" ,"fruits", "seeds", "fecundity"), col=1, cex=0.7, adj=c(0,0.5), srt=90)
-
-colvec <- rep(c('red3','blue4'), 4)
-for(lane in 1:8){
-  thisobj<- cluster_bysite[[lane]]$full.list
-  # count number of matchin positions
-  ctab <- table(thisobj$ML_bayesint)
-  thisobj$lwd <- ctab[match(thisobj$ML_bayesint, names(ctab))] # number of experiments
-  thisobj <- thisobj[unique(match(thisobj$name, thisobj$name)),] # remove duplicate positions
-  # plot ML positions in esch year
-  os <- ifelse(thisobj$effect_sizes < 0, 0.1, -0.1)
-  arrows(pos_plot$lane_centres[lane, thisobj$chr], -thisobj$ML_bayesint+os,
-         pos_plot$lane_centres[lane, thisobj$chr], -thisobj$ML_bayesint-os,
-         length = 0.05, lwd=thisobj$lwd, col=colvec[lane])
-  
-  thissumm<- cluster_bysite[[lane]]$summary
-  segments(pos_plot$lane_centres[lane, thisobj$chr], -thisobj$min_bayesint,
-       pos_plot$lane_centres[lane, thisobj$chr], -thisobj$max_bayesint,
-       col=colvec[lane])
-}
-
-```
-
-```{r fig:two symbols, eval=FALSE}
-library(qtltools)
-mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
-
-# setEPS()
-# postscript('../figures/QTL_positions_clusters.eps', width=16.9/2.54, height = 15/2.54, family='Times')
-# pdf('../figures/QTL_positions_clusters.pdf', width=16.9/2.54, height = 15/2.54, family='Times')
-par(mfrow=c(1,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), family='Times')
-
-pos_plot <- plotQTL(1:5, mloc, nlanes = 8, left_gap = 5)
-plotQTL_base(pos_plot, by=20, maxy = 5)
-text(40, -95, "Chromosome")
-
-# import fitness boxes and plot.
-# boxes <- read.csv("../data_files/fitness_boxes.csv")
-# boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
-# for(b in 1:nrow(boxes)) plotQTL_box(pos_plot, boxes$track[b], boxes$upper[b], boxes$lower[b], border = F, col='gray75', lwd=2)
-
-# Lanes and labels
-plotQTL_lanes(pos_plot, lty=0)
-for(i in seq(1,9,2)) segments(pos_plot$lane_margins[i,], 0, pos_plot$lane_margins[i,], -pos_plot$track_lengths, lty='dashed', col='gray50')
-# text(pos_plot$lane_centres[c(2,5),], 6, c("Italy", "Sweden"), col=c('red3','blue4'), cex=0.7, srt=00, adj=c(0.5,0.5))
-text(pos_plot$lane_margins[seq(2,9,2),], 2, c("SM" ,"F/A", "S/F", "S/A"), col=1, cex=0.7, adj=c(0,0.5), srt=90)
-
-colvec <- rep(c('red3','blue4'), 4)
-for(lane in 1:8){
-  thisobj<- cluster_bysite[[lane]]$full.list
-  thisobj$pch <- ifelse(thisobj$effect_sizes >0, 24, 25)
-  # count number of matchin positions
-  ctab <- table(thisobj$ML_bayesint)
-  thisobj$lwd <- ctab[match(thisobj$ML_bayesint, names(ctab))] # number of experiments
-  thisobj <- thisobj[unique(match(thisobj$name, thisobj$name)),] # remove duplicate positions
-  # plot ML positions in esch year
-  os <- ifelse(thisobj$effect_sizes < 0, 0.1, -0.1)
-  # plot bayesian CIs
-  thissumm<- cluster_bysite[[lane]]$summary
-  segments(pos_plot$lane_centres[lane, thisobj$chr], -thisobj$min_bayesint,
-       pos_plot$lane_centres[lane, thisobj$chr], -thisobj$max_bayesint,
-       col=colvec[lane], lwd=2)
-  # plot positions
-  ex <- thisobj$experiment == 1
-  points(pos_plot$lane_centres[lane, thisobj$chr[ex]], -thisobj$ML_bayesint[ex],
-         col=colvec[lane], pch= thisobj$pch[ex], bg='white', lwd=2)
-  ex <- thisobj$experiment == 2
-  points(pos_plot$lane_centres[lane, thisobj$chr[ex]], -thisobj$ML_bayesint[ex],
-         col=colvec[lane], pch= thisobj$pch[ex], bg=colvec[lane])
-}
-
-# dev.off()
 ```

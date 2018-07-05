@@ -3,9 +3,8 @@ title: "Supporting information"
 author: "Tom Ellis"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
-  pdf_document:
-    fig_caption: yes
-  html_document: default
+  bookdown::pdf_book:
+    toc: no
 ---
 
 ```{r setup, include=FALSE}
@@ -18,64 +17,84 @@ This Rmarkdown file contains the files necessary to recreate the results present
 
 Summary of the genotype data in the R/QTL cross files.
 
-```{r rqtl data import, cache=T, cache.lazy=T, message=F}
+```{r import-qtl-data, include=FALSE}
 # Import R/qtl data on seed number, mass and total estimated fitness (seed number * total fruit number).
 library("qtl", quietly = T)
-massqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_mass.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
-frutqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_frut.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
-seedqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_seed.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("I","S"))
-tofuqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_tofu.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("I","S"))
-# tfitqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_tfit.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("I","S"))
-# ffitqtl <- read.cross("csv", "", "../qtl_mapping/rqtl_ffit.csv", na.strings=NA, genotypes = c("a", "b"), alleles=c("I","S"))
 
-# state that this is RIL data from a selfer
-massqtl <- convert2riself(massqtl)
-frutqtl <- convert2riself(frutqtl)
-seedqtl <- convert2riself(seedqtl)
-tofuqtl <- convert2riself(tofuqtl)
-# tfitqtl <- convert2riself(tfitqtl)
-# ffitqtl <- convert2riself(ffitqtl)
-# get genotype probabilities for each rqtl object
-massqtl <- calc.genoprob(massqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-frutqtl <- calc.genoprob(frutqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-seedqtl <- calc.genoprob(seedqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-tofuqtl <- calc.genoprob(tofuqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-# tfitqtl <- calc.genoprob(tfitqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-# ffitqtl <- calc.genoprob(ffitqtl, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-# coerce values based on <3 values to NA
-for(c in 2:5){
-  massqtl$pheno[,c][massqtl$pheno[,c+4] <3] <- NA
-  seedqtl$pheno[,c][seedqtl$pheno[,c+4] <3] <- NA
+# There are QTL models for each of four site-year combinations
+siteyear <- c("it2010", "it2011", "sw2010", "sw2011")
+# There are six phenotypes in each site-year combination:
+traits <- c(
+  "mass", # 1. seed mass (mass)
+  "frut", # 2. fruits/plant ()
+  "seed", # 3. seeds/fruit
+  "tofu", # 4. Total fecundity (estimated seeds/plant = frut*seed)
+  "ffit", # 5. Fruits per planted seedling; fitness measure used by Agren etal 2013
+  "tfit", # 6. Seeds per planted seedling; fitness incorporating seed number.
+  "surv") # 7. Survival
+# parameters to input
+ix <- traits[7] # pull out the name of the trait we are mapping here
+
+# The following loop imports cross and qtl objects, then fits ANOVA models and clusters into groups.
+# first, set up empty lists to hold this information.
+cross <-              qtlmodels  <-       qtlfits  <- lapply(traits, function(x) return(NULL))
+names(cross) <- names(qtlmodels) <- names(qtlfits) <- traits
+
+for(i in traits){
+  # Import rqtl cross objects.
+  thiscross <- read.cross("csv", "", paste("data_files/rqtl_", i,".csv",sep=""),
+                          na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
+  thiscross <- convert2riself(thiscross)
+  thiscross <- calc.genoprob(thiscross, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
+  cross[[i]] <- thiscross
+  
+  # import objects containing stepwise QTL fitting results.
+  thisqtl <- readRDS(paste('output/stepwise_',i,'.rds', sep=""))
+  qtlmodels[[i]] <- thisqtl
+  
+  # fit ANOVAs to each QTL model
+  thistrait <- lapply(siteyear, function(x) NULL)
+  names(thistrait) <- siteyear
+  # loop over individual years and get model fits for each
+  for(y in siteyear){
+    # For survival in Sweden 2010, no QTL were identified. This if statement checks for that.
+    if(length(thisqtl[[y]]) == 0 ){
+      thistrait[[y]] <- NA
+    } else {
+      thistrait[[y]] <- fitqtl(cross = thiscross, pheno.col = y, qtl = thisqtl[[y]], formula = formula(thisqtl[[y]]),
+                               method = "hk", model = "normal", covar = NULL, get.ests = T, dropone = T)}
+    qtlfits[[i]] <- thistrait
+  }
 }
-# import Rdata objects containing stepwise QTL fitting results.
-load('../qtl_mapping/stepwise_mass.Rdata')
-load('../qtl_mapping/stepwise_frut.Rdata')
-load('../qtl_mapping/stepwise_seed.Rdata')
-load('../qtl_mapping/stepwise_tofu.Rdata')
-# load('../qtl_mapping/stepwise_ffit.Rdata'); ffit_stepwise <- stepwise; rm(stepwise)
-# load('../qtl_mapping/stepwise_tfit.Rdata'); tfit_stepwise <- stepwise; rm(stepwise)
+
+# remove the entry for Survival in Sweden 2010 from qtlmodels
+# qtlmodels$surv <- qtlmodels$surv[c("it2010", "it2011", "sw2011")]
+
 ```
 
-```{r drop1 analyses, cache=T, cache.lazy=TRUE}
-# empty lists for the model fits.
-seed_fit <- mass_fit <- tofu_fit <- frut_fit <- ffit_fit <- tfit_fit <- vector('list', 4) 
-names(seed_fit) <- names(mass_fit) <- names(tofu_fit) <- names(frut_fit) <- names(ffit_fit) <- names(tfit_fit) <- names(mass_stepwise)
+```{r cluster-qtl, include=F}
+qtlclusters  <- lapply(traits, function(x) return(NULL))
+names(qtlclusters) <- traits
 
-# drop one analyses for each site-year combination.
-for(y in 1:4){
-  mass_fit[[y]] <- fitqtl(massqtl, pheno.col=y+1,  qtl=mass_stepwise[[y]], formula=formula(mass_stepwise[[y]]),
-                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-  frut_fit[[y]] <- fitqtl(frutqtl, pheno.col=y+1,  qtl=frut_stepwise[[y]], formula=formula(frut_stepwise[[y]]),
-                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-  seed_fit[[y]] <- fitqtl(seedqtl, pheno.col=y+1,  qtl=seed_stepwise[[y]], formula=formula(seed_stepwise[[y]]),
-                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-  tofu_fit[[y]] <- fitqtl(tofuqtl, pheno.col=y+1,  qtl=tofu_stepwise[[y]], formula=formula(tofu_stepwise[[y]]),
-                          method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-  # tfit_fit[[y]] <- fitqtl(tfitqtl, pheno.col=y+1,  qtl=tfit_stepwise[[y]], formula=formula(tfit_stepwise[[y]]),
-                          # method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
-  # ffit_fit[[y]] <- fitqtl(ffitqtl, pheno.col=y+1,  qtl=ffit_stepwise[[y]], formula=formula(ffit_stepwise[[y]]),
-                          # method="hk", model="normal", covar=NULL, get.ests=T, dropone=T)
+# perform QTL clustering for each trait
+library(qtltools)
+for(i in traits){
+  if(i == "surv"){
+    dat <- cluster_qtl(1:5, qtlmodels[[i]][c(1,2,4)], qtlfits[[i]][c(1,2,4)], 15.2)$full.list
+  } else {
+    dat <- cluster_qtl(1:5, qtlmodels[[i]], qtlfits[[i]], 15.2)$full.list
+  }
+  qtlclusters[[i]] <- dat
+  
 }
+
+qtlclusters$surv$experiment[qtlclusters$surv$experiment == 3] <- 4
+```
+
+```{r}
+dat <- qtlclusters$mass
+
+dat
 ```
 
 \newpage

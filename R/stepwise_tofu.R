@@ -21,7 +21,9 @@ traits <- c(
 ix <- traits[4] # pull out the name of the trait we are mapping here
 path <- paste("data_files/rqtl_", ix, ".csv", sep="")
 
+
 t0 <- proc.time() # save the system time.
+
 cat("Stepwise QTL analysis for R/QTL file", path,"\n")
 cat("Started", format(Sys.time(),usetz = TRUE), "\n\n")
 
@@ -34,7 +36,7 @@ library("snow", lib.loc='~/R/x86_64-redhat-linux-gnu-library/3.5')
 cross <- read.cross("csv", "", path, na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
 cross <- convert2riself(cross) # state that this is RIL data from a selfer
 # calculate the genotype probabilities
-cross <- calc.genoprob(cross, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
+cross <- calc.genoprob(cross, step=2, error.prob=.0001, map.function="kosambi",stepwidth="fixed", off.end=0)
 
 # perform quantile normal transformations on each variable.
 cat("Performing quantile normal transformations.\n")
@@ -53,8 +55,9 @@ stepwise <- list(it2010=NULL, it2011=NULL, sw2010=NULL, sw2011=NULL)
 # loop across each site-year combination and perform QTL search for each.
 for(y in 1:length(stepwise)){
   stepwise[[y]] <- stepwiseqtl(cross, pheno.col=y+1, penalties=penalties[[y]], method="hk", model="normal",
-                               max.qtl=20, covar=NULL, scan.pairs=T, additive.only=F, keeplodprofile=T, keeptrace=T,
-                               refine.locations=T, verbose=F)
+                               max.qtl=14, covar=NULL, 
+                               scan.pairs=FALSE, additive.only=FALSE, keeplodprofile=TRUE, keeptrace=TRUE, 
+                               refine.locations=TRUE, verbose=FALSE)
   cat("QTL search completed for", names(stepwise)[y], "after",  round(((proc.time()-t0)[3] /3600),2),"hours.\n")
 }
 
