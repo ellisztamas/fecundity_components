@@ -52,6 +52,8 @@ write.csv(tofu, file = "data_files/RIL_seeds_per_adult.csv", row.names = F)
 write.csv(ffit, file = "data_files/RIL_fruits_per_seedling.csv", row.names = F)
 write.csv(tfit, file = "data_files/RIL_seeds_per_seedling.csv", row.names = F)
 
+# Files for R/QTL. This will throw a warning about NA labels.
+# This is because not all lines are included across datasets.
 write.csv(qtl_dataframe(surv, geno), file = "data_files/rqtl_surv.csv", row.names = F)
 write.csv(qtl_dataframe(mass, geno), file = "data_files/rqtl_mass.csv", row.names = F)
 write.csv(qtl_dataframe(seed, geno), file = "data_files/rqtl_seed.csv", row.names = F)

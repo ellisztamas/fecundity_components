@@ -47,34 +47,18 @@ for(i in traits){
   thiscross <- convert2riself(thiscross)
   thiscross <- calc.genoprob(thiscross, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
   cross[[i]] <- thiscross
-  
-  # import objects containing stepwise QTL fitting results.
-  thisqtl <- readRDS(paste('output/stepwise_',i,'.rds', sep=""))
-  qtlmodels[[i]] <- thisqtl
-  
-  # fit ANOVAs to each QTL model
-  thistrait <- lapply(siteyear, function(x) NULL)
-  names(thistrait) <- siteyear
-  # loop over individual years and get model fits for each
-  for(y in siteyear){
-    # For survival in Sweden 2010, no QTL were identified. This if statement checks for that.
-    if(length(thisqtl[[y]]) == 0 ){
-      thistrait[[y]] <- NA
-    } else {
-      thistrait[[y]] <- fitqtl(cross = thiscross, pheno.col = y, qtl = thisqtl[[y]], formula = formula(thisqtl[[y]]),
-                               method = "hk", model = "normal", covar = NULL, get.ests = T, dropone = T)}
-    qtlfits[[i]] <- thistrait
-  }
 }
 
-# remove the entry for Survival in Sweden 2010 from qtlmodels
-# qtlmodels$surv <- qtlmodels$surv[c("it2010", "it2011", "sw2011")]
+qtlmodels   <- readRDS(file='output/qtl_stepwise_models.rds')
+qtlclusters <- readRDS(file='output/qtl_clusters.rds')
+qtlfits     <- readRDS(file='output/qtl_model_fits.rds')
+
 
 ```
 
-```{r cluster-qtl, include=F}
-qtlclusters  <- lapply(traits, function(x) return(NULL))
-names(qtlclusters) <- traits
+```{r cluster-for-table, eval=F}
+tabclusters  <- lapply(traits, function(x) return(NULL))
+names(tabclusters) <- traits
 
 # perform QTL clustering for each trait
 library(qtltools)
@@ -82,19 +66,38 @@ for(i in traits){
   if(i == "surv"){
     dat <- cluster_qtl(1:5, qtlmodels[[i]][c(1,2,4)], qtlfits[[i]][c(1,2,4)], 15.2)$full.list
   } else {
-    dat <- cluster_qtl(1:5, qtlmodels[[i]], qtlfits[[i]], 15.2)$full.list
+    dat <- cluster_qtl(1:5, qtlmodels[[i]], qtlfits[[i]], 15.2)
   }
-  qtlclusters[[i]] <- dat
+  tabclusters[[i]] <- dat
   
 }
 
-qtlclusters$surv$experiment[qtlclusters$surv$experiment == 3] <- 4
+tabclusters$surv$experiment[tabclusters$surv$experiment == 3] <- 4
 ```
 
-```{r}
-dat <- qtlclusters$mass
+```{r table-of-clusters, eval=F}
+# vector of columns to summarise
+cmns <- c("ML_bayesint", "effect_sizes", "PVE","LOD")
 
-dat
+dat <- tabclusters$mass$full.list
+
+qtl <- unique(dat$QTL_id)
+
+tab <- lapply(1:4, function(x) NULL)
+for(e in 1:4){
+  thisqtl <- as.data.frame(matrix(NA, nrow=length(qtl), ncol=length(cmns)))
+  colnames(thisqtl) <- cmns
+  
+  for(i in 1:length(qtl)){
+    q <- qtl[i]
+    qx <- dat$experiment == e & dat$QTL_id ==q
+    out <- round(dat[qx,cmns],2)
+    if(nrow(out) == 0) out <- rep(NA, 4)
+    cat(dim(out), e, q, "\n")
+    thisqtl[i, ] <- out
+  }
+  tab[[e]] <- thisqtl
+}
 ```
 
 \newpage
@@ -200,110 +203,58 @@ rm(lst)
 ```
 
 \newpage
-
-```{r fig:ind-years-mass, include=F, fig.width=21/2.54, fig.cap="Figure S1: QTL for seed mass in each year in Italy (red) and Sweden (blue). Arrows show the maximum-likelihood position of the QTL and bars indicate the extent of 95% Bayesian credible intervals. The direction of the arrow indicates the direction of effect of the Swedish allele on the phenotype. Open triangles are 'poorly defined' QTL with credible intervals greater than 15.2cM."}
-mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
-# pdf('../figures/QTL_positions_frut.pdf', width=23/2.56, height = 18/2.56, family='Times')
-par(mfrow=c(1,1), mar=c(0,3,0,0)+0.1, oma=c(1,0,0,0), family='Times')
-# set up plot
-mass_plot <- plotQTL(1:5, mloc, nlanes = 4, left_gap = 4, right_gap = 0)
-plotQTL_base(mass_plot, by=20)
-text(33, -92, "Chromosome")
-# import fitness boxes and plot.
-boxes <- read.csv("../data_files/fitness_boxes.csv")
-boxes$track <- match(boxes$chr, colnames(mass_plot$lane_margins)) # vector denoting which track to plot to.
-for(b in 1:nrow(boxes)) plotQTL_box(mass_plot, boxes$track[b], boxes$upper[b], boxes$lower[b])
-# Lanes and labels
-plotQTL_lanes(mass_plot)
-text(mass_plot$lane_centres,     3, 2010:2011, col="gray50", cex=0.7, srt=90)
-text(mass_plot$lane_margins[2,], 8, "Italy",   col='red3',   cex=0.8, adj = c(0.5,0))
-text(mass_plot$lane_margins[4,], 8, "Sweden",  col='blue4',  cex=0.8, adj = c(0.5,0))
-# plot QTL for each site-year combination
-colvec <- rep(c('red3', 'blue4'),each=2)
-for(y in 1:4){
-  plotQTL_qtl(mass_plot, mass_stepwise[[y  ]], mass_fit[[y  ]], lane = y,   col = colvec[y],  fill_cutoff = 15.2, lwd=2)
-}
-```
-
-```{r fig:ind-years-frut, include=F, fig.width=21/2.54, fig.cap="QTL for fruit number per reproductive plant in each year in Italy (red) and Sweden (blue). Arrows show the maximum-likelihood position of the QTL and bars indicate the extent of 95% Bayesian credible intervals. The direction of the arrow indicates the direction of effect of the Swedish allele on the phenotype. Open triangles are 'poorly defined' QTL with credible intervals greater than 15.2cM."}
-library(qtl)
+```{r fitness-qtl, eval=T, fig.cap="QTL for estimates of overall fitness in each site-year combination. Lanes show QTL for fruit number per planted seedling (Fruits/sdl) and seed number per seedling (Seeds/sdl). Arrows indicate most-likely QTL position and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). Vertical bars show the 95% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals >15.2cM. Grey boxes indicate the range of colocalising QTL for a single trait across site-year combinations."}
 library(qtltools)
-mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
+mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
 
-# pdf('../figures/QTL_positions_number.pdf', width=23/2.56, height = 18/2.56, family='Times')
-par(mfrow=c(1,1), mar=c(0,3,0,0)+0.1, oma=c(1,0,0,0), family='Times')
-# set up plot
-frut_plot <- plotQTL(1:5, mloc, nlanes = 4, left_gap = 4, right_gap = 0)
-plotQTL_base(frut_plot, by=20)
-text(33, -92, "Chromosome")
-# import fitness boxes and plot.
-boxes <- read.csv("../data_files/fitness_boxes.csv")
-boxes$track <- match(boxes$chr, colnames(frut_plot$lane_margins)) # vector denoting which track to plot to.
-for(b in 1:nrow(boxes)) plotQTL_box(frut_plot, boxes$track[b], boxes$upper[b], boxes$lower[b])
-# Lanes and labels
-plotQTL_lanes(frut_plot)
-# segments(frut_plot$lane_margins[6,], 0, frut_plot$lane_margins[6,], -frut_plot$track_lengths)
-text(frut_plot$lane_centres,     3, 2010:2011, col="gray50", cex=0.7, srt=90)
-text(frut_plot$lane_margins[2,], 8, "Italy",   col='red3',   cex=0.8, adj = c(0.5,0))
-text(frut_plot$lane_margins[4,], 8, "Sweden",  col='blue4',  cex=0.8, adj = c(0.5,0))
-# plot QTL for each site-year combination
-colvec <- rep(c('red3', 'blue4'), each=2)
-for(y in 1:4){
-  plotQTL_qtl(frut_plot, frut_stepwise[[y  ]], frut_fit[[y  ]], lane = y,   col = colvec[y],  fill_cutoff = 15.2, lwd=2)
-}
-```
+# setEPS()
+# postscript('./figures/QTL_survival_fitness.eps', width=25/2.56, height = 16/2.54, family='Times')
+# pdf('figures/QTL_fitness.pdf', width=16.9/2.56, height = 12/2.54, family='Times')
 
-```{r fig:ind-years-seednumber, include=F, fig.width=21/2.54, fig.cap="QTL for seed number per plant in each year in Italy (red) and Sweden (blue). Arrows show the maximum-likelihood position of the QTL and bars indicate the extent of 95% Bayesian credible intervals. The direction of the arrow indicates the direction of effect of the Swedish allele on the phenotype. Open triangles are 'poorly defined' QTL with credible intervals greater than 15.2cM."}
-mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
-# pdf('../figures/QTL_positions_tofu.pdf', width=23/2.56, height = 18/2.56, family='Times')
-par(mfrow=c(1,1), mar=c(0,3,0,0)+0.1, oma=c(1,0,0,0), family='Times')
-# set up plot
-seed_plot <- plotQTL(1:5, mloc, nlanes = 4, left_gap = 4, right_gap = 0)
-plotQTL_base(seed_plot, by=20)
-text(33, -92, "Chromosome")
-# import fitness boxes and plot.
-boxes <- read.csv("../data_files/fitness_boxes.csv")
-boxes$track <- match(boxes$chr, colnames(seed_plot$lane_margins)) # vector denoting which track to plot to.
-for(b in 1:nrow(boxes)) plotQTL_box(seed_plot, boxes$track[b], boxes$upper[b], boxes$lower[b])
-# Lanes and labels
-plotQTL_lanes(seed_plot)
-# segments(seed_plot$lane_margins[6,], 0, seed_plot$lane_margins[6,], -seed_plot$track_lengths)
-text(seed_plot$lane_centres,     3, 2010:2011, col="gray50", cex=0.7, srt=90)
-text(seed_plot$lane_margins[2,], 8, "Italy",   col='red3',   cex=0.8, adj = c(0.5,0))
-text(seed_plot$lane_margins[4,], 8, "Sweden",  col='blue4',  cex=0.8, adj = c(0.5,0))
-# plot QTL for each site-year combination
-colvec <- rep(c('red3', 'blue4'), each=2)
-for(y in 1:4){
-  plotQTL_qtl(seed_plot, seed_stepwise[[y  ]], seed_fit[[y  ]], lane = y,   col = colvec[y],  fill_cutoff = 15.2, lwd=2)
+par(mfrow=c(1,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), family='Times')
+
+pos_plot <- plotQTL(1:5, mloc, nlanes = 8)
+plotQTL_base(pos_plot, by=20, maxy = 10)
+text(35, -95, "Chromosome")
+
+pos_counter <- 1
+for(t in c("ffit", "tfit")){
+  # indicate extent of overlapping QTL with grey boxes.
+  boxes <- qtlclusters[[t]]
+  boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
+  boxes <- boxes[boxes$chr %in% 1:5,]
+  for(b in 1:nrow(boxes)){
+    plotQTL_box(pos_plot, boxes$track[b],
+                -boxes$upper[b], -boxes$lower[b],
+                left_lane = pos_counter, right_lane = pos_counter+4,
+                border = F, col='gray75', lwd=2)
+  }
+  # plot QTL positions
+  for(i in 1:4){
+    plotQTL_qtl(pos_plot, qtlmodels[[t]][[i]], qtlfits[[t]][[i]],
+                fill_cutoff = 15.2, lane = i+pos_counter-1, col=colvec[i])
+  }
+  pos_counter <- pos_counter + 4
 }
 
-```
+# Lanes dividers
+segments(pos_plot$lane_margins[-1,], 0,
+         pos_plot$lane_margins[-1,], rep(-pos_plot$track_lengths, each=pos_plot$nlanes),
+         lty=c(2,2,2,1), col=c('gray50','gray50','gray50',1))
+plotQTL_lanes(pos_plot, lty=0)
+# Lane labels
+text(pos_plot$lane_margins[c(3,7),], 8, c("Fruits/sdl", "Seeds/sdl"), col=1, cex=0.6, srt=0, adj=c(0.5,0.5))
+# text(pos_plot$lane_margins[seq(2,21,2),], 2, c("2010", "2011"), cex=0.7, adj=c(0.5,0.5), srt=90)
+text(pos_plot$lane_centres, 2, c("10", "11"), cex=0.6, adj=c(0.5,0.5), srt=0, col='gray30')
+text(pos_plot$lane_margins[seq(2,9,2),], 6, c("IT", "SW"), cex=0.6, adj=c(0.5,0.5), srt=0, col=c('red3','blue4'))
 
-```{r fig:ind-years-fecundity, include=F, fig.width=21/2.54, fig.cap="QTL for seed number per reproductive plant in each year in Italy (red) and Sweden (blue). Arrows show the maximum-likelihood position of the QTL and bars indicate the extent of 95% Bayesian credible intervals. The direction of the arrow indicates the direction of effect of the Swedish allele on the phenotype. Open triangles are 'poorly defined' QTL with credible intervals greater than 15.2cM."}
-mloc <- read.table('../data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
-# pdf('../figures/QTL_positions_tofu.pdf', width=23/2.56, height = 18/2.56, family='Times')
-par(mfrow=c(1,1), mar=c(0,3,0,0)+0.1, oma=c(1,0,0,0), family='Times')
-# set up plot
-tofu_plot <- plotQTL(1:5, mloc, nlanes = 4, left_gap = 4, right_gap = 0)
-plotQTL_base(tofu_plot, by=20)
-text(33, -92, "Chromosome")
-# import fitness boxes and plot.
-boxes <- read.csv("../data_files/fitness_boxes.csv")
-boxes$track <- match(boxes$chr, colnames(tofu_plot$lane_margins)) # vector denoting which track to plot to.
-for(b in 1:nrow(boxes)) plotQTL_box(tofu_plot, boxes$track[b], boxes$upper[b], boxes$lower[b])
-# Lanes and labels
-plotQTL_lanes(tofu_plot)
-# segments(tofu_plot$lane_margins[6,], 0, tofu_plot$lane_margins[6,], -tofu_plot$track_lengths)
-text(tofu_plot$lane_centres,     3, 2010:2011, col="gray50", cex=0.7, srt=90)
-text(tofu_plot$lane_margins[2,], 8, "Italy",   col='red3',   cex=0.8, adj = c(0.5,0))
-text(tofu_plot$lane_margins[4,], 8, "Sweden",  col='blue4',  cex=0.8, adj = c(0.5,0))
-# plot QTL for each site-year combination
-colvec <- rep(c('red3', 'blue4'), each=2)
-for(y in 1:4){
-  plotQTL_qtl(tofu_plot, tofu_stepwise[[y  ]], tofu_fit[[y  ]], lane = y,   col = colvec[y],  fill_cutoff = 15.2, lwd=2)
-}
+colvec=c("red3", "red3","blue4","blue4")
+
+# dev.off()
 
 ```
+
+
 
 ```{r fig: epistatic-mass, fig.width=8/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for the epistatic interaction detected for seed mass, showing mean and standard errors for each genotype x genotype combination."}
 # seed mass
