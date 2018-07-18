@@ -1,6 +1,5 @@
 ---
-title: Positive correlations among components of fecundity boost estimates of local
-  adaptation in *A. thaliana*
+title: Positive correlations among components of fecundity boost estimates of local adaptation in *Arabidopsis thaliana*
 author: "Tom Ellis"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
@@ -53,7 +52,12 @@ abstract: 'Insight into the processes governing adaptive differentiation among n
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, cache=T, cache.lazy=T)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, cache=F, cache.lazy=F)
+library(magrittr)
+library(knitr)
+library(kableExtra)
+library(qtl)
+library(qtltools)
 ```
 
 # Introduction
@@ -77,15 +81,15 @@ Here, we investigate the contribution of individual components of fitness to est
 
 # Materials and methods 
 ## Data collection 
-We estimated number of seeds per fruit and mean seed mass for recombinant inbred lines (RIL) and parental accessions in reciprocal transplant experiments at the native sites of the source populations over two years. These experiments have previously been described by @agren_genetic_2013 and @agren_reciprocal_2012. In each site-year combination we sampled a single mature fruit from between 1917 and 2359 RIL and between 79 and 189 parental plants, and counted and weighed all seeds per fruit to the nearest 0.01 mg on a Toledo AT261 balance (Metler). We calculated mean seed mass as the mass of all seeds in a fruit, divided by the total number of seeds. We estimated mean values for each line in each site-year combination as the mean across all individuals of the same genotype. After excluding lines with fewer than three replicate individuals per line, we were able to estimate values for seed number per fruit and seed mass for between 340 and 389 RILs for each site-year combination.
+We estimated seed traits for recombinant inbred lines (RIL) and parental accessions in reciprocal transplant experiments at the native sites of the source populations over two years. These experiments have previously been described by @agren_genetic_2013 and @agren_reciprocal_2012, who quantified survival to reproduction, fruit number per reproductive plant, and fruit number per planted seedling. We expanded these data by quantifying seed number per fruit and mean seed mass. In each site-year combination we sampled a single mature fruit from between 1917 and 2359 RIL and between 79 and 189 parental plants, and counted and weighed all seeds per fruit to the nearest 0.01 mg on a Toledo AT261 balance (Metler). We calculated mean seed mass as the mass of all seeds in a fruit, divided by the total number of seeds. We estimated genetic values for each line in each site-year combination as the mean across all individuals of the same genotype. After excluding lines with fewer than three replicate individuals per line, we were able to estimate values for seed number per fruit and seed mass for between 340 and 389 RILs for each site-year combination.
 
-In previous analyses of data from the present experiment, fecundity was estimated as number of fruits per reproductive plant, and overall fitness as number of fruits per planted seedling [@agren_reciprocal_2012; @agren_genetic_2013; @agren_flowering_time]. To obtain estimates that also consider variation in number of seeds per fruit, we estimated fecundity as seed number per reproductive plant (the product of fruit number per reproductive plant and seed number per fruit), and overall fitness as seed number per planted seedling (the product of survival and number of seeds per reproductive plant). Since we did not have data on seed number per fruit for all individuals for which data on fruit number was available, we multiplied line-mean seed number by individual fruit number values.
+In previous analyses of data from these experiments, fecundity was defined as number of fruits per reproductive plant, and overall fitness as number of fruits per planted seedling [@agren_reciprocal_2012; @agren_genetic_2013; @agren_flowering_time]. To obtain estimates that also consider variation in number of seeds per fruit, we estimated fecundity as seed number per reproductive plant (the product of fruit number per reproductive plant and seed number per fruit), and overall fitness as seed number per planted seedling (the product of survival and number of seeds per reproductive plant). Since we did not have data on seed number per fruit for all individuals for which data on fruit number was available and it is not feasible to count seeds from every fruit on a plant, we instead multiplied line-mean seed number by individual fruit number values to obtained estimates of total seed production.
 
 Data handling and statistical analyses were performed in RStudio 1.1.442 using R `r paste(version$major, version$minor, sep=".")` [@RCT2015; @RStudioTeam2015].
 
 ## Fitness differences between parental lines 
 To assess the relative impact of fitness components on estimates of adaptive differentiation, we quantified selection against the non-local genotype by calculating selection coefficients based on individual components of fitness, and on estimates of overall fitness. We calculated selection coefficients as $s=1-w_A/w_B$, where $w_A$ is the fitness of the less fit genotype and $w_B$ that of the fittest genotype. For cases where the non-local genotype had higher fitness than the local genotype, we multiplied the selection coefficient by -1. We calculated selection coefficients for overall fitness in terms of both fruit number per seedling and seed number per seedling, reflecting fitness estimates excluding and including information on seed number per fruit. We also calculated selection coefficients for two components of fecundity (fruit number per reproductive plant and seed number per fruit) and survival, respectively. 
-We estimated confidence intervals for selection coefficients by non-parametric bootstrapping. We resampled the data for each experiment with replacement 1000 times and calculated selection coefficients for each bootstrap sample. We estimated 95% confidence intervals for each coefficient as the 25th and 975th quantiles of these values. We estimated two-tailed p-values for the null hypothesis that there is no adaptive differentiation as twice the proportion of bootstrap values overlapping zero. It is more difficult to determine whether selection coefficients for the two measures of overall fitness, fruit number per reproductive plant and seed number per reproductive plant, differ from one another because these estimates are based on common data on fruit number, and as such are not independent. Rather than perform a formal test, we instead simply asked whether the coefficient for seed number per reproductive plant was beyond the 95% confidence interval for the coefficient for fruit number per reproductive plant. 
+We estimated confidence intervals for selection coefficients by non-parametric bootstrapping. We resampled the data for each experiment with replacement 1000 times and calculated selection coefficients for each bootstrap sample. We estimated 95% confidence intervals for each coefficient as the 25th and 975th quantiles of these values. We estimated two-tailed p-values for the null hypothesis that there is no adaptive differentiation as twice the proportion of bootstrap values overlapping zero. It is more difficult to determine whether selection coefficients for the two measures of overall fitness, fruit number per reproductive plant and seed number per reproductive plant, differ from one another because these estimates are based on common data on fruit number, and as such are not independent. Rather than perform a formal test, we instead simply asked whether the coefficient for seed number per reproductive plant was beyond the 95% confidence interval for the coefficient for fruit number per reproductive plant.
 
 ```{r parents-summary, eval=FALSE}
 # parental means
@@ -188,7 +192,7 @@ parents <- rbind(parents, tofu, tfit)
 parents$delta <- abs(parents$it_parent - parents$sw_parent)
 ```
 
-```{r selection-bootstraps, cache=T, cache.lazy=T}
+```{r selection-bootstraps, cache=T, cache.lazy=T, parents_time = file.info('R/parents.R')}
 # Formatting of parental data is done in a separate script.
 source("R/parents.R")
 
@@ -229,13 +233,16 @@ To assess the strength of trade-offs among fitness components we calculated Spea
 
 A small number of lines appeared to be outliers that showed low fecundity but unusually high seed mass (fig. \@ref(fig:scatter-plots)). To examine whether these lines unduly inflate correlation coefficients, we repeated the analyses for fecundity and offspring investment excluding lines with mean seed mass greater than 35 mg. 
 
-##QTL mapping 
-We mapped QTL for seed mass, seed number per fruit, and seed number per reproductive plant using the R/qtl package [@Broman2009, @Broman2003]. Mapping results for survival, fruit number per reproductive plant and fruit number per seedling have been previously described by @agren_genetic_2013. We performed mapping based on RIL mean data for each site-year combination separately. We used Haley–Knott regression using genotype probabilities of the genetic markers and pseudomarkers in gaps >2 cM [@Haley1992]. We performed a two-QTL scan of the genome with 10,000 permutations of the phenotypic data to determine 5% LOD-significance thresholds for inclusion of QTL and epistatic interactions [@Broman2009]. Based on these thresholds, we used R/QTL’s automated stepwise model selection procedure to identify significant additive QTL and epistatic interactions. We first applied a quantile normal transformation to phenotypes before model selection. Finally, we used ANOVA on untransformed data to fit the multiple QTL model and calculate effect sizes with respect to the Swedish allele, as well as the proportion of the total phenotypic variance among RILs explained by each locus.
+## QTL mapping 
+We mapped QTL for seed number per fruit, per reproductive plant and per seedling, as well as seed mass using the Multiple-QTL-Mapping (MQM) algorithm using the R/qtl package [@jansen1993interval; @Broman2003; @arends2010]. Mapping results for survival, fruit number per reproductive plant and fruit number per seedling using stepwise regression have been previously described by @agren_genetic_2013; we repeated mapping analysis for these traits using MQM to allow direct comparison.
 
-We considered QTL identified for different sites, years or traits to be distinct, i.e., colocalise to the same genomic region and be the same, if the maximum-likelihood estimate of their positions were within 2 cM of each other, or if the 95% Bayesian credible intervals for these estimates overlapped. We excluded ’poorly-defined’ QTL whose credible intervals for QTL position were greater than 1/4 the length of the shortest chromosome (15.2cM; [48]) from assessments of colocalisation, because such QTL provide little information about position [48, 32, 8, 33, Ågren et al. 2017]. Based on these criteria, we identified distinct QTL with pleiotropic effects as those that affected two or more traits over the two years at a given site.
+We performed mapping based on RIL mean data for each site-year combination separately. We performed backwards elimination of cofactors spread across the genome at every fifth marker. We performed 10,000 permuations of the data to determine genome-wide 5% LOD-significance thresholds for inclusion of additive QTL and epistatic interactions [@doerge1996permutation; Broman2009]. We first applied a quantile normal transformation to phenotypes before model selection. Finally, we used ANOVA on untransformed data to fit the multiple QTL model and calculate effect sizes with respect to the Swedish allele, as well as the proportion of the total phenotypic variance among RILs explained by each locus, and the proportion of the difference between parents explained by QTL.
+
+We considered QTL identified for different sites, years or traits to be map to the same region of the genome (colocalise) and be the same if the maximum-likelihood estimate of their positions were within 2 cM of each other, or if the 95% Bayesian credible intervals for these estimates overlapped. We excluded ’poorly-defined’ QTL whose credible intervals for QTL position were greater than 1/4 the length of the shortest chromosome (15.2cM; [48]) from assessments of colocalisation, because such QTL provide little information about position [@agren_genetic_2013; @dittmar2014flowering; @oakley2014qtl; @agren_flowering_time]. Based on these criteria, we identified distinct QTL with pleiotropic effects as those that affected two or more traits over the two years at a given site.
 
 # Results 
 ## Seed number per fruit influences estimates of selection
+
 ```{r selection, fig.height=11/2.54, fig.cap="Selection coefficients for fitness components and fitness estimates between parental lines. Error bars show 95% confidence intervals. Positive values indicate selection favouring the local genotype, negative values selection favouring the non-local genotype.", include=T}
 # FITNESS DIFFERENCES AMONG PARENTS
 maxvals <- apply(parents[,c(4,7)], 1, max) # get the fittest phenotype in each site-year combination.
@@ -385,112 +392,65 @@ knitr::kable(corsumm2)
 Summary information of the QTL data files.
 
 ```{r import-qtl-data, include=FALSE}
-# Import R/qtl data on seed number, mass and total estimated fitness (seed number * total fruit number).
-library("qtl", quietly = T)
 
-# There are QTL models for each of four site-year combinations
-siteyear <- c("it2010", "it2011", "sw2010", "sw2011")
-# There are six phenotypes in each site-year combination:
-traits <- c(
-  "mass", # 1. seed mass (mass)
-  "frut", # 2. fruits/plant ()
-  "seed", # 3. seeds/fruit
-  "tofu", # 4. Total fecundity (estimated seeds/plant = frut*seed)
-  "ffit", # 5. Fruits per planted seedling; fitness measure used by Agren etal 2013
-  "tfit", # 6. Seeds per planted seedling; fitness incorporating seed number.
-  "surv") # 7. Survival
-# parameters to input
-ix <- traits[7] # pull out the name of the trait we are mapping here
-
-# The following loop imports cross and qtl objects, then fits ANOVA models and clusters into groups.
-# first, set up empty lists to hold this information.
-cross <-              qtlmodels  <-       qtlfits  <- lapply(traits, function(x) return(NULL))
-names(cross) <- names(qtlmodels) <- names(qtlfits) <- traits
-
-for(i in traits){
-  # Import rqtl cross objects.
-  thiscross <- read.cross("csv", "", paste("data_files/rqtl_", i,".csv",sep=""),
-                          na.strings=NA, genotypes = c("a", "b"), alleles=c("It","Sw"))
-  thiscross <- convert2riself(thiscross)
-  thiscross <- calc.genoprob(thiscross, step=2, error.prob=.0001, map.function="kosambi",stepwidth="max", off.end=0)
-  cross[[i]] <- thiscross
-  
-  # import objects containing stepwise QTL fitting results.
-  thisqtl <- readRDS(paste('output/stepwise_',i,'.rds', sep=""))
-  qtlmodels[[i]] <- thisqtl
-  
-  # fit ANOVAs to each QTL model
-  thistrait <- lapply(siteyear, function(x) NULL)
-  names(thistrait) <- siteyear
-  # loop over individual years and get model fits for each
-  for(y in siteyear){
-    # For survival in Sweden 2010, no QTL were identified. This if statement checks for that.
-    if(length(thisqtl[[y]]) == 0 ){
-      thistrait[[y]] <- NA
-    } else {
-      thistrait[[y]] <- fitqtl(cross = thiscross, pheno.col = y, qtl = thisqtl[[y]], formula = formula(thisqtl[[y]]),
-                               method = "hk", model = "normal", covar = NULL, get.ests = T, dropone = T)}
-    qtlfits[[i]] <- thistrait
-  }
-}
-
-# remove the entry for Survival in Sweden 2010 from qtlmodels
-# qtlmodels$surv <- qtlmodels$surv[c("it2010", "it2011", "sw2011")]
-# qtlfits$surv$sw2010
-
-saveRDS(qtlmodels,   file='output/qtl_stepwise_models.rds')
-saveRDS(qtlfits,     file='output/qtl_model_fits.rds')
 
 ```
-
-```{r cluster-qtl, include=F}
-qtlclusters  <- lapply(traits, function(x) return(NULL))
-names(qtlclusters) <- traits
-
-# perform QTL clustering for each trait
-library(qtltools)
-for(i in traits){
-  if(i == "surv"){
-    dat <- cluster_qtl(1:5, qtlmodels[[i]][c(1,2,4)], qtlfits[[i]][c(1,2,4)], 15.2)$full.list
-  } else {
-    dat <- cluster_qtl(1:5, qtlmodels[[i]], qtlfits[[i]], 15.2)$full.list
-  }
-  qtlboxes <- by(dat, dat$QTL_id, function(x) c(unique(x$chr), min(x$min_bayesint), max(x$max_bayesint)))
-  qtlclusters[[i]] <- as.data.frame(do.call('rbind', qtlboxes))
-  colnames(qtlclusters[[i]]) <- c("chr", "lower", "upper")
-}
-
-saveRDS(qtlclusters, file='output/qtl_clusters.rds')
-
-```
-
-
 
 Summary table of stepwise QTL models derived for each trait.
 
-```{r tab:summary of QTL models, eval=F}
-qtl_summary_table <- data.frame(
-  trait = rep(c("mean seed mass", "fruits", "seeds per fruit", "total fecundity"), each=4),
-  site = rep(c('italy', 'italy', 'sweden','sweden'), 4),
-  year = rep(2010:2011, 8),
-  number_of_QTL = c(sapply(mass_stepwise, function(x) x$n.qtl),
-                    sapply(frut_stepwise, function(x) x$n.qtl),
-                    sapply(seed_stepwise, function(x) x$n.qtl),
-                    sapply(tofu_stepwise, function(x) x$n.qtl)),
-  LOD  = c(round(unlist(sapply(mass_fit, function(x) x$result.full[1,4])),1),
-           round(unlist(sapply(frut_fit, function(x) x$result.full[1,4])),1),
-           round(unlist(sapply(seed_fit, function(x) x$result.full[1,4])),1),
-           round(unlist(sapply(tofu_fit, function(x) x$result.full[1,4])),1)),
-  PVE  = c(round(unlist(sapply(mass_fit, function(x) x$result.full[1,5])),1),
-           round(unlist(sapply(frut_fit, function(x) x$result.full[1,5])),1),
-           round(unlist(sapply(seed_fit, function(x) x$result.full[1,5])),1),
-           round(unlist(sapply(tofu_fit, function(x) x$result.full[1,5])),1))
-  )
+```{r tab:summary of QTL models, eval=F, eval=T, dependson='selection-bootstraps', qtl_time = file.info('R/format_QTL_models.R')}
+# uses data imported from source("R/parents.R")
+# Import QTL
+source("R/format_QTL_models.R")
 
-knitr::kable(qtl_summary_table, row.names = F)
+# get the differences between parental means in each expeirment.
+parent_diffs <- data.frame(
+  parents$delta[parents$site == "italy"  & parents$year == "2010"],
+  parents$delta[parents$site == "italy"  & parents$year == "2011"],
+  parents$delta[parents$site == "sweden" & parents$year == "2010"],
+  parents$delta[parents$site == "sweden" & parents$year == "2011"])
+parent_diffs <- parent_diffs[c(1,3,2,6,4,7,5),]
 
-write.csv(qtl_summary_table, file = "tables/qtl_model_summaries.csv", row.names = F)
+# name, number, LOD, PVE, %parents
+qtl_tab <- data.frame(
+  trait = c("Seed mass", "Fruits/RP", "Seeds/fr", "Seeds/RP", "Fruits/sdl", "Seeds/sdl", "Surv"),
+  # Italy 2010
+  n.QTL = sapply(qtlmodels, function(x) x$it2010$n.qtl),
+  LOD   = sapply(qtlfits, function(x) x$it2010$result.full[1,4]),
+  PVE   = sapply(qtlfits, function(x) x$it2010$result.full[1,5]),
+  ofparents = 100 * sapply(qtlfits, function(x) abs(sum(x$it2010$ests$ests[-1]))) / parent_diffs[,1],
+  # Italy 2011
+  n.QTL = sapply(qtlmodels, function(x) x$it2011$n.qtl),
+  LOD   = sapply(qtlfits, function(x) x$it2011$result.full[1,4]),
+  PVE   = sapply(qtlfits, function(x) x$it2011$result.full[1,5]),
+  ofparents = 100 * sapply(qtlfits, function(x) abs(sum(x$it2011$ests$ests[-1]))) / parent_diffs[,2],
+  # Sweden 2010
+  n.QTL = c(sapply(qtlmodels[1:6], function(x) x$sw2010$n.qtl),0),
+  LOD   = c(sapply(qtlfits[1:6], function(x) x$sw2010$result.full[1,4]),0),
+  PVE   = c(sapply(qtlfits[1:6], function(x) x$sw2010$result.full[1,5]),0),
+  ofparents = c(100 * sapply(qtlfits[1:6], function(x) abs(sum(x$sw2010$ests$ests[-1]))) / parent_diffs[1:6,3],0),
+  # Sweden 2011
+  n.QTL = sapply(qtlmodels, function(x) x$sw2011$n.qtl),
+  LOD   = sapply(qtlfits, function(x) x$sw2011$result.full[1,4]),
+  PVE   = sapply(qtlfits, function(x) x$sw2011$result.full[1,5]),
+  ofparents = 100 * sapply(qtlfits, function(x) abs(sum(x$sw2011$ests$ests[-1]))) / parent_diffs[,4]
+)
+
+qtl_tab <- qtl_tab[c(2,3,4,1,7,5,6),]
+
+kable(qtl_tab, row.names = F, digits = 1,
+      col.names = c("Trait",
+                    "n. QTL", "LOD", "PVE", "PDE",
+                    "n. QTL", "LOD", "PVE", "PDE",
+                    "n. QTL", "LOD", "PVE", "PDE",
+                    "n. QTL", "LOD", "PVE", "PDE"),
+      caption = "Summary of QTL models for fruit number per reproductive plant (Fruits/RP), seed number per fruit (Seeds/fr), seed number per reproductive plant (Seeds/RP), seed mass (Sd mass) and survival (Surv), showing number of QTL, LOD scores, percentage of variance explained (PVE) among RIL means, and percentage of the difference between parental means explained (PDE)") %>%
+  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+  add_header_above(c(" " = 1, "Italy 2010" = 4, "Italy 2011" = 4, "Sweden 2010" = 4, "Sweden 2011"=4)) %>%
+  landscape()
+  
 ```
+
 
 I grouped QTL for each trait if their 95% credible intervals overlapped in Italy (red) and Sweden (blue). I excluded QTL with credible intervals linger than 15.2cM. The plot below shows the extent of the credible intervals of each cluster with chevrons to indicate the position of each consituent QTL. Chevrons point upwards if the Swedish reference allele increased the value of the trait, and dowwards if it decreased it.
 
@@ -510,13 +470,13 @@ There may also be trade-offs among traits:
 
 QTL for fruit number per reproductive plant (Fruits/RP), seed number per fruit (Seeds/fr), seed number per reproductive plant (Seeds/RP), seed mass (Sd mass) and survival (Surv). Arrows indicate most-likely QTL position with the 95% Bayesian credible intervals, and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). 
 
-```{r qtl-pleiotropy, out.extra='angle=90', fig.width=26/2.54, fig.height=16.9/2.54, fig.cap="QTL for fruit number per reproductive plant (Fruits/RP), seed number per fruit (Seeds/fr), seed number per reproductive plant (Seeds/RP), seed mass (Sd mass) and survival (Surv). Arrows indicate most-likely QTL position and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). Vertical bars show the 95\\% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals 15.2cM. Labels on the right of chromosome indicate QTL with pleiotropic effects on components of fecundity (c), fecundity and survival (s) and fecundity and seed mass (m) in Italy (red) and Sweden (blue). Grey boxes indicate the range of colocalising QTL for a single trait across site-year combinations."}
+```{r qtl-pleiotropy, out.extra='angle=90', fig.width=26/2.54, fig.height=16.9/2.54, fig.cap="QTL for components of fitness. Lanes show individual QTL for fruit number per reproductive plant (Fruits/RP), seed number per fruit (Seeds/fr), seed number per reproductive plant (Seeds/RP), seed mass (Sd mass) and survival (Surv). Arrows indicate most-likely QTL position and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). Vertical bars show the 95\\% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals 15.2cM. Labels on the right of chromosome indicate QTL with pleiotropic effects on components of fecundity (c), fecundity and survival (s) and fecundity and seed mass (m) in Italy (red) and Sweden (blue). Grey boxes indicate the range of colocalising QTL for a single trait across site-year combinations."}
 mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
 
 colvec=c("red3", "red3","blue4","blue4")
 #setEPS()
 #postscript('../figures/QTL_pleiotropy.eps', width=25/2.56, height = 16/2.54)
-pdf('figures/QTL_pleiotropy.pdf', width=25/2.56, height = 16.9/2.54, paper='A4r')
+# pdf('figures/QTL_pleiotropy.pdf', width=25/2.56, height = 16.9/2.54, paper='A4r')
 
 ts <- 0.2
 par(mfrow=c(2,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), cex=0.8)
@@ -571,9 +531,6 @@ text(chr123$lane_margins[21, c(1,1,1)] + ts,
 
 
 
-
-
-
 chr45 <- plotQTL(4:5, mloc, nlanes = 20)
 plotQTL_base(chr45, by=20, maxy = 10)
 
@@ -621,6 +578,6 @@ text(chr45$lane_margins[21, "5"] + ts,
      -70,
      "cs", col='blue4', adj = 0)
 
-dev.off()
+# dev.off()
 ```
 
