@@ -1,0 +1,13 @@
+variable,site,year,it_parent,it_se,it_n,sw_parent,sw_se,sw_n
+seed_mass,italy,2010,23.3,0.48,90,19.8,1.08,23
+seed_mass,italy,2011,20.5,0.67,44,19.4,1.14,30
+seed_mass,sweden,2010,26,0.3,86,25.1,0.2,100
+seed_mass,sweden,2011,26.4,0.95,35,26.3,0.82,45
+seeds_per_fruit,italy,2010,36.1,1.26,90,24,1.48,23
+seeds_per_fruit,italy,2011,35.6,1.56,45,19.5,1.13,30
+seeds_per_fruit,sweden,2010,28.8,0.65,87,36.6,0.6,100
+seeds_per_fruit,sweden,2011,23.4,1.18,36,23,1.02,45
+fruits_per_plant,italy,2010,27.9934210526,2.6581711787,152,5.3220338983,3.706660724,59
+fruits_per_plant,italy,2011,17.103030303,0.9432760985,165,5.2522522523,2.8903238839,111
+fruits_per_plant,sweden,2010,40.9042553191,2.4792382972,94,37.214953271,19.1779295503,107
+fruits_per_plant,sweden,2011,15.5,1.3563469495,52,12.5945945946,11.5690640608,111
