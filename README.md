@@ -86,9 +86,9 @@ The script `R/rqtl_files.R` formats RIL data. This outputs .csv for each trait w
 It also outputs R/QTL files for mapping with the same columns, but with genotype information included.
 
 ### R/QTL objects
-R/QTL output is saved to `./output`. See [the section on workflow](##Analysis workflow) for more on how analyses were run. Because there are so many trait-year-site levels, I have bundled objects together where possible, and loop over them. This avoids copy-paste errors, but requires some explanation. 
+R/QTL output is saved to `./output`. See [the section on workflow](#Analysis workflow) for more on how analyses were run. Because there are so many trait-year-site levels, I have bundled objects together where possible, and loop over them. This avoids copy-paste errors, but requires some explanation. 
 
-* There is one object of class `qtl` derived from the function `stepwiseqtl()` for each of the seven traits with obvious names like `stepwise_surv.rds` etc that follow the abbreviations [above](## Experimental set up).
+* There is one object of class `qtl` derived from the function `stepwiseqtl()` for each of the seven traits with obvious names like `stepwise_surv.rds` etc that follow the abbreviations [above](# Experimental set up).
 
 
 
