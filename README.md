@@ -12,7 +12,6 @@ This repository documents analysis associated with the manuscript "Positive corr
     2. [RIL data](#ril-data)
     3. [Derived data](#derived-data)
     4. [R/QTL objects](#rqtl-objects)
-5. [To-do list](#to-do)
 
 ## Experimental set up
 We compared fitness components in parental lines and a recombinant inbred line (RIL) population derived from those parents.
@@ -127,8 +126,3 @@ There are three other RDS objects that are nested lists. The first level has sev
 3. **qtl_clusters.rds**: clusters of colocalising QTL.
 
 Note that no QTL were detected for survival to reproduction in Sweden in 2010.
-
-## To do
-Finalise bibtex file.
-Reformat qtl figure.
-Document workflow and variables.
