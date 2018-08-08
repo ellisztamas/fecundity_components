@@ -37,7 +37,7 @@ qtlclusters <- readRDS(file='output/qtl_clusters.rds')
 
 ```
 
-This document contains supporting tables and figures for the manuscript "Positive correlations among fecundity components boost estimates of local adaptation in *Arabidopsis thaliana*" by Thomas Ellis, Froukje Postma, Christopher Oakley and Jon Ågren.
+This document contains supporting tables and figures for the manuscript "Positive correlations among fitness components boost estimates of local adaptation in *Arabidopsis thaliana*" by Thomas Ellis, Froukje Postma, Christopher Oakley and Jon Ågren.
 
 ```{r cluster-for-table, eval=F}
 tabclusters  <- lapply(traits, function(x) return(NULL))
