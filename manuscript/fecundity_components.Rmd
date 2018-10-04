@@ -15,6 +15,8 @@ documentclass: article
 header-includes: \usepackage{setspace}\doublespacing
 #csl: evolution.csl
 abstract: 'Insight into the processes governing adaptive differentiation among natural populations requires reliable estimates of the strength and direction of selection. However, estimates of selection and local adaptation typically consider only one or a few components of fitness and may therefore miss trade-offs expressed as conflicting selection acting through other components of fitness. We quantified adaptive differentiation and and examined its genetic basis by mapping quantitative trait loci (QTL) for fitness and its components in a population of recombinant inbred lines (RILs) derived from a cross between two locally adapted populations of *Arabidopsis thaliana* planted at the sites of the two source populations in two years. There was little differentiation for seed mass, and we found zero or very weak trade-offs between seed size and number. We found strong selection through seed number per fruit in addition to previously documented selection through survival and fruit number. Including information on seed number in estimates of overall fitness increased the overall advantage of the local genotypes. Moreover, genetic correlations between components of fecundity, and between fecundity and survival were positive, and underlying QTL showed positive pleiotropic effects multiple fitness components. These relationships indicate that local adaptation largely reflects the evolution of increased ability to acquire resources (“condition”), rather than shifts in the relative allocation to different life-history traits.'
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
@@ -74,19 +76,21 @@ Here, we investigate the contribution of individual components of fitness to est
 
 # Materials and methods 
 ## Data collection 
-We estimated seed traits for recombinant inbred lines (RIL) and parental accessions in reciprocal transplant experiments at the native sites of the source populations over two years. These experiments have previously been described by @agren_genetic_2013 and @agren_reciprocal_2012, who quantified survival to reproduction, fruit number per reproductive plant, and fruit number per planted seedling. We expanded these data by quantifying seed number per fruit and mean seed mass. In each site-year combination we sampled a single mature fruit from between 1917 and 2359 RIL and between 79 and 189 parental plants, and counted and weighed all seeds per fruit to the nearest 0.01 mg on a Toledo AT261 balance (Metler). We calculated mean seed mass as the mass of all seeds in a fruit, divided by the total number of seeds. We estimated genetic values for each line in each site-year combination as the mean across all individuals of the same genotype. After excluding lines with fewer than three replicate individuals per line, we were able to estimate values for seed number per fruit and seed mass for between 340 and 389 RILs for each site-year combination.
+We estimated seed traits for recombinant inbred lines (RIL) and parental accessions in reciprocal transplant experiments at the native sites of the source populations over two years. These experiments have previously been described by @agren_genetic_2013 and @agren_reciprocal_2012, who quantified survival to reproduction, fruit number per reproductive plant, and fruit number per planted seedling in 398 RIL lines. We expanded these data by quantifying seed number per fruit and mean seed mass. In each site-year combination we sampled a single mature fruit from between 1917 and 2359 RIL plants and between 79 and 189 parental plants. For each fruit, we counted the number of seeds and determined total seed mass to the nearest 0.01 mg on a Toledo AT261 balance (Metler). We calculated mean seed mass as the mass of all seeds in a fruit, divided by the total number of seeds. We estimated genotypic values for each line in each site-year combination as the mean across all individuals of the same RIL or parental genotype. After excluding lines with fewer than three replicate individuals per line, we were able to estimate genotypic values for seed number per fruit and seed mass for between 340 and 389 RILs for each site-year combination.
 
-In previous analyses of data from these experiments, fecundity was defined as number of fruits per reproductive plant, and overall fitness as number of fruits per planted seedling [@agren_reciprocal_2012; @agren_genetic_2013; @agren_flowering_time]. To obtain estimates that also consider variation in number of seeds per fruit, we estimated fecundity as seed number per reproductive plant (the product of individual fruit number per reproductive plant and line-mean seed number per fruit), and overall fitness as seed number per planted seedling (the product of individual fruit number per planted seedling and line-mean seed number per fruit; supporting figure 1). Since we did not have data on seed number per fruit for all individuals for which data on fruit number was available, and it was not feasible to count seeds from every fruit on a plant, we instead multiplied line-mean seed number by individual fruit number values to obtained estimates of total seed production.
+In previous analyses of data from these experiments, fecundity was defined as number of fruits per reproductive plant, and overall fitness as number of fruits per planted seedling [@agren_reciprocal_2012; @agren_genetic_2013; @agren_flowering_time]. To obtain estimates that also consider variation in number of seeds per fruit, we estimated overall fecundity as seed number per reproductive plant (the product of individual fruit number per reproductive plant and line-mean seed number per fruit), and overall fitness as seed number per planted seedling (the product of individual fruit number per planted seedling and line-mean seed number per fruit; zero for plants that did not survive to reproduce). We did not have data on seed number per fruit for all individuals for which data on fruit number was available, and in no cased did we sample more than one fruit per plant.
 
 Data handling and statistical analyses were performed in RStudio 1.1.442 using R `r paste(version$major, version$minor, sep=".")` [@RCT2015; @RStudioTeam2015].
 
 ## Fitness differences between parental lines 
-To assess the relative impact of fitness components on estimates of adaptive differentiation, we quantified selection against the non-local genotype by calculating selection coefficients based on individual components of fitness, and on estimates of overall fitness. We calculated selection coefficients as $s=1-w_{min}/w_{max}$, where $w_{min}$ is the fitness of the less fit genotype and $w_{max}$ that of the fittest genotype. For cases where the non-local genotype had higher fitness than the local genotype, we multiplied the selection coefficient by -1. We calculated selection coefficients for overall fitness in terms of both fruit number per seedling and seed number per seedling, reflecting fitness estimates excluding and including information on seed number per fruit. We also calculated selection coefficients for two components of fecundity (fruit number per reproductive plant and seed number per fruit) and survival, respectively.
+To assess the relative impact of different fitness components on estimates of adaptive differentiation, we quantified selection against the non-local genotype by calculating selection coefficients based on individual components of fitness, and on estimates of overall fitness. We calculated selection coefficients as $s=1-w_{min}/w_{max}$, where $w_{min}$ is the fitness of the less fit genotype and $w_{max}$ that of the fittest genotype. For cases where the non-local genotype had higher fitness than the local genotype, we multiplied the selection coefficient by -1. We calculated selection coefficients based on two estimates of overall fitness: fruit number per seedling and seed number per seedling, reflecting fitness estimates excluding and including information on seed number per fruit. We also calculated selection coefficients based on two components of fecundity (fruit number per reproductive plant and seed number per fruit) and based on survival, respectively.
 
-We estimated confidence intervals for selection coefficients by non-parametric bootstrapping. We re-sampled the data for each experiment with replacement 1000 times and calculated selection coefficients for each bootstrap sample. We estimated 95% confidence intervals for each coefficient as the 25th and 975th quantiles of these values. We estimated two-tailed p-values for the null hypothesis that there is no adaptive differentiation as twice the proportion of bootstrap values overlapping zero. It is more difficult to determine whether selection coefficients for the two measures of overall fitness, fruit number per reproductive plant and seed number per reproductive plant, differ from one another because both estimates include common data on fruit number, and as such are not independent. Rather than perform a formal test, we instead simply asked whether the coefficient for seed number per reproductive plant was beyond the 95% confidence interval for the coefficient for fruit number per reproductive plant.
+We estimated confidence intervals for selection coefficients by non-parametric bootstrapping. We draw 1000 bootstrap re-samples by sampling data with replacement from within expeirmental blocks. We calculated selection coefficients for each bootstrap sample and estimated 95% confidence intervals for each coefficient as the 25th and 975th quantiles of these values. We estimated two-tailed p-values for the null hypothesis that there is no adaptive differentiation as twice the proportion of bootstrap values overlapping zero. It is more difficult to determine whether selection coefficients for the two measures of overall fitness, fruit number per reproductive plant and seed number per reproductive plant, differ from one another because both estimates include common data on fruit number, and as such are not independent. Rather than perform a formal test, we instead simply asked whether the selection coefficient for seed number per reproductive plant was beyond the 95% confidence interval of that based on fruit number per reproductive plant.
 
 ```{r selection-bootstraps, cache=T, cache.lazy=T, parents_time = file.info('R/parents.R')}
 siteyear <- sort(unique(seed_par$siteyear))
+frut_par$block <- paste(frut_par$year, frut_par$site, frut_par$tray)
+seed_par$block <- paste(seed_par$year, seed_par$site, seed_par$tray)
 
 # function to bootrap confidence intervals.
 sboot <- function(group, nreps){
@@ -94,13 +98,15 @@ sboot <- function(group, nreps){
   dseed <- seed_par[seed_par$siteyear == group,]
   dt <- matrix(0, nreps, 5)
   for(i in 1:nreps){
-    this_exp1 <- dfrut[sample(1:nrow(dfrut), nrow(dfrut), replace = T),]
-    this_exp2 <- dseed[sample(1:nrow(dseed), nrow(dseed), replace = T),]
-    pmeans <- data.frame(tapply(this_exp1$survival,        this_exp1$genotype, mean, na.rm=T),
-                         tapply(this_exp1$fruit_per_plant, this_exp1$genotype, mean, na.rm=T),
-                         tapply(this_exp2$nseeds,          this_exp2$genotype, mean, na.rm=T),
-                         tapply(this_exp1$fruit_per_seed,  this_exp1$genotype, mean, na.rm=T),
-                         tapply(this_exp1$tfit,            this_exp1$genotype, mean, na.rm=T))
+    ix <- tapply(1:nrow(dfrut), dfrut$block, function(x) sample(x, size=length(x), replace = T))
+    ix <- do.call('c', ix)
+    this_exp1 <- dfrut[ix,]
+    this_exp2 <- dseed[ix,]
+    pmeans <- data.frame(surv = tapply(this_exp1$survival,        this_exp1$genotype, mean, na.rm=T),
+                         frut = tapply(this_exp1$fruit_per_plant, this_exp1$genotype, mean, na.rm=T),
+                         seed = tapply(this_exp2$nseeds,          this_exp2$genotype, mean, na.rm=T),
+                         ffit = tapply(this_exp1$fruit_per_seed,  this_exp1$genotype, mean, na.rm=T),
+                         tfit = tapply(this_exp1$tfit,            this_exp1$genotype, mean, na.rm=T))
     pmeans <- t(pmeans) / apply(pmeans,2,max)
     if("italy" %in% strsplit(group, " ")[[1]])  pmeans <- (pmeans[,1]-pmeans[,2])
     if("sweden" %in% strsplit(group, " ")[[1]]) pmeans <- (pmeans[,2]-pmeans[,1])
@@ -108,6 +114,7 @@ sboot <- function(group, nreps){
   }
   return(dt)
 }
+
 # perform bootsraps
 nreps <- 1000
 sel_boots <- lapply(siteyear, function(x) sboot(x, nreps))
@@ -116,19 +123,17 @@ sel_cis <- lapply(sel_boots, function(x) apply(x, 2, quantile, c(0.025, 0.975)))
 names(sel_boots) <- names(sel_cis) <- c("it2010", "it2011", "sw2010", "sw2011")
 ```
 
-## Seed mass
 We compared differences between parental lines in mean seed mass in each site-year combination using Wilcox-signed-rank tests.
-To assess the degree of transgressive variation among the RILs we divided the range of RIL mean values by the differences between parental lines. In addition, because a small number of lines showed unusually high seed mass (\@ref(fig:seed-mass)), we also compared the range of the 2.5% and 97.5% quantiles of the distribution of RIL means with the difference between parental lines. This gives a more conservative estimate of transgressive variation without these possible outliers.
 
 ## Correlations between traits 
-To assess the strength of trade-offs among fitness components we calculated Spearman’s rank correlation coefficient, $r_S$, between RIL means for each site-year combination. We examined relationships between three pairs of traits: (1) the two components of fecundity (fruit number per reproductive plant and seed number per fruit), (2) survival and fecundity (seed number per reproductive plant), and (3) fecundity and offspring size (mean seed mass). We note that there are many more pairs of traits we could have compared (see supporting fig. 1), but we believe these to be the most biologically meaningful.
+For each site-year combination we assessed the strength of trade-offs among fitness components by calculating Spearman’s rank correlation coefficient, $r_S$, between RIL means. We examined relationships between three pairs of traits: (1) the two components of fecundity (fruit number per reproductive plant and seed number per fruit), (2) survival and fecundity (seed number per reproductive plant), and (3) fecundity and offspring size (mean seed mass). We note that there are many more pairs of traits we could have compared, but we suggest that these are the most biologically meaningful.
 
-The small number of lines that showed unusually high seed mass also showed low fecundity, and may be outliers (fig. \@ref(fig:scatter-plots)). To examine whether these lines unduly inflate correlation coefficients, we repeated the analyses for fecundity and offspring investment excluding lines with mean seed mass greater than 35mg. 
+A small number of lines that showed unusually high seed mass and low fecundity (fig. \@ref(fig:scatter-plots)). To examine whether these lines unduly inflate correlation coefficients, we repeated the analyses for fecundity and offspring investment excluding lines with mean seed mass greater than 35µg. 
 
 ## QTL mapping 
-We mapped QTL for seed mass, seed number per fruit, and seed number per reproductive plant using the R/QTL package in R [@Broman2009; @Broman2003]. Mapping results for survival, fruit number per reproductive plant and fruit number per seedling were previously reported by [@agren_genetic_2013]. We performed mapping based on RIL mean data for each site-year combination separately. We used Haley–Knott regression using genotype probabilities of the genetic markers and pseudomarkers in gaps >2 cM [@Haley1992]. We performed a two-QTL scan of the genome with 10,000 permutations of the phenotypic data to determine 5% LOD-significance thresholds for inclusion of QTL and epistatic interactions [@doerge1996permutation; @Broman2009]. Based on these thresholds, we used R/QTL’s automated stepwise model selection procedure to identify significant additive QTL and epistatic interactions. We first applied a quantile normal transformation to phenotypes before model selection. Finally, we used ANOVA on untransformed data to fit the multiple QTL model and calculate effect sizes with respect to the Swedish allele, as well as the proportion of the total phenotypic variance among RILs explained by each locus, and the proportion of the difference between parents explained by QTL.
+We mapped QTL for seed mass, seed number per fruit, and seed number per reproductive plant using the R/QTL package in R [@Broman2009; @Broman2003]. Mapping results for survival, fruit number per reproductive plant and fruit number per seedling were previously reported by [@agren_genetic_2013]. We performed mapping based on RIL mean data for each site-year combination separately. We used Haley–Knott regression using genotype probabilities of the genetic markers and pseudomarkers in gaps >2 cM [@Haley1992]. We performed a two-QTL scan of the genome with 10,000 permutations of the phenotypic data to determine 5% LOD-significance thresholds for inclusion of QTL and epistatic interactions [@doerge1996permutation; @Broman2009]. Based on these thresholds, we used R/QTL’s automated stepwise model selection procedure to identify significant additive QTL and epistatic interactions. We  applied a quantile normal transformation to phenotypes before model selection. Finally, we used ANOVA on untransformed data to fit the multiple QTL model and calculate effect sizes with respect to the Swedish allele, as well as the proportion of the total phenotypic variance among RILs explained by each locus, and the proportion of the difference between parents explained by QTL.
 
-We considered QTL identified for different sites, years or traits to be map to the same region of the genome (colocalise) and be the same if the maximum-likelihood estimate of their positions were within 2 cM of each other, or if the 95% Bayesian credible intervals for these estimates overlapped. We excluded ’poorly-defined’ QTL whose credible intervals for QTL position were greater than 1/4^th^ the length of the shortest chromosome (15.2cM) from assessments of colocalisation, because such QTL provide little information about position [@agren_genetic_2013; @dittmar2014flowering; @oakley2014qtl; @agren_flowering_time]. Based on these criteria, we identified distinct QTL with pleiotropic effects as those that affected two or more traits over the two years at a given site. We focussed on pleiotropic effects on the pairs of traits also considered in the analysis of genetic correlations among traits.
+We considered QTL identified for different sites, years or traits to be map to the same region of the genome (colocalise) and be the same if the maximum-likelihood estimate of their positions were within 2 cM of each other, or if the 95% Bayesian credible intervals for these estimates overlapped. We excluded ’poorly-defined’ QTL whose credible intervals for QTL position were greater than 1/4^th^ the length of the shortest chromosome (15.2cM) from assessments of colocalisation, because such QTL provide little information about position [@agren_genetic_2013; @dittmar2014flowering; @oakley2014qtl; @agren_flowering_time; @postma2018among]. Based on these criteria, we identified distinct QTL with pleiotropic effects as those that affected two or more traits over the two years at a given site. We focussed on pleiotropic effects on the pairs of traits also considered in the analysis of genetic correlations among traits.
 
 # Results 
 ## Seed number per fruit influences estimates of selection
@@ -149,6 +154,7 @@ ix <- match(c("survival", "fruit_per_plant",  "number_per_fruit", "fruit_per_see
 
 # setEPS()
 # postscript(file = '../figures/selection.eps', family = "Times", width=16.9/2.54, height = 11/2.54)
+# pdf(file = 'figures/01_selection.pdf', width=16.9/2.54, height = 11/2.54)
 
 par(mfrow=c(1,2), mar=c(5,4,1,0)+0.1, oma=c(0,0,1,1), cex=0.9)
 plot(c(0.5,5.5), c(-0.4,1), type='n', axes=F, xlab = "", ylab='Selection coefficient', main="2010")
@@ -175,61 +181,60 @@ points(1:length(ix)+os, parents$s[ix+3], pch=21, bg='white')
 # dev.off()
 ```
 
-The local genotype had significantly higher overall fitness (expressed as seed number per planted seedling) than the non-local genotype at both sites and in both years ($p\leq 0.001$ in all cases; fig. \@ref(fig:selection)).
+The local genotype had significantly higher overall fitness (expressed as seed number per planted seedling) compared to the non-local genotype at both sites and in both years ($p\leq 0.001$ in all cases; fig. \@ref(fig:selection)).
 This advantage was more than twice as strong in Italy
-(*s*=`r round(parents$s[parents$variable == "total_fitness"], 2)[1]`,
-`r round(parents$s[parents$variable == "total_fitness"], 2)[2]`)
+(selection coefficient, *s*, `r round(parents$s[parents$variable == "total_fitness"], 2)[1]` in 2010,
+`r round(parents$s[parents$variable == "total_fitness"], 2)[2]` in 2011)
 compared to Sweden
-(*s*= `r round(parents$s[parents$variable == "total_fitness"], 2)[3]`,
-`r round(parents$s[parents$variable == "total_fitness"], 2)[4]`).
+(`r round(parents$s[parents$variable == "total_fitness"], 2)[3]` in 2010,
+`r round(parents$s[parents$variable == "total_fitness"], 2)[4]` in 2011).
 
-At the Italian site the local advantage was reflected in significant selection through survival
+At the Italian site the local genotype showed higher fitness than the non-local genotype for all traits measured (fig. \@ref(fig:selection)).  The local genotype had significantly higher survival, corresponding to selection coefficients of
+`r round(parents$s[parents$variable == "survival"], 2)[1]` in 2010 and 
+`r round(parents$s[parents$variable == "survival"], 2)[2]` in 2011
+($p < 0.001$),
+produced more fruit number per reproductive plant
 (*s* = 
-`r round(parents$s[parents$variable == "survival"], 2)[1]`, 
-`r round(parents$s[parents$variable == "survival"], 2)[2]`;
+`r round(parents$s[parents$variable == "fruit_per_plant"], 2)[1]` in 2010 and
+`r round(parents$s[parents$variable == "fruit_per_plant"], 2)[2]` in 2011;
 $p < 0.001$),
-fruit number per reproductive plant
+and produced more seeds per fruit
 (*s* = 
-`r round(parents$s[parents$variable == "fruit_per_plant"], 2)[1]`, 
-`r round(parents$s[parents$variable == "fruit_per_plant"], 2)[2]`;
-$p < 0.001$),
-and seed number per fruit
-(*s* = 
-`r round(parents$s[parents$variable == "number_per_fruit"], 2)[1]`, 
-`r round(parents$s[parents$variable == "number_per_fruit"], 2)[2]`;
+`r round(parents$s[parents$variable == "number_per_fruit"], 2)[1]` in 2010 and 
+`r round(parents$s[parents$variable == "number_per_fruit"], 2)[2]` in 2011;
 $p < 0.001$).
 When information on seed number was included in estimates of overall fitness, estimates of selection favouring the local genotype in Italy increased by $\Delta s=$
 `r round(parents$s[parents$variable == "total_fitness" & parents$site == "italy" & parents$year ==2010] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "italy" & parents$year ==2010],  3)`
 in 2010 and by $\Delta s=$
 `r round(parents$s[parents$variable == "total_fitness" & parents$site == "italy" & parents$year ==2011] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "italy" & parents$year ==2011],  3)`
-in 2011 compared to when fecundity was based on fruit production only. 
+in 2011 compared to when fecundity was based on fruit production only (fig. \@ref(fig:selection)). 
 
-In Sweden in 2010 we observed significant selection through seed number per fruit
+At the Swedish site, patterns of selection depended on the trait measured and year. In 2010 the local genotype produced more seeds per fruit
 (*s* = `r round(parents$s[parents$variable == "number_per_fruit"], 2)[3]`;
 $p < 0.001$),
-but no significant selection through survival
+but no significant differences between the two genotypes were detected in survival
 (*s* = `r round(parents$s[parents$variable == "survival"], 2)[3]`;
 $p=$ `r 2*round(mean(sel_boots$sw2010[,1] < 0), 3)`),
 or fruit number per reproductive plant
 (*s* = `r round(parents$s[parents$variable == "fruit_per_plant"], 2)[3]`;
 $p=$ `r 2* round(mean(sel_boots$sw2010[,2] > 0), 3)`).
-In 2011 in Sweden we observed significant selection through survival
+In 2011 the local genotype had higher survival
 (*s* = `r round(parents$s[parents$variable == "survival"], 2)[4]`;
 $p < 0.001$),
-but not through fruit number per reproductive plant
+but we found no significant deifferences between the two genotypes in fruit number per reproductive plant
 (*s* = `r round(parents$s[parents$variable == "fruit_per_plant"], 2)[4]`;
 $p=$ `r 2* round(mean(sel_boots$sw2011[,2] > 0), 3)`)
 or seed number per fruit
 (*s* = `r round(parents$s[parents$variable == "number_per_fruit"], 2)[4]`;
 $p=$ `r 2* round(mean(sel_boots$sw2011[,3] > 0), 3)`).
 Including information on seed number per fruit substantially increased the estimated selection against the non-local genotype in Sweden in 2010 
- $\Delta s=$
-`r round(parents$s[parents$variable == "total_fitness" & parents$site == "sweden" & parents$year ==2010] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "sweden" & parents$year ==2010],  3)`,
+ ($\Delta s=$
+`r round(parents$s[parents$variable == "total_fitness" & parents$site == "sweden" & parents$year ==2010] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "sweden" & parents$year ==2010],  3)`),
 but had a negligible influence in 2011
- $\Delta s=$
-`r round(parents$s[parents$variable == "total_fitness" & parents$site == "sweden" & parents$year ==2011] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "sweden" & parents$year ==2011],  3)`. 
+ ($\Delta s=$
+`r round(parents$s[parents$variable == "total_fitness" & parents$site == "sweden" & parents$year ==2011] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "sweden" & parents$year ==2011],  3)`; fig. \@ref(fig:selection)). 
 
-## Little differentiation through seed mass
+## Small an inconsistent differences in seed mass
 
 ```{r transgressive-variation}
 mrange_all <- sapply(ril_mass[,-1], function(x) range(x, na.rm=T)[2] - range(x, na.rm=T)[1])
@@ -239,7 +244,7 @@ mrange_par <- parents$it_parent[parents$variable == "seed_mass"] - parents$sw_pa
 
 ```
 
-The Italian parent showed significantly increased mean seed mass in both years in Italy
+The Italian parent produced larger seeds than did the Swedish parent at both sites in 2010
 (fig. \@ref(fig:seed-mass);
 $W =$ `r mass_wilcox$italy_2010$statistic`, $p=$ `r round(mass_wilcox$italy_2010$p.value, 3)` in 2010;
 $W =$ `r mass_wilcox$italy_2011$statistic`, $p=$ `r round(mass_wilcox$italy_2011$p.value, 3)` in 2011).
@@ -254,6 +259,9 @@ The total ranges of RIL means were `r round(mrange_all / mrange_par, 2)[3]`- and
 When only 95% quantiles of RIL means are considered, these ranges were `r round(mrange_cons / mrange_par, 2)[3]`- and `r round(mrange_cons / mrange_par, 2)[4]`-fold greater than the differences between parents respectively.
 
 ```{r seed-mass, fig.width=11.2/2.54, fig.cap="Distribution of mean seed mass among RILs (grey violas), the Italian parent (red) and Swedish parent (blue). Bars indicate standard error."}
+# pdf("figures/02_seed_mass.pdf", width=11/2.54)
+
+par(mfrow=c(1,1))
 vioplot(
   na.omit(ril_mass$it2010),
   na.omit(ril_mass$it2011),
@@ -275,13 +283,13 @@ segments((1:4)-os, (parents$it_parent+parents$it_se)[parents$variable == 'seed_m
 segments((1:4)+os, (parents$sw_parent+parents$sw_se)[parents$variable == 'seed_mass'],
          (1:4)+os, (parents$sw_parent-parents$sw_se)[parents$variable == 'seed_mass'],
          lwd=2, col='blue4')
-
+# dev.off()
 ```
 
 
 ## Positive correlations among fitness components
 
-```{r scatter-plots, fig.height=16/2.56, fig.width=19.6/2.56, fig.cap="Scatter plots of the relationships between fecundity components (top), survival and fecundity (middle) , and fecundity and seed mass (bottom). Values show Spearman-rank correlation coefficient ($r_S$) and associated $p$-values."}
+```{r scatter-plots, fig.height=16/2.54, fig.width=16.9/2.54, fig.cap="Scatter plots of the relationships between fecundity components (top), survival and fecundity (middle) , and fecundity and seed mass (bottom). Values show Spearman-rank correlation coefficient ($r_S$) and associated $p$-values."}
 
 cortests <- list(cor.test(ril_frut$it2010, ril_numb$it2010, method = 's'),
                  cor.test(ril_frut$it2011, ril_numb$it2011, method = 's'),
@@ -304,6 +312,7 @@ corsumm$tp <- ifelse(corsumm$p < 0.0001, "p < 0.0001", paste("p = ",corsumm$p, s
 
 # setEPS()
 # postscript(file = '../figures/trait_correlations.eps', family = "Times", width=16.9/2.56, height = 16/2.56)
+pdf(file = 'figures/03_genetic_correlations.pdf', width=16.9/2.56, height = 16/2.56)
 par(mfrow=c(3,4), mar=c(4,3,1,0)+0.1, oma=c(0,1,1,1))
 # Frut vs seed number
 plot(ril_frut$it2010, ril_numb$it2010, xlim=c(0,40), ylim=c(10,45), xlab="", ylab="", main="Italy 2010", pch=1)
@@ -349,7 +358,7 @@ text(6000, 0, bquote(atop('r'[S] ==  .(corsumm$rho[11]),  .(corsumm$tp[11]))), c
 
 plot(ril_tofu$sw2011, ril_mass$sw2011, xlim=c(0,3500), ylim=c(0,50), xlab="", ylab="")
 text(3500, 0, bquote(atop('r'[S] ==  .(corsumm$rho[12]),  .(corsumm$tp[12]))), c(1,0))
-#dev.off()
+dev.off()
 ```
 
 ```{r correlation-no-outliers}
@@ -441,7 +450,7 @@ mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', hea
 colvec=c("red3", "red3","blue4","blue4")
 #setEPS()
 #postscript('../figures/QTL_pleiotropy.eps', width=25/2.56, height = 16/2.54)
-# pdf('figures/QTL_pleiotropy.pdf', width=25/2.56, height = 16.9/2.54, paper='A4r')
+pdf('figures/04_QTL_pleiotropy.pdf', width=25/2.56, height = 16.9/2.54)
 
 ts <- 0.2
 par(mfrow=c(2,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), cex=0.8)
@@ -537,7 +546,7 @@ segments(chr45$lane_margins[seq(1,19,2),] + os, 4,
 text(chr45$lane_margins[21, c("4","5","5","5","5","5")] + ts,
      -c(52, 1, 9, 16,55,74),
      c("f","ms", "fs","m","fs", "fs"), adj = 0)
-# dev.off()
+dev.off()
 ```
 
 ### Seed-number QTL affect fitness
@@ -552,7 +561,7 @@ mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', hea
 
 # setEPS()
 # postscript('./figures/QTL_survival_fitness.eps', width=25/2.56, height = 16/2.54, family='Times')
-# pdf('figures/QTL_fitness.pdf', width=16.9/2.56, height = 12/2.54, family='Times')
+pdf('figures/05_QTL_fitness.pdf', width=16.9/2.56, height = 12/2.54)
 
 par(mfrow=c(1,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0))
 
@@ -593,9 +602,7 @@ text(pos_plot$lane_margins[c(3,7),], 15, c("Fruits\nper sdl", "Seeds\nper sdl"),
 text(pos_plot$lane_centres, 2, c("10", "11"), cex=0.5, adj=c(0.5,0.5), srt=0, col='gray30')
 text(pos_plot$lane_margins[seq(2,9,2),], 6, c("IT", "SW"), cex=0.6, adj=c(0.5,0.5), srt=0, col=c('red3','blue4'))
 
-colvec=c("red3", "red3","blue4","blue4")
-
-# dev.off()
+dev.off()
 
 ```
 

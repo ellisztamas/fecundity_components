@@ -27,7 +27,7 @@ We consider a total of seven traits. These have four letter abbreviations to kee
 6. **tfit**: Fruit number per planted seedling, a proxy for fitness that includes seed number (estimated from 2 and 5).
 7. **surv**: Survival to reproduction.
 
-Traits 3, 5 and 7 are take directly from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/).
+Traits 3, 5 and 7 are taken directly from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/).
 Traits 4 and 6 are not directly observed, but estimated as the product of other variables.
 
 
@@ -66,6 +66,7 @@ install_github('ellisztamas/qtltools')
 * **individual_parents_nfruit.csv**: Values for fruit number per plant and per seedling for individual parental plants.
 
 Column headers used:
+
 	* site: Italian or Swedish site
 	* year: Year the experiment was transplanted.
 	* tray: Block ID.
