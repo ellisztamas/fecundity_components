@@ -35,7 +35,6 @@ for(i in traits){
       off.end = 0
     )
   cross[[i]] <- thiscross
-  saveRDS(cross, file='output/cross_objects.rds')
   
   # import objects containing stepwise QTL fitting results.
   if(!file.exists(paste("output/stepwise_", i,".rds",sep=""))){
@@ -67,11 +66,12 @@ for(i in traits){
           dropone = T
         )
     }
-    qtlfits[[i]] <- thistrait
   }
+  qtlfits[[i]] <- thistrait
 }
 
 # Save output for supporting information so we don't need to repeat this.
+saveRDS(cross, file='output/cross_objects.rds')
 saveRDS(qtlmodels,   file='output/qtl_stepwise_models.rds')
 saveRDS(qtlfits,     file='output/qtl_model_fits.rds')
 
@@ -91,5 +91,19 @@ for(i in traits){
   qtlclusters[[i]] <- as.data.frame(do.call('rbind', qtlboxes))
   colnames(qtlclusters[[i]]) <- c("chr", "lower", "upper")
 }
-
 saveRDS(qtlclusters, file='output/qtl_clusters.rds')
+
+
+# Cluster all QTL models as one.
+# First we need to remove elements for survival in Sweden in 2010
+qtlmodels2 <- qtlmodels[c("mass","frut","seed","tofu","surv")]
+qtlfits2   <- qtlfits[c("mass","frut","seed","tofu","surv")]
+qtlmodels2$surv <- qtlmodels2$surv[c("it2010", "it2011", "sw2011")]
+qtlfits2$surv   <- qtlfits2$surv  [c("it2010", "it2011", "sw2011")]
+# Flatten the first level of these lists, but keep object structure at lower levels
+all_qtlmodels <- unlist(qtlmodels2, recursive = FALSE)
+all_qtlfits   <- unlist(qtlfits2,   recursive = FALSE)
+# Cluster all QTL models together
+all_clusters <- cluster_qtl(1:5, all_qtlmodels, all_qtlfits, 15.2)
+saveRDS(all_clusters, file="output/clusters_all_models.rds")
+

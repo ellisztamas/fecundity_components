@@ -1,13 +1,13 @@
 ---
 title: Positive correlations among components of fitness boost estimates of local adaptation in *Arabidopsis thaliana*
-author: "Thomas Ellis, Froukje Postma, Christopher Oakley and Jon Ågren"
+author: "Thomas Ellis, Froukje Postma, Christopher G. Oakley and Jon Ågren"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:
-  bookdown::word_document2: null
   bookdown::pdf_book:
     toc: no
+  bookdown::word_document2: null
 always_allow_html: yes
-bibliography: /home/thoel507/Dropbox/bibtex_files/tellis.bib
+bibliography: /home/GMI/thomas.ellis/Dropbox/bibtex_files/tellis.bib
 documentclass: article
 # fontfamily: mathpazo
 # fontsize: 12pt
@@ -21,12 +21,12 @@ editor_options:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, cache=F, cache.lazy=F)
-library('magrittr')
+# library('magrittr')
 library('knitr')
-library('vioplot')
+# library('vioplot')
 library('kableExtra')
 library('qtl')
-library('qtltools')
+library('arghqtl')
 ```
 
 ```{r data-import, include=F}
@@ -54,6 +54,7 @@ ril_surv <- read.csv('data_files/RIL_survival.csv')
 qtlmodels   <- readRDS(file='output/qtl_stepwise_models.rds')
 qtlfits     <- readRDS(file='output/qtl_model_fits.rds')
 qtlclusters <- readRDS(file='output/qtl_clusters.rds')
+
 ```
 
 # Introduction
@@ -76,7 +77,7 @@ Here, we investigate the contribution of individual components of fitness to est
 
 # Materials and methods 
 ## Data collection 
-We estimated seed traits for recombinant inbred lines (RIL) and parental accessions in reciprocal transplant experiments at the native sites of the source populations over two years. These experiments have previously been described by @agren_genetic_2013 and @agren_reciprocal_2012, who quantified survival to reproduction, fruit number per reproductive plant, and fruit number per planted seedling in 398 RIL lines. We expanded these data by quantifying seed number per fruit and mean seed mass. In each site-year combination we sampled a single mature fruit from between 1917 and 2359 RIL plants and between 79 and 189 parental plants. For each fruit, we counted the number of seeds and determined total seed mass to the nearest 0.01 mg on a Toledo AT261 balance (Metler). We calculated mean seed mass as the mass of all seeds in a fruit, divided by the total number of seeds. We estimated genotypic values for each line in each site-year combination as the mean across all individuals of the same RIL or parental genotype. After excluding lines with fewer than three replicate individuals per line, we were able to estimate genotypic values for seed number per fruit and seed mass for between 340 and 389 RILs for each site-year combination.
+We estimated seed traits for recombinant inbred lines (RIL) and parental accessions in reciprocal transplant experiments at the native sites of the source populations over two years. These experiments have previously been described by @agren_genetic_2013 and @agren_reciprocal_2012, who quantified survival to reproduction, fruit number per reproductive plant, and fruit number per planted seedling in 398 RIL lines. We expanded these data by quantifying seed number per fruit and mean seed mass. In each site-year combination we sampled a single mature fruit from between 1917 and 2359 RIL plants and between 79 and 189 parental plants. For each fruit, we counted the number of seeds and determined total seed mass to the nearest 0.01 µg on a Toledo AT261 balance (Metler). We calculated mean seed mass as the mass of all seeds in a fruit, divided by the total number of seeds. We estimated genotypic values for each line in each site-year combination as the mean across all individuals of the same RIL or parental genotype. After excluding lines with fewer than three replicate individuals per line, we were able to estimate genotypic values for seed number per fruit and seed mass for between 340 and 389 RILs for each site-year combination.
 
 In previous analyses of data from these experiments, fecundity was defined as number of fruits per reproductive plant, and overall fitness as number of fruits per planted seedling [@agren_reciprocal_2012; @agren_genetic_2013; @agren_flowering_time]. To obtain estimates that also consider variation in number of seeds per fruit, we estimated overall fecundity as seed number per reproductive plant (the product of individual fruit number per reproductive plant and line-mean seed number per fruit), and overall fitness as seed number per planted seedling (the product of individual fruit number per planted seedling and line-mean seed number per fruit; zero for plants that did not survive to reproduce). We did not have data on seed number per fruit for all individuals for which data on fruit number was available, and in no cased did we sample more than one fruit per plant.
 
@@ -234,7 +235,7 @@ but had a negligible influence in 2011
  ($\Delta s=$
 `r round(parents$s[parents$variable == "total_fitness" & parents$site == "sweden" & parents$year ==2011] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "sweden" & parents$year ==2011],  3)`; fig. \@ref(fig:selection)). 
 
-## Small an inconsistent differences in seed mass
+## Small and inconsistent differences in seed mass
 
 ```{r transgressive-variation}
 mrange_all <- sapply(ril_mass[,-1], function(x) range(x, na.rm=T)[2] - range(x, na.rm=T)[1])
@@ -245,35 +246,27 @@ mrange_par <- parents$it_parent[parents$variable == "seed_mass"] - parents$sw_pa
 ```
 
 The Italian parent produced larger seeds than did the Swedish parent at both sites in 2010
-(fig. \@ref(fig:seed-mass);
-$W =$ `r mass_wilcox$italy_2010$statistic`, $p=$ `r round(mass_wilcox$italy_2010$p.value, 3)` in 2010;
-$W =$ `r mass_wilcox$italy_2011$statistic`, $p=$ `r round(mass_wilcox$italy_2011$p.value, 3)` in 2011).
-The total ranges of RIL means were `r round(mrange_all / mrange_par, 2)[1]`- and `r round(mrange_all / mrange_par, 2)[2]`-fold greater than the differences between parental means in 2010 and 2011.
-When only 95% quantiles of RIL means are considered, these ranges were `r round(mrange_cons / mrange_par, 2)[1]`- and `r round(mrange_cons / mrange_par, 2)[2]`-fold greater than the differences between parents respectively.
+(Italy site,
+$W =$ `r mass_wilcox$italy_2010$statistic`, $p=$ `r round(mass_wilcox$italy_2010$p.value, 3)`,
+Swedish site,
+$W =$ `r mass_wilcox$sweden_2010$statistic`, $p=$ `r round(mass_wilcox$sweden_2010$p.value, 3)`),
+whereas no significant difference in seed mass between the two parental genotypes was recorded in the second year 
+(Italy site,
+$W =$ `r mass_wilcox$italy_2011$statistic`, $p=$ `r round(mass_wilcox$italy_2011$p.value, 3)`,
+Swedish site, 
+$W =$ `r mass_wilcox$sweden_2011$statistic`, $p=$ `r round(mass_wilcox$sweden_2011$p.value, 3)`;
+fig. \@ref(fig:seed-mass).
 
-In Sweden, the Italian parent again showed increased seed mass, but the differences were not significant
-(fig. \@ref(fig:seed-mass);
-$W =$ `r mass_wilcox$sweden_2010$statistic`, $p=$ `r round(mass_wilcox$sweden_2010$p.value, 3)` in 2010;
-$W =$ `r mass_wilcox$sweden_2011$statistic`, $p=$ `r round(mass_wilcox$sweden_2011$p.value, 3)` in 2011).
-The total ranges of RIL means were `r round(mrange_all / mrange_par, 2)[3]`- and `r round(mrange_all / mrange_par, 2)[4]`-fold greater than the differences between parental means in 2010 and 2011.
-When only 95% quantiles of RIL means are considered, these ranges were `r round(mrange_cons / mrange_par, 2)[3]`- and `r round(mrange_cons / mrange_par, 2)[4]`-fold greater than the differences between parents respectively.
-
-```{r seed-mass, fig.width=11.2/2.54, fig.cap="Distribution of mean seed mass among RILs (grey violas), the Italian parent (red) and Swedish parent (blue). Bars indicate standard error."}
+```{r seed-mass, fig.width=8/2.54, fig.cap="Mean seed mass for the Italian parent (red) and Swedish parent (blue). Bars indicate standard error."}
 # pdf("figures/02_seed_mass.pdf", width=11/2.54)
 
 par(mfrow=c(1,1))
-vioplot(
-  na.omit(ril_mass$it2010),
-  na.omit(ril_mass$it2011),
-  na.omit(ril_mass$sw2010),
-  na.omit(ril_mass$sw2011),
-  col='gray75',
-  names = rep("", 4)
-)
-title(ylab="Seed mass (mg)")
-axis(1, 1:4, c("Italy\n2010", "Italy\n2011", "Sweden\n2010", "Sweden\n2011"), las=2, tick = F)
+plot(c(1,4), c(15,30), type='n', axes = F, xlim=c(0.5, 4.5), xlab="",
+     ylab=expression(paste("Seed mass (",mu, "g)")))
+axis(2); box()
+axis(1, 1:4, c("Italy\n2010", "Italy\n2011", "Sweden\n2010", "Sweden\n2011"), las=2, tick = T)
 
-os <- 0.2
+os <- 0.05
 points((1:4)-os, parents$it_parent[parents$variable == 'seed_mass'], pch=16, col='red3')
 points((1:4)+os, parents$sw_parent[parents$variable == 'seed_mass'], pch=16, col='blue4')
 
@@ -286,10 +279,9 @@ segments((1:4)+os, (parents$sw_parent+parents$sw_se)[parents$variable == 'seed_m
 # dev.off()
 ```
 
+## Positive correlations dominate fitness components
 
-## Positive correlations among fitness components
-
-```{r scatter-plots, fig.height=16/2.54, fig.width=16.9/2.54, fig.cap="Scatter plots of the relationships between fecundity components (top), survival and fecundity (middle) , and fecundity and seed mass (bottom). Values show Spearman-rank correlation coefficient ($r_S$) and associated $p$-values."}
+```{r scatter-plots, fig.height=16/2.54, fig.width=16.9/2.54, fig.cap="Scatter plots of the relationships between survival and fecundity (top), components of fecundity (middle), and fecundity and seed mass (bottom). Values show Spearman-rank correlation coefficient ($r_S$) and associated $p$-values."}
 
 cortests <- list(cor.test(ril_frut$it2010, ril_numb$it2010, method = 's'),
                  cor.test(ril_frut$it2011, ril_numb$it2011, method = 's'),
@@ -312,22 +304,8 @@ corsumm$tp <- ifelse(corsumm$p < 0.0001, "p < 0.0001", paste("p = ",corsumm$p, s
 
 # setEPS()
 # postscript(file = '../figures/trait_correlations.eps', family = "Times", width=16.9/2.56, height = 16/2.56)
-pdf(file = 'figures/03_genetic_correlations.pdf', width=16.9/2.56, height = 16/2.56)
+# pdf(file = 'figures/03_genetic_correlations.pdf', width=16.9/2.56, height = 16/2.56)
 par(mfrow=c(3,4), mar=c(4,3,1,0)+0.1, oma=c(0,1,1,1))
-# Frut vs seed number
-plot(ril_frut$it2010, ril_numb$it2010, xlim=c(0,40), ylim=c(10,45), xlab="", ylab="", main="Italy 2010", pch=1)
-text(40, 10, bquote(atop('r'[S] ==  .(corsumm$rho[1]),  .(corsumm$tp[1]))), c(1,0))
-title(ylab="Seed number per fruit", line=2)
-
-plot(ril_frut$it2011, ril_numb$it2011, xlim=c(0,30), ylim=c(10,45), xlab="", ylab="", main="Italy 2011", pch=1)
-text(30, 10, bquote(atop('r'[S] ==  .(corsumm$rho[2]),  .(corsumm$tp[2]))), c(1,0))
-
-plot(ril_frut$sw2010, ril_numb$sw2010, xlim=c(10,100), ylim=c(10,50), xlab="", ylab="", main="Sweden 2010", pch=1)
-text(100, 10, bquote(atop('r'[S] ==  .(corsumm$rho[3]),  .(corsumm$tp[3]))), c(1,0))
-
-plot(ril_frut$sw2011, ril_numb$sw2011, xlim=c(0,100), ylim=c(10,50), xlab="", ylab="", main="Sweden 2011", pch=1)
-text(100, 10, bquote(atop('r'[S] ==  .(corsumm$rho[4]),  .(corsumm$tp[4]))), c(1,0))
-title(xlab="Fruit number per reproductive plant", line=-32.7, outer=T)
 
 # fecundity vs survival
 plot(ril_tofu$it2010, ril_surv$it2010, xlim=c(0,1600), xlab="", ylab="")
@@ -344,21 +322,37 @@ plot(ril_tofu$sw2011, ril_surv$sw2011,  xlim=c(0,4000), ylim=c(0,1), xlab="", yl
 text(4000, 0, bquote(atop('r'[S] ==  .(corsumm$rho[8]),  .(corsumm$tp[8]))), c(1,0))
 title(xlab="Seed number per reproductive plant", outer=T, line=-17)
 
+
+# Frut vs seed number
+plot(ril_frut$it2010, ril_numb$it2010, xlim=c(0,40), ylim=c(10,45), xlab="", ylab="", main="Italy 2010", pch=1)
+text(40, 10, bquote(atop('r'[S] ==  .(corsumm$rho[1]),  .(corsumm$tp[1]))), c(1,0))
+title(ylab="Seed number per fruit", line=2)
+
+plot(ril_frut$it2011, ril_numb$it2011, xlim=c(0,30), ylim=c(10,45), xlab="", ylab="", main="Italy 2011", pch=1)
+text(30, 10, bquote(atop('r'[S] ==  .(corsumm$rho[2]),  .(corsumm$tp[2]))), c(1,0))
+
+plot(ril_frut$sw2010, ril_numb$sw2010, xlim=c(10,100), ylim=c(10,50), xlab="", ylab="", main="Sweden 2010", pch=1)
+text(100, 10, bquote(atop('r'[S] ==  .(corsumm$rho[3]),  .(corsumm$tp[3]))), c(1,0))
+
+plot(ril_frut$sw2011, ril_numb$sw2011, xlim=c(0,100), ylim=c(10,50), xlab="", ylab="", main="Sweden 2011", pch=1)
+text(100, 10, bquote(atop('r'[S] ==  .(corsumm$rho[4]),  .(corsumm$tp[4]))), c(1,0))
+title(xlab="Fruit number per reproductive plant", line=-32.7, outer=T)
+
 # fecundity vs seed mass
 plot(ril_tofu$it2010, ril_mass$it2010, xlim=c(0,1600), ylim=c(0,45), xlab="", ylab="")
 text(1550, 0, bquote(atop('r'[S] ==  .(corsumm$rho[9]),  .(corsumm$tp[9]))), c(1,0))
-title(ylab="Mean seed mass (mg)", line=2)
+title(ylab="Mean seed mass (µg)", line=2)
 title(xlab="Seed number per reproductive plant", ylab="", outer=T, line=-1.5)
 
 plot(ril_tofu$it2011, ril_mass$it2011, xlim=c(0,1000), ylim=c(0,40), xlab="", ylab="")
 text(1000, 0, bquote(atop('r'[S] ==  .(corsumm$rho[10]),  .(corsumm$tp[10]))), c(1,0))
 
 plot(ril_tofu$sw2010, ril_mass$sw2010, xlim=c(0,6000), ylim=c(0,45), xlab="", ylab="")
-text(6000, 0, bquote(atop('r'[S] ==  .(corsumm$rho[11]),  .(corsumm$tp[11]))), c(1,0))
+text(6000, 0, bquote(atop('r'[S] ==  .(format(round(corsumm$rho[11], 2), nsmall = 2)), .(corsumm$tp[11]))), c(1,0))
 
 plot(ril_tofu$sw2011, ril_mass$sw2011, xlim=c(0,3500), ylim=c(0,50), xlab="", ylab="")
 text(3500, 0, bquote(atop('r'[S] ==  .(corsumm$rho[12]),  .(corsumm$tp[12]))), c(1,0))
-dev.off()
+# dev.off()
 ```
 
 ```{r correlation-no-outliers}
@@ -384,13 +378,13 @@ while survival and seed number per reproductive plant showed no significant corr
 ($r_S=$ `r round(cortests[[7]]$estimate, 2)`,
 $p=$ `r round(cortests[[7]]$p.value, 3)`). 
 
-In Sweden in 2010, seed mass was weakly negatively correlated with fecundity
+In Sweden in 2010, seed mass was negatively correlated with fecundity
 ($r_S=$ `r round(cortests[[11]]$estimate, 2)`,
 $p \leq 0.0001$),
 whereas no significant correlation was detected in Sweden in 2011, nor in Italy in either year
 ($r_S \leq$ `r round(max(sapply(cortests[c(9,10, 12)], function(x) x$estimate)),2)`,
 $p \geq$ `r round(min(sapply(cortests[c(9,10, 12)], function(x) x$p.value)),3)`;
-fig. \@ref(fig:scatter-plots)). Neither test statistics nor p-values changed substantially when the few lines with mean seed mass greater than 35 mg were excluded
+fig. \@ref(fig:scatter-plots)). Neither test statistics nor p-values changed substantially when the few lines with mean seed mass greater than 35 µg were excluded
 (Italy 2010: $r_S=$ `r round(cortests2[[1]]$estimate, 2)`, $p=$ `r round(cortests2[[1]]$p.value, 3)`;
 Italy 2011: $r_S=$ `r round(cortests2[[2]]$estimate, 2)`, $p=$ `r round(cortests2[[2]]$p.value, 3)`;
 Sweden 2010: $r_S=$ `r round(cortests2[[3]]$estimate, 2)`, $p=$ `r round(cortests2[[3]]$p.value, 3)`;
@@ -450,7 +444,7 @@ mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', hea
 colvec=c("red3", "red3","blue4","blue4")
 #setEPS()
 #postscript('../figures/QTL_pleiotropy.eps', width=25/2.56, height = 16/2.54)
-pdf('figures/04_QTL_pleiotropy.pdf', width=25/2.56, height = 16.9/2.54)
+# pdf('figures/04_QTL_pleiotropy.pdf', width=25/2.56, height = 16.9/2.54)
 
 ts <- 0.2
 par(mfrow=c(2,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), cex=0.8)
@@ -461,15 +455,15 @@ plotQTL_base(chr123, by=20, maxy = 20)
 pos_counter <- 1
 for(t in c("frut", "seed", "tofu", "mass", "surv")){
   # indicate extent of overlapping QTL with grey boxes.
-  boxes <- qtlclusters[[t]]
-  boxes$track <- match(boxes$chr, colnames(chr123$lane_margins)) # vector denoting which track to plot to.
-  boxes <- boxes[boxes$chr %in% 1:3,]
-  for(b in 1:nrow(boxes)){
-    plotQTL_box(chr123, boxes$track[b],
-                -boxes$upper[b], -boxes$lower[b],
-                left_lane = pos_counter, right_lane = pos_counter+4,
-                border = F, col='gray75', lwd=2)
-  }
+  # boxes <- qtlclusters[[t]]
+  # boxes$track <- match(boxes$chr, colnames(chr123$lane_margins)) # vector denoting which track to plot to.
+  # boxes <- boxes[boxes$chr %in% 1:3,]
+  # for(b in 1:nrow(boxes)){
+  #   plotQTL_boxes(chr123, boxes$track[b],
+  #               #c(-boxes$upper[b], -boxes$lower[b]),
+  #               left_lane = pos_counter, right_lane = pos_counter+4,
+  #               border = F, col='gray75', lwd=2)
+  # }
   # plot QTL positions
   for(i in 1:4){
     plotQTL_qtl(chr123, qtlmodels[[t]][[i]], qtlfits[[t]][[i]],
@@ -484,7 +478,7 @@ segments(chr123$lane_margins, 0,
 segments(chr123$lane_margins[seq(1,22,4),], 00,
          chr123$lane_margins[seq(1,22,4),], rep(-chr123$track_lengths, each=6),
          lty=1, col=1)
-plotQTL_lanes(chr123, lty=0)
+# plotQTL_lanes(chr123, lty=0)
 # Lane labels
 text(chr123$lane_margins[seq(3,21,4),], 15,
      c("Fruits\nper RP", "Seeds\nper fruit", "Seeds\nper RP", "Seed\nmass", "Survival"), col=1, cex=0.7, srt=-90, adj=c(0.5,0.5))
@@ -500,24 +494,21 @@ text(chr123$lane_margins[21, c(1,1,1,1,2,3)] + ts,
 
 
 
-
-
-
 chr45 <- plotQTL(4:5, mloc, nlanes = 20)
 plotQTL_base(chr45, by=20, maxy = 20)
 
 pos_counter <- 1
 for(t in c("frut", "seed", "tofu", "mass", "surv")){
-  # indicate extent of overlapping QTL with grey boxes.
-  boxes <- qtlclusters[[t]]
-  boxes$track <- match(boxes$chr, colnames(chr45$lane_margins)) # vector denoting which track to plot to.
-  boxes <- boxes[boxes$chr %in% 4:5,]
-  for(b in 1:nrow(boxes)){
-    plotQTL_box(chr45, boxes$track[b],
-                -boxes$upper[b], -boxes$lower[b],
-                left_lane = pos_counter, right_lane = pos_counter+4,
-                border = F, col='gray75', lwd=2)
-  }
+  # # indicate extent of overlapping QTL with grey boxes.
+  # boxes <- qtlclusters[[t]]
+  # boxes$track <- match(boxes$chr, colnames(chr45$lane_margins)) # vector denoting which track to plot to.
+  # boxes <- boxes[boxes$chr %in% 4:5,]
+  # for(b in 1:nrow(boxes)){
+  #   plotQTL_box(chr45, boxes$track[b],
+  #               -boxes$upper[b], -boxes$lower[b],
+  #               left_lane = pos_counter, right_lane = pos_counter+4,
+  #               border = F, col='gray75', lwd=2)
+  # }
   # plot QTL positions
   for(i in 1:4){
     plotQTL_qtl(chr45, qtlmodels[[t]][[i]], qtlfits[[t]][[i]],
@@ -532,7 +523,7 @@ segments(chr45$lane_margins, 0,
 segments(chr45$lane_margins[seq(1,22,4),], 00,
          chr45$lane_margins[seq(1,22,4),], rep(-chr45$track_lengths, each=6),
          lty=1, col=1)
-plotQTL_lanes(chr45, lty=0)
+# plotQTL_lanes(chr45, lty=0)
 # Lane labels
 text(chr45$lane_margins[seq(3,21,4),], 15,
      c("Fruits\nper RP", "Seeds\nper fruit", "Seeds\nper RP", "Seed\nmass", "Survival"), col=1, cex=0.7, srt=-90, adj=c(0.5,0.5))
@@ -546,7 +537,7 @@ segments(chr45$lane_margins[seq(1,19,2),] + os, 4,
 text(chr45$lane_margins[21, c("4","5","5","5","5","5")] + ts,
      -c(52, 1, 9, 16,55,74),
      c("f","ms", "fs","m","fs", "fs"), adj = 0)
-dev.off()
+# dev.off()
 ```
 
 ### Seed-number QTL affect fitness
@@ -556,12 +547,11 @@ We detected 13 QTL clusters for seed number per planted seedling (fig. \@ref(fig
 In two cases (chromosome 2, 22.7cM in Sweden in 2010 and chromosome 3, 18.0cM in Sweden in 2011) these fitness QTL correspond to QTL for seed number per fruit that do not overlap with QTL for fruit number per reproductive plant (fig. \@ref(fig:qtl-pleiotropy)). In the two other cases (chromosome 1, 45.6cM in Italy in 2011 and chromosome 4, 41-42cM in Sweden in both years), fitness QTL also correspond to QTL for seed number per fruit detected in the same years, but the latter show narrow overlap with QTL for fruit number per reproductive plant.
 
 ```{r fitness-qtl, eval=T, fig.cap="QTL for estimates of overall fitness in each site-year combination. Lanes show QTL for fruit number per planted seedling (Fruits per sdl) and seed number per seedling (Seeds per sdl). Arrows indicate most-likely QTL position and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). Vertical bars show the 95% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals >15.2cM. Grey boxes indicate the range of colocalising QTL for a single trait across site-year combinations."}
-library(qtltools)
 mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
 
 # setEPS()
 # postscript('./figures/QTL_survival_fitness.eps', width=25/2.56, height = 16/2.54, family='Times')
-pdf('figures/05_QTL_fitness.pdf', width=16.9/2.56, height = 12/2.54)
+# pdf('figures/05_QTL_fitness.pdf', width=16.9/2.56, height = 12/2.54)
 
 par(mfrow=c(1,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0))
 
@@ -574,15 +564,15 @@ colvec=c("red3", "red3","blue4","blue4")
 pos_counter <- 1
 for(t in c("ffit", "tfit")){
   # indicate extent of overlapping QTL with grey boxes.
-  boxes <- qtlclusters[[t]]
-  boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
-  boxes <- boxes[boxes$chr %in% 1:5,]
-  for(b in 1:nrow(boxes)){
-    plotQTL_box(pos_plot, boxes$track[b],
-                -boxes$upper[b], -boxes$lower[b],
-                left_lane = pos_counter, right_lane = pos_counter+4,
-                border = F, col='gray75', lwd=2)
-  }
+  # boxes <- qtlclusters[[t]]
+  # boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
+  # boxes <- boxes[boxes$chr %in% 1:5,]
+  # for(b in 1:nrow(boxes)){
+  #   plotQTL_box(pos_plot, boxes$track[b],
+  #               -boxes$upper[b], -boxes$lower[b],
+  #               left_lane = pos_counter, right_lane = pos_counter+4,
+  #               border = F, col='gray75', lwd=2)
+  # }
   # plot QTL positions
   for(i in 1:4){
     plotQTL_qtl(pos_plot, qtlmodels[[t]][[i]], qtlfits[[t]][[i]],
@@ -595,14 +585,14 @@ for(t in c("ffit", "tfit")){
 segments(pos_plot$lane_margins[-1,], 0,
          pos_plot$lane_margins[-1,], rep(-pos_plot$track_lengths, each=pos_plot$nlanes),
          lty=c(2,2,2,1), col=c('gray50','gray50','gray50',1))
-plotQTL_lanes(pos_plot, lty=0)
+# plotQTL_lanes(pos_plot, lty=0)
 # Lane labels
 text(pos_plot$lane_margins[c(3,7),], 15, c("Fruits\nper sdl", "Seeds\nper sdl"), col=1, cex=0.6, srt=-90, adj=c(0.5,0.5))
 # text(pos_plot$lane_margins[seq(2,21,2),], 2, c("2010", "2011"), cex=0.7, adj=c(0.5,0.5), srt=90)
 text(pos_plot$lane_centres, 2, c("10", "11"), cex=0.5, adj=c(0.5,0.5), srt=0, col='gray30')
 text(pos_plot$lane_margins[seq(2,9,2),], 6, c("IT", "SW"), cex=0.6, adj=c(0.5,0.5), srt=0, col=c('red3','blue4'))
 
-dev.off()
+# dev.off()
 
 ```
 
