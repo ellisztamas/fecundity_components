@@ -1,3 +1,6 @@
+library(arghqtl)
+library(qtl)
+
 # There are QTL models for each of four site-year combinations
 siteyear <- c("it2010", "it2011", "sw2010", "sw2011")
 # There are six phenotypes in each site-year combination:
