@@ -391,9 +391,6 @@ Sweden 2010: $r_S=$ `r round(cortests2[[3]]$estimate, 2)`, $p=$ `r round(cortest
 Sweden 2011: $r_S=$ `r round(cortests2[[4]]$estimate, 2)`, $p=$ `r round(cortests2[[4]]$p.value, 3)`).
 
 ## QTL-mapping results
-### Positive pleiotropy for fecundity and survival
-
-In each site year combination we detected between three and six for seed number per fruit, and between three and ten QTL for both seed number per reproductive plant and seed number per planted seedling (fig. \@ref(tab:qtl-summary-table); see supporting tables 1-5 for full model details). To assess pleiotropic effects of QTL we first grouped loci identified for a single trait if their credible intervals overlapped, ignoring QTL credible intervals greater than 15.2cM (fig. \@ref(fig:qtl-pleiotropy)). Eight out of ten clusters for seed number per fruit colocalised with clusters for fruit number per reproductive plant, although we note that for the pair of clusters on chromosome two the overlap in QTL position is extremely narrow. Likewise, all seven clusters for survival and six out of eight clusters for seed mass colocalised with clusters for seed number per reproductive plant.
 
 ```{r qtl-summary-table, eval=F, eval=T, dependson='selection-bootstraps', qtl_time = file.info('R/format_QTL_models.R')}
 # name, number, LOD, PVE, %parents
@@ -436,179 +433,57 @@ kable(qtl_tab, row.names = F, digits = 1,
   
 ```
 
-The Swedish alleles for QTL for survival or any fecundity trait were associated with a reduction in the trait when detected in Italy, except for the QTL for seed number per fruit and seed number per reproductive plant at the start of chromosome 1. As such, all pleiotropic loci show effects in the same direction on each trait. In Sweden, the local alleles for fruit number per reproductive plant and seed number per fruit were associated with an increase in fecundity in three and four cases, and with a decrease in four and two cases respectively. Nevertheless, all loci but one showed effects in the same direction on each trait. The exception is the QTL cluster found at the end of chromosome 1, where the Swedish allele was associated with an increase in seed number per fruit, but a decrease in fruit number per reproductive plant.
+### QTL for seed number
 
-```{r qtl-pleiotropy, out.extra='angle=90', fig.width=26/2.54, fig.height=24/2.54, fig.cap="QTL for components of fitness and seed mass. Lanes show individual QTL for fruit number per reproductive plant (Fruits per RP), seed number per fruit, seed number per reproductive plant (Seeds per RP), seed mass and survival. Arrows indicate most-likely QTL position and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). Vertical bars show the 95\\% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals 15.2cM. Labels on the right of chromosome indicate QTL with pleiotropic effects on components of fecundity (f), fecundity and survival (s) and fecundity and seed mass (m). Grey boxes indicate the range of colocalising QTL for a single trait across site-year combinations."}
-mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
+Local alleles at QTL for seed number per fruit were generally associated with increased fecundity. In Italy we detected five distinct, well-defined QTL, as well as two additional poorly-defined QTL with credible intervals longer than 15.2cM (fig. \@ref(fig:qtl-pleiotropy), table \@ref(tab:qtl-summary-table); see supporting tables 1-5 for full model details). In all cases the the non-local Swedish allele was associated with decreased seed number. In Sweden we found six distinct QTL for seed number per fruit. The local Swedish allele was associated with an increase in seed production at four of these loci and with a decrease at the remaining two loci.
 
-colvec=c("red3", "red3","blue4","blue4")
+QTL for overall fecundity could be explained by QTL for components of fecundity (fig. \@ref(fig:qtl-pleiotropy)). In Italy we detected a total of twelve distinct QTL for seed number per reproductive plant, and one further poorly-defined QTL. All of these loci colocalised with QTL for either fruit number per plant or seed number per fruit, of which four loci colocalised with both components of fecundity. In Sweden, we detected a total of eight QTL distinct QTL for seed number per reproductive plant, of which four could be identified to within 15.2cM. Six of these loci colocalised with well-defined QTL for either fruit number per plant or seed number per fruit. Of the two remaining loci, one colocalised with a poorly defined QTL for fruit number per fruit (chr. 1, 22.7cM), and the other did not overlap with any detectable QTL for fecundity components.
+
+### Positive pleiotropy for fecundity and survival
+
+We found distinct regions of the linkage map with pleiotropic effects on survival and components of fecundity. In all but two cases, well-defined QTL for fruit number per plant, seed number per fruit and survival mapped to one of 13 regions across the linkage map (Q1-Q13; fig. \@ref(fig:qtl-pleiotropy)). Four of these regions in Italy (Q1, Q3, Q11, Q12) and six regions in Sweden (Q3, Q4, Q5, Q11, Q12, Q13) were associated with QTL for both components of fecundity. Meanwhile, four  regions in Italy (Q3, Q4, Q7,Q13) and one region in Sweden (Q13) were associated with QTL for both seed number per reproductive plant and survival. We also detected one QTL for survival (chr. 1, 40.6cM) and one QTL for seed number per fruit (chr. 2, 39.8cM) which did not show significant pleiotropic effects on other traits.
+
+Alleles at pleiotropic QTL affected traits in the same direction (fig. \@ref(fig:qtl-pleiotropy). In Italy, in all regions where well-defined QTL were detected for both fruit number per reproductive plant and seed number per fruit (Q1, Q3, Q11, Q12) or for both seed number per reproductive plant and survival (Q3, Q4, Q5, Q11, Q12, Q13) the non-local Swedish allele was associated with a decrease in both traits. In Sweden, the local allele at one of these QTL regions (Q13) was associated with an increase in both fruit number per reproductive plant and seed number per fruit, and the local alleles at two of these regions with a decrease in both traits (Q3, Q7). QTL region Q4 was associated with a decrease in fruit number per plant, but an increase in seed number per fruit. The local allele at one QTL region (Q13) was associated with an increase in both seed number per reproductive plant and survival.
+
+```{r qtl-pleiotropy, fig.width=16.9/2.54, fig.height=20/2.54, fig.cap="QTL for fecundity traits and seed mass. Lanes show individual QTL for fruit number per reproductive plant (Fr/RP), seed number per fruit (Sd/Fr), seed number per reproductive plant (Sd/RP), seed mass (Sd mass) and survival (Surv). Arrows indicate most-likely QTL position and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). Vertical bars show the 95\\% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals longer than 15.2cM. Grey boxes indicate regions harbouring QTL with pleiotropic effects on two or more traits."}
 #setEPS()
-#postscript('../figures/QTL_pleiotropy.eps', width=25/2.56, height = 16/2.54)
-# pdf('figures/04_QTL_pleiotropy.pdf', width=25/2.56, height = 16.9/2.54)
-
-ts <- 0.2
-par(mfrow=c(2,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0), cex=0.8)
-
-chr123 <- plotQTL(1:3, mloc, nlanes = 20)
-plotQTL_base(chr123, by=20, maxy = 20)
-
-pos_counter <- 1
-for(t in c("frut", "seed", "tofu", "mass", "surv")){
-  # indicate extent of overlapping QTL with grey boxes.
-  # boxes <- qtlclusters[[t]]
-  # boxes$track <- match(boxes$chr, colnames(chr123$lane_margins)) # vector denoting which track to plot to.
-  # boxes <- boxes[boxes$chr %in% 1:3,]
-  # for(b in 1:nrow(boxes)){
-  #   plotQTL_boxes(chr123, boxes$track[b],
-  #               #c(-boxes$upper[b], -boxes$lower[b]),
-  #               left_lane = pos_counter, right_lane = pos_counter+4,
-  #               border = F, col='gray75', lwd=2)
-  # }
-  # plot QTL positions
-  for(i in 1:4){
-    plotQTL_qtl(chr123, qtlmodels[[t]][[i]], qtlfits[[t]][[i]],
-                fill_cutoff = 15.2, lane = i+pos_counter-1, col=colvec[i])
-  }
-  pos_counter <- pos_counter + 4
-}
-# Lanes dividers
-segments(chr123$lane_margins, 0,
-         chr123$lane_margins, rep(-chr123$track_lengths, each=21),
-         lty=2, col='gray50')
-segments(chr123$lane_margins[seq(1,22,4),], 00,
-         chr123$lane_margins[seq(1,22,4),], rep(-chr123$track_lengths, each=6),
-         lty=1, col=1)
-# plotQTL_lanes(chr123, lty=0)
-# Lane labels
-text(chr123$lane_margins[seq(3,21,4),], 15,
-     c("Fruits\nper RP", "Seeds\nper fruit", "Seeds\nper RP", "Seed\nmass", "Survival"), col=1, cex=0.7, srt=-90, adj=c(0.5,0.5))
-text(chr123$lane_centres, 2, c("10", "11"), cex=0.6, adj=c(0.5,0.5), srt=0, col='gray30')
-text(chr123$lane_margins[seq(2,21,2),], 6, c("IT", "SW"), cex=0.6, adj=c(0.5,0.5), srt=0, col=c('red3','blue4'))
-os <- 0.2
-segments(chr123$lane_margins[seq(1,19,2),] + os, 4, 
-         chr123$lane_margins[seq(3,21,2),] - os, 4, col=c('red3','blue4'), lwd=1)
-# label pleiotropic regions
-text(chr123$lane_margins[21, c(1,1,1,1,2,3)] + ts,
-     -c(11, 23, 60, 80, 53, 63),
-     c("fm", "m","fs","fs","ms","f"), adj = 0)
-
-
-
-chr45 <- plotQTL(4:5, mloc, nlanes = 20)
-plotQTL_base(chr45, by=20, maxy = 20)
-
-pos_counter <- 1
-for(t in c("frut", "seed", "tofu", "mass", "surv")){
-  # # indicate extent of overlapping QTL with grey boxes.
-  # boxes <- qtlclusters[[t]]
-  # boxes$track <- match(boxes$chr, colnames(chr45$lane_margins)) # vector denoting which track to plot to.
-  # boxes <- boxes[boxes$chr %in% 4:5,]
-  # for(b in 1:nrow(boxes)){
-  #   plotQTL_box(chr45, boxes$track[b],
-  #               -boxes$upper[b], -boxes$lower[b],
-  #               left_lane = pos_counter, right_lane = pos_counter+4,
-  #               border = F, col='gray75', lwd=2)
-  # }
-  # plot QTL positions
-  for(i in 1:4){
-    plotQTL_qtl(chr45, qtlmodels[[t]][[i]], qtlfits[[t]][[i]],
-                fill_cutoff = 15.2, lane = i+pos_counter-1, col=colvec[i])
-  }
-  pos_counter <- pos_counter + 4
-}
-
-segments(chr45$lane_margins, 0,
-         chr45$lane_margins, rep(-chr45$track_lengths, each=21),
-         lty=2, col='gray50')
-segments(chr45$lane_margins[seq(1,22,4),], 00,
-         chr45$lane_margins[seq(1,22,4),], rep(-chr45$track_lengths, each=6),
-         lty=1, col=1)
-# plotQTL_lanes(chr45, lty=0)
-# Lane labels
-text(chr45$lane_margins[seq(3,21,4),], 15,
-     c("Fruits\nper RP", "Seeds\nper fruit", "Seeds\nper RP", "Seed\nmass", "Survival"), col=1, cex=0.7, srt=-90, adj=c(0.5,0.5))
-text(chr45$lane_centres, 2, c("10", "11"), cex=0.6, adj=c(0.5,0.5), srt=0, col='gray30')
-text(chr45$lane_margins[seq(2,21,2),], 6, c("IT", "SW"), cex=0.6, adj=c(0.5,0.5), srt=0, col=c('red3','blue4'))
-os <- 0.2
-segments(chr45$lane_margins[seq(1,19,2),] + os, 4, 
-         chr45$lane_margins[seq(3,21,2),] - os, 4, col=c('red3','blue4'), lwd=1)
-
-# label pleiotropic regions
-text(chr45$lane_margins[21, c("4","5","5","5","5","5")] + ts,
-     -c(52, 1, 9, 16,55,74),
-     c("f","ms", "fs","m","fs", "fs"), adj = 0)
+# postscript('../figures/QTL_pleiotropy.eps', width=25/2.56, height = 16/2.54)
+# pdf('figures/QTL_pleiotropy_separate_sites.pdf', width=16.9/2.56)
+source("R/figure_qtl_pleiotropy_separate_sites.R")
 # dev.off()
 ```
 
 ### Seed-number QTL affect fitness
 
-We detected 13 QTL clusters for seed number per planted seedling (fig. \@ref(fig:fitness-qtl)). One of these clusters in Italy and three in Sweden could not be explained as overlapping with QTL for fruit number per planted seedling identified in a previous analysis. These QTL thus represent QTL for seed number per planted seedling that are independent of pleiotropic effects on fruit number per reproductive plant.
+We compared QTL mapping results for overall fitness based on seed and fruit number with those obtained from analyses using fruit number only. We detected 13 QTL for seed number per planted seedling (12 in Italy, and 7 in Sweden; fig. \@ref(fig:fitness-qtl)), and four of these (one in in Italy and three in Sweden) did not overlap with QTL for fruit number per planted seedling identified in a previous analysis (chromosome 2, 45.6cM in Italy in 2011, chromosome 1, 22.7cM in Sweden in 2010, chromosome 3, 18.0cM in Sweden in 2011, and chromosome 4, 41-42cM in Sweden in both years; fig. \@ref(fig:fitness-qtl)). These four QTL for overall fitness were thus detected only when information about number of seeds per fruit was included in the estimate of fitness. However, it is worth noting that the QTL detected on chromosome 2 in Italy in 2010 is located rather close to a previously documented QTL for number of fruits per seedling (fig. \@ref(fig:fitness-qtl)). All four QTL overlapped with well-defined QTL for seed number per fruit (fig. \@ref(fig:qtl-pleiotropy)). 
 
-In two cases (chromosome 2, 22.7cM in Sweden in 2010 and chromosome 3, 18.0cM in Sweden in 2011) these fitness QTL correspond to QTL for seed number per fruit that do not overlap with QTL for fruit number per reproductive plant (fig. \@ref(fig:qtl-pleiotropy)). In the two other cases (chromosome 1, 45.6cM in Italy in 2011 and chromosome 4, 41-42cM in Sweden in both years), fitness QTL also correspond to QTL for seed number per fruit detected in the same years, but the latter show narrow overlap with QTL for fruit number per reproductive plant.
-
-```{r fitness-qtl, eval=T, fig.cap="QTL for estimates of overall fitness in each site-year combination. Lanes show QTL for fruit number per planted seedling (Fruits per sdl) and seed number per seedling (Seeds per sdl). Arrows indicate most-likely QTL position and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). Vertical bars show the 95% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals >15.2cM. Grey boxes indicate the range of colocalising QTL for a single trait across site-year combinations."}
-mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
-
+```{r fitness-qtl, eval=T, fig.cap="QTL for estimates of seed number per seedling in each site-year combination. Arrows indicate most-likely QTL position and the effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red) and Sweden (blue). Vertical bars show the 95% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals longer than 15.2cM. Grey boxes indicate regions harbouring QTL for fitness previously detected using fruit number per seedling only [@agren_genetic_2013]."}
 # setEPS()
 # postscript('./figures/QTL_survival_fitness.eps', width=25/2.56, height = 16/2.54, family='Times')
 # pdf('figures/05_QTL_fitness.pdf', width=16.9/2.56, height = 12/2.54)
 
-par(mfrow=c(1,1), mar=c(1,3,0,0)+0.1, oma=c(0,0,0,0))
-
-pos_plot <- plotQTL(1:5, mloc, nlanes = 8)
-plotQTL_base(pos_plot, by=20, maxy = 20)
-text(35, -95, "Chromosome")
-
-colvec=c("red3", "red3","blue4","blue4")
-
-pos_counter <- 1
-for(t in c("ffit", "tfit")){
-  # indicate extent of overlapping QTL with grey boxes.
-  # boxes <- qtlclusters[[t]]
-  # boxes$track <- match(boxes$chr, colnames(pos_plot$lane_margins)) # vector denoting which track to plot to.
-  # boxes <- boxes[boxes$chr %in% 1:5,]
-  # for(b in 1:nrow(boxes)){
-  #   plotQTL_box(pos_plot, boxes$track[b],
-  #               -boxes$upper[b], -boxes$lower[b],
-  #               left_lane = pos_counter, right_lane = pos_counter+4,
-  #               border = F, col='gray75', lwd=2)
-  # }
-  # plot QTL positions
-  for(i in 1:4){
-    plotQTL_qtl(pos_plot, qtlmodels[[t]][[i]], qtlfits[[t]][[i]],
-                fill_cutoff = 15.2, lane = i+pos_counter-1, col=colvec[i])
-  }
-  pos_counter <- pos_counter + 4
-}
-
-# Lanes dividers
-segments(pos_plot$lane_margins[-1,], 0,
-         pos_plot$lane_margins[-1,], rep(-pos_plot$track_lengths, each=pos_plot$nlanes),
-         lty=c(2,2,2,1), col=c('gray50','gray50','gray50',1))
-# plotQTL_lanes(pos_plot, lty=0)
-# Lane labels
-text(pos_plot$lane_margins[c(3,7),], 15, c("Fruits\nper sdl", "Seeds\nper sdl"), col=1, cex=0.6, srt=-90, adj=c(0.5,0.5))
-# text(pos_plot$lane_margins[seq(2,21,2),], 2, c("2010", "2011"), cex=0.7, adj=c(0.5,0.5), srt=90)
-text(pos_plot$lane_centres, 2, c("10", "11"), cex=0.5, adj=c(0.5,0.5), srt=0, col='gray30')
-text(pos_plot$lane_margins[seq(2,9,2),], 6, c("IT", "SW"), cex=0.6, adj=c(0.5,0.5), srt=0, col=c('red3','blue4'))
+source("R/figure_qtl_fitness.R")
 
 # dev.off()
 
 ```
 
 ### Seed mass QTL
-In each site year combination we detected between two and six QTL for seed mass (fig. \@ref(fig:qtl-pleiotropy), table \@ref(tab:qtl-summary-table), supporting tables 1 and 5). QTL models explained more than 100% of the difference between parental means in Sweden in 2011 due to the very small differences between parental means in that experiment (fig. \@ref(fig:selection) and \@ref(fig:seed-mass)).
 
-Seed-mass QTL clustered into a total of eight non-overlapping clusters, of which six colocalised with QTL for seed number per planted seedling (fig. \@ref(fig:qtl-pleiotropy)). In Italy, the Swedish allele at two of these clusters were associated with an increase in seed mass, and two with a decrease. In Sweden, the local alleles at three clusters were associated with an increase in seed mass and two with a decrease.
+Local alleles for seed mass QTL were associated with both increases and decreases in seed mass. We identified a total of seven QTL for seed mass in either year Italy, and eleven in Sweden (fig. \@ref(fig:qtl-pleiotropy), table \@ref(tab:qtl-summary-table), supporting table 1). In Italy, the Swedish allele at two of these QTL were associated with an increase in seed mass, and five with a decrease. In Sweden, the local alleles at seven of these QTL were associated with an increase in seed mass, and four with a decrease.
+
+QTL for seed mass showed both positive and negative pleiotropic effects with fecundity (fig. \@ref(fig:qtl-pleiotropy)). All well-defined QTL for seed mass mapped to regions with pleiotropic effects on survival and fecundity (Q1, Q8 and Q11 in Italy; Q1, Q2, Q5, Q11 in Sweden), except for the QTL found on chromosome 4 (9.3cM) in Italy in 2011. In Italy, the Swedish allele was associated with a decrease in both seed mass and seed number per reproductive plant at region Q8, and with an increase in seed mass but a decrease in seed number per reproductive plant at two QTL regions (Q1, Q11). In Sweden, we only detected pleiotropic effects on seed mass and fecundity at a single region (Q2), where the local allele was associated with a decrease in seed mass, but an increase in seed number per reproductive plant.
 
 ### Epistasis
-We also detected one pair of QTL for seed mass that showed significant epistatic interactions, three pairs for seed number per fruit, one pair for seed number per reproductive adult and two pairs for seed number per planted seedling (supporting fig. 2-5, supporting table 5). One pair of loci at 61.1cM on chromosome one and between 22.0 and 24.0cM on chromosome three was detected for seed number per fruit, seed number per reproductive adult and seed number per planted seedling. This pair of loci was also detected for fruit number per reproductive plant in the previous analysis by @agren_genetic_2013. 
+
+We observed four cases of pairs of loci that showed significant epistatic interactions (supporting table 5). Firstly, we detected an interaction for seed number per fruit between QTL in regions Q1 and Q11 in Italy in 2011, for which recombinant genotypes showed reduced seed number at Q11 (supporting figure 1). We also found significant interactions for loci in the Q3 and Q7 QTL regions for seed number per fruit, seed number per reproductive plant and seed number per planted seeding (supporting figures 1-3). This corresponds to the pair of epistatic loci detected for fruit number per reproductive plant in the previous analysis by @agren_genetic_2013. For all traits for which this interaction was detected, recombinant genotypes showed increased fecundity.
 
 # Discussion
 
 This study investigated natural genetic variation for fecundity and its components and for seed size among two native accessions and in a recombinant inbred line population of *A. thaliana* derived from a cross between these accessions and grown at the native sites. Local genotypes showed increased seed number per fruit, which generally increased the advantage in overall fitness relative to fitness estimates based on fruit number and survival alone. We found generally positive genetic correlations between components of fecundity and between fecundity and survival, but weak or no correlation between fecundity and seed size. These correlations were reflected in widespread pleiotropic effects of large-effect QTL for fecundity and survival, with alleles being associated with changes in each trait in the same directions. These results demonstrate that positive correlations among components of fitness contribute to the overall adaptive advantage of locally-adapted genotypes in *A. thaliana*.
 
 ## Adaptive differentiation through seed number variation
+
 Including information on seed number afforded several insights into adaptive differentiation in the populations studied that would not have been possible by counting fruit numbers alone. We observed strong selection acting through seed number per fruit in both years in Italy, and a greater advantage in overall fitness to the local genotype when fitness is estimated including information about seed number (fig. \@ref(fig:selection)). In Sweden, seed number per fruit was the only component of fecundity to show significant selection in either year in 2010. Including information on seed number in estimates of overall fitness allowed us to detect a significant advantage to the local genotype where none had previously been detected based on survival and number of fruits per reproductive plant only. Variation in seed number makes an important contribution to the fecundity component of adaptive differentiation beyond what could be detected through variation in fruit number alone.
 
 Although fecundity QTL tended to influence both seed number and fruit number, we found four QTL for overall fitness that would not have been found using fruit number alone. These loci in turn correspond to QTL for seed number per fruit itself, indicating that it is variation in seed number per fruit rather than pleiotropic effects on both fruit and seed number that underly the QTL effects on fitness. We do however note that for two of these QTL there is narrow overlap in the credible intervals with loci associated with fruit number per reproductive plant, and we cannot completely rule out the possibility that there are some pleiotropic effects on both components of fecundity at these loci. Despite this overlap, these loci represent novel QTL for fecundity determined primarily by their effect on variation in seed number.

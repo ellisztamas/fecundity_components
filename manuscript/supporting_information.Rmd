@@ -7,15 +7,15 @@ output:
     toc: true
   bookdown::pdf_book:
     toc: yes
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, fig.pos = 'H', eval=T)
 library("qtl", quietly = T)
-library(qtltools)
-library(knitr)
-library(vioplot)
-
+library("arghqtl")
+library("knitr")
 ```
 
 ```{r import-data, eval=T, include=FALSE}
@@ -35,53 +35,11 @@ qtlmodels   <- readRDS(file='output/qtl_stepwise_models.rds')
 qtlfits     <- readRDS(file='output/qtl_model_fits.rds')
 qtlclusters <- readRDS(file='output/qtl_clusters.rds')
 
+# Traits to be presented.
+traits <- c("mass","seed", "tofu", "tfit")
 ```
 
 This document contains supporting tables and figures for the manuscript "Positive correlations among fitness components boost estimates of local adaptation in *Arabidopsis thaliana*" by Thomas Ellis, Froukje Postma, Christopher Oakley and Jon Ågren.
-
-```{r cluster-for-table, eval=F}
-tabclusters  <- lapply(traits, function(x) return(NULL))
-names(tabclusters) <- traits
-
-# perform QTL clustering for each trait
-library(qtltools)
-for(i in traits){
-  if(i == "surv"){
-    dat <- cluster_qtl(1:5, qtlmodels[[i]][c(1,2,4)], qtlfits[[i]][c(1,2,4)], 15.2)$full.list
-  } else {
-    dat <- cluster_qtl(1:5, qtlmodels[[i]], qtlfits[[i]], 15.2)
-  }
-  tabclusters[[i]] <- dat
-  
-}
-
-tabclusters$surv$experiment[tabclusters$surv$experiment == 3] <- 4
-```
-
-```{r table-of-clusters, eval=F}
-# vector of columns to summarise
-cmns <- c("ML_bayesint", "effect_sizes", "PVE","LOD")
-
-dat <- tabclusters$mass$full.list
-
-qtl <- unique(dat$QTL_id)
-
-tab <- lapply(1:4, function(x) NULL)
-for(e in 1:4){
-  thisqtl <- as.data.frame(matrix(NA, nrow=length(qtl), ncol=length(cmns)))
-  colnames(thisqtl) <- cmns
-  
-  for(i in 1:length(qtl)){
-    q <- qtl[i]
-    qx <- dat$experiment == e & dat$QTL_id ==q
-    out <- round(dat[qx,cmns],2)
-    if(nrow(out) == 0) out <- rep(NA, 4)
-    cat(dim(out), e, q, "\n")
-    thisqtl[i, ] <- out
-  }
-  tab[[e]] <- thisqtl
-}
-```
 
 \newpage
 
@@ -101,16 +59,17 @@ tab <- list(bayesint_table(qtlmodels[[ix]]$it2010, qtlfits[[ix]]$it2010),
 for(i in 1:4){
   tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
   tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
-  tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
 }
 tab <- do.call('rbind', tab)
 # mash together positions with their CIs
 tab$position <- paste(round(tab$ML_bayesint,1),
                       " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
 # print the table
-kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE", "PDE")], digits = c(0,0,0,0,0,1,3,1,1),
-      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained", "% diff. explained"),
-      caption="QTL for seed mass identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values, as a percentage of variance among RIL means, and as a percentage of the difference between parental means.")
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption="QTL for seed mass identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
 ```
 
 \newpage
@@ -126,16 +85,17 @@ tab <- list(bayesint_table(qtlmodels[[ix]]$it2010, qtlfits[[ix]]$it2010),
 for(i in 1:4){
   tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
   tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
-  tab[[i]]$PDE <- 100* abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
 }
 tab <- do.call('rbind', tab)
 # mash together positions with their CIs
 tab$position <- paste(round(tab$ML_bayesint,1),
                       " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
 # print the table
-kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE", "PDE")], digits = c(0,0,0,0,0,1,3,1,1),
-      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained", "% diff. explained"),
-      caption="QTL for fruit number per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values, as a percentage of variance among RIL means, and as a percentage of the difference between parental means.")
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption="QTL for fruit number per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
 ```
 
 \newpage
@@ -151,16 +111,17 @@ tab <- list(bayesint_table(qtlmodels[[ix]]$it2010, qtlfits[[ix]]$it2010),
 for(i in 1:4){
   tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
   tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
-  tab[[i]]$PDE <- 100 * abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
 }
 tab <- do.call('rbind', tab)
 # mash together positions with their CIs
 tab$position <- paste(round(tab$ML_bayesint,1),
                       " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
 # print the table
-kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE", "PDE")], digits = c(0,0,0,0,0,1,3,1,1,1),
-      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained", "% diff. explained"),
-      caption="QTL for seed number per fruit identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values, as a percentage of variance among RIL means, and as a percentage of the difference between parental means.")
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption="QTL for seed number per fruit identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
 ```
 
 \newpage
@@ -176,15 +137,17 @@ tab <- list(bayesint_table(qtlmodels[[ix]]$it2010, qtlfits[[ix]]$it2010),
 for(i in 1:4){
   tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
   tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
-  tab[[i]]$PDE <-100* abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
 }
 tab <- do.call('rbind', tab)
 # mash together positions with their CIs
 tab$position <- paste(round(tab$ML_bayesint,1),
                       " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
 # print the table
-kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE", "PDE")], digits = c(0,0,0,0,0,1,3,1,1),
-      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained", "% diff. explained"),         caption = "QTL for seed number per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values, as a percentage of variance among RIL means, and as a percentage of the difference between parental means.")
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption = "QTL for seed number per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
 
 ```
 
@@ -201,16 +164,17 @@ tab <- list(bayesint_table(qtlmodels[[ix]]$it2010, qtlfits[[ix]]$it2010),
 for(i in 1:4){
   tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
   tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
-  tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
 }
 tab <- do.call('rbind', tab)
 # mash together positions with their CIs
 tab$position <- paste(round(tab$ML_bayesint,1),
                       " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
 # print the table
-kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE", "PDE")], digits = c(0,0,0,0,0,1,3,1,1),
-      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained", "% diff. explained"),
-      caption = "QTL for seed number per planted seedling identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values, as a percentage of variance among RIL means, and as a percentage of the difference between parental means.")
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption = "QTL for seed number per planted seedling identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
 
 ```
 
@@ -274,119 +238,129 @@ kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE"
 
 \newpage
 
-```{r tab: epistatic-qtl, eval=T}
+```{r epistatic-qtl-table, eval=T}
+epi_tab <- matrix(NA, nrow = 0, ncol=11)
 
-# function to extract information about epistatic interactions.
-epi_fun <- function(x) {
-  d <- summary(x)
-  i <- nrow(d$result.drop)
-  c(row.names(d$ests)[i+1], d$ests[i, 1], d$result.drop[i, c(3,4)])
-}
-
-trait_names <- c("Seed mass", "Fruits/RP", "Seeds/fr", "Seeds/RP", "Fruits/sdl", "Seeds/sdl", "Survival")
-site_names  <- c("Italy", "Italy", "Sweden", "Sweden")
-year_names  <- c(2010, 2011, 2010, 2011)
-
-epi_tab <- matrix(NA, ncol=8, nrow=0)
-
-# for(tr in c(1,3,4,6)){
-for(tr in 1:7){
-  for(sy in 1:4){
-    if(length(qtlmodels[[tr]][[sy]]) > 0){
-      if(length(strsplit(formula(qtlmodels[[tr]][[sy]]), ":")[[1]]) > 1){
-        tab <- epi_fun(qtlfits[[tr]][[sy]])
-        
-        tab <- c(tab, abs(round(100*as.numeric(tab[2]) / parent_diffs[parent_diffs$trait== names(qtlfits)[tr], sy], 1)))
-        # print(as.numeric(tab[2]) / parent_diffs[parent_diffs$trait== names(qtlfits)[tr], sy])
-        epi_tab <- rbind(epi_tab, c(trait_names[tr], site_names[sy], year_names[sy], tab))
-      }
-    }
+for(tr in traits){
+  for(sy in c("it2010", "it2011", "sw2010","sw2011")){
+    eepi_tab <- grep(":", row.names(summary(qtlfits[[tr]][[sy]])$result.drop))
+    this_summ <- summary(qtlfits[[tr]][[sy]])$result.drop[eepi_tab,]
+    this_summ <- c(tr, substr(sy, 1,2), substr(sy, 3,6),
+                   row.names(summary(qtlfits[[tr]][[sy]])$result.drop)[eepi_tab], this_summ)
+    if(!all(this_summ %in% c(tr, substr(sy, 1,2), substr(sy, 3,6)))) epi_tab <- rbind(epi_tab, this_summ)
   }
 }
 
 epi_tab <- as.data.frame(epi_tab)
-colnames(epi_tab) <- c("Trait",   "Site", "Year", "QTL", "Effect size", "LOD", "% var. explained", "% diff. explained")
-for(c in 5:7) epi_tab[,c] <- round(as.numeric(as.vector(epi_tab[,c])), 2)
+colnames(epi_tab)[1:4] <- c("Trait", "Site","Year", "QTL")
+epi_tab <- epi_tab[, c("Trait", "Site","Year", "QTL", "LOD", "%var")]
+# Comvert values from factors
+epi_tab$Trait  <- as.vector(epi_tab$Trait)
+epi_tab$LOD    <- as.numeric(as.vector(epi_tab$LOD))
+epi_tab$`%var` <- as.numeric(as.vector(epi_tab$`%var`))
 
-kable(epi_tab, digits = c(0,0,0,0,1,1,1, 1),
-      caption = "Pairs of significant epistatic QTL  for fruit number per reproductive plant (Fruits/RP), seed number per fruit (Seeds/fr), seed number per reproductive plant (Seeds/RP), seed mass (Sd mass) and survival to reproduction (Surv). Effect sizes are given as absolute values, as a percentage of variance among RIL means, and as a percentage of the difference between parental means.")
+# Add prettier names
+epi_tab$Trait[epi_tab$Trait == "seed"] <- "Seeds per fruit"
+epi_tab$Trait[epi_tab$Trait == "tofu"] <- "Seeds per reproductive plant"
+epi_tab$Trait[epi_tab$Trait == "tfit"] <- "Seeds per planted seedling"
+
+epi_tab$Site <- ifelse(epi_tab$Site == "it", "Italy", "Sweden")
+
+kable(epi_tab, digits = 2, row.names = F,
+      col.names = c("Trait", "Site","Year", "QTL", "LOD", "% var. explained"),
+      caption = "Pairs of significant epistatic QTL detected across traits.")
 ```
 
 \newpage
-
-```{r path-diagram, echo=FALSE, fig.cap="Putative path diagram indicating traits used in this study. In addition, fruit number per planted seedling is used, but not shown. Red indicates components of fecundity, blue components of fitness. Dashed lines indicate possible trade-off relationships investigated in this study. Asterisks indicate traits which are estimated as a product of components and not directly observed; see text for details."}
-include_graphics('../figures/trait_path_diagram.pdf')
-```
-
-\newpage
-
-```{r fig: epistatic-mass, fig.width=8/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for the epistatic interaction detected for seed mass, showing mean and standard errors for each genotype-by-genotype combination."}
-# seed mass
-par(mfrow=c(1,1))
-effectplot(cross$mass, pheno.col = "sw2010", mname1 = "2@22.0", mname2 = "5@2.6", add.legend = F,
-           main = "Sweden 2010", xlab="QTL 5:2.6", ylab="Seed mass (mg)")
-legend('topleft', legend = c("QTL 2:22.0","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
-```
 
 ```{r fig: epistatic-seed, fig.width=16.9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for seed number per fruit, showing mean and standard errors for each genotype-by-genotype combination."}
 # seed number per fruit
-par(mfrow=c(1,3))
-effectplot(cross$seed, pheno.col = "it2011", mname1 = "1@5.3", mname2 = "5@15.0", add.legend = F,
-           main = "Italy 2011", xlab="QTL 5:15.0", ylab="Seed number per fruit")
-legend('topright', c("QTL 1:5.3","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
+par(mfrow = c(1, 2))
+effectplot(
+  cross$seed,
+  pheno.col = "it2011",
+  mname1 = "1@5.3",
+  mname2 = "5@15.0",
+  add.legend = F,
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Italy 2011",
+  xlab = "QTL 5@15.0",
+  ylab = "Seed number per fruit"
+)
+legend(
+  'topright',
+  c("QTL 1@5.3", "It. allele", "Sw. allele"),
+  col = c(0, 2, 4),
+  pch = 1,
+  bty = "n",
+  cex = 0.8
+)
 
-effectplot(cross$seed, pheno.col = "sw2010", mname1 = "1@22.7", mname2 = "5@70.1", add.legend = F,
-           main = "Sweden 2010", xlab="QTL 5:70.1", ylab="Seed number per fruit")
-legend('topright', c("QTL 1:22.7","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
-
-effectplot(cross$seed, pheno.col = "sw2011", mname1 = "1@61.1", mname2 = "3@22.0", add.legend = F,
-           main = "Sweden 2011", xlab="QTL 3:22.0", ylab="Seed number per fruit")
-legend('topright', c("QTL 1@61.1","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
+effectplot(
+  cross$seed,
+  pheno.col = "sw2011",
+  mname1 = "1@61.1",
+  mname2 = "3@21.0",
+  add.legend = F,
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Sweden 2011",
+  xlab = "QTL 3@22.0",
+  ylab = "Seed number per fruit"
+)
+legend(
+  'topright',
+  c("QTL 1@61.1", "It. allele", "Sw. allele"),
+  col = c(0, 2, 4),
+  pch = 1,
+  bty = "n",
+  cex = 0.8
+)
 ```
 
-```{r fig: epistatic-frut, eval=F, fig.width=8/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for fruit number per reproductive plant, showing mean and standard errors for each genotype-by-genotype combination."}
-#fruit number per plant
-par(mfrow=c(1,1))
-# effectplot(cross$frut, pheno.col = "it2010", mname1 = "5@7.7", mname2 = "5@70.1", add.legend = F,
-#            main = "Italy 2010", xlab="QTL 5:70.1", ylab="fruit number per reproductive plant")
-# legend(1.4,16, c("QTL 5:7.7","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
 
-effectplot(cross$frut, pheno.col = "sw2011", mname1 = "1@61.8", mname2 = "3@26.7", add.legend = F, ylim=c(16,30),
-           main = "Sweden 2011", xlab="QTL 3:26.7", ylab="Fruit number per reproductive plant")
-legend('bottomleft', c("QTL 1:61.8","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
-```
+```{r fig:epistatic-tofu, eval = T, fig.width = 9 / 2.54, fig.height = 10 /2.54, cache = T, cache.lazy = T, fig.cap = "Interaction plots for epistatic interactions detected for seed number per reproductive plant, showing mean and standard errors for each genotype-by-genotype combination."}
 
-```{r fig: epistatic-ffit, eval=F, fig.width=16.9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for fruit number per planted seedling, showing mean and standard errors for each genotype-by-genotype combination."}
-#fruit number per plant
-par(mfrow=c(1,2))
-effectplot(cross$ffit, pheno.col = "it2010", mname1 = "4@50.0", mname2 = "5@54.8", add.legend = F,
-           main = "Italy 2010", xlab="QTL 5:54.8", ylab="fruit number per reproductive plant")
-legend('bottomleft', c("QTL 4:50.0", "ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
-
-effectplot(cross$frut, pheno.col = "sw2011", mname1 = "1@61.8", mname2 = "3@26.7", add.legend = F, ylim=c(16,30),
-           main = "Sweden 2011", xlab="QTL 3:26.7", ylab="Fruit number per reproductive plant")
-legend('bottomleft', c("QTL 1:61.8","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
-```
-
-
-```{r fig: epistatic-tofu, eval=T, fig.width=8/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for seed number per reproductive plant, showing mean and standard errors for each genotype-by-genotype combination."}
 # seed number per plant
-par(mfrow=c(1,1))
-effectplot(cross$tofu, pheno.col = "sw2011", mname1 = "1@61.1", mname2 = "3@24.4", add.legend = F, ylim=c(500,1100),
-           main = "Sweden 2011", xlab="QTL 3:24.4", ylab="Seed number per reproductive plant")
-legend('bottomleft', c("QTL 1.61.1","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
+par(mfrow = c(1, 1))
+effectplot(
+  cross$tofu,
+  pheno.col = "sw2011",
+  mname1 = "1@61.1",
+  mname2 = "3@24.4",
+  add.legend = F,
+  ylim = c(500, 1100),
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Sweden 2011",
+  xlab = "QTL 3@24.4",
+  ylab = "Seeds per reproductive plant"
+)
+legend(
+  'bottomleft',
+  c("QTL 1@61.1", "It. allele", "Sw. allele"),
+  col = c(0, 2, 4),
+  pch = 1,
+  bty = "n",
+  cex=0.8
+)
+
 
 ```
 
-```{r fig: epistatic-tfit, fig.width=16.9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for seed number per planted seedling, showing mean and standard errors for each genotype-by-genotype combination."}
+```{r fig: epistatic-tfit, fig.width=9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for seed number per planted seedling, showing mean and standard errors for each genotype-by-genotype combination."}
 # seed number per plant
-par(mfrow=c(1,2))
-effectplot(cross$tofu, pheno.col = "it2010", mname1 = "5@43.0", mname2 = "5@74.5", add.legend = F,
-           main = "Italy 2010", xlab="QTL 5:74.5", ylab="seed number per reproductive plant")
-legend('bottomleft', c("QTL 3:6.3","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
-
-effectplot(cross$tofu, pheno.col = "sw2011", mname1 = "1@61.1", mname2 = "3@24.4", add.legend = F, ylim=c(500,1100),
-           main = "Sweden 2011", xlab="QTL 3:24.4", ylab="Seed number per reproductive plant")
-legend('bottomleft', c("QTL 1.61.1","ItIt", "SwSw"), col=c(0,2,4), pch=1, bty="n")
+par(mfrow = c(1, 1))
+effectplot(
+  cross$tofu,
+  pheno.col = "sw2011",
+  mname1 = "1@61.1",
+  mname2 = "3@18.0",
+  add.legend = F,
+  ylim = c(500, 1100),
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Sweden 2011",
+  xlab = "QTL 3@18:0",
+  ylab = "Seeds per reproductive plant"
+)
+legend('bottomleft', c("QTL 1@61.1", "It. allele", "Sw. allele"), col = c(0,2,4), pch=1, bty="n", cex=0.8)
 
 ```
