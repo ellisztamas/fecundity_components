@@ -1,9 +1,9 @@
 library("arghqtl")
 library("qtl")
 
-mloc <- read.table('data_files/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
+mloc <- read.table('data_raw/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
 # Import data on fitness boxes from Agren 2013.
-boxes <- read.csv("data_files/fitness_boxes.csv")
+boxes <- read.csv("data_raw/fitness_boxes.csv")
 boxes$lower <- -boxes$lower
 boxes$upper <- -boxes$upper
 # Set up colours for each lane

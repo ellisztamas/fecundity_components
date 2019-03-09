@@ -34,21 +34,15 @@ library('arghqtl')
 source("R/parents.R")
 source("R/mass_wilcox_tests.R")
 
-# get the differences between parental means in each expeirment.
-parent_diffs <- data.frame(
-  it2010 = parents$delta[parents$site == "italy"  & parents$year == "2010"],
-  it2011 = parents$delta[parents$site == "italy"  & parents$year == "2011"],
-  sw2010 = parents$delta[parents$site == "sweden" & parents$year == "2010"],
-  sw2011 = parents$delta[parents$site == "sweden" & parents$year == "2011"])
-parent_diffs <- parent_diffs[c(1,3,2,6,4,7,5),]
-parent_diffs$trait <- c("mass", "seed", "frut", "ffit", "surv", "tofu", "tfit")[c(1,3,2,6,4,7,5)]
+sel_boots <- readRDS("output/bootstrap_selection_coefficients.rds")
+sel_cis <- lapply(sel_boots, function(x) apply(x, 2, quantile, c(0.025, 0.975)))
 
 # RIL phenotypes
-ril_numb <- read.csv('data_files/RIL_seeds_per_fruit.csv')
-ril_mass <- read.csv('data_files/RIL_seed_mass.csv')
-ril_frut <- read.csv("data_files/RIL_fruits_per_adult.csv")
-ril_tofu <- read.csv('data_files/RIL_seeds_per_adult.csv')
-ril_surv <- read.csv('data_files/RIL_survival.csv')
+ril_numb <- read.csv('data_derived/RIL_seeds_per_fruit.csv')
+ril_mass <- read.csv('data_derived/RIL_seed_mass.csv')
+ril_frut <- read.csv("data_derived/RIL_fruits_per_adult.csv")
+ril_tofu <- read.csv('data_derived/RIL_seeds_per_adult.csv')
+ril_surv <- read.csv('data_derived/RIL_survival.csv')
 
 # import objects from QTL mapping. See 'R/format_QTL_models.R' and the scripts that calls for the full analysis details.
 qtlmodels   <- readRDS(file='output/qtl_stepwise_models.rds')
@@ -95,42 +89,6 @@ Data handling and statistical analyses were performed in RStudio 1.1.442 using R
 To assess the relative impact of different fitness components on estimates of adaptive differentiation, we quantified selection against the non-local genotype by calculating selection coefficients based on individual components of fitness, and on estimates of overall fitness. We calculated selection coefficients as $s=1-w_{min}/w_{max}$, where $w_{min}$ is the fitness of the less fit genotype and $w_{max}$ that of the fittest genotype. For cases where the non-local genotype had higher fitness than the local genotype, we multiplied the selection coefficient by -1. We calculated selection coefficients based on two estimates of overall fitness: fruit number per seedling and seed number per seedling, reflecting fitness estimates excluding and including information on seed number per fruit. We also calculated selection coefficients based on two components of fecundity (fruit number per reproductive plant and seed number per fruit) and based on survival, respectively.
 
 We estimated confidence intervals for selection coefficients by non-parametric bootstrapping. We draw 1000 bootstrap re-samples by sampling data with replacement from within experimental blocks. We calculated selection coefficients for each bootstrap sample and estimated 95% confidence intervals for each coefficient as the 25th and 975th quantiles of these values. We estimated two-tailed p-values for the null hypothesis that there is no adaptive differentiation as twice the proportion of bootstrap values overlapping zero. It is more difficult to determine whether selection coefficients for the two measures of overall fitness, fruit number per reproductive plant and seed number per reproductive plant, differ from one another because both estimates include common data on fruit number, and as such are not independent. Rather than perform a formal test, we instead simply asked whether the selection coefficient for seed number per reproductive plant was beyond the 95% confidence interval of that based on fruit number per reproductive plant.
-
-```{r selection-bootstraps, cache=T, cache.lazy=T, parents_time = file.info('R/parents.R')}
-siteyear <- sort(unique(seed_par$siteyear))
-frut_par$block <- paste(frut_par$year, frut_par$site, frut_par$tray)
-seed_par$block <- paste(seed_par$year, seed_par$site, seed_par$tray)
-
-# function to bootrap confidence intervals.
-sboot <- function(group, nreps){
-  dfrut <- frut_par[frut_par$siteyear == group,]
-  dseed <- seed_par[seed_par$siteyear == group,]
-  dt <- matrix(0, nreps, 5)
-  for(i in 1:nreps){
-    ix <- tapply(1:nrow(dfrut), dfrut$block, function(x) sample(x, size=length(x), replace = T))
-    ix <- do.call('c', ix)
-    this_exp1 <- dfrut[ix,]
-    this_exp2 <- dseed[ix,]
-    pmeans <- data.frame(surv = tapply(this_exp1$survival,        this_exp1$genotype, mean, na.rm=T),
-                         frut = tapply(this_exp1$fruit_per_plant, this_exp1$genotype, mean, na.rm=T),
-                         seed = tapply(this_exp2$nseeds,          this_exp2$genotype, mean, na.rm=T),
-                         ffit = tapply(this_exp1$fruit_per_seed,  this_exp1$genotype, mean, na.rm=T),
-                         tfit = tapply(this_exp1$tfit,            this_exp1$genotype, mean, na.rm=T))
-    pmeans <- t(pmeans) / apply(pmeans,2,max)
-    if("italy" %in% strsplit(group, " ")[[1]])  pmeans <- (pmeans[,1]-pmeans[,2])
-    if("sweden" %in% strsplit(group, " ")[[1]]) pmeans <- (pmeans[,2]-pmeans[,1])
-    dt[i, ] <- as.numeric(pmeans)
-  }
-  return(dt)
-}
-
-# perform bootsraps
-nreps <- 1000
-sel_boots <- lapply(siteyear, function(x) sboot(x, nreps))
-sel_cis <- lapply(sel_boots, function(x) apply(x, 2, quantile, c(0.025, 0.975)))
-
-names(sel_boots) <- names(sel_cis) <- c("it2010", "it2011", "sw2010", "sw2011")
-```
 
 We compared differences between parental lines in mean seed mass in each site-year combination using Wilcox-signed-rank tests.
 
@@ -245,7 +203,7 @@ but had a negligible influence in 2011
 
 ## Small and inconsistent differences in seed mass
 
-```{r transgressive-variation}
+```{r transgressive-variation, eval=F}
 mrange_all <- sapply(ril_mass[,-1], function(x) range(x, na.rm=T)[2] - range(x, na.rm=T)[1])
 mrange_cons <- sapply(ril_mass[,-1], function(x) quantile(x, na.rm = T, 0.975) - quantile(x, na.rm = T, 0.025))
 
@@ -304,13 +262,7 @@ cortests <- list(cor.test(ril_frut$it2010, ril_numb$it2010, method = 's'),
                  cor.test(ril_tofu$it2010, ril_mass$it2010, method = 's'),
                  cor.test(ril_tofu$it2011, ril_mass$it2011, method = 's'),
                  cor.test(ril_tofu$sw2010, ril_mass$sw2010, method = 's'),
-                 cor.test(ril_tofu$sw2011, ril_mass$sw2011, method = 's'),
-                 
-list(
-  cor.test(ril_tfit$it2010, ril_mass$it2010, method = 's'),
-  cor.test(ril_tfit$it2011, ril_mass$it2011, method = 's'),
-  cor.test(ril_tfit$sw2010, ril_mass$sw2010, method = 's'),
-  cor.test(ril_tfit$sw2011, ril_mass$sw2011, method = 's'))
+                 cor.test(ril_tofu$sw2011, ril_mass$sw2011, method = 's'))
 
 corsumm <- data.frame(rho = round(sapply(cortests, function(x) x$estimate),2),
                       p   = round(sapply(cortests, function(x) x$p.value), 3))

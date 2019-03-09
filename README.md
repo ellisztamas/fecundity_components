@@ -34,29 +34,27 @@ Traits 4 and 6 are not directly observed, but estimated as the product of other 
 ## Analysis workflow
 
 * Parental lines are formatted in `R/parents.R`
+* Bootstraps of selection coefficients for parental fitness components are run in `R/boostrap_selection_coefficients.R`, and the output saved to `output/boostrap_selection_coefficients.rds`.
 * Wilcox-tests on parental seed mass data are run in `R/mass_wilcox_tests.R`
 * QTL mapping:
 	1. `R/rqtl_files.R` formats RIL data into R/QTL files.
 	2. `R/perform_mapping.R` is a generic function to import an R/QTL input file, run permutations, and fit `stepwiseqtl()` models to the data. Output is saved as as RDS file in `output` folder with a generic names like `stepwise_trait.rds`.
 	3. For each trait there is a script `R/mapping_trait.R` that called `perform_mapping.R` on that trait.
 	4. `R/format_qtl_models.R` runs `fitqtl()` on each `stepwiseqtl()` model, and clusters colocalising QTL into groups. It groups cross objects, QTL models, model fits and clusters for a single trait into one list of objects, which is saved as an RDS file.
-* The manuscript text and code to create figures is found in `manuscript/fecundity_components.Rmd` (see also `manuscript/supporting_information.Rmd`).
+* The manuscript text and code to create figures is found in `manuscript/fecundity_components.Rmd` (see also `manuscript/supporting_information.Rmd`). For the QTL figures, the relevant chunks call external R scripts, because these are really long.
 
 ## Dependencies
 All analyses were done in R using RStudio. The following additional packages are required, which can be installed from CRAN using `install.packages()`:
 
-* `magittr`
 * `knitr`
-* `vioplot`
 * `kableExtra`
 * `qtl`
 
-In addition, plotting and clustering QTL requires the custom package `qtltools` written by Tom Ellis for this manuscript, hosted on [GitHub](https://github.com/ellisztamas/qtltools). The easiest way to install it is to use `devtools`:
+In addition, plotting and clustering QTL requires the custom package `arghqtl` written by Tom Ellis for this manuscript, hosted on [GitHub](https://github.com/ellisztamas/arghqtl). The easiest way to install it is to use `devtools`:
 
 ```
 library('devtools')
-install_github('ellisztamas/qtltools')
-
+install_github('ellisztamas/arghqtl')
 ```
 
 ## Data
@@ -87,6 +85,7 @@ Column headers used:
 * **Agren2013_LSMfitness.csv**: RIL least-square mean fruits per planted seedling (NFruit) from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/)
 * **ril_genotypes.csv**: RIL genotypes from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/)
 * **genetic_map_agren_etal_2013.csv**: Genetic map from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/), used for plotting QTL positions in the main text.
+* **fitness_boxes.R**: Locations of the regions associated with fitness QTL by [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/).
 
 Phenotype data column headers show RIL name (**id**), and then a code that shows abbreviations used by Ågren *et al.*:
 
@@ -100,7 +99,7 @@ Genotype data are in R/QTL format, showing RIL names, following by each locus. L
 
 ### Derived data
 
-The script `R/rqtl_files.R` formats RIL data. This outputs .csv for each trait with RIL names in a common order for performing genetic correlations with five columns:
+The script `R/rqtl_files.R` formats RIL data. This outputs CSV files for each trait with RIL names in a common order for performing genetic correlations with five columns:
 
 * **id**: RIL name.
 * **it2010**: RIL means for Italy in 2010.

@@ -1,7 +1,7 @@
 # parental means
 # individual parents.
-seed_par <- read.csv(file = 'data_files/individual_parents_massnumber.csv')
-frut_par <- read.csv('data_files/individual_parents_nfruit.csv')
+seed_par <- read.csv(file = 'data_raw//individual_parents_massnumber.csv')
+frut_par <- read.csv('data_raw//individual_parents_nfruit.csv')
 # site-year identifers
 frut_par$siteyear <- paste(frut_par$site, frut_par$year)
 seed_par$siteyear <- paste(seed_par$site, seed_par$year)
@@ -105,5 +105,14 @@ parents$sw_relw <- parents$sw_parent / maxvals
 # selective advantage of the local morph
 parents$s[parents$site == 'italy']  <- parents$it_relw[parents$site == 'italy']  - parents$sw_relw[parents$site == 'italy']
 parents$s[parents$site == 'sweden'] <- parents$sw_relw[parents$site == 'sweden'] - parents$it_relw[parents$site == 'sweden']
+
+# get the differences between parental means in each expeirment.
+parent_diffs <- data.frame(
+  it2010 = parents$delta[parents$site == "italy"  & parents$year == "2010"],
+  it2011 = parents$delta[parents$site == "italy"  & parents$year == "2011"],
+  sw2010 = parents$delta[parents$site == "sweden" & parents$year == "2010"],
+  sw2011 = parents$delta[parents$site == "sweden" & parents$year == "2011"])
+parent_diffs <- parent_diffs[c(1,3,2,6,4,7,5),]
+parent_diffs$trait <- c("mass", "seed", "frut", "ffit", "surv", "tofu", "tfit")[c(1,3,2,6,4,7,5)]
 
 rm(ix,sx)

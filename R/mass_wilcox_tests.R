@@ -1,4 +1,4 @@
-parent_mass <- read.csv('data_files/individual_parents_massnumber.csv')
+parent_mass <- read.csv('data_raw/individual_parents_massnumber.csv')
 # unique identifier for each fite year combination
 parent_mass$siteyear <- paste(parent_mass$site, parent_mass$year,sep="_")
 siteyear <- sort(unique(parent_mass$siteyear))
