@@ -1,5 +1,5 @@
 ---
-title: Variation in seed number per fruit, life-history tradeoffs, and the genetic basis of fitness in Arabidopsis thaliana
+title: Variation in seed number per fruit, life-history tradeoffs, and the genetic basis of fitness in *Arabidopsis thaliana*
 author: "Thomas Ellis, Froukje Postma, Christopher G. Oakley and Jon Ågren"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 output:

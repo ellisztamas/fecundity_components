@@ -1,4 +1,4 @@
-# Positive correlations among components of fitness boost estimates of local adaptation in *Arabidopsis thaliana*
+# Variation in seed number per fruit, life-history tradeoffs, and the genetic basis of fitness in *Arabidopsis thaliana*
 
 This repository documents analysis associated with the manuscript "Positive correlations among components of fitness boost estimates of local adaptation in *Arabidopsis thaliana*" by Tom Ellis, Froukje Postma, Christopher Oakley and Jon Ågren.
 
