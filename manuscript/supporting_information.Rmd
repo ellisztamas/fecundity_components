@@ -37,68 +37,12 @@ qtlclusters <- readRDS(file='output/qtl_clusters.rds')
 
 # Traits to be presented.
 traits <- c("mass","seed", "tofu", "tfit")
+
+site_names  <- c("Italy", "Italy", "Sweden", "Sweden")
+year_names  <- c(2010, 2011, 2010, 2011)
 ```
 
 This document contains supporting tables and figures for the manuscript "Positive correlations among fitness components boost estimates of local adaptation in *Arabidopsis thaliana*" by Thomas Ellis, Froukje Postma, Christopher Oakley and Jon Ågren.
-
-\newpage
-
-```{r tab:individual-mass-qtl, eval=T}
-site_names  <- c("Italy", "Italy", "Sweden", "Sweden")
-year_names  <- c(2010, 2011, 2010, 2011)
-
-# summary tables for each experiment
-ix <- "mass"
-
-
-tab <- list(bayesint_table(qtlmodels[[ix]]$it2010, qtlfits[[ix]]$it2010),
-            bayesint_table(qtlmodels[[ix]]$it2011, qtlfits[[ix]]$it2011),
-            bayesint_table(qtlmodels[[ix]]$sw2010, qtlfits[[ix]]$sw2010),
-            bayesint_table(qtlmodels[[ix]]$sw2011, qtlfits[[ix]]$sw2011))
-
-for(i in 1:4){
-  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
-  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
-  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
-}
-tab <- do.call('rbind', tab)
-# mash together positions with their CIs
-tab$position <- paste(round(tab$ML_bayesint,1),
-                      " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
-# print the table
-kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
-      digits = c(0,0,0,0,0,1,3,1,1),
-      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
-      caption="QTL for seed mass identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
-```
-
-\newpage
-
-```{r tab:individual-frut-qtl, eval=F}
-# summary tables for fruits/plant
-ix <- "frut"
-tab <- list(bayesint_table(qtlmodels[[ix]]$it2010, qtlfits[[ix]]$it2010),
-            bayesint_table(qtlmodels[[ix]]$it2011, qtlfits[[ix]]$it2011),
-            bayesint_table(qtlmodels[[ix]]$sw2010, qtlfits[[ix]]$sw2010),
-            bayesint_table(qtlmodels[[ix]]$sw2011, qtlfits[[ix]]$sw2011))
-
-for(i in 1:4){
-  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
-  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
-  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
-}
-tab <- do.call('rbind', tab)
-# mash together positions with their CIs
-tab$position <- paste(round(tab$ML_bayesint,1),
-                      " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
-# print the table
-kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
-      digits = c(0,0,0,0,0,1,3,1,1),
-      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
-      caption="QTL for fruit number per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
-```
-
-\newpage
 
 ```{r tab:individual-seed-qtl, eval=T}
 # seed number per fruit
@@ -176,6 +120,60 @@ kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE"
       col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
       caption = "QTL for seed number per planted seedling identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
 
+```
+
+\newpage
+
+```{r tab:individual-mass-qtl, eval=T}
+# summary tables for each experiment
+ix <- "mass"
+
+
+tab <- list(bayesint_table(qtlmodels[[ix]]$it2010, qtlfits[[ix]]$it2010),
+            bayesint_table(qtlmodels[[ix]]$it2011, qtlfits[[ix]]$it2011),
+            bayesint_table(qtlmodels[[ix]]$sw2010, qtlfits[[ix]]$sw2010),
+            bayesint_table(qtlmodels[[ix]]$sw2011, qtlfits[[ix]]$sw2011))
+
+for(i in 1:4){
+  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+}
+tab <- do.call('rbind', tab)
+# mash together positions with their CIs
+tab$position <- paste(round(tab$ML_bayesint,1),
+                      " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
+# print the table
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption="QTL for seed mass identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
+```
+
+\newpage
+
+```{r tab:individual-frut-qtl, eval=F}
+# summary tables for fruits/plant
+ix <- "frut"
+tab <- list(bayesint_table(qtlmodels[[ix]]$it2010, qtlfits[[ix]]$it2010),
+            bayesint_table(qtlmodels[[ix]]$it2011, qtlfits[[ix]]$it2011),
+            bayesint_table(qtlmodels[[ix]]$sw2010, qtlfits[[ix]]$sw2010),
+            bayesint_table(qtlmodels[[ix]]$sw2011, qtlfits[[ix]]$sw2011))
+
+for(i in 1:4){
+  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+}
+tab <- do.call('rbind', tab)
+# mash together positions with their CIs
+tab$position <- paste(round(tab$ML_bayesint,1),
+                      " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
+# print the table
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption="QTL for fruit number per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
 ```
 
 \newpage
