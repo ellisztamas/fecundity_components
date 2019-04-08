@@ -1,5 +1,23 @@
+library("qtl")
+library("snow")
+
+#' Run QTL mapping on a trait measured in multiple experiments.
+#' 
+#' `perform_mapping` automates QTL mapping for multiple phenotype columns.
+#' Specifically, it calls `read.cross` on an R/Qtl file, followed by `calc.geno`,
+#' quantile normal transformation, performs permutations, calculates
+#' penalties, and runs `stepwiseqtl` on each column.
+#' 
+#' @param ix String giving the name of the trait to be identified. This should
+#' refer to a CSV file in the folder `data_derived` starting with the prefix
+#' `rqtl_`.
+#' @param nclusters Number of processors to run parallel analyses
+#' @param nperms Number of permutations to be performed.
+#' 
+#' @return Outputs (lists of) files for permutations, penalties and stepwise
+#' QTL models as .rds files.
 perform_mapping <- function(ix, nclusters, nperms){
-  path <- paste("data_files/rqtl_", ix, ".csv", sep="")
+  path <- paste("data_derived/rqtl_", ix, ".csv", sep="")
   cat("Stepwise QTL matching for R/QTL file", path,".\n")
   cat("Started", format(Sys.time(),usetz = TRUE), "\n\n")
   
@@ -7,8 +25,6 @@ perform_mapping <- function(ix, nclusters, nperms){
   ###############
   # Import data #
   ###############
-    library("qtl",  lib.loc='~/R/x86_64-redhat-linux-gnu-library/3.5')
-    library("snow", lib.loc='~/R/x86_64-redhat-linux-gnu-library/3.5')
   # create r/qtl object from the file created above.
   cross <- read.cross(
     "csv",
@@ -29,9 +45,9 @@ perform_mapping <- function(ix, nclusters, nperms){
   )
   
   # perform quantile normal transformations on each variable.
-  # cat("Performing quantile normal transformations.\n")
-  # source('R/quantnorm.R')
-  # for(c in 2:5) cross$pheno[,c] <- quantnorm(cross$pheno[,c])
+  cat("Performing quantile normal transformations.\n")
+  source('R/quantnorm.R')
+  for(c in 2:5) cross$pheno[,c] <- quantnorm(cross$pheno[,c])
   
   ################
   # Permutations #
@@ -74,10 +90,10 @@ perform_mapping <- function(ix, nclusters, nperms){
   ###################
   # Stepwise models #
   ###################
-  # perform quantile normal transformations on each variable.
-  cat("Performing quantile normal transformations.\n")
-  source('R/quantnorm.R')
-  for(c in 2:5) cross$pheno[,c] <- quantnorm(cross$pheno[,c])
+  # # perform quantile normal transformations on each variable.
+  # cat("Performing quantile normal transformations.\n")
+  # source('R/quantnorm.R')
+  # for(c in 2:5) cross$pheno[,c] <- quantnorm(cross$pheno[,c])
   
   cat("Fitting stepwise models.\n")
   # Empty list to store models for each site-year combination.

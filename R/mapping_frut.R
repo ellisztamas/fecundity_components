@@ -2,10 +2,6 @@
 # Which trait to map is determined by changing the index for the variable ix.
 # This is based on input R/QTL files created with the script /R/rqtl_files.R
 
-# This is designed to run on the Uppsala University computing cluster Rackham.
-# This does not allow using R studio projects, so setting the working directory one level up keeps paths the same.
-setwd('..')
-
 # There are six phenotypes:
 traits <- c(
   "mass", # 1. seed mass (mass)

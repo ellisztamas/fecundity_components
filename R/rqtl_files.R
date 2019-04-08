@@ -67,3 +67,8 @@ write.csv(qtl_dataframe(seed, geno), file = "data_derived/rqtl_seed.csv", row.na
 write.csv(qtl_dataframe(tofu, geno), file = "data_derived/rqtl_tofu.csv", row.names = F)
 write.csv(qtl_dataframe(tfit, geno), file = "data_derived/rqtl_tfit.csv", row.names = F)
 
+# I also need a file for fruits per seedling using the lines for which data on
+# seeds per planted seedling are available.
+ffit_reduced <- ffit
+ffit_reduced[is.na(tfit)] <- NA
+write.csv(qtl_dataframe(ffit_reduced, geno), file = "data_derived/rqtl_ffit_reduced.csv", row.names = F)
