@@ -97,8 +97,8 @@ saveRDS(qtlclusters, file='output/qtl_clusters.rds')
 
 # Cluster all QTL models as one.
 # First we need to remove elements for survival in Sweden in 2010
-qtlmodels2 <- qtlmodels[c("mass","frut","seed","tofu","surv")]
-qtlfits2   <- qtlfits[c("mass","frut","seed","tofu","surv")]
+qtlmodels2 <- qtlmodels[c("mass","frut","seed","surv")]
+qtlfits2   <- qtlfits[c("mass","frut","seed","surv")]
 qtlmodels2$surv <- qtlmodels2$surv[c("it2010", "it2011", "sw2011")]
 qtlfits2$surv   <- qtlfits2$surv  [c("it2010", "it2011", "sw2011")]
 # Flatten the first level of these lists, but keep object structure at lower levels
@@ -107,4 +107,46 @@ all_qtlfits   <- unlist(qtlfits2,   recursive = FALSE)
 # Cluster all QTL models together
 all_clusters <- cluster_qtl(1:5, all_qtlmodels, all_qtlfits, 15.2)
 saveRDS(all_clusters, file="output/clusters_all_models.rds")
+
+# The clustering above identifies 12 regions associated with one or more traits.
+# Fit a QTL model to each dataset using the centre of these regions as a QTL
+# position
+plei_effects <- lapply(traits, function(x) return(NULL))
+names(plei_effects) <- traits
+# Create the QTL model
+ix <- allqtl_clusters$summary$n.qtl > 1
+plei_model <- makeqtl(cross$mass,
+                      chr = all_clusters$summary$chr[ix],
+                      pos = all_clusters$summary$pos_mean[ix])
+# Loop over traits and fit QTL models.
+for(i in traits){
+  thiscross  <- sim.geno(cross[[i]])
+  # fit ANOVAs to each QTL model
+  thistrait <- lapply(siteyear, function(x) NULL)
+  names(thistrait) <- siteyear
+  # loop over individual years and get model fits for each
+  for(y in siteyear) {
+    plei_fit <- fitqtl(
+      cross = thiscross,
+      pheno.col = y,
+      qtl = plei_model,
+      method = "imp",
+      model = "normal",
+      covar = NULL,
+      get.ests = T,
+      dropone = T
+    )
+    # Pull out allelic effects, SE, and p values.
+    thistrait[[y]] <- data.frame(
+      name=paste("Q", 1:12, sep=""),
+      summary(plei_fit)$ests[-1,],
+      pvalue = summary(plei_fit)$result.drop[,6]
+    )
+  }
+  plei_effects[[i]] <- thistrait
+}
+# save to disk
+saveRDS(plei_effects, "output/pleiotropic_regions_allelic_effects.rds")
+
+
 
