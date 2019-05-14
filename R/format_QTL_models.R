@@ -110,43 +110,35 @@ saveRDS(all_clusters, file="output/clusters_all_models.rds")
 
 # The clustering above identifies 12 regions associated with one or more traits.
 # Fit a QTL model to each dataset using the centre of these regions as a QTL
+
 # position
 plei_effects <- lapply(traits, function(x) return(NULL))
 names(plei_effects) <- traits
-# Create the QTL model
-ix <- allqtl_clusters$summary$n.qtl > 1
-plei_model <- makeqtl(cross$mass,
-                      chr = all_clusters$summary$chr[ix],
-                      pos = all_clusters$summary$pos_mean[ix])
-# Loop over traits and fit QTL models.
+# Pull out the loci closest to the middle of pleiotropic regions.
+ix <- all_clusters$summary$n.qtl > 1
+plei_model <- find.marker(cross$seed,
+                          chr = all_clusters$summary$chr[ix],
+                          pos = all_clusters$summary$pos_mean[ix])
+# Loop over each trait and get the difference between mean phenotypes for each locus.
+# This is done for phenotypes scaled by the mean and SD.
 for(i in traits){
-  thiscross  <- sim.geno(cross[[i]])
-  # fit ANOVAs to each QTL model
-  thistrait <- lapply(siteyear, function(x) NULL)
-  names(thistrait) <- siteyear
-  # loop over individual years and get model fits for each
-  for(y in siteyear) {
-    plei_fit <- fitqtl(
-      cross = thiscross,
-      pheno.col = y,
-      qtl = plei_model,
-      method = "imp",
-      model = "normal",
-      covar = NULL,
-      get.ests = T,
-      dropone = T
+  this_trait <- as.data.frame(matrix(NA, 12, 4))
+  colnames(this_trait) <- siteyear
+  #loop over each experiment
+  for(y in siteyear){
+    mean_phenotypes <- sapply(
+      plei_model,
+      function(locus){
+        tapply(scale(cross[[i]]$pheno[[y]]), pull.geno(cross[[i]])[, locus], mean, na.rm=T)
+      }
     )
-    # Pull out allelic effects, SE, and p values.
-    thistrait[[y]] <- data.frame(
-      name=paste("Q", 1:12, sep=""),
-      summary(plei_fit)$ests[-1,],
-      pvalue = summary(plei_fit)$result.drop[,6]
-    )
+    this_trait[,y] <- mean_phenotypes[2,] - mean_phenotypes[1,]
   }
-  plei_effects[[i]] <- thistrait
+  plei_effects[[i]] <- this_trait
 }
-# save to disk
-saveRDS(plei_effects, "output/pleiotropic_regions_allelic_effects.rds")
+# write to disk
+saveRDS(plei_effects, "data_derived/pleiotropic_QTL_effects.rds")
+
 
 
 
