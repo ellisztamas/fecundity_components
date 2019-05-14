@@ -56,7 +56,7 @@ text(pos_plot$lane_centres, 1, c("10", "11"), cex=0.6, adj=c(0,0.5), srt=90, col
 # Label pleiotropy boxes
 text(pos_plot$lane_margins[1,ix]- 0.2,
      -pos,
-     paste("Q",1:13, sep=""),
+     paste("Q",1:12, sep=""),
      adj=c(0.5,0),
      cex=0.7,
      srt=90)
@@ -95,7 +95,7 @@ text(pos_plot$lane_centres, 1, c("10", "11"), cex=0.6, adj=c(0,0.5), srt=90, col
 # Label pleiotropy boxes
 text(pos_plot$lane_margins[1,ix]-0.2,
      -pos,
-     paste("Q",1:13, sep=""),
+     paste("Q",1:12, sep=""),
      adj=c(0.5,0),
      cex=0.7,
      srt=90)
