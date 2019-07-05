@@ -35,6 +35,9 @@ qtlmodels   <- readRDS(file='output/qtl_stepwise_models.rds')
 qtlfits     <- readRDS(file='output/qtl_model_fits.rds')
 qtlclusters <- readRDS(file='output/qtl_clusters.rds')
 
+# Heritability estimates and confidence intervals
+H2 <- readRDS("output/heritabilities.rds")
+
 # Traits to be presented.
 traits <- c("mass","seed", "tofu", "tfit")
 
@@ -268,6 +271,71 @@ kable(epi_tab, digits = 2, row.names = F,
       col.names = c("Trait", "Site","Year", "QTL", "LOD", "% var. explained"),
       caption = "Pairs of significant epistatic QTL detected across traits.")
 ```
+
+\newpage
+
+```{r heritabilities, fig.cap="Broad-sense heritability estimates based on survival to reproduction, number of fruits per reproductive plant (Fruits/RP), number of seeds per fruit (Seeds/fr), number of fruits per seedling planted (Fruits/sdl), number of seeds per reproductive plant (Seeds/RP) and seed mass. Closed and open symbols show values in Italy and Sweden respectively. Error bars show 95% parametric bootstrap confidence intervals. Numbers indicate the number of individuals each estimate is based on."}
+
+# pdf("figures/heritabilities.pdf", width=16.9/2.54, height = 12/2.54)
+par(mfrow=c(1,2))
+
+os <- 0.1
+plot(c(1, 6), c(0,0.6), type="n", axes = F, xlim=c(0.2, 6.5),
+     xlab="", ylab="Broad-sense heritability", main="2010")
+axis(1, 1:6, las=2, labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seeds/RP", "Seed mass"))
+axis(2)
+box()
+# Confidence intervals
+segments((1:6) - os, H2$lower$`Italy 2010`,
+         (1:6) - os, H2$upper$`Italy 2010`)
+segments((1:6) + os, H2$lower$`Sweden 2010`,
+         (1:6) + os, H2$upper$`Sweden 2010`)
+# Overplot observed values
+points((1:6) - os, H2$obs$`Italy 2010`,   pch=16)
+points((1:6) + os, H2$obs$`Sweden 2010`, pch=21, bg="white")
+
+# Add sample sizes
+text((1:6) - 1.5*os, 0.6,
+     labels = H2$n$`Italy 2010`,
+     adj = 1,
+     srt=90,
+     cex=0.7)
+text((1:6) + 1.5*os, 0.6,
+     labels = H2$n$`Sweden 2010`,
+     srt=90,
+     adj=1,
+     cex=0.7)
+
+# 2011
+plot(c(1, 6), c(0,0.6), type="n", axes = F, xlim= c(0.5, 6.5),
+     xlab="", ylab="Broad-sense heritability", main="2011")
+axis(1, 1:6, las=2, labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seeds/RP", "Seed mass"))
+axis(2)
+box()
+# Confidence intervals
+segments((1:6) - os, H2$lower$`Italy 2011`,
+         (1:6) - os, H2$upper$`Italy 2011`)
+segments((1:6) + os, H2$lower$`Sweden 2011`,
+         (1:6) + os, H2$upper$`Sweden 2011`)
+# Overplot observed values
+points((1:6) - os, H2$obs$`Italy 2011`,   pch=16)
+points((1:6) + os, H2$obs$`Sweden 2011`, pch=21, bg="white")
+
+# Add sample sizes
+text((1:6) - 1.5*os, 0.6,
+     labels = H2$n$`Italy 2011`,
+     adj = 1,
+     srt=90,
+     cex=0.7)
+text((1:6) + 1.5*os, 0.6,
+     labels = H2$n$`Sweden 2011`,
+     srt=90,
+     adj=1,
+     cex=0.7)
+
+# dev.off()
+```
+
 
 \newpage
 
