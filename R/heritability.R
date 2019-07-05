@@ -29,7 +29,7 @@ H2 <- list(
 colnames(H2$obs)  <- colnames(H2$upper)  <- colnames(H2$lower)  <- site_year
 row.names(H2$obs) <- row.names(H2$upper) <- row.names(H2$lower) <- traits
 
-nreps <- 200
+nreps <- 1000
 pb = txtProgressBar(min = 0, max = nreps, initial = 0)#set up progress bar
 t0 <- proc.time()
 for(t in traits){
