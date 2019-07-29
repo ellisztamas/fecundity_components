@@ -7,7 +7,7 @@ ind_data$Tray <- as.factor(ind_data$Tray)
 # Add a column for survival
 ind_data$survival <- ifelse(ind_data$NFruits > 0, 1, 0)
 # Vector of traits of interest
-traits <- c("survival", "Fecundity","X..Seeds..good.", "NFruits", "TSdPerFrPrPlant_IndEst", "MSeedMass.ug.")
+traits <- c("survival", "Fecundity","X..Seeds..good.", "NFruits", "MSeedMass.ug.")
 # Vector of site_year identifiers.
 ind_data$site_year <- paste(ind_data$Site, ind_data$Year)
 site_year <- unique(ind_data$site_year)
