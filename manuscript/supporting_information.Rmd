@@ -280,54 +280,64 @@ kable(epi_tab, digits = 2, row.names = F,
 par(mfrow=c(1,2))
 
 os <- 0.1
-plot(c(1, 6), c(0,0.6), type="n", axes = F, xlim=c(0.2, 6.5),
-     xlab="", ylab="Broad-sense heritability", main="2010")
-axis(1, 1:6, las=2, labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seeds/RP", "Seed mass"))
+plot(
+  c(1, 6),
+  c(0, 0.6),
+  type = "n",
+  axes = F,
+  xlim = c(0.2, 5.5),
+  xlab = "",
+  ylab = "Broad-sense heritability",
+  main = "2010"
+  )
+axis(1, 1:5, las=2,
+     labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seed mass"))
 axis(2)
 box()
 # Confidence intervals
-segments((1:6) - os, H2$lower$`Italy 2010`,
-         (1:6) - os, H2$upper$`Italy 2010`)
-segments((1:6) + os, H2$lower$`Sweden 2010`,
-         (1:6) + os, H2$upper$`Sweden 2010`)
+segments((1:5) - os, H2$lower$`Italy 2010`,
+         (1:5) - os, H2$upper$`Italy 2010`)
+segments((1:5) + os, H2$lower$`Sweden 2010`,
+         (1:5) + os, H2$upper$`Sweden 2010`)
 # Overplot observed values
-points((1:6) - os, H2$obs$`Italy 2010`,   pch=16)
-points((1:6) + os, H2$obs$`Sweden 2010`, pch=21, bg="white")
+points((1:5) - os, H2$obs$`Italy 2010`,   pch=16)
+points((1:5) + os, H2$obs$`Sweden 2010`, pch=21, bg="white")
 
 # Add sample sizes
-text((1:6) - 1.5*os, 0.6,
+text((1:5) - 1.5*os, 0.6,
      labels = H2$n$`Italy 2010`,
      adj = 1,
      srt=90,
      cex=0.7)
-text((1:6) + 1.5*os, 0.6,
+text((1:5) + 1.5*os, 0.6,
      labels = H2$n$`Sweden 2010`,
      srt=90,
      adj=1,
      cex=0.7)
 
 # 2011
-plot(c(1, 6), c(0,0.6), type="n", axes = F, xlim= c(0.5, 6.5),
+plot(c(1, 5), c(0,0.6), type="n", axes = F, xlim= c(0.5, 5.5),
      xlab="", ylab="Broad-sense heritability", main="2011")
-axis(1, 1:6, las=2, labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seeds/RP", "Seed mass"))
+axis(1, 1:5, las=2,
+     labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seed mass"))
 axis(2)
 box()
 # Confidence intervals
-segments((1:6) - os, H2$lower$`Italy 2011`,
-         (1:6) - os, H2$upper$`Italy 2011`)
-segments((1:6) + os, H2$lower$`Sweden 2011`,
-         (1:6) + os, H2$upper$`Sweden 2011`)
+segments((1:5) - os, H2$lower$`Italy 2011`,
+         (1:5) - os, H2$upper$`Italy 2011`)
+segments((1:5) + os, H2$lower$`Sweden 2011`,
+         (1:5) + os, H2$upper$`Sweden 2011`)
 # Overplot observed values
-points((1:6) - os, H2$obs$`Italy 2011`,   pch=16)
-points((1:6) + os, H2$obs$`Sweden 2011`, pch=21, bg="white")
+points((1:5) - os, H2$obs$`Italy 2011`,   pch=16)
+points((1:5) + os, H2$obs$`Sweden 2011`, pch=21, bg="white")
 
 # Add sample sizes
-text((1:6) - 1.5*os, 0.6,
+text((1:5) - 1.5*os, 0.6,
      labels = H2$n$`Italy 2011`,
      adj = 1,
      srt=90,
      cex=0.7)
-text((1:6) + 1.5*os, 0.6,
+text((1:5) + 1.5*os, 0.6,
      labels = H2$n$`Sweden 2011`,
      srt=90,
      adj=1,
