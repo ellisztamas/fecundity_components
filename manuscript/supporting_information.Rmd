@@ -426,16 +426,16 @@ legend(
 # seed number per plant
 par(mfrow = c(1, 1))
 effectplot(
-  cross$tofu,
+  cross$tfit,
   pheno.col = "sw2011",
   mname1 = "1@61.1",
   mname2 = "3@18.0",
   add.legend = F,
-  ylim = c(500, 1100),
+  #ylim = c(500, 1100),
   geno2 = c("It. allele", "Sw. allele"),
   main = "Sweden 2011",
   xlab = "QTL 3@18:0",
-  ylab = "Seeds per reproductive plant"
+  ylab = "Seeds per planted seedling"
 )
 legend('bottomleft', c("QTL 1@61.1", "It. allele", "Sw. allele"), col = c(0,2,4), pch=1, bty="n", cex=0.8)
 
