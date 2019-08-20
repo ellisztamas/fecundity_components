@@ -1,4 +1,4 @@
-# Variation in seed number per fruit, life-history tradeoffs, and the genetic basis of fitness in *Arabidopsis thaliana*
+# Number of seeds per fruit, life-history tradeoffs, and the genetic basis of fitness in *Arabidopsis thaliana*
 
 This repository documents analysis associated with the manuscript "Positive correlations among components of fitness boost estimates of local adaptation in *Arabidopsis thaliana*" by Tom Ellis, Froukje Postma, Christopher Oakley and Jon Ågren.
 
@@ -23,25 +23,36 @@ We consider a total of seven traits. These have four letter abbreviations to kee
 2. **seed**: Seed number per fruit, a component of fecundity
 3. **frut**: Fruit number per reproductive plant, a component of fecundity.
 4. **tofu**: Seed number per reproductive plant, proxy for overall fecundity (estimated from 2 and 3).
-5. **ffit**: Fruit number per planted seedling, a proxy for fitness
+5. **ffit**: Fruit number per planted seedling, a proxy for fitness.
 6. **tfit**: Fruit number per planted seedling, a proxy for fitness that includes seed number (estimated from 2 and 5).
 7. **surv**: Survival to reproduction.
 
 Traits 3, 5 and 7 are taken directly from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/).
-Traits 4 and 6 are not directly observed, but estimated as the product of other variables.
-
+Traits 4 and 6 are not directly observed, but estimated as the product of other variables. This is described in the main text, and done by `R/rqtl_files.R`.
 
 ## Analysis workflow
+### Parental data
 
 * Parental lines are formatted in `R/parents.R`
 * Bootstraps of selection coefficients for parental fitness components are run in `R/boostrap_selection_coefficients.R`, and the output saved to `output/boostrap_selection_coefficients.rds`.
 * Wilcox-tests on parental seed mass data are run in `R/mass_wilcox_tests.R`
-* QTL mapping:
-	1. `R/rqtl_files.R` formats RIL data into R/QTL files.
-	2. `R/perform_mapping.R` is a generic function to import an R/QTL input file, run permutations, and fit `stepwiseqtl()` models to the data. Output is saved as as RDS file in `output` folder with a generic names like `stepwise_trait.rds`.
-	3. For each trait there is a script `R/mapping_trait.R` that called `perform_mapping.R` on that trait.
-	4. `R/format_qtl_models.R` runs `fitqtl()` on each `stepwiseqtl()` model, and clusters colocalising QTL into groups. It groups cross objects, QTL models, model fits and clusters for a single trait into one list of objects, which is saved as an RDS file.
-* The manuscript text and code to create figures is found in `manuscript/fecundity_components.Rmd` (see also `manuscript/supporting_information.Rmd`). For the QTL figures, the relevant chunks call external R scripts, because these are really long.
+
+### RIL phenotypes
+* Formatting RIL phenotypes and preparation of input files for `R/qtl` is done in `R/rqtl_files.R`.
+* Genetic correlations are done in the manuscript file `manuscript/fecundity_components.Rmd` itself in the chunk `scatter-plots`, along with code to plot them.
+* `R/heritabilities.R` calculates broad sense heritabilities on traits that were directly observed, rather than inferred (surv, frut, seed, mass, ffit); see [experimental set up](#experimental-set-up). Outputs to `output/heritabilties.rds`.
+
+### QTL mapping
+
+- `R/rqtl_files.R` formats RIL data into R/qtl files.
+- `R/perform_mapping.R` is a generic function to import an R/qtl input file, run permutations, and fit `stepwiseqtl()` models to the data. Output is saved as as RDS file in `output` folder with a generic names like `stepwise_trait.rds`.
+- For each trait there is a script `R/mapping_trait.R` that called `perform_mapping.R` on that trait.
+- To create figure 5 it was necessary to repeat QTL analysis of number of fruits per reproductive plant using only those RILs for which data was also available for number of seeds per reproductive plant. This is set up at the end of `R/rqtl_files.R`, and mapping is performed using `R/mapping_ffit_reduced.R`.
+- `R/format_qtl_models.R` runs `fitqtl()` on each `stepwiseqtl()` model, and clusters colocalising QTL into groups. It groups cross objects, QTL models, model fits and clusters for a single trait into one list of objects, which is saved as an RDS file.
+
+### Manuscript document
+
+The manuscript text and code to create figures is found in `manuscript/fecundity_components.Rmd` (see also `manuscript/supporting_information.Rmd`). For the QTL figures, the relevant chunks call external R scripts, because these are really long.
 
 ## Dependencies
 All analyses were done in R using RStudio. The following additional packages are required, which can be installed from CRAN using `install.packages()`:
@@ -58,28 +69,28 @@ install_github('ellisztamas/arghqtl')
 ```
 
 ## Data
-### Parental lines
+### Raw data on parental lines
 
 * **individual_parents_massnumber.csv**: Values for seed mass and seed number for individual parental plants.
 * **individual_parents_nfruit.csv**: Values for fruit number per plant and per seedling for individual parental plants.
 
 Column headers used:
 
-	* site: Italian or Swedish site
-	* year: Year the experiment was transplanted.
-	* tray: Block ID.
-	* row: Row within block.
-	* column: column within block
-	* pos: Well position within block.
-	* genotype: Italian or Swedish parent
-	* subline: Italian and Swedish parents are divided into four sublines each; this is ignored in analysis
-	* fruit_per_plant: Number of fruits per reproductive plant
-	* fruit_per_seed: Number of fruits per planted seedling
-	* nseeds: Number of seeds per fruit
-	* mean_mass_ug: Mean seed mass
-	* total_mass_mg: Total mass of all seeds in the fruit
+- site: Italian or Swedish site
+- year: Year the experiment was transplanted.
+- tray: Block ID.
+- row: Row within block.
+- column: column within block
+- pos: Well position within block.
+- genotype: Italian or Swedish parent
+- subline: Italian and Swedish parents are divided into four sublines each; this is ignored in analysis
+- fruit_per_plant: Number of fruits per reproductive plant
+- fruit_per_seed: Number of fruits per planted seedling
+- nseeds: Number of seeds per fruit
+- mean_mass_ug: Mean seed mass
+- total_mass_mg: Total mass of all seeds in the fruit
 
-### RIL data
+### Raw data on RILs
 
 * **Agren2013_fitness_components.csv**: RIL mean survival (Surv) and fruits per reproductive plant (NFrFrPr) from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/)
 * **Agren2013_LSMfitness.csv**: RIL least-square mean fruits per planted seedling (NFruit) from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/)
@@ -99,6 +110,8 @@ Genotype data are in R/QTL format, showing RIL names, following by each locus. L
 
 ### Derived data
 
+#### RIL-phenotype files
+
 The script `R/rqtl_files.R` formats RIL data. This outputs CSV files for each trait with RIL names in a common order for performing genetic correlations with five columns:
 
 * **id**: RIL name.
@@ -107,10 +120,10 @@ The script `R/rqtl_files.R` formats RIL data. This outputs CSV files for each tr
 * **sw2010**: RIL means for Sweden in 2010.
 * **sw2011**: RIL means for Sweden in 2011.
 
-It also outputs R/QTL files for mapping with the same columns, but with genotype information included.
+It also outputs R/qtl files for mapping with the same columns, but with genotype information included.
 
-### RQTL objects
-R/QTL output is saved to `./output`. See [the section on workflow](#analysis-workflow) for more on how analyses were run. Because there are so many trait-year-site levels, I have bundled objects together where possible, and loop over them. This avoids copy-paste errors, but requires some explanation. 
+#### R/qtl objects
+R/qtl output is saved to `./output`. See [the section on workflow](#analysis-workflow) for more on how analyses were run. Because there are so many trait-year-site levels, I have bundled objects together where possible, and loop over them. This avoids copy-paste errors, but requires some explanation. 
 
 There is one object of class `qtl` derived from the function `stepwiseqtl()` for each of the seven traits with obvious names like `stepwise_surv.rds` etc that follow the abbreviations [above](#experimental-set-up). Models for `frut`, `ffit` and `surv` are taken straight from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/). Each of these is a list of four `qtl` objects:
 

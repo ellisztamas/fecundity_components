@@ -1,7 +1,7 @@
 # parental means
 # individual parents.
-seed_par <- read.csv(file = 'data_raw//individual_parents_massnumber.csv')
-frut_par <- read.csv('data_raw//individual_parents_nfruit.csv')
+seed_par <- read.csv(file = 'data_raw/individual_parents_massnumber.csv')
+frut_par <- read.csv('data_raw/individual_parents_nfruit.csv')
 # site-year identifers
 frut_par$siteyear <- paste(frut_par$site, frut_par$year)
 seed_par$siteyear <- paste(seed_par$site, seed_par$year)
