@@ -31,6 +31,9 @@ Traits 3, 5 and 7 are taken directly from [Ågren *et al.*, 2013](http://www.pna
 Traits 4 and 6 are not directly observed, but estimated as the product of other variables. This is described in the main text, and done by `R/rqtl_files.R`.
 
 ## Analysis workflow
+
+The manuscript is created with the Rmarkdown document `manuscript/fecundity_manuscript.Rmd` (see also `manuscript/supporting_information.Rmd`). A master script to call all scripts that process the data needed to run that file is given at `R/000.master_script.R`.
+
 ### Parental data
 
 * Parental lines are formatted in `R/parents.R`
@@ -49,10 +52,6 @@ Traits 4 and 6 are not directly observed, but estimated as the product of other 
 - For each trait there is a script `R/mapping_trait.R` that called `perform_mapping.R` on that trait.
 - To create figure 5 it was necessary to repeat QTL analysis of number of fruits per reproductive plant using only those RILs for which data was also available for number of seeds per reproductive plant. This is set up at the end of `R/rqtl_files.R`, and mapping is performed using `R/mapping_ffit_reduced.R`.
 - `R/format_qtl_models.R` runs `fitqtl()` on each `stepwiseqtl()` model, and clusters colocalising QTL into groups. It groups cross objects, QTL models, model fits and clusters for a single trait into one list of objects, which is saved as an RDS file.
-
-### Manuscript document
-
-The manuscript text and code to create figures is found in `manuscript/fecundity_components.Rmd` (see also `manuscript/supporting_information.Rmd`). For the QTL figures, the relevant chunks call external R scripts, because these are really long.
 
 ## Dependencies
 All analyses were done in R using RStudio. The following additional packages are required, which can be installed from CRAN using `install.packages()`:
