@@ -9,7 +9,7 @@ traits <- c(
   "frut", # 2. fruits/plant ()
   "seed", # 3. seeds/fruit
   "tofu", # 4. Total fecundity (estimated seeds/plant = frut*seed)
-  "ffit", # 5. Fruits per planted seedling; fitness measure used by Agren etal 2013
+  "ffit", # 5. Fruits per planted seedling
   "tfit", # 6. Seeds per planted seedling; fitness incorporating seed number.
   "surv") # 7. Survival
 # parameters to input
@@ -77,25 +77,8 @@ for(i in traits){
 saveRDS(cross,     file='output/cross_objects.rds')
 saveRDS(qtlmodels, file='output/qtl_stepwise_models.rds')
 saveRDS(qtlfits,   file='output/qtl_model_fits.rds')
-
-# cluster QTL into colocalising group.
-qtlclusters  <- lapply(traits, function(x) return(NULL))
-names(qtlclusters) <- traits
-
-# perform QTL clustering for each trait
-for(i in traits){
-  if(i == "surv"){
-    dat <- cluster_qtl(1:5, qtlmodels[[i]][c(1,2,4)], qtlfits[[i]][c(1,2,4)], 15.2)$full.list
-  } else {
-    dat <- cluster_qtl(1:5, qtlmodels[[i]], qtlfits[[i]], 15.2)$full.list
-  }
-  qtlboxes <- by(dat, dat$QTL_id, function(x) c(unique(x$chr), min(x$min_bayesint), max(x$max_bayesint)))
-  qtlclusters[[i]] <- as.data.frame(do.call('rbind', qtlboxes))
-  colnames(qtlclusters[[i]]) <- c("chr", "lower", "upper")
-}
-saveRDS(qtlclusters, file='output/qtl_clusters.rds')
-
-# Cluster all QTL models as one.
+ 
+# Cluster all QTL models as to identify pleiotropic regions.
 # First we need to remove elements for survival in Sweden in 2010
 qtlmodels2 <- qtlmodels[c("mass","frut","seed","surv")]
 qtlfits2   <- qtlfits[c("mass","frut","seed","surv")]
@@ -105,39 +88,8 @@ qtlfits2$surv   <- qtlfits2$surv  [c("it2010", "it2011", "sw2011")]
 all_qtlmodels <- unlist(qtlmodels2, recursive = FALSE)
 all_qtlfits   <- unlist(qtlfits2,   recursive = FALSE)
 # Cluster all QTL models together
-all_clusters <- cluster_qtl(1:5, all_qtlmodels, all_qtlfits, 15.2)
-saveRDS(all_clusters, file="output/clusters_all_models.rds")
-
-# The clustering above identifies 12 regions associated with one or more traits.
-# Fit a QTL model to each dataset using the centre of these regions as a QTL
-
-# position
-plei_effects <- lapply(traits, function(x) return(NULL))
-names(plei_effects) <- traits
-# Pull out the loci closest to the middle of pleiotropic regions.
-ix <- all_clusters$summary$n.qtl > 1
-plei_model <- find.marker(cross$seed,
-                          chr = all_clusters$summary$chr[ix],
-                          pos = all_clusters$summary$pos_mean[ix])
-# Loop over each trait and get the difference between mean phenotypes for each locus.
-# This is done for phenotypes scaled by the mean and SD.
-for(i in traits){
-  this_trait <- as.data.frame(matrix(NA, 12, 4))
-  colnames(this_trait) <- siteyear
-  #loop over each experiment
-  for(y in siteyear){
-    mean_phenotypes <- sapply(
-      plei_model,
-      function(locus){
-        tapply(scale(cross[[i]]$pheno[[y]]), pull.geno(cross[[i]])[, locus], mean, na.rm=T)
-      }
-    )
-    this_trait[,y] <- mean_phenotypes[2,] - mean_phenotypes[1,]
-  }
-  plei_effects[[i]] <- this_trait
-}
-# write to disk
-saveRDS(plei_effects, "data_derived/pleiotropic_QTL_effects.rds")
+qtl_clusters <- cluster_qtl(1:5, all_qtlmodels, all_qtlfits, 15.2)
+saveRDS(qtl_clusters, file="output/clusters_all_models.rds")
 
 
 
