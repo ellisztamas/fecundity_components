@@ -1,6 +1,6 @@
 ---
 title: Number of seeds per fruit, life-history tradeoffs, and the genetic basis of fitness in *Arabidopsis thaliana*
-author: "Thomas Ellis, Froukje M. Postma, Christopher G. Oakley and Jon Ågren"
+author: "Thomas James Ellis, Froukje M. Postma, Christopher G. Oakley and Jon Ågren"
 date: "`r format(Sys.time(), '%d.%m.%Y')`"
 output:
   bookdown::pdf_book:
@@ -61,6 +61,8 @@ mloc <- read.table('data_raw/genetic_map_agren_etal_2013.csv', sep = '\t', heade
 
 ```
 
+**Keywords**: local adaptation, pleiotropy, trade-off, reciprocal transplant, fitness components
+
 # Introduction
 
 Adaptation to the local environment is reflected in an increase in mean population fitness in response to local selection pressures [@Williams1966; @Kawecki2004].
@@ -96,7 +98,7 @@ Here, we quantify seed output per fruit and mean seed size of the parental ecoty
 
 ## Data collection 
 
-We estimated seed traits for recombinant inbred lines (RIL) and parental accessions in reciprocal transplant experiments conducted at the native sites of the source populations in two years (2010-2011 and 2011-2012). These experiments have previously been described by @agren_genetic_2013 and @agren_reciprocal_2012, who quantified survival to reproduction, number of fruits per reproductive plant, and number of fruits per seedling planted in the parents and 398 RIL. We expanded these data by quantifying number of seeds per fruit and mean seed mass. In each site × year combination we sampled a single mature fruit from between 1917 and 2359 RIL plants and between 79 and 189 parental plants.
+We estimated seed traits for recombinant inbred lines (RIL) and parental accessions in reciprocal transplant experiments conducted at the native sites of the source populations in two years (2010-2011 and 2011-2012). These experiments have previously been described by Ågren & Schemske @agren_reciprocal_2012 and Ågren *et al.* @agren_genetic_2013, who quantified survival to reproduction, number of fruits per reproductive plant, and number of fruits per seedling planted in the parents and 398 RIL. We expanded these data by quantifying number of seeds per fruit and mean seed mass. In each site × year combination we sampled a single mature fruit from between 1917 and 2359 RIL plants and between 79 and 189 parental plants.
 We aimed to choose fruits that were typical in size for fruits on the whole plant.
 For each fruit, we counted the number of seeds and determined total seed mass to the nearest 0.01 mg on an AT261 balance (Mettler Toledo, Columbus, United States). We calculated mean seed mass as the mass of all seeds in a fruit, divided by the total number of seeds. We estimated genotypic values for each line in each site × year combination as the mean across all individuals of the same RIL or parental ecotype. After excluding lines with seed data for fewer than three replicate individuals per line, we had estimates of genotypic values for number of seeds per fruit in 389, 375, 380 and 340 RILs for Italy in 2010, Italy in 2011, Sweden in 2010 and Sweden in 2011 respectively. We likewise had corresponding data on seed mass for 387, 368, 378 and 338 RILs in the same experiments respectively.
 
@@ -728,5 +730,13 @@ The study was financially supported by grants from the Swedish Research Council 
 # Data availability
 
 Data, R scripts, and the R markdown document used to create this manuscript will be uploaded to a suitable public server on publication. In the meantime, they are available at https://github.com/ellisztamas/fecundity_components.
+
+# Competing interests
+
+The authors declare no conflict of interest.
+
+# Authors' contributions
+
+TJE performed analyses and wrote the manuscript. JÅ conceived the study and critically revised the manuscript. FMP and CGO co-ordinated data collection and critically revised the manuscript.
 
 # Literature cited
