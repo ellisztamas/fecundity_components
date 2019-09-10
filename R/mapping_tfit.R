@@ -8,11 +8,11 @@ traits <- c(
   "frut", # 2. fruits/plant ()
   "seed", # 3. seeds/fruit
   "tofu", # 4. Total fecundity (estimated seeds/plant = frut*seed)
-  "ffit", # 5. Fruits per planted seedling; fitness measure used by Agren etal 2013
+  "ffit", # 5. Fruits per planted seedling
   "tfit", # 6. Seeds per planted seedling; fitness incorporating seed number.
   "surv") # 7. Survival
 # parameters to input
 set.seed(249) # random seed.
 
 source('R/perform_mapping.R')
-perform_mapping(traits[6], nperms = 10000, nclusters = 16)
+perform_mapping(traits[6], nperms = 10000, nclusters = 7)
