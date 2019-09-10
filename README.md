@@ -90,12 +90,12 @@ Column headers used:
 - total_mass_mg: Total mass of all seeds in the fruit
 
 ### Raw data on RILs
-
-* **Agren2013_fitness_components.csv**: RIL mean survival (Surv) and fruits per reproductive plant (NFrFrPr) from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/)
+#### From Ågren *et al.* (2013)
+Data from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/) are in `data_raw`:
+* **Agren2013_fitness_components.csv**: RIL mean survival (Surv) and fruits per reproductive plant (NFrFrPr) from 
 * **Agren2013_LSMfitness.csv**: RIL least-square mean fruits per planted seedling (NFruit) from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/)
-* **ril_genotypes.csv**: RIL genotypes from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/)
+* **RIL genotypes.csv**: RIL genotypes from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/)
 * **genetic_map_agren_etal_2013.csv**: Genetic map from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/), used for plotting QTL positions in the main text.
-* **fitness_boxes.R**: Locations of the regions associated with fitness QTL by [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/).
 
 Phenotype data column headers show RIL name (**id**), and then a code that shows abbreviations used by Ågren *et al.*:
 
@@ -106,6 +106,15 @@ Phenotype data column headers show RIL name (**id**), and then a code that shows
 * noedge means edge plants from the last three rows of each tray were removed to avoid edge effects
 
 Genotype data are in R/QTL format, showing RIL names, following by each locus. Lines 2 and 3 indicate chromosome number an linkage map position.
+
+#### RIL seed size and number
+Data on seed size and number presented in this manuscript are in the file `data_raw/RIL_means_seedmass_seednumber.csv`. Columns show:
+
+* RIL name
+* **Mean # Seeds (good)**: average number of mature seeds per fruit
+* **N(# Seeds (good)**: Number of plants for which seeds were counted
+* **Mean(MSeedMass(ug))**: mean seed mass.
+* **Mean(MSeedMass(ug)**: Number of plants for which seeds were weighed.
 
 ### Derived data
 
@@ -122,9 +131,9 @@ The script `R/rqtl_files.R` formats RIL data. This outputs CSV files for each tr
 It also outputs R/qtl files for mapping with the same columns, but with genotype information included.
 
 #### R/qtl objects
-R/qtl output is saved to `./output`. See [the section on workflow](#analysis-workflow) for more on how analyses were run. Because there are so many trait-year-site levels, I have bundled objects together where possible, and loop over them. This avoids copy-paste errors, but requires some explanation. 
+R/qtl output is saved to `output`. See [the section on workflow](#analysis-workflow) for more on how analyses were run. Because there are so many trait-year-site levels, I have bundled objects together where possible, and loop over them. This avoids copy-paste errors, but requires some explanation. 
 
-There is one object of class `qtl` derived from the function `stepwiseqtl()` for each of the seven traits with obvious names like `stepwise_surv.rds` etc that follow the abbreviations [above](#experimental-set-up). Models for `frut`, `ffit` and `surv` are taken straight from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/). Each of these is a list of four `qtl` objects:
+There is one object of class `qtl` derived from the function `stepwiseqtl()` for each of the seven traits with obvious names like `stepwise_surv.rds` etc that follow the abbreviations [above](#experimental-set-up). Models for `frut`, and `surv` are taken straight from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/). Each of these is a list of four `qtl` objects:
 
 1. **it2010**: QTL detected in Italy in 2010
 2. **it2011**: QTL detected in Italy in 2011
