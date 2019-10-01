@@ -274,6 +274,31 @@ kable(epi_tab, digits = 2, row.names = F,
 
 \newpage
 
+```{r seed-mass, fig.width=8/2.54, fig.cap="Mean seed mass of the Italian (closed symbols) and Swedish (open symbols) parental ecotypes at the field sites in Italy (It.) and Sweden (Sw.) in 2010 and 2011. Bars indicate standard error."}
+# pdf("figures/02_seed_mass.pdf", width=11/2.54)
+
+par(mfrow=c(1,1))
+plot(c(1,4), c(15,30), type='n', axes = F, xlim=c(0.5, 4.5), xlab="",
+     ylab=expression(paste("Seed mass (",mu, "g)")))
+axis(2); box(); grid()
+axis(1, 1:4, c("It. 2010", "It. 2011", "Sw. 2010", "Sw. 2011"), las=2, tick = T)
+
+os <- 0.05
+segments((1:4)-os, (parents$it_parent+parents$it_se)[parents$variable == 'seed_mass'],
+         (1:4)-os, (parents$it_parent-parents$it_se)[parents$variable == 'seed_mass'],
+         lwd=2)
+segments((1:4)+os, (parents$sw_parent+parents$sw_se)[parents$variable == 'seed_mass'],
+         (1:4)+os, (parents$sw_parent-parents$sw_se)[parents$variable == 'seed_mass'],
+         lwd=2)
+points((1:4)-os, parents$it_parent[parents$variable == 'seed_mass'], pch=16)
+points((1:4)+os, parents$sw_parent[parents$variable == 'seed_mass'], pch=21, bg='white')
+
+
+# dev.off()
+```
+
+\newpage
+
 ```{r heritabilities, fig.cap="Broad-sense heritability estimates based on survival to reproduction, number of fruits per reproductive plant (Fruits/RP), number of seeds per fruit (Seeds/fr), number of fruits per seedling planted (Fruits/sdl), number of seeds per reproductive plant (Seeds/RP) and seed mass. Closed and open symbols show values in Italy and Sweden respectively. Error bars show 95% parametric bootstrap confidence intervals. Numbers indicate the number of individuals each estimate is based on."}
 
 # pdf("figures/heritabilities.pdf", width=16.9/2.54, height = 12/2.54)
@@ -345,7 +370,6 @@ text((1:5) + 1.5*os, 0.6,
 
 # dev.off()
 ```
-
 
 \newpage
 
