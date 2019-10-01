@@ -46,11 +46,6 @@ surv <- surv[match(rilnames, surv$id),]
 # seeds per adult
 tofu <- seed[,2:5] * frut[,2:5]
 tofu <- cbind(genotype = frut$id, tofu)
-# seeds per seedling
-tfit <- seed[,2:5] * ffit[,2:5]
-tfit <- cbind(genotype = ffit$id, tfit)
-# For fruits per seedling, remove lines that have no data on seeds per seedling
-ffit[is.na(tfit)] <- NA
 
 # write phenotypes to disk
 write.csv(surv, file = "data_derived/RIL_survival.csv", row.names = F)
@@ -61,11 +56,31 @@ write.csv(tofu, file = "data_derived/RIL_seeds_per_adult.csv", row.names = F)
 write.csv(ffit, file = "data_derived/RIL_fruits_per_seedling.csv", row.names = F)
 write.csv(tfit, file = "data_derived/RIL_seeds_per_seedling.csv", row.names = F)
 
+# For QTL mapping of components of fitness, ensure that all traits are based
+# only on lines for which seed numbers are available.
+nax <- is.na(mass) + is.na(seed) + is.na(frut) + is.na(tofu) + is.na(surv)
+nax <- nax > 0
+
+mass[nax] <- NA
+seed[nax] <- NA
+frut[nax] <- NA
+tofu[nax] <- NA
+surv[nax] <- NA
+ffit[nax] <- NA
+
+# seeds per seedling
+tfit <- seed[,2:5] * ffit[,2:5]
+tfit <- cbind(genotype = ffit$id, tfit)
+# For fruits per seedling, remove lines that have no data on seeds per seedling
+ffit[is.na(tfit)] <- NA
+
 # Files for R/QTL for new traits, and total seed number traits.
 # This will throw a warning about NA labels.
 # This is because not all lines are included across datasets.
 write.csv(qtl_dataframe(mass, geno), file = "data_derived/rqtl_mass.csv", row.names = F)
 write.csv(qtl_dataframe(seed, geno), file = "data_derived/rqtl_seed.csv", row.names = F)
+write.csv(qtl_dataframe(frut, geno), file = "data_derived/rqtl_frut.csv", row.names = F)
 write.csv(qtl_dataframe(tofu, geno), file = "data_derived/rqtl_tofu.csv", row.names = F)
 write.csv(qtl_dataframe(ffit, geno), file = "data_derived/rqtl_ffit.csv", row.names = F)
 write.csv(qtl_dataframe(tfit, geno), file = "data_derived/rqtl_tfit.csv", row.names = F)
+write.csv(qtl_dataframe(surv, geno), file = "data_derived/rqtl_surv.csv", row.names = F)

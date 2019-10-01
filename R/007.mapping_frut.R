@@ -4,11 +4,11 @@
 
 # There are six phenotypes:
 traits <- c(
-  "mass", # 1. seed mass (mass)
-  "frut", # 2. fruits/plant ()
+  "mass", # 1. seed mass
+  "frut", # 2. fruits/plant
   "seed", # 3. seeds/fruit
   "tofu", # 4. Total fecundity (estimated seeds/plant = frut*seed)
-  "ffit", # 5. Fruits per planted seedling
+  "ffit", # 5. Fruits per planted seedling; fitness measure used by Agren etal 2013
   "tfit", # 6. Seeds per planted seedling; fitness incorporating seed number.
   "surv") # 7. Survival
 # parameters to input
