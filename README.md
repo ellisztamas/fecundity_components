@@ -1,6 +1,6 @@
 # Number of seeds per fruit, life-history tradeoffs, and the genetic basis of fitness in *Arabidopsis thaliana*
 
-This repository documents analysis associated with the manuscript "Positive correlations among components of fitness boost estimates of local adaptation in *Arabidopsis thaliana*" by Tom Ellis, Froukje Postma, Christopher Oakley and Jon Ågren.
+This repository documents analysis associated with the manuscript " Number of seeds per fruit, life-history tradeoffs, and the genetic basis of fitness in *Arabidopsis thaliana*" by Tom Ellis, Froukje Postma, Christopher Oakley and Jon Ågren.
 
 ## Table of contents
 
@@ -32,7 +32,14 @@ Traits 4 and 6 are not directly observed, but estimated as the product of other 
 
 ## Analysis workflow
 
-The manuscript is created with the Rmarkdown document `manuscript/fecundity_manuscript.Rmd` (see also `manuscript/supporting_information.Rmd`). A master script to call all scripts that process the data needed to run that file is given at `R/000.master_script.R`.
+The master script `R/000.master_script.R` gives an overview of the scripts to:
+
+1. Format raw data
+2. Perform statistical tests
+3. Run QTL mapping for each trait
+4. Format QTL results.
+
+The manuscript is created with the Rmarkdown document `manuscript/fecundity_manuscript.Rmd` (see also `manuscript/supporting_information.Rmd`). Shell scripts to running mapping jobs on a cluster using SLURM are given in `sh/`.
 
 ### Parental data
 
@@ -49,7 +56,7 @@ The manuscript is created with the Rmarkdown document `manuscript/fecundity_manu
 
 - `R/rqtl_files.R` formats RIL data into R/qtl files.
 - `R/perform_mapping.R` is a generic function to import an R/qtl input file, run permutations, and fit `stepwiseqtl()` models to the data. Output is saved as as RDS file in `output` folder with a generic names like `stepwise_trait.rds`.
-- For each trait there is a script `R/mapping_trait.R` that called `perform_mapping.R` on that trait.
+- For each trait there is a script `R/mapping_trait.R` that called `perform_mapping.R` on that trait. Shell scripts to running these on a cluster using SLURM are given in `sh/`.
 - To create figure 5 it was necessary to repeat QTL analysis of number of fruits per reproductive plant using only those RILs for which data was also available for number of seeds per reproductive plant. This is set up at the end of `R/rqtl_files.R`, and mapping is performed using `R/mapping_ffit_reduced.R`.
 - `R/format_qtl_models.R` runs `fitqtl()` on each `stepwiseqtl()` model, and clusters colocalising QTL into groups. It groups cross objects, QTL models, model fits and clusters for a single trait into one list of objects, which is saved as an RDS file.
 
@@ -92,7 +99,7 @@ Column headers used:
 ### Raw data on RILs
 #### From Ågren *et al.* (2013)
 Data from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/) are in `data_raw`:
-* **Agren2013_fitness_components.csv**: RIL mean survival (Surv) and fruits per reproductive plant (NFrFrPr) from 
+* **Agren2013_fitness_components.csv**: RIL mean survival (Surv) and fruits per reproductive plant (NFrFrPr) from
 * **Agren2013_LSMfitness.csv**: RIL least-square mean fruits per planted seedling (NFruit) from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/)
 * **RIL genotypes.csv**: RIL genotypes from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/)
 * **genetic_map_agren_etal_2013.csv**: Genetic map from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/), used for plotting QTL positions in the main text.
@@ -131,7 +138,7 @@ The script `R/rqtl_files.R` formats RIL data. This outputs CSV files for each tr
 It also outputs R/qtl files for mapping with the same columns, but with genotype information included.
 
 #### R/qtl objects
-R/qtl output is saved to `output`. See [the section on workflow](#analysis-workflow) for more on how analyses were run. Because there are so many trait-year-site levels, I have bundled objects together where possible, and loop over them. This avoids copy-paste errors, but requires some explanation. 
+R/qtl output is saved to `output`. See [the section on workflow](#analysis-workflow) for more on how analyses were run. Because there are so many trait-year-site levels, I have bundled objects together where possible, and loop over them. This avoids copy-paste errors, but requires some explanation.
 
 There is one object of class `qtl` derived from the function `stepwiseqtl()` for each of the seven traits with obvious names like `stepwise_surv.rds` etc that follow the abbreviations [above](#experimental-set-up). Models for `frut`, and `surv` are taken straight from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/). Each of these is a list of four `qtl` objects:
 
