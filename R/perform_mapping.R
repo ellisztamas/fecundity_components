@@ -54,12 +54,12 @@ perform_mapping <- function(ix, nclusters, nperms){
   ################
   # Perumtations for seed fruter.
   cat("Starting permutations. ", nperms, "permutations will be performed.\n")
-  # Empty list to store permutations for each year.
-  permutations <- list(it2010=NULL, it2011=NULL, sw2010=NULL, sw2011=NULL)
+  # Empty list to store penalties for each site-year combination.
+  penalties <- list(it2010=NULL, it2011=NULL, sw2010=NULL, sw2011=NULL)
   # loop across each site-year combination and perform permutations for each.
-  for(y in 1:length(permutations)){
+  for(y in 1:length(penalties)){
     t1 <- proc.time()
-    permutations[[y]] <- 
+    permutations <- 
       scantwo(
         cross,
         pheno.col = y + 1,
@@ -72,19 +72,10 @@ perform_mapping <- function(ix, nclusters, nperms){
         clean.distance = FALSE,
         incl.markers = TRUE
       )
-    cat("Permutations completed for", names(permutations)[y], "in", round(((proc.time()-t1)[3] /60),2),"minutes.\n")
+    penalties[[y]] <- calc.penalties(permutations, alpha = 0.05)
+    rm(permutations)
+    cat("Permutations completed for", names(penalties)[y], "in", round(((proc.time()-t1)[3] /60),2),"minutes.\n")
   }
-  # store permutations for later
-  saveRDS(permutations, file= paste("output/permutations_", ix, ".rds", sep=""))
-  
-  #######################
-  # Calculate penalties #
-  #######################
-  cat("Calculating penalties.\n")
-  # Empty list to store penalties for each site-year combination.
-  penalties <- list(it2010=NULL, it2011=NULL, sw2010=NULL, sw2011=NULL)
-  # get penalties from the permutations
-  for(y in 1:length(penalties)) penalties[[y]] <- calc.penalties(permutations[[y]], alpha = 0.05)
   saveRDS(penalties, file= paste("output/penalties_", ix, ".rds", sep=""))
   
   ###################
@@ -118,6 +109,6 @@ perform_mapping <- function(ix, nclusters, nperms){
   # save the stepwise QTL models.
   saveRDS(stepwise, file=paste("output/stepwise_", ix, ".rds", sep=""))
   
-  cat("Analyses completed in", round(((proc.time()-t2)[3] /3600),2),"hours.\n")
+  cat("Analyses completed in", round(((proc.time()-t0)[3] /3600),2),"hours.\n")
   
 }
