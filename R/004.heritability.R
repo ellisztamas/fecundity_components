@@ -29,15 +29,14 @@ H2 <- list(
 colnames(H2$obs)  <- colnames(H2$upper)  <- colnames(H2$lower)  <- site_year
 row.names(H2$obs) <- row.names(H2$upper) <- row.names(H2$lower) <- traits
 
-nreps <- 1000
-pb = txtProgressBar(min = 0, max = nreps, initial = 0)#set up progress bar
+nreps <- 200
 t0 <- proc.time()
 for(t in traits){
-  # Update progress bar
-  setTxtProgressBar(pb, t)
+  cat("Running",nreps,"bootstraps for the heritability of", t,"in..." )
   
   model <- as.formula(paste(t, "~ Tray + (1| Genotype2)"))
   for(sy in site_year){
+    cat(sy, ", ", sep="")
     # Fit the model
     m <- lmer(model,
               data   = ind_data,
@@ -50,12 +49,12 @@ for(t in traits){
     H2$lower[t, sy] <- quantile(para_boot$t, 0.025)
     H2$upper[t, sy] <- quantile(para_boot$t, 0.975)
   }
+  cat("Done.\n")
 }
 paste("Parametric bootstraps completed after", round((proc.time()-t0)[3] / 60, 2), "minutes.")
 
 expt <- split(ind_data, ind_data$site_year)
 H2$n <- sapply(expt, function(x) colSums(!is.na(x[, traits])))
 H2$n <- as.data.frame(H2$n)
-
 
 saveRDS(H2, file = "output/heritabilities.rds")

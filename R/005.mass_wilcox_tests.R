@@ -8,6 +8,6 @@ mass_wilcox <- vector('list', length(siteyear))
 names(mass_wilcox) <- siteyear
 # run tests
 for(y in siteyear){ # seed number
-  this_exp <- seed_par[parent_mass$siteyear == y,]
+  this_exp <- parent_mass[parent_mass$siteyear == y,]
   mass_wilcox[[y]] <- wilcox.test(mean_mass_ug ~ genotype, data=this_exp)
 }

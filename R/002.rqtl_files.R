@@ -46,6 +46,9 @@ surv <- surv[match(rilnames, surv$id),]
 # seeds per adult
 tofu <- seed[,2:5] * frut[,2:5]
 tofu <- cbind(genotype = frut$id, tofu)
+# seeds per seedling
+tfit <- seed[,2:5] * ffit[,2:5]
+tfit <- cbind(genotype = ffit$id, tfit)
 
 # write phenotypes to disk
 write.csv(surv, file = "data_derived/RIL_survival.csv", row.names = F)
@@ -66,11 +69,8 @@ seed[nax] <- NA
 frut[nax] <- NA
 tofu[nax] <- NA
 surv[nax] <- NA
-ffit[nax] <- NA
+#ffit[nax] <- NA
 
-# seeds per seedling
-tfit <- seed[,2:5] * ffit[,2:5]
-tfit <- cbind(genotype = ffit$id, tfit)
 # For fruits per seedling, remove lines that have no data on seeds per seedling
 ffit[is.na(tfit)] <- NA
 

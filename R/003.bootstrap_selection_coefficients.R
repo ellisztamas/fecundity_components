@@ -1,4 +1,4 @@
-source("R/parents.R")
+source("R/001.parents.R")
 
 siteyear <- sort(unique(seed_par$siteyear))
 frut_par$block <- paste(frut_par$year, frut_par$site, frut_par$tray)
@@ -30,6 +30,6 @@ sboot <- function(group, nreps){
 # perform bootsraps
 nreps <- 1000
 sel_boots <- lapply(siteyear, function(x) sboot(x, nreps))
-names(sel_boots) <- names(sel_cis) <- c("it2010", "it2011", "sw2010", "sw2011")
+names(sel_boots) <- c("it2010", "it2011", "sw2010", "sw2011")
 
 saveRDS(sel_boots, "output/bootstrap_selection_coefficients.rds")

@@ -66,6 +66,8 @@ All analyses were done in R using RStudio. The following additional packages are
 * `knitr`
 * `kableExtra`
 * `qtl`
+* `lme4`
+* `"magrittr`
 
 In addition, plotting and clustering QTL requires the custom package `arghqtl` written by Tom Ellis for this manuscript, hosted on [GitHub](https://github.com/ellisztamas/arghqtl). The easiest way to install it is to use `devtools`:
 
