@@ -38,6 +38,7 @@ The master script `R/000.master_script.R` gives an overview of the scripts to:
 2. Perform statistical tests
 3. Run QTL mapping for each trait
 4. Format QTL results.
+5. Calculate genetic correlations
 
 The manuscript is created with the Rmarkdown document `manuscript/fecundity_manuscript.Rmd` (see also `manuscript/supporting_information.Rmd`). Shell scripts to running mapping jobs on a cluster using SLURM are given in `sh/`.
 
@@ -49,7 +50,7 @@ The manuscript is created with the Rmarkdown document `manuscript/fecundity_manu
 
 ### RIL phenotypes
 * Formatting RIL phenotypes and preparation of input files for `R/qtl` is done in `R/rqtl_files.R`.
-* Genetic correlations are done in the manuscript file `manuscript/fecundity_components.Rmd` itself in the chunk `scatter-plots`, along with code to plot them.
+* Genetic correlations and bootstrap confidence intervals are calculated in `R/014.genetic_correlations.R`, which outputs a summary table to `output/genetic_correlations.csv`.
 * `R/heritabilities.R` calculates broad sense heritabilities on traits that were directly observed, rather than inferred (surv, frut, seed, mass, ffit); see [experimental set up](#experimental-set-up). Outputs to `output/heritabilties.rds`.
 
 ### QTL mapping

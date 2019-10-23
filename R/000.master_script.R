@@ -13,5 +13,5 @@ source("R/009.mapping_tofu.R")# 4. Total fecundity (estimated seeds/plant = frut
 source("R/010.mapping_ffit.R")# 5. Fruits per planted seedling
 source("R/011.mapping_tfit.R")# 6. Seeds per planted seedling; fitness incorporating seed number.
 source("R/012.mapping_surv.R")# 7. Survival to reproduction
-#source("R/mapping_surv.R")# 7. Survival
+# Stitch QTL results together and cluster them.
 source("R/013.format_QTL_models.R")
