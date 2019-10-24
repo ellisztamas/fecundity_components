@@ -100,33 +100,6 @@ kable(qtl_tab, row.names = F, digits = 1,
 
 \newpage
 
-```{r tab:individual-frut-qtl, eval=T}
-# summary tables for fruits/plant
-ix <- "frut"
-tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
-            bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
-            bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
-            bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
-
-for(i in 1:4){
-  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
-  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
-  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
-}
-tab <- do.call('rbind', tab)
-# mash together positions with their CIs
-tab$position <- paste(round(tab$ML_bayesint,1),
-                      " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
-# print the table
-kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
-      format="pandoc",
-      digits = c(0,0,0,0,0,1,3,1,1),
-      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
-      caption="QTL for number of fruits per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
-```
-
-\newpage
-
 ```{r tab:individual-seed-qtl, eval=T}
 # number of seeds per fruit
 ix <- "seed"
@@ -182,24 +155,45 @@ kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE"
 
 \newpage
 
-```{r tab:individual-surv-qtl, eval=T}
-# survival to reproduction
-site_names  <- c("Italy", "Italy", "Sweden")
-year_names  <- c(2010, 2011, 2011)
-
-
-ix <- "surv"
+```{r tab:individual-frut-qtl, eval=T}
+# summary tables for fruits/plant
+ix <- "frut"
 tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
             bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
-            #bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
+            bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
             bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
 
-pd <- parent_diffs[parent_diffs$trait == ix,c(1,2,4)]
-
-for(i in 1:3){
+for(i in 1:4){
   tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
   tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
-  tab[[i]]$PDE <- (100* abs(tab[[i]]$effect_sizes)) / as.numeric(pd[i])
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+}
+tab <- do.call('rbind', tab)
+# mash together positions with their CIs
+tab$position <- paste(round(tab$ML_bayesint,1),
+                      " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
+# print the table
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      format="pandoc",
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption="QTL for number of fruits per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
+```
+
+\newpage
+
+```{r tab:individual-ffit-qtl, eval=T}
+# number of fruits per seedling
+ix <- "ffit"
+tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
+            bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
+            bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
+            bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
+
+for(i in 1:4){
+  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
 }
 tab <- do.call('rbind', tab)
 # mash together positions with their CIs
@@ -208,9 +202,37 @@ tab$position <- paste(round(tab$ML_bayesint,1),
 # print the table
 kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],# "PDE")],
       format= "pandoc",
-      digits = c(0,0,0,0,0,1,3,1),
+      digits = c(0,0,0,0,0,1,3,1,1),
       col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
-      caption = "QTL for survival to reproduction identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values, as a percentage of variance among RIL means, and as a percentage of the difference between parental means.")
+      caption = "QTL for number of fruits per seedling planted identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values, as a percentage of variance among RIL means, and as a percentage of the difference between parental means.")
+
+```
+
+\newpage
+
+```{r tab:individual-tfit-qtl, eval=T}
+# seeds/seedling
+ix <- "tfit"
+tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
+            bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
+            bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
+            bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
+
+for(i in 1:4){
+  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+}
+tab <- do.call('rbind', tab)
+# mash together positions with their CIs
+tab$position <- paste(round(tab$ML_bayesint,1),
+                      " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
+# print the table
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      format= "pandoc",
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption = "QTL for number of seeds per seedling planted identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
 
 ```
 
@@ -248,18 +270,24 @@ kable(d,#tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","P
 
 \newpage
 
-```{r tab:individual-ffit-qtl, eval=T}
-# number of fruits per seedling
-ix <- "ffit"
+```{r tab:individual-surv-qtl, eval=T}
+# survival to reproduction
+site_names  <- c("Italy", "Italy", "Sweden")
+year_names  <- c(2010, 2011, 2011)
+
+
+ix <- "surv"
 tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
             bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
-            bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
+            #bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
             bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
 
-for(i in 1:4){
+pd <- parent_diffs[parent_diffs$trait == ix,c(1,2,4)]
+
+for(i in 1:3){
   tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
   tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
-  tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+  tab[[i]]$PDE <- (100* abs(tab[[i]]$effect_sizes)) / as.numeric(pd[i])
 }
 tab <- do.call('rbind', tab)
 # mash together positions with their CIs
@@ -268,36 +296,9 @@ tab$position <- paste(round(tab$ML_bayesint,1),
 # print the table
 kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],# "PDE")],
       format= "pandoc",
-      digits = c(0,0,0,0,0,1,3,1,1),
+      digits = c(0,0,0,0,0,1,3,1),
       col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
-      caption = "QTL for number of fruits per seedling planted identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values, as a percentage of variance among RIL means, and as a percentage of the difference between parental means.")
-
-```
-
-\newpage
-```{r tab:individual-tfit-qtl, eval=T}
-# seeds/seedling
-ix <- "tfit"
-tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
-            bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
-            bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
-            bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
-
-for(i in 1:4){
-  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
-  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
-  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
-}
-tab <- do.call('rbind', tab)
-# mash together positions with their CIs
-tab$position <- paste(round(tab$ML_bayesint,1),
-                      " (", round(tab$min_bayesint, 1), "-", round(tab$max_bayesint, 1), ")", sep="")
-# print the table
-kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
-      format= "pandoc",
-      digits = c(0,0,0,0,0,1,3,1,1),
-      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
-      caption = "QTL for number of seeds per seedling planted identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values and as a percentage of variance among RIL means.")
+      caption = "QTL for survival to reproduction identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as absolute values, as a percentage of variance among RIL means, and as a percentage of the difference between parental means.")
 
 ```
 
@@ -426,80 +427,6 @@ text(3500, 0, bquote(atop('r'[P] ==  .(corsumm$rho[12]),  .(corsumm$tp[12]))), c
 
 \newpage
 
-```{r heritabilities, fig.cap="Broad-sense heritability estimates based on survival to reproduction, number of fruits per reproductive plant (Fruits/RP), number of seeds per fruit (Seeds/fr), number of fruits per seedling planted (Fruits/sdl), number of seeds per reproductive plant (Seeds/RP) and seed mass. Closed and open symbols show values in Italy and Sweden respectively. Error bars show 95% parametric bootstrap confidence intervals. Numbers indicate the number of individuals each estimate is based on."}
-
-# pdf("figures/heritabilities.pdf", width=16.9/2.54, height = 12/2.54)
-par(mfrow=c(1,2))
-
-os <- 0.1
-plot(
-  c(1, 6),
-  c(0, 0.6),
-  type = "n",
-  axes = F,
-  xlim = c(0.2, 5.5),
-  xlab = "",
-  ylab = "Broad-sense heritability",
-  main = "2010"
-)
-axis(1, 1:5, las=2,
-     labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seed mass"))
-axis(2)
-box()
-# Confidence intervals
-segments((1:5) - os, H2$lower$`Italy 2010`,
-         (1:5) - os, H2$upper$`Italy 2010`)
-segments((1:5) + os, H2$lower$`Sweden 2010`,
-         (1:5) + os, H2$upper$`Sweden 2010`)
-# Overplot observed values
-points((1:5) - os, H2$obs$`Italy 2010`,   pch=16)
-points((1:5) + os, H2$obs$`Sweden 2010`, pch=21, bg="white")
-
-# Add sample sizes
-text((1:5) - 1.5*os, 0.6,
-     labels = H2$n$`Italy 2010`,
-     adj = 1,
-     srt=90,
-     cex=0.7)
-text((1:5) + 1.5*os, 0.6,
-     labels = H2$n$`Sweden 2010`,
-     srt=90,
-     adj=1,
-     cex=0.7)
-
-# 2011
-plot(c(1, 5), c(0,0.6), type="n", axes = F, xlim= c(0.5, 5.5),
-     xlab="", ylab="Broad-sense heritability", main="2011")
-axis(1, 1:5, las=2,
-     labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seed mass"))
-axis(2)
-box()
-# Confidence intervals
-segments((1:5) - os, H2$lower$`Italy 2011`,
-         (1:5) - os, H2$upper$`Italy 2011`)
-segments((1:5) + os, H2$lower$`Sweden 2011`,
-         (1:5) + os, H2$upper$`Sweden 2011`)
-# Overplot observed values
-points((1:5) - os, H2$obs$`Italy 2011`,   pch=16)
-points((1:5) + os, H2$obs$`Sweden 2011`, pch=21, bg="white")
-
-# Add sample sizes
-text((1:5) - 1.5*os, 0.6,
-     labels = H2$n$`Italy 2011`,
-     adj = 1,
-     srt=90,
-     cex=0.7)
-text((1:5) + 1.5*os, 0.6,
-     labels = H2$n$`Sweden 2011`,
-     srt=90,
-     adj=1,
-     cex=0.7)
-
-# dev.off()
-```
-
-\newpage
-
 ```{r fig: epistatic-seed, fig.width=16.9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for number of seeds per fruit, showing mean and standard errors for each genotype-by-genotype combination."}
 # number of seeds per fruit
 par(mfrow = c(1, 2))
@@ -573,9 +500,23 @@ legend(
 
 ```
 
-```{r fig: epistatic-tfit, fig.width=9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for number of seeds per seedling planted, showing mean and standard errors for each genotype-by-genotype combination."}
+```{r fig: epistatic-tfit, fig.width=16.9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for number of seeds per seedling planted, showing mean and standard errors for each genotype-by-genotype combination."}
 # number of seeds per plant
-par(mfrow = c(1, 1))
+par(mfrow = c(1, 2))
+effectplot(
+  cross$tfit,
+  pheno.col = "it2010",
+  mname1 = "3@18.0",
+  mname2 = "5@12.0",
+  add.legend = F,
+  #ylim = c(500, 1100),
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Sweden 2011",
+  xlab = "QTL 5@12.0",
+  ylab = "Seeds per seedling planted"
+)
+legend('bottomleft', c("QTL 3@18.0", "It. allele", "Sw. allele"), col = c(0,2,4), pch=1, bty="n", cex=0.8)
+
 effectplot(
   cross$tfit,
   pheno.col = "sw2011",
@@ -590,4 +531,78 @@ effectplot(
 )
 legend('bottomleft', c("QTL 1@61.1", "It. allele", "Sw. allele"), col = c(0,2,4), pch=1, bty="n", cex=0.8)
 
+```
+
+\newpage
+
+```{r heritabilities, fig.cap="Broad-sense heritability estimates based on survival to reproduction, number of fruits per reproductive plant (Fruits/RP), number of seeds per fruit (Seeds/fr), number of fruits per seedling planted (Fruits/sdl), number of seeds per reproductive plant (Seeds/RP) and seed mass. Closed and open symbols show values in Italy and Sweden respectively. Error bars show 95% parametric bootstrap confidence intervals. Numbers indicate the number of individuals each estimate is based on."}
+
+# pdf("figures/heritabilities.pdf", width=16.9/2.54, height = 12/2.54)
+par(mfrow=c(1,2))
+
+os <- 0.1
+plot(
+  c(1, 6),
+  c(0, 0.6),
+  type = "n",
+  axes = F,
+  xlim = c(0.2, 5.5),
+  xlab = "",
+  ylab = "Broad-sense heritability",
+  main = "2010"
+)
+axis(1, 1:5, las=2,
+     labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seed mass"))
+axis(2)
+box()
+# Confidence intervals
+segments((1:5) - os, H2$lower$`Italy 2010`,
+         (1:5) - os, H2$upper$`Italy 2010`)
+segments((1:5) + os, H2$lower$`Sweden 2010`,
+         (1:5) + os, H2$upper$`Sweden 2010`)
+# Overplot observed values
+points((1:5) - os, H2$obs$`Italy 2010`,   pch=16)
+points((1:5) + os, H2$obs$`Sweden 2010`, pch=21, bg="white")
+
+# Add sample sizes
+text((1:5) - 1.5*os, 0.6,
+     labels = H2$n$`Italy 2010`,
+     adj = 1,
+     srt=90,
+     cex=0.7)
+text((1:5) + 1.5*os, 0.6,
+     labels = H2$n$`Sweden 2010`,
+     srt=90,
+     adj=1,
+     cex=0.7)
+
+# 2011
+plot(c(1, 5), c(0,0.6), type="n", axes = F, xlim= c(0.5, 5.5),
+     xlab="", ylab="Broad-sense heritability", main="2011")
+axis(1, 1:5, las=2,
+     labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seed mass"))
+axis(2)
+box()
+# Confidence intervals
+segments((1:5) - os, H2$lower$`Italy 2011`,
+         (1:5) - os, H2$upper$`Italy 2011`)
+segments((1:5) + os, H2$lower$`Sweden 2011`,
+         (1:5) + os, H2$upper$`Sweden 2011`)
+# Overplot observed values
+points((1:5) - os, H2$obs$`Italy 2011`,   pch=16)
+points((1:5) + os, H2$obs$`Sweden 2011`, pch=21, bg="white")
+
+# Add sample sizes
+text((1:5) - 1.5*os, 0.6,
+     labels = H2$n$`Italy 2011`,
+     adj = 1,
+     srt=90,
+     cex=0.7)
+text((1:5) + 1.5*os, 0.6,
+     labels = H2$n$`Sweden 2011`,
+     srt=90,
+     adj=1,
+     cex=0.7)
+
+# dev.off()
 ```
