@@ -1,3 +1,10 @@
+# RIL phenotypes
+ril_numb <- read.csv('data_derived/RIL_seeds_per_fruit.csv')
+ril_mass <- read.csv('data_derived/RIL_seed_mass.csv')
+ril_frut <- read.csv("data_derived/RIL_fruits_per_adult.csv")
+ril_tofu <- read.csv('data_derived/RIL_seeds_per_adult.csv')
+ril_surv <- read.csv('data_derived/RIL_survival.csv')
+
 cortests <- list(
   # tofu vs survival
   cor.test(ril_tofu$it2010, ril_surv$it2010, method = 'p'),

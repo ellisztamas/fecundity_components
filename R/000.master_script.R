@@ -15,3 +15,5 @@ source("R/011.mapping_tfit.R")# 6. Seeds per planted seedling; fitness incorpora
 source("R/012.mapping_surv.R")# 7. Survival to reproduction
 # Stitch QTL results together and cluster them.
 source("R/013.format_QTL_models.R")
+# Genetic correlations
+source("R/014.genetic_correlations.R")
