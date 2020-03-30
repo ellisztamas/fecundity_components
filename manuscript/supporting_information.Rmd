@@ -53,7 +53,7 @@ site_names  <- c("Italy", "Italy", "Sweden", "Sweden")
 year_names  <- c(2010, 2011, 2010, 2011)
 ```
 
-This document contains supporting tables and figures for the manuscript "Number of seeds per fruit, life-history tradeoffs, and the genetic basis of fitness in *Arabidopsis thaliana*" by Thomas James Ellis, Froukje M. Postma, Christopher G. Oakley and Jon Ågren.
+This document contains supporting tables and figures for the manuscript "Life-history tradeoffs, and the genetic basis of fitness in *Arabidopsis thaliana*" by Thomas James Ellis, Froukje M. Postma, Christopher G. Oakley and Jon Ågren.
 
 **Tables:**
 
