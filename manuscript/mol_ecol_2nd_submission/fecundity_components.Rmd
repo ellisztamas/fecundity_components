@@ -9,17 +9,22 @@ output:
   bookdown::word_document2: null
 always_allow_html: yes
 bibliography: ../../../bibtex_files/tellis.bib
+csl: ../../../bibtex_files/mol-ecol.csl
 documentclass: article
 # fontfamily: mathpazo
 # fontsize: 12pt
-# geometry: margin=1in
+geometry: margin=2.5cm
 header-includes:
-  \usepackage{setspace}\doublespacing
+  
   \usepackage{lineno}
   \linenumbers
+  
+  \usepackage{setspace}\doublespacing 
+  \usepackage{caption}
+  \captionsetup[figure]{font=singlespacing}
+  
   \usepackage{float} \floatplacement{figure}{H} 
   \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
-# csl: ../../bibtex_files/mol-ecol.csl
 editor_options: 
   chunk_output_type: console
 ---
@@ -92,6 +97,7 @@ year_names  <- c(2010, 2011, 2010, 2011)
 # Abstract
 
 Local adaptation may entail trade-offs in resource allocation to survival and reproduction, but also an increase in overall availability of resources (“condition”) through improved capacity for coping with local environmental factors. We examined the relative contribution of trade-offs and increased condition to adaptive evolution in a recombinant-inbred-line population of *Arabidopsis thaliana* planted at the native sites of the parental ecotypes in Italy and Sweden in two years. We estimated genetic correlations among fitness components based on genotypic means, and explored their causes with QTL mapping. Local ecotypes produced more seeds per fruit than did non-local ecotypes, reflected in stronger adaptive differentiation than was previously shown based on survival and fruit number only. Genetic correlations between survival and overall fecundity, and between number of fruits and number of seeds per fruit, were positive, and there was little evidence of a trade-off between seed size and number. Quantitative trait loci for these traits tended to map to the same regions of the genome, and showed positive pleiotropic effects. The results indicate that adaptive differentiation between the two focal populations largely reflects the evolution of increased ability to acquire resources in the local environment, rather than shifts in the relative allocation to different life-history traits. Differentiation both in phenology and tolerance to cold are likely to contribute to the advantage of the local genotype at the two sites.
+
 # Introduction
 
 Adaptation to the local environment is reflected in an increase in mean population fitness in response to local selection pressures [@Williams1966; @Kawecki2004]. This may be associated with a shift in relative allocation of resources to optimise the balance between components of fitness, such as between reproduction and survival, or offspring size and number [@Williams1966; @Williams1966a; @Smith1974; @schluter1991conflicting]. Adaptation may also be associated with the evolution of traits increasing the amount of resources available to individuals (their “condition”) in the local environment, which could supersede the effects of variation in relative allocation to different functions [@VanNoordwijk1986; @schluter1991conflicting]. Condition is likely to be a complex phenotype affected by many traits, including those influencing the ability to tolerate local environmental stresses, and those influencing the match between the timing of life-history transitions and seasonal changes in resource availability. Variation in condition versus allocation have distinct implications for local adaptation. With variation in allocation, trade-offs place a constraint on adaptive evolution, and will be reflected as negative correlations between components of fitness. By contrast, variation in condition should allow for increased allocation to multiple components of fitness and thus positive correlations between fitness components. A full understanding of local adaptation and life-history evolution therefore requires knowledge of the genetic basis of overall fitness and the genetic basis of correlations between different components of fitness.
@@ -141,6 +147,26 @@ To investigate whether QTL showed pleiotropic effects on multiple traits, we exa
 # Results 
 ## Number of seeds per fruit influences estimates of selection
 
+Selection through seeds/fruit favoured the local genotype in both years in Italy, and in one year in Sweden (figure \@ref(fig:selection-correlations)A and \@ref(fig:selection-correlations)B).
+In Italy, the local ecotype produced significantly more seeds/fruit in both 2010
+(means:
+`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[1]`
+vs
+`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[1]`)
+and 2011 (means:
+`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[2]`
+vs
+`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[2]`).
+In Sweden, the local ecotype produced significantly more seeds per fruit than the non-local ecotype in 2010 (means:
+`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[3]`
+vs
+`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[3]`)
+but not in 2011 (means: 
+`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[4]`
+vs
+`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[4]`).
+Selection through seed number per fruit in Sweden in 2010 is a novel source of selection as none was previously detected for survival or fruits/RP [figure \@ref(fig:selection-correlations)B; @agren_reciprocal_2012]. The only significant source of selection in 2011 in Sweden was via survival [figure \@ref(fig:selection-correlations)B; @agren_genetic_2013].
+
 ```{r selection-correlations, fig.height=12/2.54, fig.width=11.2/2.54, fig.cap="Selection against the non-local ecotype and genetic correlations among components of fitness, and between mean seed mass and fecundity . Selection against the non-local ecotype was estimated based on three components of fitness: survival to reproduction, number of fruits per reproductive plant (Fruits/RP), and number of seeds per fruit (Seeds/fr), and based on two estimates of total fitness: number of fruits per seedling planted (Fruits/sdl), and number of seeds per seedling planted (Seeds/sdl) at the Italian and Swedish sites (A, B). Genetic correlations between components of fitness and between mean seed mass (SdMass) and  number of seeds per reproductive plant (Seeds/RP) were quantified as the correlations among RIL means at the Italian and Swedish sites (C,D). Error bars show 95% bootstrap confidence intervals. Positive selection coefficients indicate selection favouring the local ecotype, negative values selection favouring the non-local ecotype.", include=T}
 # setEPS()
 # postscript(file = 'figures/01_selection.eps', width=12/2.54, height = 9/2.54)
@@ -152,7 +178,7 @@ par(mfrow=c(2,2), mar=c(4,4,1,0)+0.1, oma=c(1,0,1,1), cex=0.7)
 # SELECTION ####
 ##############`~
 os <- 0.1
-ix <- match(c("survival", "fruit_per_plant",  "number_per_fruit", "fruit_per_seed", "total_fitness"), parents$variable)
+ix <- match(c("survival", "fruit_per_RP",  "seeds_per_fruit", "fruit_per_seedling", "total_fitness"), parents$variable)
 # Selection in Italy
 plot(c(0.5,5.5), c(-0.4,1), type='n', axes=F,
      xlab = "",
@@ -228,96 +254,27 @@ text(0.5, 0.6, "D", adj=c(0,1))
 
 ```
 
-Selection through seeds/fruit favoured the local genotype in both years in Italy, and in one year in Sweden (figure \@ref(fig:selection-correlations)A and \@ref(fig:selection-correlations)B).
-In Italy, the local ecotype produced significantly more seeds/fruit in both 2010
-(means:
-`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[1]`
-vs
-`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[1]`)
-and 2011 (means:
-`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[2]`
-vs
-`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[2]`).
-In Sweden, the local ecotype produced significantly more seeds per fruit than the non-local ecotype in 2010 (means:
-`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[3]`
-vs
-`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[3]`)
-but not in 2011 (means: 
-`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[4]`
-vs
-`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[4]`).
-Selection through seed number per fruit in Sweden in 2010 is a novel source of selection as none was previously detected for survival or fruits/RP [figure \@ref(fig:selection-correlations)B; @agren_reciprocal_2012]. The only significant source of selection in 2011 in Sweden was via survival [figure \@ref(fig:selection-correlations)B; @agren_genetic_2013]. 
-
-The local ecotype had significantly higher overall fitness (expressed as number of seeds per seedling planted) compared to the non-local ecotype at both sites and in both years ($p \leq 0.001$ in all cases; figure \@ref(fig:selection)).
-This advantage was more than twice as strong in Italy than in Sweden
-(selection coefficient against the foreign ecotype, *s*, of
+Differences in seeds/fruit affected estimates of differences in overall fitness. When information on seeds/fruit was included in estimates of overall fitness (i.e. seeds/seedling compared to fruits/seedling), estimates of selection favouring the local ecotype in Italy increased by from
+`r round(parents$s[parents$variable == "fruit_per_seedling"], 2)[1]`
+to
 `r round(parents$s[parents$variable == "total_fitness"], 2)[1]`
-vs. 
-`r round(parents$s[parents$variable == "total_fitness"], 2)[3]`
-in 2010;
-*s*=
+in 2010 and from
+`r round(parents$s[parents$variable == "fruit_per_seedling"], 2)[2]`
+to
 `r round(parents$s[parents$variable == "total_fitness"], 2)[2]`
-vs.
-`r round(parents$s[parents$variable == "total_fitness"], 2)[4]` 
-in 2011 in Italy and Sweden respectively).
-
-At the Italian site, the local ecotype consistently outperformed the non-local ecotype for all components of fitness (figure \@ref(fig:selection)).
-The Italian ecotype had significantly higher survival, corresponding to selection coefficients of
-`r round(parents$s[parents$variable == "survival"], 2)[1]` in 2010 and 
-`r round(parents$s[parents$variable == "survival"], 2)[2]` in 2011
-($p < 0.001$),
-produced more fruits per reproductive plant
-(*s* = 
-`r round(parents$s[parents$variable == "fruit_per_plant"], 2)[1]` in 2010 and
-`r round(parents$s[parents$variable == "fruit_per_plant"], 2)[2]` in 2011;
-$p < 0.001$),
-and produced more seeds per fruit
-(*s* = 
-`r round(parents$s[parents$variable == "number_per_fruit"], 2)[1]` in 2010 and 
-`r round(parents$s[parents$variable == "number_per_fruit"], 2)[2]` in 2011;
-$p < 0.001$)
-than did the non-local Swedish ecotype.
-When information on number of seeds per fruit was included in estimates of overall fitness, estimates of selection favouring the local ecotype in Italy increased by
-$\Delta s=$
-`r round(parents$s[parents$variable == "total_fitness" & parents$site == "italy" & parents$year ==2010] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "italy" & parents$year ==2010],  3)`
-(`r round(((parents$s[parents$variable == "total_fitness" & parents$site == "italy" & parents$year ==2010] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "italy" & parents$year ==2010]) / parents$s[parents$variable == "fruit_per_seed" & parents$site == "italy" & parents$year ==2010]) * 100, 1)`%)
-in 2010 and by $\Delta s=$
-`r round(parents$s[parents$variable == "total_fitness" & parents$site == "italy" & parents$year ==2011] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "italy" & parents$year ==2011],  3)`
-(`r round(((parents$s[parents$variable == "total_fitness" & parents$site == "italy" & parents$year ==2011] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "italy" & parents$year ==2011]) / parents$s[parents$variable == "fruit_per_seed" & parents$site == "italy" & parents$year ==2011]) * 100, 1)`%)
-in 2011 compared to when fecundity was based on fruit production only (figure \@ref(fig:selection)).
-In both cases, the selection coefficient based on number of seeds per seedling planted was beyond the 95% confidence interval of that based on number of fruits per seedling planted (figure \@ref(fig:selection))
-
-At the Swedish site, the contributions of survival and the two components of fecundity to the overall advantage of the local ecotype varied among years.
-In 2010, the local ecotype produced more seeds per fruit
-(*s* = `r round(parents$s[parents$variable == "number_per_fruit"], 2)[3]`;
-$p < 0.001$),
-but no significant differences between the two ecotypes were detected in survival
-(*s* = `r round(parents$s[parents$variable == "survival"], 2)[3]`;
-$p=$ `r 2*round(mean(sel_boots$sw2010[,1] < 0), 3)`),
-or number of fruits per reproductive plant
-(*s* = `r round(parents$s[parents$variable == "fruit_per_plant"], 2)[3]`;
-$p=$ `r 2* round(mean(sel_boots$sw2010[,2] > 0), 3)`).
-In 2011 the local ecotype had higher survival
-(*s* = `r round(parents$s[parents$variable == "survival"], 2)[4]`;
-$p < 0.001$),
-whereas neither number of fruits per reproductive plant
-(*s* = `r round(parents$s[parents$variable == "fruit_per_plant"], 2)[4]`;
-$p=$ `r 2* round(mean(sel_boots$sw2011[,2] > 0), 3)`)
-nor number of seeds per fruit
-(*s* = `r round(parents$s[parents$variable == "number_per_fruit"], 2)[4]`;
-$p=$ `r 2* round(mean(sel_boots$sw2011[,3] > 0), 3)`)
-differed between the two ecotypes.
-Including information on number of seeds per fruit substantially increased the estimated selection against the non-local ecotype in Sweden in 2010 
- ($\Delta s=$
-`r round(parents$s[parents$variable == "total_fitness" & parents$site == "sweden" & parents$year ==2010] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "sweden" & parents$year ==2010],  3)`;
-`r round(((parents$s[parents$variable == "total_fitness" & parents$site == "sweden" & parents$year ==2010] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "sweden" & parents$year ==2010]) / parents$s[parents$variable == "fruit_per_seed" & parents$site == "sweden" & parents$year ==2010]) * 100,  0)`%),
-but had a negligible influence in 2011
- ($\Delta s=$
-`r round(parents$s[parents$variable == "total_fitness" & parents$site == "sweden" & parents$year ==2011] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "sweden" & parents$year ==2011],  3)`;
-`r round(((parents$s[parents$variable == "total_fitness" & parents$site == "sweden" & parents$year ==2011] - parents$s[parents$variable == "fruit_per_seed" & parents$site == "sweden" & parents$year ==2011]) / parents$s[parents$variable == "fruit_per_seed" & parents$site == "sweden" & parents$year ==2011]) * 100, 1)`%;
-figure \@ref(fig:selection)).
+in 2011 compared to when fecundity was based on fruit production only (figure \@ref(fig:selection-correlations)A). In Sweden, including information on seeds/fruit increased the estimated selection against the non-local ecotype in 2010 from
+`r round(parents$s[parents$variable == "fruit_per_seedling"], 2)[3]`
+to
+`r round(parents$s[parents$variable == "total_fitness"], 2)[3]`
+and reduced it from
+`r round(parents$s[parents$variable == "fruit_per_seedling"], 2)[4]`
+to
+`r round(parents$s[parents$variable == "total_fitness"], 2)[4]`
+in 2011 (figure \@ref(fig:selection-correlations)B).
 
 ## QTL for seeds/fruit contribute to differences in fecundity
+
+We found QTL for seeds/fruit across all five chromosomes that together explained between 24.3% and 29.0% of the variance in mean seeds/fruit among RILs in each site-year combination (figure \@ref(fig:qtl), tables \@ref(tab:individual-seed-qtl) and \@ref(tab:epistatic-qtl-table)). For all QTL detected in Italy, the non-local Swedish allele was associated with fewer seeds per fruit. In Sweden, the local allele was associated with an increase in seeds/fruit in all four QTL detected in 2010, and in three out of five QTL in 2011. For the other two QTL the local allele was associated with a decrease in seeds/fruit (figure \@ref(fig:qtl)). Swedish alleles at QTL for seeds/fruit were thus associated with reduced seed output per fruit in Italy, whereas the direction of effects varied in Sweden. In addition, we detected two pairs of loci showing significant epistatic interactions for seeds/fruit in Sweden (figure \@ref(fig:epistatic-seed), table \@ref(tab:epistatic-qtl-table)). In 2010, RILs with at least one Swedish genotype at 1@22.7 or 5@70.6 produced more seeds per fruit compared to plants with the Italian genotype at both loci. In 2011, RILs with Swedish genotypes at both 1@61.1 and 3@21.0 showed the lowest fitness of any genotype combinations, and the highest fitness was recorded for RILs that were Swedish at 1@61.1 and Italian at 3@21.0.
 
 ```{r qtl, fig.width=16.9/2.54, fig.height=16/2.54, fig.cap='QTL for fitness components, seed mass and estimates fo fitness. Lanes show QTL for number of fruits per reproductive plant (Fruits/RP), number of seeds per fruit (Seeds/fr), number of seeds per reproductive plant (Seeds/RP), seed mass (Sd mass), survival, fruits/seedling (Fruits/sdl) and seeds/seedling (seeds/sdl). Arrows indicate most-likely QTL position and direction of effect of the Swedish genotype (upward: increased phenotype; downward: decreased phenotype) in Italy (red, upper panels) and Sweden (blue, lower panels) in the 2010 (10) and 2011 (11) experiments respectively. Vertical bars show the 95% Bayesian credible intervals for QTL position. Open arrows show QTL with credible intervals wider than 15.2cM. Grey boxes indicate regions Q1 to Q11 harbouring QTL with pleiotropic effects on two or more of those traits that were directly observed (number of fruits per plant, seed number per fruit, survival and seed mass). Tracks to the left of chromosomes show marker positions in cM. "+" and "-" symbols indicate QTL detected for seeds/seedling not detected for fruits/seedling in the same year, and vice versa.'}
 
@@ -459,45 +416,26 @@ text(pos_plot$lane_margins[15,5] + os, -60.6, "-")
 # dev.off()
 ```
 
-
-We found QTL for seeds/fruit across all five chromosomes that together explained between 24.3% and 29.0% of the variance in mean seeds/fruit among RILs in each site-year combination (figure \@ref(fig:qtl), tables \@ref(tab:individual-seed-qtl) and \@ref(tab:epistatic-qtl-table)). For all QTL detected in Italy, the non-local Swedish allele was associated with fewer seeds per fruit. In Sweden, the local allele was associated with an increase in seeds/fruit in all four QTL detected in 2010, and in three out of five QTL in 2011. For the other two QTL the local allele was associated with a decrease in seeds/fruit (figure \@ref(fig:qtl)). Swedish alleles at QTL for seeds/fruit were thus associated with reduced seed output per fruit in Italy, whereas the direction of effects varied in Sweden. In addition, we detected two pairs of loci showing significant epistatic interactions for seeds/fruit in Sweden (figure \@ref(fig:epistatic-seed), table \@ref(tab:epistatic-qtl-table)). In 2010, RILs with at least one Swedish genotype at 1@22.7 or 5@70.6 produced more seeds per fruit compared to plants with the Italian genotype at both loci. In 2011, RILs with Swedish genotypes at both 1@61.1 and 3@21.0 showed the lowest fitness of any genotype combinations, and the highest fitness was recorded for RILs that were Swedish at 1@61.1 and Italian at 3@21.0.
-
 Including information on seed number per fruit in estimates of overall fitness affected the number of fitness QTL detected (figure \@ref(fig:qtl), tables \@ref(tab:individual-ffit-qtl and @\ref(tab:individual-tfit-qtl))). Most QTL for seeds/seedling corresponded to a nearby QTL for fruits/seedling, and are likely to reflect the same QTL. However, in Italy, when fitness is quantified as seeds/seedling we detected four additional QTL that were not detected in the same year when fitness is defined as fruits/seedling (indicated with “+” in figure 2), but did not detect one QTL that was previously found for fruits/seedling (indicated with “-” in figure 2). In Sweden, none of the four QTL detected for number seeds per seedling planted in 2010 were detected when fitness is quantified as fruits/seedling. Four QTL detected for fruits/seedling were not detected for seeds/seedling. When information on seed number is incorporated into estimates of overall fitness, there is thus a net gain in the number of fitness QTL detected, although this is offset by the loss of some QTL detected when fitness is estimated based on survival and fruit production only.
 
 ## Limited differentiation in seed mass
 
-Differences in seed mass between the two ecotypes depended on both site and year (supporting figure 1).
-In 2010, The Italian parent produced larger seeds than did the Swedish parent at both the Italian site
-(means $\pm$ SE, Italian ecotype,
-`r round(parents$it_parent[parents$variable == "seed_mass" & parents$site == "italy" & parents$year == "2010"], 2)`
-$\pm$
-`r round(parents$it_se[    parents$variable == "seed_mass" & parents$site == "italy" & parents$year == "2010"], 2)`
-µg; Swedish ecotype,
-`r round(parents$sw_parent[parents$variable == "seed_mass" & parents$site == "italy" & parents$year == "2010"], 2)`
-$\pm$
-`r round(parents$sw_se[    parents$variable == "seed_mass" & parents$site == "italy" & parents$year == "2010"], 2)`
-µg; 
-$W =$ `r mass_wilcox$italy_2010$statistic`,
-$p=$ `r round(mass_wilcox$italy_2010$p.value, 3)`) 
-and Swedish site
-(Italian ecotype,
-`r round(parents$it_parent[parents$variable == "seed_mass" & parents$site == "sweden" & parents$year == "2010"], 2)`
-$\pm$
-`r format(round(parents$it_se[    parents$variable == "seed_mass" & parents$site == "sweden" & parents$year == "2010"], 2), nsmall=2)`
-µg; Swedish ecotype,
-`r round(parents$sw_parent[parents$variable == "seed_mass" & parents$site == "sweden" & parents$year == "2010"], 2)`
-$\pm$
-`r round(parents$sw_se[    parents$variable == "seed_mass" & parents$site == "sweden" & parents$year == "2010"], 2)`
-µg;
-$W =$ `r mass_wilcox$sweden_2010$statistic`,
+Differences in seed mass between the two ecotypes depended on both site and year (figure \@ref(fig:epistatic-seed)). In 2010, The Italian parent produced 18% larger seeds than did the Swedish parent at the Italian site
+($W=$ `r mass_wilcox$italy_2010$statistic`,
+$p=$ `r round(mass_wilcox$italy_2010$p.value, 3)`)
+and 3% larger seed at the Swedish site
+($W =$ `r mass_wilcox$sweden_2010$statistic`,
 $p=$ `r round(mass_wilcox$sweden_2010$p.value, 3)`).
 No significant difference in seed mass between the two parental ecotypes was recorded in the second year at either the Italian site
-(
-$W =$ `r mass_wilcox$italy_2011$statistic`, $p=$ `r round(mass_wilcox$italy_2011$p.value, 3)`;
-Swedish site:
-$W =$ `r mass_wilcox$sweden_2011$statistic`, $p=$ `r round(mass_wilcox$sweden_2011$p.value, 3)`;
-supporting figure 1).
+($W =$ `r mass_wilcox$italy_2011$statistic`,
+$p=$ `r round(mass_wilcox$italy_2011$p.value, 3)`)
+or the Swedish site
+($W=$ `r mass_wilcox$sweden_2011$statistic`,
+$p=$ `r round(mass_wilcox$sweden_2011$p.value, 3)`).
 Both ecotypes produced larger seeds at the site in Sweden compared to that in Italy.
+
+In Italy, we identified two QTL for seed mass in 2010 and five in 2011 explaining 8.6% and 15.1% of the phenotypic variation among RILs respectively (figure \@ref(fig:qtl), table \@ref(tab:individual-mass-qtl)). The Swedish allele was associated with a decrease in seed mass for both QTL detected in 2010, and for three of the five QTL detected in 2011. In Sweden, we detected five QTL for seed mass in 2010 and eight in 2011, explaining 26.0% and 29.0% of the phenotypic variation among RILs respectively. The local Swedish alleles were associated with a decrease in seed mass at three of the five QTL detected in 2010, and at three of the eight QTL detected in 2011. We detected a significant epistatic interaction for seed mass between one pair of loci in Sweden in 2011 (figure \@ref(fig:epistatic-mass), table \@ref(tab:epistatic-qtl-table)). Plants with the Swedish genotype at 3@55.4cM had smaller seeds, but only in the presence of the Italian genotype at 5@78.2cM.
+
 
 ## Positive correlations dominate among fitness components
 
@@ -865,9 +803,13 @@ TJE performed analyses and wrote the manuscript. JÅ conceived the study, and J�
 
 <div id="refs"></div>
 
+\newpage
+
 # Supplementary material {-}
 
 \beginsupplement
+
+## Details of QTL models
 
 ```{r individual-seed-qtl, fig.align='center', eval=T}
 # number of seeds per fruit
@@ -1152,6 +1094,8 @@ kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE"
 ```
 
 \newpage
+
+## Supplementary figures
 
 ```{r epistatic-seed, fig.width=16.9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for seeds/fruit, showing mean and standard errors for each genotype-by-genotype combination.", fig.scap = "Epistatic interactions for seeds/fruit", fig.align='center', eval=T}
 # number of seeds per fruit
