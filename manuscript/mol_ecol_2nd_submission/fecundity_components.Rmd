@@ -66,8 +66,6 @@ H2 <- readRDS("output/heritabilities.rds")
 correlations <- read.csv('output/genetic_correlations.csv')
 
 # import objects from QTL mapping. See 'R/013.format_QTL_models.R' and the scripts that calls for the full analysis details.
-# import QTL data
-cross        <- readRDS(file='output/cross_objects.rds')
 qtl_stepwise <- readRDS(file='output/qtl_stepwise_models.rds')
 qtl_fits     <- readRDS(file='output/qtl_model_fits.rds')
 qtl_clusters <- readRDS(file="output/clusters_all_models.rds")
@@ -143,12 +141,12 @@ To investigate whether QTL showed pleiotropic effects on multiple traits, we exa
 # Results 
 ## Number of seeds per fruit influences estimates of selection
 
-```{r selection-correlations, fig.height=15/2.54, fig.width=16.9/2.54, fig.cap="Selection on and correlations between traits. Selection coefficients for parental lines (A, B) and/or Spearman rank correlations among RILs (C,D) for survival to reproduction, number of fruits per reproductive plant (Fruits/RP), number of seeds per fruit (Seeds/fr), number of fruits per seedling planted (Fruits/sdl), number of seeds per seedling planted (Seeds/sdl), seed mass (SdMass) and seeds per reproductive plant (Seeds/RP) at the Italian and Swedish sites. Error bars show 95% bootstrap confidence intervals. Positive selection coefficients indicate selection favouring the local ecotype, negative values selection favouring the non-local ecotype.", include=T}
+```{r selection-correlations, fig.height=12/2.54, fig.width=11.2/2.54, fig.cap="Selection against the non-local ecotype and genetic correlations among components of fitness, and between mean seed mass and fecundity . Selection against the non-local ecotype was estimated based on three components of fitness: survival to reproduction, number of fruits per reproductive plant (Fruits/RP), and number of seeds per fruit (Seeds/fr), and based on two estimates of total fitness: number of fruits per seedling planted (Fruits/sdl), and number of seeds per seedling planted (Seeds/sdl) at the Italian and Swedish sites (A, B). Genetic correlations between components of fitness and between mean seed mass (SdMass) and  number of seeds per reproductive plant (Seeds/RP) were quantified as the correlations among RIL means at the Italian and Swedish sites (C,D). Error bars show 95% bootstrap confidence intervals. Positive selection coefficients indicate selection favouring the local ecotype, negative values selection favouring the non-local ecotype.", include=T}
 # setEPS()
 # postscript(file = 'figures/01_selection.eps', width=12/2.54, height = 9/2.54)
 # pdf(file = 'figures/01_selection.pdf', width=16.9/2.54, height = 11/2.54)
 
-par(mfrow=c(2,2), mar=c(5,4,1,0)+0.1, oma=c(0,0,1,1), cex=1)
+par(mfrow=c(2,2), mar=c(4,4,1,0)+0.1, oma=c(1,0,1,1), cex=0.7)
 
 ##############`~
 # SELECTION ####
@@ -161,7 +159,7 @@ plot(c(0.5,5.5), c(-0.4,1), type='n', axes=F,
      ylab='Selection coefficient',
      main="Italy")
 axis(2, cex.axis=1, las=1)
-axis(1, 1:5, c("Survival","Fruits/RP","Seeds/fr", "Fruits/sdl","Seeds/sdl"), las=2, cex.axis=0.9)
+axis(1, 1:5, c("Survival","Fruits/RP","Seeds/fr", "Fruits/sdl","Seeds/sdl"), las=2)
 box(); grid()
 abline(0,0, lty=2)
 # Points for 2010
@@ -229,6 +227,26 @@ points(xv, correlations$obs[ix], pch=c(16,21), bg='white')
 text(0.5, 0.6, "D", adj=c(0,1))
 
 ```
+
+Selection through seeds/fruit favoured the local genotype in both years in Italy, and in one year in Sweden (figure \@ref(fig:selection-correlations)A and \@ref(fig:selection-correlations)B).
+In Italy, the local ecotype produced significantly more seeds/fruit in both 2010
+(means:
+`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[1]`
+vs
+`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[1]`)
+and 2011 (means:
+`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[2]`
+vs
+`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[2]`).
+In Sweden, the local ecotype produced significantly more seeds per fruit than the non-local ecotype in 2010 (means:
+`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[3]`
+vs
+`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[3]`)
+but not in 2011 (means: 
+`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[4]`
+vs
+`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[4]`).
+Selection through seed number per fruit in Sweden in 2010 is a novel source of selection as none was previously detected for survival or fruits/RP [figure \@ref(fig:selection-correlations)B; @agren_reciprocal_2012]. The only significant source of selection in 2011 in Sweden was via survival [figure \@ref(fig:selection-correlations)B; @agren_genetic_2013]. 
 
 The local ecotype had significantly higher overall fitness (expressed as number of seeds per seedling planted) compared to the non-local ecotype at both sites and in both years ($p \leq 0.001$ in all cases; figure \@ref(fig:selection)).
 This advantage was more than twice as strong in Italy than in Sweden
