@@ -9,7 +9,7 @@ seed_par$siteyear <- paste(seed_par$site, seed_par$year)
 frut_par$survival <- as.integer(!is.na(frut_par$fruit_per_plant))
 
 parents <- data.frame(
-  variable = rep(c("seed_mass", "number_per_fruit", "fruit_per_plant","fruit_per_seed","survival"), each=4),
+  variable = rep(c("seed_mass", "seeds_per_fruit", "fruit_per_RP","fruit_per_seedling","survival"), each=4),
   site     = rep(c("italy", "sweden"), 5, each=2),
   year     = rep(rep(c(2010:2011), 2), 5),
   it_parent= c(

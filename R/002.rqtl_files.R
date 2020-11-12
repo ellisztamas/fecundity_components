@@ -29,13 +29,6 @@ ffit <- ffit[,c("id","F10_NFruitIt_noedge_lsm", "F11_NFruitIt_noedge_lsm", "F10_
 colnms <- c("id", "it2010", "it2011", "sw2010", "sw2011")
 colnames(seed) <- colnames(mass) <- colnames(frut) <- colnames(ffit) <- colnames(surv) <- colnms
 
-# Files for R/QTL for traits from Ågrne etal 2013.
-# This will throw a warning about NA labels.
-# This is because not all lines are included across datasets.
-write.csv(qtl_dataframe(surv, geno), file = "data_derived/rqtl_surv.csv", row.names = F)
-write.csv(qtl_dataframe(frut, geno), file = "data_derived/rqtl_frut.csv", row.names = F)
-write.csv(qtl_dataframe(ffit, geno), file = "data_derived/rqtl_ffit.csv", row.names = F)
-
 # reorder rows to a common order.
 rilnames <- sort(unique(c(frut$id, seed$id, ffit$id)))
 mass <- mass[match(rilnames, mass$id),]
