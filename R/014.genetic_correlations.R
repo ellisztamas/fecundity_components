@@ -22,14 +22,20 @@ cortests <- list(
   cor.test(ril_tofu$it2010, ril_mass$it2010, method = 'p'),
   cor.test(ril_tofu$it2011, ril_mass$it2011, method = 'p'),
   cor.test(ril_tofu$sw2010, ril_mass$sw2010, method = 'p'),
-  cor.test(ril_tofu$sw2011, ril_mass$sw2011, method = 'p')
+  cor.test(ril_tofu$sw2011, ril_mass$sw2011, method = 'p'),
+  # tofu vs seed mass
+  # tofu vs seed mass
+  cor.test(ril_numb$it2010, ril_mass$it2010, method = 'p'),
+  cor.test(ril_numb$it2011, ril_mass$it2011, method = 'p'),
+  cor.test(ril_numb$sw2010, ril_mass$sw2010, method = 'p'),
+  cor.test(ril_numb$sw2011, ril_mass$sw2011, method = 'p')
   )
 
 cor_obs <- sapply(cortests, function(x) x$estimate)
 
 
 nreps <- 1000
-cor_bootstraps <- matrix(NA, nrow=nreps, ncol=12)
+cor_bootstraps <- matrix(NA, nrow=nreps, ncol=16)
 
 for(r in 1:nreps){
   ix <- sample(1:nrow(ril_frut), replace = T)
@@ -49,13 +55,18 @@ for(r in 1:nreps){
     cor.test(ril_tofu$it2010[ix], ril_mass$it2010[ix], method = 'p'),
     cor.test(ril_tofu$it2011[ix], ril_mass$it2011[ix], method = 'p'),
     cor.test(ril_tofu$sw2010[ix], ril_mass$sw2010[ix], method = 'p'),
-    cor.test(ril_tofu$sw2011[ix], ril_mass$sw2011[ix], method = 'p'))
+    cor.test(ril_tofu$sw2011[ix], ril_mass$sw2011[ix], method = 'p'),
+    # todu vs seed mass
+    cor.test(ril_numb$it2010[ix], ril_mass$it2010[ix], method = 'p'),
+    cor.test(ril_numb$it2011[ix], ril_mass$it2011[ix], method = 'p'),
+    cor.test(ril_numb$sw2010[ix], ril_mass$sw2010[ix], method = 'p'),
+    cor.test(ril_numb$sw2011[ix], ril_mass$sw2011[ix], method = 'p'))
   cor_bootstraps[r,] <- sapply(cortests_boot, function(x) x$estimate)
 }
 
 correlations <- data.frame(
-  traits= rep(c("tofu_vs_surv", "frut_vs_numb", "tofu_vs_mass"), each=4),
-  expt  = rep(colnames(ril_mass[-1]), 3),
+  traits= rep(c("tofu_vs_surv", "frut_vs_numb", "tofu_vs_mass", "numb_vs_mass"), each=4),
+  expt  = rep(colnames(ril_mass[-1]), 4),
   df    = sapply(cortests, function(x) x$parameter),
   obs   = sapply(cortests, function(x) x$estimate),
   p     = sapply(cortests, function(x) x$p.value),
