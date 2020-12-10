@@ -121,7 +121,7 @@ Here, we quantify seed output per fruit and mean seed size per fruit of the pare
 
 ## Data collection 
 
-We estimated seed traits for recombinant inbred lines (RIL) and parental accessions in reciprocal transplant experiments conducted at the native sites of the source populations in two years (2010-2011 and 2011-2012). These experiments have previously been described by @agren_reciprocal_2012 and @agren_genetic_2013, who quantified survival to reproduction, number of fruits per reproductive plant, and number of fruits per seedling planted for the parental ecotypes and 398 RILs. We expanded these data by quantifying the number of seeds per fruit (henceforth “seeds/fruit”) and mean seed mass per fruit. In each site × year combination we sampled a single mature fruit from between 1 and 12 plants per RIL and between 23 and 100 parental plants; sample sizes varied because lines varied in how well they survived in different sites and years. For each fruit, we counted the number of seeds and determined total seed mass to the nearest 0.01 mg on an AT261 balance (Mettler Toledo, Columbus, United States). We calculated mean seed mass as the mass of all seeds in a fruit, divided by the total number of seeds. We estimated genetic values for each line in each site × year combination as the mean across all individuals of the same RIL or parental ecotype. We could estimate genetic values for seeds/fruit and seed mass in 395 (Italy 2010), 398 (Italy 2011), 395 (Sweden 2010), and 394 (Sweden in 2011) of the total of 398 RILs. As such, there is unlikely to be substantial bias due to the RILs not included.
+We estimated seed traits for recombinant inbred lines (RIL) and parental accessions in reciprocal transplant experiments conducted at the native sites of the source populations in two years (2010-2011 and 2011-2012). These experiments have previously been described by @agren_reciprocal_2012 and @agren_genetic_2013, who quantified survival to reproduction, number of fruits per reproductive plant, and number of fruits per seedling planted for the parental ecotypes and 398 RILs. We expanded these data by quantifying the number of seeds per fruit (henceforth “seeds/fruit”) and mean seed mass per fruit. In each site × year combination we sampled a single mature fruit from between 1 and 12 plants per RIL and between 23 and 100 parental plants; sample sizes varied because lines varied in how well they survived in different sites and years. For each fruit, we counted the number of seeds and determined total seed mass to the nearest 0.01 mg on an AT261 balance (Mettler Toledo, Columbus, United States). We calculated mean seed mass as the mass of all seeds in a fruit, divided by the total number of seeds. We estimated genetic values for each line in each site × year combination as the mean across all individuals of the same RIL or parental ecotype. Not all RILs produced at least one fruit that could be harvested, but we could estimate genetic values for seeds/fruit and seed mass in 395 (Italy 2010), 398 (Italy 2011), 395 (Sweden 2010), and 394 (Sweden in 2011) of the total of 398 RILs. As such, there is unlikely to be substantial bias due to the RILs not included.
 
 We combined data on seeds/fruit with previously published data to obtain estimates of overall fecundity and overall fitness that include information on seed number. In previous analyses of data from these experiments [@agren_reciprocal_2012; @agren_genetic_2013; @agren_flowering_time], fecundity was defined as number of fruits per reproductive plant (“fruits/RP”) and overall fitness as number of fruits per seedling planted (“fruits/seedling”). Here, we estimated the overall fecundity of reproductive plants (henceforth: “seeds/RP”) by multiplying individual fruits/RP by line-mean seeds/fruit. We chose to estimate fecundity this way because we did not have data on seeds/fruit for all individuals for which data on fruits/RP were available. Moreover, it was impractical to sample more than one fruit per plant, precluding any estimate of within-plant variation in seeds/fruit. We quantified total fitness as the number of seeds per seedling planted (“seeds/seedling”; zero for plants that did not survive to reproduce).
 
@@ -425,7 +425,7 @@ Including information on seeds/fruit in estimates of overall fitness affected th
 
 ## Limited differentiation in seed mass
 
-Differences in seed mass between the two ecotypes depended on both site and year (figure \@ref(fig:epistatic-seed)). In 2010, The Italian parent produced 18% larger seeds than did the Swedish parent at the Italian site
+Differences in seed mass between the two ecotypes depended on both site and year (figure \@ref(fig:seed-mass)). In 2010, The Italian parent produced 18% larger seeds than did the Swedish parent at the Italian site
 ($W=$ `r mass_wilcox$italy_2010$statistic`,
 $p=$ `r round(mass_wilcox$italy_2010$p.value, 3)`)
 and 3% larger seed at the Swedish site
@@ -524,7 +524,7 @@ There was substantial overlap between the positions of seed mass QTL detected in
 
 Even if QTL affecting seed mass are common, three observations indicate that selection on seed mass does not constrain the evolution of increased fecundity (seeds/RP). Firstly, differences in seed mass between the parents were small to modest. The greatest difference we observed was in Italy in 2010, where the local genotype had 18% larger seeds than the Swedish genotype (figure \@ref(fig:seed-mass)). For comparison, @alonso1999natural found an 81% difference in seed mass between the L*er* and Cvi accessions. However, we cannot exclude the possibility that variation in seed mass does contribute to differences in fitness via the earliest life-history stages, as has been shown under laboratory conditions for seedling survival [@krannitz1991effect] and early growth rate [@el2004quantitative] in *A. thaliana*. The present experiment was started with seedlings, precluding the detection of effects of seed size on germination rate and seedling establishment, and reducing the chance of observing effects of these life-history stages on overall fitness.
 
-Secondly, there was little evidence of a consistent genetically based trade-off between seed size and fecundity in the RIL population. Although seed mass and seeds/RP were negatively genetically correlated in Sweden in 2010, no significant genetic correlation was detected in the other three site × year combinations (figures \@ref(fig:selection-correlations)C, \@ref(fig:selection-correlations)D and \@ref(fig:scatter-plots)). This was also true for correlations between seed mass and seeds/fruit. Previous studies have documented a negative correlation between seed size and seeds/fruit in mapping populations grown under controlled conditions and derived from crosses between other sets of *A. thaliana* accessions  [@alonso1999natural; @[@alonso1999natural]. The negative correlation found in Sweden in 2010 shows that there are circumstances under which a genetic trade-off between seed size and number, albeit weak, can be expressed in the cross examined here. As previously noted, the plants in that experiment experienced an especially mild winter and the difference in fitness between the two parental genotypes was unusually small, so the expression of a trade-off may reflect reduced variation in condition compared to the other three site x year combinations. The results suggest that correlations between seed size and measures of fecundity may vary among crosses, and highlight the importance of field studies in understanding how the sign and magnitude of correlations between fitness components affect local adaptation.
+Secondly, there was little evidence of a consistent genetically based trade-off between seed size and fecundity in the RIL population. Although seed mass and seeds/RP were negatively genetically correlated in Sweden in 2010, no significant genetic correlation was detected in the other three site × year combinations (figures \@ref(fig:selection-correlations)C, \@ref(fig:selection-correlations)D and \@ref(fig:scatter-plots)). This was also true for correlations between seed mass and seeds/fruit. Previous studies have documented a negative correlation between seed size and seeds/fruit in mapping populations grown under controlled conditions and derived from crosses between other sets of *A. thaliana* accessions  [@alonso1999natural; @alonso1999natural]. The negative correlation found in Sweden in 2010 shows that there are circumstances under which a genetic trade-off between seed size and number, albeit weak, can be expressed in the cross examined here. As previously noted, the plants in that experiment experienced an especially mild winter and the difference in fitness between the two parental genotypes was unusually small, so the expression of a trade-off may reflect reduced variation in condition compared to the other three site x year combinations. The results suggest that correlations between seed size and measures of fecundity may vary among crosses, and highlight the importance of field studies in understanding how the sign and magnitude of correlations between fitness components affect local adaptation.
 
 Thirdly, if the correlation between fecundity and seed size constrains the evolution of increased fecundity, we would expect to see trade-offs reflected in the directions of allelic effects at pleiotropic QTL affecting both seed mass and fecundity. In fact, although QTL for seed mass often co-localised with QTL for fecundity and seeds/fruit, pleiotropic effects on these two traits were as likely to be positive as antagonistic (figure \@ref(fig:qtl)), which is consistent with the weak overall genetic correlation between the two traits. In contrast, only one of the ten seed mass QTL detected in the mapping population studied by @alonso1999natural, and one of the seed mass QTL documented by  @alonso1999natural showed evidence of a pleiotropic effect on seeds/fruit, and in both cases effects were antagonistic. Moreover, when single-gene-knock-out mutants showed pleiotropic effects on seed size and seeds/fruit, the effects were always antagonistic [@van2012comparative]. Further crosses to generate additional recombination are required to determine conclusively whether the co-localising QTL for seed size and number documented in the present study reflect pleiotropic loci, or distinct non-pleiotropic loci that are too close to each other to be resolved in this RIL population.  In summary, the lack of consistent differences between parents, weak correlations between seed size and fecundity, and the limited evidence for widespread antagonistic pleiotropy for QTL affecting seed size and number do not support a role for variation in seed mass in local adaptation between the two parental populations.
 
@@ -744,6 +744,27 @@ kable(d,#tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","P
 
 \newpage
 
+```{r cor-mass-numb}
+d <- correlations[correlations$traits == 'numb_vs_mass',]
+
+d <- data.frame(
+  Site = c("Italy", "Italy", "Sweden", "Sweden"),
+  Year = c(2010, 2011, 2010, 2011),
+  r    = d$obs,
+  df   = d$df,
+  p    = d$p
+)
+
+kable(
+  d,
+  digits = c(0,0,2,0,3),
+  col.names = c("Site", "Year", "r", "Deg. freedom", "p-value"),
+  caption = "Pearson correlations between seed mass and number of seeds per fruit."
+)
+```
+
+\newpage
+
 ```{r individual-surv-qtl, eval=T}
 # survival to reproduction
 site_names  <- c("Italy", "Italy", "Sweden")
@@ -783,29 +804,11 @@ kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE"
 
 \newpage
 
-```{r cor-mass-numb}
-d <- correlations[correlations$traits == 'numb_vs_mass',]
-
-d <- data.frame(
-  Site = c("Italy", "Italy", "Sweden", "Sweden"),
-  Year = c(2010, 2011, 2010, 2011),
-  r    = d$obs,
-  df   = d$df,
-  p    = d$p
-)
-
-kable(
-  d,
-  digits = c(0,0,2,0,3),
-  col.names = c("Site", "Year", "r", "Deg. freedom", "p-value"),
-  caption = "Pearson correlations between seed mass and number of seeds per fruit."
-)
-```
-
-\newpage
-
 ```{r individual-frut-qtl, eval=T}
 # summary tables for fruits/plant
+site_names  <- c("Italy", "Italy", "Sweden", "Sweden")
+year_names  <- c(2010, 2011, 2010, 2011)
+
 ix <- "frut"
 tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
             bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
@@ -838,6 +841,9 @@ kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE"
 
 ```{r individual-tofu-qtl, eval=T}
 # total fecundity
+site_names  <- c("Italy", "Italy", "Sweden", "Sweden")
+year_names  <- c(2010, 2011, 2010, 2011)
+
 ix <- "tofu"
 tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
             bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
@@ -1118,81 +1124,6 @@ legend(
 
 \newpage
 
-```{r heritabilities, fig.cap="Broad-sense heritability estimates for survival to reproduction, number of fruits per reproductive plants (fruits/RP), number of seeds per fruit (Seeds/fr), number of fruits per seedling (Fruits/sdl), and seed mass. Open and closed symbols show values in 2010 and 2011 respectively. Error bars show 95% parametric bootstrap confidence intervals. Numbers indicate the number of individuals each estimate is based on."}
-
-# pdf("figures/heritabilities.pdf", width=16.9/2.54, height = 12/2.54)
-par(mfrow=c(1,2))
-
-os <- 0.1
-plot(
-  c(1, 6),
-  c(0, 0.6),
-  type = "n",
-  axes = F,
-  xlim = c(0.2, 5.5),
-  xlab = "",
-  ylab = "Broad-sense heritability",
-  main = "Italy"
-)
-axis(1, 1:5, las=2,
-     labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seed mass"))
-axis(2)
-box()
-# Confidence intervals
-segments((1:5) - os, H2$lower$`Italy 2010`,
-         (1:5) - os, H2$upper$`Italy 2010`)
-segments((1:5) + os, H2$lower$`Italy 2011`,
-         (1:5) + os, H2$upper$`Italy 2011`)
-# Overplot observed values
-points((1:5) - os, H2$obs$`Italy 2010`,   pch=16)
-points((1:5) + os, H2$obs$`Italy 2011`,   pch=21, bg="white")
-
-# Add sample sizes
-text((1:5) - 1.5*os, 0.6,
-     labels = H2$n$`Italy 2010`,
-     adj = 1,
-     srt=90,
-     cex=0.7)
-text((1:5) + 1.5*os, 0.6,
-     labels = H2$n$`Italy 2011`,
-     adj = 1,
-     srt=90,
-     cex=0.7)
-
-# 2011
-plot(c(1, 5), c(0,0.6), type="n", axes = F, xlim= c(0.5, 5.5),
-     xlab="", ylab="Broad-sense heritability", main="Sweden")
-axis(1, 1:5, las=2,
-     labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seed mass"))
-axis(2)
-box()
-# Confidence intervals
-segments((1:5) - os, H2$lower$`Sweden 2010`,
-         (1:5) - os, H2$upper$`Sweden 2010`)
-segments((1:5) + os, H2$lower$`Sweden 2011`,
-         (1:5) + os, H2$upper$`Sweden 2011`)
-# Overplot observed values
-points((1:5) - os, H2$obs$`Sweden 2010`, pch=16)
-points((1:5) + os, H2$obs$`Sweden 2011`, pch=21, bg="white")
-
-
-# Add sample sizes
-text((1:5) - 1.5*os, 0.6,
-     labels = H2$n$`Sweden 2010`,
-     srt=90,
-     adj=1,
-     cex=0.7)
-text((1:5) + 1.5*os, 0.6,
-     labels = H2$n$`Sweden 2011`,
-     srt=90,
-     adj=1,
-     cex=0.7)
-
-# dev.off()
-```
-
-\newpage
-
 ```{r epistatic-tofu, eval = T, fig.width = 16.9 / 2.54, fig.height = 10 /2.54, cache = T, cache.lazy = T, fig.cap = "Interaction plots for epistatic interactions detected for number of seeds per reproductive plant, showing mean and standard errors for each genotype-by-genotype combination.", fig.scap = "Epistatic interactions for seeds/RP", fig.align='center', eval=T}
 # number of seeds per plant
 par(mfrow = c(1, 2))
@@ -1276,6 +1207,81 @@ effectplot(
 )
 legend('bottomleft', c("QTL 1@61.1", "It. allele", "Sw. allele"), col = c(0,2,4), pch=1, bty="n", cex=0.8)
 
+```
+
+\newpage
+
+```{r heritabilities, fig.cap="Broad-sense heritability estimates for survival to reproduction, number of fruits per reproductive plants (fruits/RP), number of seeds per fruit (Seeds/fr), number of fruits per seedling (Fruits/sdl), and seed mass. Open and closed symbols show values in 2010 and 2011 respectively. Error bars show 95% parametric bootstrap confidence intervals. Numbers indicate the number of individuals each estimate is based on."}
+
+# pdf("figures/heritabilities.pdf", width=16.9/2.54, height = 12/2.54)
+par(mfrow=c(1,2))
+
+os <- 0.1
+plot(
+  c(1, 6),
+  c(0, 0.6),
+  type = "n",
+  axes = F,
+  xlim = c(0.2, 5.5),
+  xlab = "",
+  ylab = "Broad-sense heritability",
+  main = "Italy"
+)
+axis(1, 1:5, las=2,
+     labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seed mass"))
+axis(2)
+box()
+# Confidence intervals
+segments((1:5) - os, H2$lower$`Italy 2010`,
+         (1:5) - os, H2$upper$`Italy 2010`)
+segments((1:5) + os, H2$lower$`Italy 2011`,
+         (1:5) + os, H2$upper$`Italy 2011`)
+# Overplot observed values
+points((1:5) - os, H2$obs$`Italy 2010`,   pch=16)
+points((1:5) + os, H2$obs$`Italy 2011`,   pch=21, bg="white")
+
+# Add sample sizes
+text((1:5) - 1.5*os, 0.6,
+     labels = H2$n$`Italy 2010`,
+     adj = 1,
+     srt=90,
+     cex=0.7)
+text((1:5) + 1.5*os, 0.6,
+     labels = H2$n$`Italy 2011`,
+     adj = 1,
+     srt=90,
+     cex=0.7)
+
+# 2011
+plot(c(1, 5), c(0,0.6), type="n", axes = F, xlim= c(0.5, 5.5),
+     xlab="", ylab="Broad-sense heritability", main="Sweden")
+axis(1, 1:5, las=2,
+     labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seed mass"))
+axis(2)
+box()
+# Confidence intervals
+segments((1:5) - os, H2$lower$`Sweden 2010`,
+         (1:5) - os, H2$upper$`Sweden 2010`)
+segments((1:5) + os, H2$lower$`Sweden 2011`,
+         (1:5) + os, H2$upper$`Sweden 2011`)
+# Overplot observed values
+points((1:5) - os, H2$obs$`Sweden 2010`, pch=16)
+points((1:5) + os, H2$obs$`Sweden 2011`, pch=21, bg="white")
+
+
+# Add sample sizes
+text((1:5) - 1.5*os, 0.6,
+     labels = H2$n$`Sweden 2010`,
+     srt=90,
+     adj=1,
+     cex=0.7)
+text((1:5) + 1.5*os, 0.6,
+     labels = H2$n$`Sweden 2011`,
+     srt=90,
+     adj=1,
+     cex=0.7)
+
+# dev.off()
 ```
 
 
