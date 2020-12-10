@@ -8,8 +8,8 @@ This repository documents analysis associated with the manuscript " Number of se
 2. [Analysis workflow](#analysis-workflow)
 3. [Dependencies](#Dependencies)
 4. [Data](#data)
-    1. [Parental lines](#parental-lines)
-    2. [RIL data](#ril-data)
+    1. [Parental lines](#raw-data-on-parental-lines)
+    2. [RIL data](#raw-data-on-rils)
     3. [Derived data](#derived-data)
     4. [R/QTL objects](#rqtl-objects)
 
@@ -40,7 +40,7 @@ The master script `R/000.master_script.R` gives an overview of the scripts to:
 4. Format QTL results.
 5. Calculate genetic correlations
 
-The manuscript is created with the Rmarkdown document `manuscript/fecundity_manuscript.Rmd` (see also `manuscript/supporting_information.Rmd`). Shell scripts to running mapping jobs on a cluster using SLURM are given in `sh/`.
+The manuscript is created with the Rmarkdown document `manuscript/fecundity_manuscript.Rmd`. Supporting information is at the end of this document.
 
 ### Parental data
 
@@ -51,7 +51,7 @@ The manuscript is created with the Rmarkdown document `manuscript/fecundity_manu
 ### RIL phenotypes
 * Formatting RIL phenotypes and preparation of input files for `R/qtl` is done in `R/rqtl_files.R`.
 * Genetic correlations and bootstrap confidence intervals are calculated in `R/014.genetic_correlations.R`, which outputs a summary table to `output/genetic_correlations.csv`.
-* `R/heritabilities.R` calculates broad sense heritabilities on traits that were directly observed, rather than inferred (surv, frut, seed, mass, ffit); see [experimental set up](#experimental-set-up). Outputs to `output/heritabilties.rds`.
+* `R/heritabilities.R` calculates broad sense heritabilities on traits that were directly observed (surv, frut, seed, mass, ffit) rather than inferred; see [experimental set up](#experimental-set-up). Outputs to `output/heritabilties.rds`.
 
 ### QTL mapping
 
@@ -68,7 +68,7 @@ All analyses were done in R using RStudio. The following additional packages are
 * `kableExtra`
 * `qtl`
 * `lme4`
-* `"magrittr`
+* `snow`
 
 In addition, plotting and clustering QTL requires the custom package `arghqtl` written by Tom Ellis for this manuscript, hosted on [GitHub](https://github.com/ellisztamas/arghqtl). The easiest way to install it is to use `devtools`:
 
@@ -76,6 +76,8 @@ In addition, plotting and clustering QTL requires the custom package `arghqtl` w
 library('devtools')
 install_github('ellisztamas/arghqtl')
 ```
+
+Full details of the R package versions used can be found in the file `sessionInfo`.
 
 ## Data
 ### Raw data on parental lines
@@ -118,13 +120,15 @@ Phenotype data column headers show RIL name (**id**), and then a code that shows
 Genotype data are in R/QTL format, showing RIL names, following by each locus. Lines 2 and 3 indicate chromosome number an linkage map position.
 
 #### RIL seed size and number
-Data on seed size and number presented in this manuscript are in the file `data_raw/RIL_means_seedmass_seednumber.csv`. Columns show:
+Data on seed size and number are in the file `data_raw/RIL_means_seedmass_seednumber.csv`. Columns show:
 
 * RIL name
 * **Mean # Seeds (good)**: average number of mature seeds per fruit
 * **N(# Seeds (good)**: Number of plants for which seeds were counted
 * **Mean(MSeedMass(ug))**: mean seed mass.
 * **Mean(MSeedMass(ug)**: Number of plants for which seeds were weighed.
+
+Raw data are in `data_raw/RILFieldExptItalySweden_SeedSizeNumber_SixYrs_398RIL Excl Edge.csv`
 
 ### Derived data
 

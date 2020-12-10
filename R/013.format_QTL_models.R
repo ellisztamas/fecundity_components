@@ -1,3 +1,11 @@
+#' Tom Ellis
+#' 
+#' This script imports cross objects and QTL models from r/qtl and formats them
+#' for further use:
+#' 1. It concatenates cross and qtl objects for the same trait into a single list
+#' 2. It runs `fitqtl` on each qtl object.
+#' 3. It clusters QTL for each trait if their credible intervals overlap. 
+
 library(arghqtl)
 library(qtl)
 

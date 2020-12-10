@@ -1,3 +1,8 @@
+#' Tom Ellis
+#' 
+#' Script to estimate broad-sense heritabilities for survival, fruits/RP,
+#' seeds/fruit, seed mass and fruits/seedling.
+
 library(lme4)
 
 # Import and subset data

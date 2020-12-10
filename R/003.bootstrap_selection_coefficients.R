@@ -1,10 +1,18 @@
+#' Tom Ellis
+#' 
+#' Script to estimate confidence intervals around selection coefficients between
+#' parental ecotypes in each experiment by non-parametric bootstrapping. This 
+#' defines function `sboot` to take a single bootstrap subsample of the 
+#' observed data on individual plants and calculate the new selection 
+#' coefficient. This is then repeated many times.
+
 source("R/001.parents.R")
 
 siteyear <- sort(unique(seed_par$siteyear))
 frut_par$block <- paste(frut_par$year, frut_par$site, frut_par$tray)
 seed_par$block <- paste(seed_par$year, seed_par$site, seed_par$tray)
 
-# function to bootrap confidence intervals.
+# function to take a single bootstrap resample of the observed data
 sboot <- function(group, nreps){
   dfrut <- frut_par[frut_par$siteyear == group,]
   dseed <- seed_par[seed_par$siteyear == group,]

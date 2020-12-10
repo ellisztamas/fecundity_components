@@ -1,3 +1,10 @@
+#' Tom Ellis
+#' 
+#' Script to create two sets of CSV files in a consistent format:
+#' 1. A set of files giving RIL means for each trait, primarily to calculate 
+#' genetic correlations.
+#' 2. A set of files that can be read by R/QTL for linkage mapping.
+
 library(qtl)
 library(arghqtl)
 
@@ -5,9 +12,6 @@ library(arghqtl)
 geno <- read.csv('data_raw/RIL genotypes.csv')
 # seed trait data
 seed <- mass <- read.csv("data_raw/RIL_means_seedmass_seednumber.csv")
-# set values for lines with <3 replicates to NA
-# for(c in 2:5)   seed[seed[,c+4] < 3 ,c] <- NA
-# for(c in 10:13) mass[mass[,c+4] < 3 ,c] <- NA
 
 # subset columns.
 seed <- seed[, 1:5]

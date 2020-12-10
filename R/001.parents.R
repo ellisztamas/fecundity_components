@@ -1,5 +1,12 @@
-# parental means
-# individual parents.
+#' Tom Ellis
+#' 
+#' Script to summarise means, standard errors and sample sizes of parental
+#' ecotypes for each trait. Selection coefficients are then calculated.
+#' This script contains a lot of very ugly base-R calls to `tapply` because I
+#' wrote it before I became aware of tidyverse tools. If you have downloaded 
+#' this code at some point in the future, please don't judge me. 
+
+# Data on individual plants of the parental ecotypes.
 seed_par <- read.csv(file = 'data_raw/individual_parents_massnumber.csv')
 frut_par <- read.csv('data_raw/individual_parents_nfruit.csv')
 # site-year identifers
@@ -94,7 +101,7 @@ tfit$sw_n      <- tapply(!is.na(frut_par$tfit[frut_par$genotype=="sweden"]),  fr
 
 # bind table together
 parents <- rbind(parents, tofu, tfit)
-# difference betwee parents
+# difference between parental ecotypes
 parents$delta <- abs(parents$it_parent - parents$sw_parent)
 
 # FITNESS DIFFERENCES AMONG PARENTS

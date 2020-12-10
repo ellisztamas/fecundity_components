@@ -1,3 +1,8 @@
+#' Tom Ellis
+#' 
+#' Script to calculate genetic correlations between RIL means, and to estaimate
+#' credible intervals around those estimates by non-parametric bootstrapping.
+
 set.seed(240)
 
 # RIL phenotypes
