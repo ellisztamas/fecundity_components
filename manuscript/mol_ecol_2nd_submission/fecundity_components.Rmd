@@ -9,8 +9,8 @@ output:
     number_sections: false
   bookdown::word_document2: null
 always_allow_html: yes
-bibliography: ../../../bibtex_files/tellis.bib
-csl: ../../../bibtex_files/mol-ecol.csl
+bibliography: tellis.bib
+csl: mol-ecol.csl
 documentclass: article
 # fontfamily: mathpazo
 # fontsize: 12pt
@@ -33,7 +33,6 @@ editor_options:
 Sys.setenv(LANG = "en")
 Sys.time()
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, cache=F, cache.lazy=F)
-
 library('knitr')
 library('qtl')
 library('arghqtl')
