@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/139826874.svg)](https://zenodo.org/badge/latestdoi/139826874)
+
 # Number of seeds per fruit, life-history tradeoffs, and the genetic basis of fitness in *Arabidopsis thaliana*
 
 This repository documents analysis associated with the manuscript " Number of seeds per fruit, life-history tradeoffs, and the genetic basis of fitness in *Arabidopsis thaliana*" by Tom Ellis, Froukje Postma, Christopher Oakley and Jon Ågren.
