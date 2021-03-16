@@ -1,0 +1,1424 @@
+---
+title: Life-history trade-offs and the genetic basis of fitness in *Arabidopsis thaliana*
+# author: "Thomas James Ellis, Froukje M. Postma, Christopher G. Oakley and Jon Ågren"
+# date: "`r format(Sys.time(), '%d.%m.%Y')`"
+output:
+  bookdown::word_document2: null
+  bookdown::pdf_book:
+    toc: no
+    keep_tex: yes
+    number_sections: false
+always_allow_html: yes
+bibliography: ../references.bib
+csl: ../mol-ecol.csl
+documentclass: article
+# fontfamily: mathpazo
+# fontsize: 12pt
+geometry: "left=2.5cm, right=2.5cm, top=3cm, bottom=3cm"
+header-includes:
+  
+  \usepackage{lineno}
+  \linenumbers
+  \usepackage{setspace}\doublespacing 
+  \usepackage{caption}
+  \captionsetup[figure]{font=singlespacing}
+  
+  \usepackage{float} \floatplacement{figure}{H} 
+  \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+Sys.setenv(LANG = "en")
+Sys.time()
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, cache=F, cache.lazy=F)
+library('knitr')
+library('qtl')
+library("kableExtra")
+# The custom library arghqtl is available from https://github.com/ellisztamas/arghqtl
+# Install with devtools::install_github("ellisztamas/arghqtl", build=TRUE)
+library('arghqtl')
+
+
+```
+
+```{r data-import, include=F}
+# Formatting of parental and wilcox tests are done in separate scripts.
+source("R/001.parents.R")
+source("R/005.mass_wilcox_tests.R")
+
+# Confidence intervals on seletcion coefficients
+sel_boots <- readRDS("output/bootstrap_selection_coefficients.rds")
+sel_cis <- lapply(sel_boots, function(x) apply(x, 2, quantile, c(0.025, 0.975)))
+
+# FITNESS DIFFERENCES AMONG PARENTS
+maxvals <- apply(parents[,c(4,7)], 1, max) # get the fittest phenotype in each site × year combination.
+# relative fitnesses of the Italian and Swedish parents.
+parents$it_relw <- parents$it_parent / maxvals
+parents$sw_relw <- parents$sw_parent / maxvals
+# selective advantage of the local morph
+parents$s[parents$site == 'italy']  <- parents$it_relw[parents$site == 'italy']  - parents$sw_relw[parents$site == 'italy']
+parents$s[parents$site == 'sweden'] <- parents$sw_relw[parents$site == 'sweden'] - parents$it_relw[parents$site == 'sweden']
+
+# RIL phenotypes
+ril_numb <- read.csv('data_derived/RIL_seeds_per_fruit.csv')
+ril_mass <- read.csv('data_derived/RIL_seed_mass.csv')
+ril_frut <- read.csv("data_derived/RIL_fruits_per_adult.csv")
+ril_tofu <- read.csv('data_derived/RIL_seeds_per_adult.csv')
+ril_surv <- read.csv('data_derived/RIL_survival.csv')
+
+# Heritability estimates and confidence intervals
+H2 <- readRDS("output/heritabilities.rds")
+# Genetic correlations
+correlations <- read.csv('output/genetic_correlations.csv')
+
+# import objects from QTL mapping. See 'R/013.format_QTL_models.R' and the scripts that calls for the full analysis details.
+cross        <- readRDS(file='output/cross_objects.rds')
+qtl_stepwise <- readRDS(file='output/qtl_stepwise_models.rds')
+qtl_fits     <- readRDS(file='output/qtl_model_fits.rds')
+qtl_clusters <- readRDS(file="output/clusters_all_models.rds")
+
+# Marker positions for plotting mapping results
+mloc <- read.table('data_raw/genetic_map_agren_etal_2013.csv', sep = '\t', header=T)
+
+site_names  <- c("Italy", "Italy", "Sweden", "Sweden")
+year_names  <- c(2010, 2011, 2010, 2011)
+```
+
+**Authors**: Thomas James Ellis^1,2^, Froukje M. Postma^1^, Christopher G. Oakley^3^ and Jon Ågren^1^
+
+**Affiliations**:
+
+1. Plant Ecology and Evolution, Dept. of Ecology and Genetics, EBC, Uppsala University, Norbyvägen 18D, 75236 Uppsala, Sweden
+2. Gregor Mendel Insitute of Molecular Plant Sciences, Doktor-Bohr-Gasse 3, 1030 Vienna, Austria
+3. Department of Botany and Plant Pathology & the Center for Plant Biology, Purdue University, 915 W. State Street, West Lafayette, IN 47907-2054, United States
+
+**Keywords**: local adaptation, pleiotropy, trade-off, reciprocal transplant, fitness components
+
+\newpage
+
+# Abstract
+
+Resources allocated to survival cannot be used to increase fecundity, but the extent to which this trade-off constrains adaptation depends on overall resource availability. Adaptation to local environmental conditions may therefore entail the evolution of traits that increase the amount of resources available to individuals (their resource status or “condition”). We examined the relative contribution of trade-offs and increased condition to adaptive evolution in a recombinant-inbred-line population of *Arabidopsis thaliana* planted at the native sites of the parental ecotypes in Italy and Sweden in two years. We estimated genetic correlations among fitness components based on genotypic means, and explored their causes with QTL mapping. Local ecotypes produced more seeds per fruit than did non-local ecotypes, reflected in stronger adaptive differentiation than was previously shown based on survival and fruit number only. Genetic correlations between survival and overall fecundity, and between number of fruits and number of seeds per fruit, were positive, and there was little evidence of a trade-off between seed size and number. Quantitative trait loci for these traits tended to map to the same regions of the genome, and showed positive pleiotropic effects. The results indicate that adaptive differentiation between the two focal populations largely reflects the evolution of increased ability to acquire resources in the local environment, rather than shifts in the relative allocation to different life-history traits. Differentiation both in phenology and tolerance to cold are likely to contribute to the advantage of the local genotype at the two sites.
+
+# Introduction
+
+Adaptation to the local environment is reflected in an increase in mean population fitness in response to local selection pressures [@Williams1966; @Kawecki2004]. This may be associated with a shift in relative allocation of resources to optimise the balance between components of fitness, such as between reproduction and survival, or offspring size and number [@Williams1966; @Williams1966a; @Smith1974; @schluter1991conflicting]. Adaptation may also be associated with the evolution of traits increasing the amount of resources available to individuals (their resource status or “condition”) in the local environment, which could supersede the effects of variation in relative allocation to different functions [@VanNoordwijk1986; @schluter1991conflicting]. Condition is likely to be a complex phenotype affected by many traits, including those influencing the ability to tolerate local environmental stresses, and those influencing the match between the timing of life-history transitions and seasonal changes in resource availability. Variation in condition versus allocation have distinct implications for local adaptation. With variation in allocation, trade-offs place a constraint on adaptive evolution, and will be reflected as negative correlations between components of fitness. By contrast, variation in condition should allow for increased allocation to multiple components of fitness and thus positive correlations between fitness components. In reality, both processes are likely to be acting, and if variation in condition and allocation are balanced, we expect to see no overall correlation. The relative strength of trade-offs and variation in condition determine whether negative, positive or zero correlations are observed.
+
+If fitness components are both heritable and correlated, this raises two questions about their genetic architecture. First, to what extent do the genetic architectures of fitness components overlap? Correlations between fitness components may be due either to individual loci having pleitoropic effects on multiple components, or to distinct loci that have allelic individual traits in the same direction. Second, if loci do show pleiotropy, are the directions of allelic effects on affected traits consistent across all loci and with the signs of correlations among components of fitness? If there are genetic trade-offs among fitness components, we expect to observe antagonistic pleiotropic effects of individual quantitative trait loci (QTL), whereby an allele is associated with an increase in one component of fitness, but a decrease in one or more other components [@Hazel1943; @Falconer1996]. On the other hand, if variation in condition is large we expect positive pleiotropy, whereby alleles at QTL affecting resource status are associated with changes in two or more fitness components in the same direction, causing phenotypes to be positively correlated [@Houle1991]. Zero correlations can thus arise by two non-mutually-exclusive processes; distinct loci may be just as likely to increase as to decrease individual fitness components, or pleiotropic loci may be just as likely to show negative and positive pleiotropy on pairs of fitness components. A full understanding of local adaptation and life-history evolution therefore requires knowledge of the genetic basis of overall fitness and the genetic basis of correlations between different components of fitness.
+
+In plants, three trade-off relationships are likely to be especially relevant for overall fitness. Firstly, resources invested in reproduction are not available for growth and defence, causing a trade-off between fecundity and survival. A trade-off between reproduction and subsequent survival has been documented in many iteroparous species [@Williams1966a; @edward2011mechanisms]. However, a trade-off between reproduction and survival can also be expected in semelparous organisms if traits increasing the chance of juvenile survival reduces resources available to reproduction. Thus, we expect a negative correlation between fecundity and survival.
+
+Second, total seed production is a function of both the number of fruits produced and the number of seeds per fruit, and there may be a trade-off between these two components of fecundity. For practical reasons, studies of local adaptation in plants typically focus on either fruit production or estimates of total seed production as a measure of fecundity [e.g. @Latta2009; @Hall2010; @fournier2011map; @agren_genetic_2013]. To quantify components of fecundity, it is necessary to estimate both number of fruits and number of seeds per fruit, and substantial additional effort is required to collect and process data on two components compared to just one  [e.g. @Maddox1983; @Verhoeven2004; @Hall2006; @agren_reciprocal_2012; @leinonen2011local]. If investment in fruit production is negatively correlated with investment in seed production per fruit, relying on estimates of only one of these components of fecundity will overestimate variation in total fecundity. If investment in seed and fruit production are positively correlated, the opposite would be true.
+
+Third, theory predicts a trade-off between investment in individual offspring and the total number of offspring [@Lack1954; @Smith1974; @Lloyd1987]. In plants this would be expressed as a negative correlation between seed size and number [@Harper1970; @Leishman2000], and selection for larger seeds may thus constrain the evolution of increased fecundity. Negative correlations between seed size and total seed number have been documented across species [@Sera2004] and within crop species [@Sadras2007]. Meanwhile studies within natural plant populations have found positive, negative, and negligible correlations between seed size and number [@Silvertown1989; @Venable1992]. In *Arabidopsis thaliana*, trade-offs between seed size and number of seeds per fruit have been observed for recombinant lines grown in controlled environments [@alonso1999natural; @gnan2014genetic], and both linkage mapping and mutant screens have found pleiotropic or closely linked QTL with antagonistic effects on seed size and number of seeds per fruit [@alonso1999natural; @van2012comparative; @gnan2014genetic]. However, the extent to which these relationships translate into a negative correlation between seed size and overall fecundity is not known and should depend on the direction and magnitude of the correlation between the two components of fecundity: number of seeds per fruit and number of fruits.
+
+Previous work on the genetics of correlations among fitness components and seed size in *A. thaliana* has largely been conducted in controlled conditions, and it is unclear whether results reflect the situation in natural environments [@alonso1999natural; @van2012comparative; @gnan2014genetic]. On the one hand, trade-offs may be more likely to be expressed in less benign natural environments, where resource availability is lower and stress in the form of frost, drought, and antagonistic biotic interaction more common. On the other hand, in genetically variable populations, variation in ability to meet the challenges of harsh environmental conditions may still result in sufficient variation in plant condition to mask variation in allocation strategy. For example, studies of natural populations of species other than *A. thaliana* have found that the the heritability of seed size, the direction of the correlation between seed size and number, and the impact of variation in seed size on fitness depends critically on the environment in which they are grown [reviewed by @Silvertown1989]. To understand properly the relationship between trade-offs, variation in condition and local adaptation, we need to compare genotypes in the environments from which they originate.
+
+In this study, we investigate the contribution of individual components of fitness to estimates of local adaptation, and the genetic basis of correlations among components of fitness. We use a population of recombinant inbred lines (RILs) derived from a cross between two locally-adapted ecotypes of *A thaliana* from close to the southern (Italy) and northern (Sweden) margins of the native range in Europe. Reciprocal transplants have shown that the two source populations display strong adaptive differentiation expressed through higher survival and fruit production of the local ecotype [@agren_reciprocal_2012; @agren_genetic_2013], and there is some evidence that the local ecotype also produces more seeds per fruit compared to the non-local ecotype [@agren_reciprocal_2012]. QTL mapping in the RIL population identified a total of 15 QTL for an estimate of overall fitness (number of fruits per seedling planted) at the sites of the two source populations [@agren_genetic_2013]. However, this estimate of overall fitness did not include possible variation in seed production per fruit, and it is therefore not clear how inclusion of this fitness component would affect estimates of selection against the non-local ecotype, correlations between fecundity and survival, or the genetic basis of fecundity and overall fitness.
+
+Here, we quantify seed output per fruit and mean seed size per fruit of the parental ecotypes and of almost 400 RILs planted at the sites of the source populations in two years. We combine these data with previously published data on survival and fruit production to ask: (1) Does the local ecotype produce more seeds per fruit than does the non-local ecotype, which would result in an even larger estimate of selection against the non-local ecotype than an estimate previously reported based on survival and fruit production only? (2) Are there correlations between fecundity and survival, between components of fecundity (number of fruits and number of seeds per fruit), and between offspring number and size, and are these negative or positive? (3) Are there pleiotropic effects of QTL for number of seeds per fruit and seed mass on other components of fitness, and are these effects positive or negative?
+
+# Materials and methods 
+
+## Data collection 
+
+We estimated seed traits for recombinant inbred lines (RIL) and parental ecotypes in reciprocal transplant experiments conducted at the native sites of the source populations in two years (2010-2011 and 2011-2012; henceforth 2010 and 2011). These experiments have previously been described in detail by @agren_reciprocal_2012 and @agren_genetic_2013. Briefly, seeds for each ecotype and 398 RILs were germinated on agar and transplanted to local soils in plug trays at the source sites of the parental ecotypes in Autumn. Plants were harvested in Spring. Previous studies quantified survival to reproduction, number of fruits per reproductive plant, and number of fruits per seedling planted for the parental ecotypes and 398 RILs. We expanded these data by quantifying the number of seeds per fruit (henceforth “seeds/fruit”) and mean seed mass per fruit. In each site × year combination we sampled a single mature fruit from between 1 and 12 plants per RIL and between 23 and 100 parental plants; sample sizes varied because lines varied in how well they survived in different sites and years. For each fruit, we counted the number of seeds and determined total seed mass to the nearest 0.01 mg on an AT261 balance (Mettler Toledo, Columbus, United States). We calculated mean seed mass as the mass of all seeds in a fruit, divided by the total number of seeds. We estimated genetic values for each line in each site × year combination as the mean across all individuals of the same RIL or parental ecotype. Not all RILs produced at least one fruit that could be harvested, but we could estimate genetic values for seeds/fruit and seed mass in 395 (Italy 2010), 398 (Italy 2011), 395 (Sweden 2010), and 394 (Sweden in 2011) of the total of 398 RILs. As such, there is unlikely to be substantial bias due to the RILs not included.
+
+We combined data on seeds/fruit with previously published data to obtain estimates of overall fecundity and overall fitness that include information on seed number. In previous analyses of data from these experiments [@agren_reciprocal_2012; @agren_genetic_2013; @agren_flowering_time], fecundity was defined as number of fruits per reproductive plant (“fruits/RP”) and overall fitness as number of fruits per seedling planted (“fruits/seedling”). Here, we estimated the overall fecundity of reproductive plants (henceforth: “seeds/RP”) by multiplying individual fruits/RP by line-mean seeds/fruit. We chose to estimate fecundity this way because we did not have data on seeds/fruit for all individuals for which data on fruits/RP were available. Moreover, it was impractical to sample more than one fruit per plant, precluding any estimate of within-plant variation in seeds/fruit. We quantified total fitness as the number of seeds per seedling planted (“seeds/seedling”; zero for plants that did not survive to reproduce).
+
+We estimated broad-sense heritability (H^2^) as the proportion of total phenotypic variation among individuals that is explained by RIL genotype in each site-year combination. We used a mixed-effect ANOVA estimated using the package *lme4* [@bates2015], with block as a fixed effect and RIL genotype as a random effect. To assess the uncertainty around these estimates we performed parametric bootstrapping on model parameters using the function *bootMer*, and estimated 95% confidence intervals as the 2.5% and 97.5% quantiles of 1000 bootstrap draws. We carried out data handling and statistical analyses in RStudio 1.1.442 using R `r paste(version$major, version$minor, sep=".")` [@RCT2015; @RStudioTeam2015]).
+
+## Fitness differences between parental lines 
+
+To assess the influence of different fitness components on estimates of adaptive differentiation, we quantified selection against the non-local ecotype by calculating selection coefficients based on individual components of fitness, and on estimates of overall fitness. We calculated selection coefficients $s=1-w_{min}/w_{max}$, where $w_{min}$ is the fitness of the less fit ecotype and $w_{max}$ that of the fitter ecotype. For cases where the non-local ecotype had higher fitness than the local ecotype, we multiplied the selection coefficient by -1. We calculated selection coefficients based on two estimates of overall fitness: fruits/seedling and seeds/seedling, reflecting fitness estimates excluding and including information on seeds/fruit. We also calculated selection coefficients based on survival, and on two components of fecundity (fruits/RP and seeds/fruit).
+
+We estimated confidence intervals for selection coefficients by non-parametric bootstrapping. We drew 1000 bootstrap re-samples by sampling data with replacement from within experimental blocks (N = 30 blocks in each site x year combination). We calculated selection coefficients for each bootstrap sample and estimated 95% confidence intervals for each coefficient as the 2.5% and 97.5% quantiles of these values. We tested the null hypothesis that there is no adaptive differentiation using two-tailed p-values, calculated as twice the proportion of bootstrap values overlapping zero. It is more difficult to determine whether selection coefficients for the two measures of overall fitness, fruits/seedling and seeds/seedling, differ from one another because both estimates include common data on fruit number, and as such are not independent. Rather than perform a formal test, we simply asked whether the selection coefficient based on seeds/seedling was beyond the 95% confidence interval of that based on fruits/seedling. We compared differences between parental lines in mean seed mass in each site × year combination using Wilcox-signed-rank tests.
+
+## Correlations between traits 
+
+For each site × year combination we quantified the genetic correlations between pairs of traits by calculating Pearson correlation coefficients, r, between RIL means. A genetic correlation is the correlation between the trait means (genetic values) across individuals of the same genotype. This is distinct from phenotypic correlations, which incorporate both genetic values and between-individual noise (Falconer & MacKay 1989). We estimated 95% confidence intervals around point estimates of genetic correlations by drawing 1000 non-parametric bootstrap samples from vectors of RIL means, recalculating correlation coefficients, and taking the 2.5% and 97.5% quantiles of the distribution of correlation coefficients across these resamples. We examined relationships between three pairs of traits: (1) survival and overall fecundity (seeds/RP), (2) the two components of fecundity (fruits/RP and seeds/fruit), and (3) offspring size (mean seed mass) and overall fecundity (seeds/RP) . We compared seed mass with seeds/RP rather than seeds/fruit or fruits/RP because the former is a more complete estimate of fecundity, but to allow comparison with other studies we also report the correlations between seed mass and seeds/fruit.
+
+## QTL mapping 
+
+We mapped QTL for fitness and its components using the *R/qtl* package in R [@Broman2003; @Broman2009] using additional visualisation tools from the package *arghqtl* [@ellis_arghqtl]. We mapped QTL for seed mass, seeds/fruit, seeds/RP, and seeds/seedling. Mapping results for survival, fruits/RP and fruits/seedling were previously reported by @agren_genetic_2013 based on 398 RILs. However, the number and positions of QTL detected can be affected by the number of RILs included because different subsets of lines contain different recombination events. To allow comparisons of QTL positions and examination of evidence of pleiotropic QTL effects, we therefore repeated QTL mapping for survival, fruits/RP and fruits/seedling including only those RILs with information on seed size and number in each site × year combination as described in "Data collection".
+
+We performed mapping based on RIL mean data for each site × year combination separately. We used Haley–Knott regression using genotype probabilities of the genetic markers and pseudomarkers in gaps >2 cM [@Haley1992]. We performed a two-QTL scan of the genome with 10,000 permutations of the phenotypic data to determine 5% LOD-significance thresholds for inclusion of QTL and epistatic interactions [@doerge1996permutation; @Broman2009]. Based on these thresholds, we used *R/qtl*’s automated stepwise model selection procedure to identify significant additive QTL and epistatic interactions. We applied a quantile normal transformation to phenotypes before model selection. Finally, we fitted a multiple-QTL model to untransformed data to calculate, for each locus, the proportion of the total phenotypic variance among RILs explained (PVE), and the effect size (in units of the trait) of a substitution of the Swedish homozygous genotype.
+
+To investigate whether QTL showed pleiotropic effects on multiple traits, we examined whether QTL for different traits map (co-localise) to the same region. There are currently no clear guidelines on how to formally delineate QTL in linkage-mapping studies, so we rely on a set of heuristic rules used in previous studies [@agren_genetic_2013; @dittmar2014flowering; @oakley2014qtl; @agren_flowering_time; @postma2018among]. We considered any pair of QTL to co-localise and represent the same QTL if the 95% Bayesian credible intervals for these estimates overlapped. Based on these criteria, we identified ‘pleiotropic’ regions associated with multiple traits if they contained co-localising QTL for two or more traits that were directly observed (fruits/RP, seeds/fruit, survival and seed mass). We excluded “poorly-defined” QTL whose credible intervals for QTL position were greater than one quarter of the length of the shortest chromosome (15.2cM) from assessments of co-localisation, because such QTL provide little information about position.
+
+# Results 
+## Number of seeds per fruit influences estimates of selection
+
+```{r selection-correlations, fig.height=12/2.54, fig.width=11.2/2.54, fig.cap="Selection against the non-local ecotype and genetic correlations among components of fitness, and between mean seed mass and fecundity in experiments established in 2010 and 2011 at sites in Italy and Sweden. Selection against the non-local ecotype was estimated based on three components of fitness: survival to reproduction, number of fruits per reproductive plant (Fruits/RP), and number of seeds per fruit (Seeds/fr), and based on two estimates of total fitness: number of fruits per seedling planted (Fruits/sdl), and number of seeds per seedling planted (Seeds/sdl) at the Italian and Swedish sites (A, B). Squares show data from @agren_reciprocal_2012; circles show estimates involving new data. Error bars show 95% bootstrap confidence intervals. Positive selection coefficients indicate selection favouring the local ecotype, negative values selection favouring the non-local ecotype. Genetic correlations between components of fitness and between mean seed mass (SdMass) and  number of seeds per reproductive plant (Seeds/RP) were quantified as the correlations among RIL means at the Italian and Swedish sites (C,D).", include=T}
+# setEPS()
+# postscript(file = 'figures/01_selection.eps', width=12/2.54, height = 9/2.54)
+# pdf(file = 'figures/01_selection.pdf', width=16.9/2.54, height = 11/2.54)
+
+par(mfrow=c(2,2), mar=c(4,4,1,0)+0.1, oma=c(1,0,1,1), cex=0.7)
+
+##############`~
+# SELECTION ####
+##############`~
+os <- 0.1
+ix <- match(c("survival", "fruit_per_RP",  "seeds_per_fruit", "fruit_per_seedling", "total_fitness"), parents$variable)
+# Selection in Italy
+plot(c(0.5,5.5), c(-0.4,1), type='n', axes=F,
+     xlab = "",
+     ylab='Selection coefficient',
+     main="Italy")
+axis(2, cex.axis=1, las=1)
+axis(1, 1:5, c("Survival","Fruits/RP","Seeds/fr", "Fruits/sdl","Seeds/sdl"), las=2)
+box(); grid()
+abline(0,0, lty=2)
+# Points for 2010
+segments(1:length(ix)-os, sel_cis$it2010[1,], 1:length(ix)-os, sel_cis$it2010[2,])
+points(1:length(ix)-os, parents$s[ix  ], pch=c(15,15,16,15,16), bg='white')
+# Points for 2011
+segments(1:length(ix)+os, sel_cis$it2011[1,], 1:length(ix)+os, sel_cis$it2011[2,])
+points(1:length(ix)+os, parents$s[ix+1], pch=c(22,22,21,22,21), bg='white')
+text(0.5, 1, "A", adj=c(0,1))
+
+# Selection in Sweden
+plot(c(0.5,5.5), c(-0.4,1), type='n', axes=F, xlab = "", ylab='', main="Sweden")
+axis(2, cex.axis=1, las=1)
+axis(1, 1:length(ix), c(c("Survival","Fruits/RP","Seeds/fr", "Fruits/sdl","Seeds/sdl")), las=2, cex.axis=0.9)
+box(); grid()
+abline(0,0, lty=2)
+# Points for 2011
+segments(1:length(ix)-os, sel_cis$sw2010[1,], 1:length(ix)-os, sel_cis$sw2010[2,])
+points(1:length(ix)-os, parents$s[ix+2], pch=c(15,15,16,15,16), bg='white')
+# Points for 2011
+segments(1:length(ix)+os, sel_cis$sw2011[1,], 1:length(ix)+os, sel_cis$sw2011[2,])
+points(1:length(ix)+os, parents$s[ix+3], pch=c(22,22,21,22,21), bg='white')
+text(0.5, 1, "B", adj=c(0,1))
+
+
+##################~
+# CORRELATIONS ####
+##################`
+
+# We don't wany to plot correlations for seeds/fruit and seed mass.
+cors_to_plot <- correlations[correlations$traits != "numb_vs_mass",]
+
+os <- 0.05
+xv <- sort(c((1:3) - os, (1:3) + os))
+
+# Italy 
+plot(c(0.5, 3.5), c(-0.4, 0.6), type='n', axes=F,
+     xlab = "",
+     ylab='Correlation coefficient',
+     main="")
+axis(2, cex.axis=1, las=1)
+axis(1, 1:3, c("Survival vs.\nSeeds/RP", "Seeds/fr vs.\nFruits/RP", "SdMass vs.\nSeeds/RP"), las=2, cex.axis=0.9)
+box()
+grid()
+abline(0,0, lty=2)
+ix <- grep("it", cors_to_plot$expt)
+segments(xv, cors_to_plot$lower[ix], xv, cors_to_plot$upper[ix])
+points(xv, cors_to_plot$obs[ix], pch=c(16,21), bg='white')
+legend('bottomleft', c("2010", "2011"), pch=c(16, 21), bg='white')
+# legend('topleft', "C", bty='n')
+text(0.5, 0.6, "C", adj=c(0,1))
+
+# Sweden
+plot(c(0.5, 3.5), c(-0.4, 0.6), type='n', axes=F,
+     xlab = "",
+     ylab='',
+     main="")
+axis(2, cex.axis=1, las=1)
+axis(1, 1:3, c("Survival vs.\nSeeds/RP", "Seeds/fr vs.\nFruits/RP", "SdMass vs.\nSeeds/RP"), las=2, cex.axis=0.9)
+box()
+grid()
+abline(0,0, lty=2)
+ix <- grep("sw", cors_to_plot$expt)
+segments(xv, cors_to_plot$lower[ix], xv, cors_to_plot$upper[ix])
+points(xv, cors_to_plot$obs[ix], pch=c(16,21), bg='white')
+text(0.5, 0.6, "D", adj=c(0,1))
+
+# legend('bottomleft', c("Ågren & Schemske (2012)", "2011"), pch=c(15, 16), bg='white')
+
+```
+
+Selection through seeds/fruit favoured the local genotype in both years in Italy, and in one year in Sweden (Figure \@ref(fig:selection-correlations)A and \@ref(fig:selection-correlations)B).
+In Italy, the local ecotype produced significantly more seeds/fruit in both 2010
+(means:
+`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[1]`
+vs
+`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[1]`)
+and 2011 (means:
+`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[2]`
+vs
+`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[2]`).
+In Sweden, the local ecotype produced significantly more seeds/fruit than the non-local ecotype in 2010 (means:
+`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[3]`
+vs
+`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[3]`)
+but not in 2011 (means: 
+`r format(round(parents$sw_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[4]`
+vs
+`r format(round(parents$it_parent[parents$variable == "seeds_per_fruit"],1), nsmall=1)[4]`).
+Selection through seeds/fruit in Sweden in 2010 is a novel source of selection as none was previously detected for survival or fruits/RP in Sweden this year [Figure \@ref(fig:selection-correlations)B; @agren_reciprocal_2012]. The only significant source of selection in Sweden 2011 was via survival [Figure \@ref(fig:selection-correlations)B; @agren_genetic_2013].
+
+Differences in seeds/fruit affected estimates of differences in overall fitness. When information on seeds/fruit was included in estimates of overall fitness (i.e. fitness quantified as seeds/seedling rather than as fruits/seedling), estimates of selection favouring the local ecotype in Italy increased from
+`r round(parents$s[parents$variable == "fruit_per_seedling"], 2)[1]`
+to
+`r round(parents$s[parents$variable == "total_fitness"], 2)[1]`
+in 2010 and from
+`r round(parents$s[parents$variable == "fruit_per_seedling"], 2)[2]`
+to
+`r round(parents$s[parents$variable == "total_fitness"], 2)[2]`
+in 2011 compared to when fecundity was based on fruit production only (Figure \@ref(fig:selection-correlations)A). In Sweden, including information on seeds/fruit increased the estimated selection against the non-local ecotype in 2010 from
+`r round(parents$s[parents$variable == "fruit_per_seedling"], 2)[3]`
+to
+`r round(parents$s[parents$variable == "total_fitness"], 2)[3]`
+and reduced it from
+`r round(parents$s[parents$variable == "fruit_per_seedling"], 2)[4]`
+to
+`r round(parents$s[parents$variable == "total_fitness"], 2)[4]`
+in 2011 (Figure \@ref(fig:selection-correlations)B).
+
+## QTL for seeds/fruit contribute to differences in fecundity
+
+We found QTL for seeds/fruit across all five chromosomes that together explained between 24.3% and 29.0% of the variance in mean seeds/fruit among RILs in each site-year combination (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden), Tables \@ref(tab:individual-seed-qtl) and \@ref(tab:epistatic-qtl-table)). For all QTL detected in Italy, the non-local Swedish allele was associated with fewer seeds per fruit (Figure \@ref(fig:plot-qtl-italy)). In Sweden, the local allele was associated with an increase in seeds/fruit in all four QTL detected in 2010, and in three out of five QTL in 2011. For the other two QTL the local allele was associated with a decrease in seeds/fruit (Figure \@ref(fig:plot-qtl-sweden)). Swedish alleles at QTL for seeds/fruit were thus associated with reduced seed output per fruit in Italy, whereas the direction of effects varied in Sweden. In addition, we detected two pairs of loci showing significant epistatic interactions for seeds/fruit in Sweden (Figure \@ref(fig:epistatic-seed), Table \@ref(tab:epistatic-qtl-table)). In 2010, RILs with at least one Swedish genotype at the QTL on chromosome 1 at 22.7cM (henceforth abbreviated to the format 1@22.7) or 5@70.6 produced more seeds/fruit compared to plants with the Italian genotype at both loci. In 2011, RILs with Swedish genotypes at both 1@61.1 and 3@21.0 produced the fewest seeds/fruit of any genotype combination, and the most seeds/fruit was recorded for RILs that were Swedish at 1@61.1 and Italian at 3@21.0 (Figure \@ref(fig:epistatic-seed)).
+
+```{r list-pleiotropic-qtl}
+
+# This chunk cycles through each QTL detected in each model and identifies
+# which, if any, pleiotropic region it belongs to.
+
+# Table of pleiotropic regions with >1 QTL in them
+boxes <- qtl_clusters$boxes[qtl_clusters$summary$n.qtl > 1,][-6,]
+boxes$q <- paste("Q", 1:11, sep="")
+
+# Function to find whether a single QTL is in any region.
+find_pleiotropic_region <- function(qtl){
+  if(length(qtl) == 0) return(NULL)
+  
+  region <- numeric(qtl$n.qtl)
+  for(i in 1:qtl$n.qtl){
+    cx <- boxes$chr == qtl$chr[i]
+    qx <- (qtl$pos[i] >= boxes$lower[cx]) & (qtl$pos[i] <= boxes$upper[cx])
+    out <- boxes$q[cx][qx]
+    region[i] <- ifelse(length(out) > 0, out, NA)
+  }
+  region
+}
+
+# Return names of pleiotropic regions for each QTL.
+# If QTL are not in any region, return NA.
+# For survival in Sweden in 2010, when no QTL were found, return NULL
+region_labels <- lapply(do.call(function(...) Map(list, ...), qtl_stepwise),
+       function(i) lapply(i, find_pleiotropic_region)
+       )
+# Same structure as `region_labels`, but with 0s and 1s indicating *whether*
+# a QTL was found in a pleiotropic region.
+is_pleiotropic <- lapply(
+  region_labels,
+  function(i) lapply(i, function(j) ifelse(is.na(j), 'white', 'black'))
+)
+```
+
+```{r qtl-figure-function}
+qtl_figure <- function(stepwise, fits, clusters, marker_locations, expt, title, chr_labels, track_labels, col,bg){
+  
+  if(length(stepwise) != length(fits)) stop("Lists of stepwise-qtl and fit objects are of different lengths.")
+  if(any(! names(stepwise) %in% names(fits))) stop("Entries in lists of stepwise-qtl and fit objects do not match.")
+  
+  # Set up the plot
+  # Create a plotQTL object with all the coordinates of the plot.
+  pos_plot <- plotQTL(
+    chr = 1:5,
+    marker_locations = marker_locations, 
+    nlanes = length(stepwise),
+    left_gap = 2,
+    right_gap = 2
+  )
+  # Create the empty plot
+  plotQTL_base(
+    pos_plot,
+    by = 20,
+    maxy = 0,
+    track_labels = chr_labels,
+    ylab = ""
+    )
+  # Y-axis label
+  # text(-6.5, -40, "Marker distance (cM)", srt=90, xpd=NA, cex=0.9)
+  
+  # Annotate the plot.
+  # Subplot titles
+  text(-5,15, title, xpd=NA, adj=c(0, 1), cex=1)#, col="red3")
+
+  # Lane labels
+  text(pos_plot$lane_centres, 3,
+       track_labels,
+       col=1, cex=0.7, srt=90, adj=c(0,0.5))
+  
+  # indicate extent of overlapping QTL with grey boxes.
+  # Details of pleiotropy boxes
+  boxes <- clusters$boxes[clusters$summary$n.qtl > 1,][-6,]
+  ix    <- match(boxes$chr, colnames(pos_plot$lane_margins))
+  pos   <- (boxes$lower + boxes$upper) /2
+  # Plot boxes
+  plotQTL_boxes(
+    pos_plot,
+    boxes,
+    border = 'gray85',
+    col = 'gray85',
+    lwd = 2
+  )
+  # Label pleiotropy boxes
+  text(pos_plot$lane_margins[1,ix]- 0.7,
+       -pos,
+       paste("Q",1:nrow(boxes), sep=""),
+       adj=c(0.5,0),
+       cex=0.7,
+       srt=90)
+  plotQTL_ladder(pos_plot)
+  
+  # Lane dividers
+  segments(pos_plot$lane_margins,
+           0,
+           pos_plot$lane_margins,
+           rep(-pos_plot$track_lengths, each=8),
+           lty=1, col='gray90', lwd=0.5)
+  
+  # plot QTL positions for each traits
+  pos_counter <- 1
+  for(t in c("frut", "seed", "tofu", "mass", "surv", "ffit", "tfit")){
+    plotQTL_qtl(
+      plotQTL = pos_plot,
+      qtl_object = qtl_stepwise[[t]][[expt]],
+      model_fit = qtl_fits[[t]][[expt]],
+      # fill_cutoff = 15.2,
+      lane = pos_counter,
+      cex = 0.6,
+      col = col[[t]],
+      bg=bg[[t]]
+    )
+    pos_counter <- pos_counter + 1
+  }
+  
+  # # Labels for QTL found for seeds/sdl, but not fruits/sdl
+  # os <- 1
+  # text(pos_plot$lane_margins[15,3] + os, -19.705, "+")
+  # # text(pos_plot$lane_margins[15,4] + os, -20.7, "+")
+  # text(pos_plot$lane_margins[15,2] + os, -31.7, "+")
+  # text(pos_plot$lane_margins[15,5] + os, -18.5, "+")
+  # # Labels for QTL found for fruits/sdl, but not seeds/sdl
+  # # text(pos_plot$lane_margins[15,4] + os, -50.0, "-")
+  # text(pos_plot$lane_margins[15,3] + os, -1.7, "-")
+  
+}
+```
+
+```{r qtl-figure-setup}
+# Set up lists of information to create 
+expt_codes <- c("it2010",  "it2011", "sw2010", "sw2011")
+titles <- c("Italy 2010", "Italy 2011", "Sweden 2010", "Sweden 2011")
+chr_labels <- list(NA, NA, NA, paste("Chr.", 1:5))
+track_labels <- list(c("Fruits/RP", "Seeds/fr", "Seeds/RP", "Sd mass", "Survival", "Fruits/sdl", "Seeds/sdl"), NA, NA, NA)
+
+
+col_list <- lapply(
+  region_labels,
+  function(i) lapply(i, function(j) ifelse(is.na(j), 'black', 'black'))
+)
+
+# For QTL for fruits/seedling not detected for seeds/seedling, colour points orange
+col_list$it2011$ffit[4] <- "#E69F00"
+col_list$sw2010$ffit <- "#E69F00"
+col_list$sw2011$ffit[c(2,3,8)] <- "#E69F00"
+# colour backgrounds for pleiotropic loci
+is_pleiotropic$sw2011$ffit[8] <- "#E69F00"
+
+# For QTL for seeds/seedling not detected for fruits/seedling, colour pink
+col_list$it2010$tfit[c(4)] <- "#CC79A7"
+col_list$it2011$tfit[c(3,7)] <- "#CC79A7"
+col_list$sw2010$tfit <- "#CC79A7"
+col_list$sw2011$tfit[2] <- "#CC79A7"
+# Colour backgrounds for pleiotropy loci
+is_pleiotropic$it2010$tfit[c(4)] <- "#CC79A7"
+is_pleiotropic$sw2010$tfit[1:3] <- "#CC79A7"
+```
+
+
+```{r plot-qtl-italy, fig.width=16.9/2.54, fig.height=10/2.54, fig.cap='QTL for fitness components, seed mass and estimates of total fitness in Italy. Lanes show QTL for number of fruits per reproductive plant (Fruits/RP), number of seeds per fruit (Seeds/fr), number of seeds per reproductive plant (Seeds/RP), seed mass (Sd mass), survival, number of fruits per seedling planted (Fruits/sdl), and number of seeds per seedling planted (Seeds/sdl). Grey boxes indicate regions Q1 to Q11 harbouring QTL with pleiotropic effects on two or more of those traits that were directly observed (Fruits/RP, Seeds/fr, survival and seed mass). Arrows indicate most-likely QTL position and direction of effect of the Swedish genotype on the phenotype (upward: increased; downward: decreased). Closed QTL symbols show QTL falling within pleiotropic regions. Vertical bars show the 95% Bayesian credible intervals for QTL position. Tracks to the left of chromosomes show marker positions in cM. Orange QTL indicate loci for fruits/seedling but not seeds/seedling. Pink QTL indicate loci for seeds/seedling but not fruits/seedling.'}
+
+# Plot 2 QTL maps for Italy.
+
+# pdf(file='figures/QTL_all_traits.pdf', width=16.9/2.54, height=16/2.54)
+
+par(mfrow=c(2,1), mar=c(0,1,0,0)+0.1, oma=c(0,2,3,0), cex=0.8, xpd=NA)
+
+qtl_figure(
+  stepwise = qtl_stepwise,
+  fits = qtl_fits,
+  clusters = qtl_clusters,
+  marker_locations = mloc,
+  expt = 'it2010',
+  title = '2010',
+  chr_labels = NA,
+  track_labels = c("Fruits/RP", "Seeds/fr", "Seeds/RP", "Sd mass", "Survival", "Fruits/sdl", "Seeds/sdl"),
+  col = col_list$it2010,
+  bg = is_pleiotropic$it2010
+)
+
+qtl_figure(
+  stepwise = qtl_stepwise,
+  fits = qtl_fits,
+  clusters = qtl_clusters,
+  marker_locations = mloc,
+  expt = "it2011",
+  title = "2011",
+  chr_labels = paste("Chr.", 1:5),
+  track_labels = NA,
+  col = col_list$it2011,
+  bg = is_pleiotropic$it2011
+)
+
+title(ylab="Marker distance (cM)", outer = T, line=1)
+
+```
+
+Including information on seeds/fruit in estimates of overall fitness affected the number of fitness QTL detected (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden), Tables \@ref(tab:individual-ffit-qtl) and \@ref(tab:individual-tfit-qtl)). Most QTL for seeds/seedling corresponded to a nearby QTL for fruits/seedling, and are likely to reflect the same QTL. However, in Italy, when fitness is quantified as seeds/seedling we detected four additional QTL that were not detected in the same year when fitness is defined as fruits/seedling, but did not detect one QTL that was previously found for fruits/seedling (Figure \@ref(fig:plot-qtl-italy)). In Sweden, none of the four QTL detected for number of seeds per seedling planted in 2010 were detected when fitness is quantified as fruits/seedling, whereas four QTL detected for fruits/seedling in 2010 or 2011 were not detected for seeds/seedling in the same year. When information on seed number is incorporated into estimates of overall fitness, there was thus a net gain in the number of fitness QTL detected, although this was offset by the loss of some QTL detected when fitness is estimated based on survival and fruit production only.
+
+```{r plot-qtl-sweden, fig.width=16.9/2.54, fig.height=10/2.54, fig.cap='QTL for fitness components, seed mass and estimates of total fitness in Sweden. Lanes show QTL for number of fruits per reproductive plant (Fruits/RP), number of seeds per fruit (Seeds/fr), number of seeds per reproductive plant (Seeds/RP), seed mass (Sd mass), survival, number of fruits per seedling planted (Fruits/sdl), and number of seeds per seedling planted (Seeds/sdl). Grey boxes indicate regions Q1 to Q11 harbouring QTL with pleiotropic effects on two or more of those traits that were directly observed (Fruits/RP, Seeds/fr, survival and seed mass). Arrows indicate most-likely QTL position and direction of effect of the Swedish genotype on the phenotype (upward: increased; downward: decreased). Closed QTL symbols show QTL falling within pleiotropic regions. Vertical bars show the 95% Bayesian credible intervals for QTL position. Tracks to the left of chromosomes show marker positions in cM. Orange QTL indicate loci for fruits/seedling but not seeds/seedling. Pink QTL indicate loci for seeds/seedling but not fruits/seedling.'}
+
+# Plot 2 QTL maps for Sweden
+
+# pdf(file='figures/QTL_all_traits.pdf', width=16.9/2.54, height=16/2.54)
+
+par(mfrow=c(2,1), mar=c(0,1,0,0)+0.1, oma=c(0,2,3,0), cex=0.8, xpd=NA)
+
+qtl_figure(
+  stepwise = qtl_stepwise,
+  fits = qtl_fits,
+  clusters = qtl_clusters,
+  marker_locations = mloc,
+  expt = 'sw2010',
+  title = '2010',
+  chr_labels = NA,
+  track_labels = c("Fruits/RP", "Seeds/fr", "Seeds/RP", "Sd mass", "Survival", "Fruits/sdl", "Seeds/sdl"),
+  col = col_list$sw2010,
+  bg = is_pleiotropic$sw2010
+)
+
+qtl_figure(
+  stepwise = qtl_stepwise,
+  fits = qtl_fits,
+  clusters = qtl_clusters,
+  marker_locations = mloc,
+  expt = "sw2011",
+  title = "2011",
+  chr_labels = paste("Chr.", 1:5),
+  track_labels = NA,
+  col = col_list$sw2011,
+  bg = is_pleiotropic$sw2011
+)
+
+title(ylab="Marker distance (cM)", outer = T, line=1)
+
+```
+
+
+## Limited differentiation in seed mass
+
+Differences in seed mass between the two ecotypes depended on both site and year (Figure \@ref(fig:seed-mass)). In 2010, the Italian ecotype produced 18% larger seeds than did the Swedish ecotype at the Italian site
+($W=$ `r mass_wilcox$italy_2010$statistic`,
+$p=$ `r round(mass_wilcox$italy_2010$p.value, 3)`)
+and 3% larger seeds at the Swedish site
+($W =$ `r mass_wilcox$sweden_2010$statistic`,
+$p=$ `r round(mass_wilcox$sweden_2010$p.value, 3)`).
+No significant difference in seed mass between the two parental ecotypes was recorded in the second year at either the Italian site
+($W =$ `r mass_wilcox$italy_2011$statistic`,
+$p=$ `r round(mass_wilcox$italy_2011$p.value, 3)`)
+or the Swedish site
+($W=$ `r mass_wilcox$sweden_2011$statistic`,
+$p=$ `r round(mass_wilcox$sweden_2011$p.value, 3)`).
+Both ecotypes produced larger seeds at the site in Sweden compared to that in Italy.
+
+In Italy, we identified two QTL for seed mass in 2010 and five in 2011 explaining 8.6% and 15.1% of the phenotypic variation among RILs respectively (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden), Table \@ref(tab:individual-mass-qtl)). The Swedish allele was associated with a decrease in seed mass for both QTL detected in 2010, and for three of the five QTL detected in 2011. In Sweden, we detected five QTL for seed mass in 2010 and eight in 2011, explaining 26.0% and 29.0% of the phenotypic variation among RILs respectively. The local Swedish alleles were associated with an increase in seed mass at two of the five QTL detected in 2010, and at five of the eight QTL detected in 2011. We detected a significant epistatic interaction for seed mass between one pair of loci in Sweden in 2011 (Figure \@ref(fig:epistatic-mass), Table \@ref(tab:epistatic-qtl-table)). Plants with the Swedish genotype at 3@55.4cM had smaller seeds, but only in the presence of the Italian genotype at 5@78.2cM.
+
+## Positive correlations dominate among fitness components
+
+Components of fitness were mostly positively correlated with one another. Genetic correlations between fruits/RP and seeds/fruit, as well as between survival and seeds/RP were positive in both years in Italy and in Sweden in 2011
+($r \geq$
+`r round(min(correlations$obs[correlations$traits %in% c("frut_vs_numb", "tofu_vs_surv") & correlations$expt != "sw2010"]), 2)`;
+$p \leq 0.0001$;
+$df \geq$
+`r round(min(correlations$df[correlations$traits %in% c("frut_vs_numb", "tofu_vs_surv") & correlations$expt != "sw2010"]), 2)`;
+Figures \@ref(fig:selection-correlations)C, \@ref(fig:selection-correlations)D and \@ref(fig:scatter-plots)).
+In Sweden in 2010, the positive correlation between fruits/RP and seeds/fruit was weaker but still significant
+($r=$ `r round(correlations$obs[correlations$traits == "frut_vs_numb" & correlations$expt == "sw2010"], 2)`,
+$p=$ `r round(correlations$p[correlations$traits == "frut_vs_numb" & correlations$expt == "sw2010"], 3)`,
+$df=$ `r round(correlations$df[correlations$traits == "frut_vs_numb" & correlations$expt == "sw2010"], 2)`),
+while survival and seeds/RP were not significantly correlated
+($r=$ `r round(correlations$obs[correlations$traits == "tofu_vs_surv" & correlations$expt == "sw2010"], 2)`,
+$p=$ `r round(correlations$p[correlations$traits == "tofu_vs_surv" & correlations$expt == "sw2010"], 3)`,
+$df=$ `r round(correlations$df[correlations$traits == "tofu_vs_surv" & correlations$expt == "sw2010"], 2)`).
+
+Seed mass showed either negligible or negative correlations with (seeds/RP) and the fecundity component seeds/fruit (Figures \@ref(fig:selection-correlations)C, \@ref(fig:selection-correlations)D and \@ref(fig:scatter-plots)).
+In Sweden in 2010, seed mass was negatively correlated with seeds/RP
+($r=$ `r round(correlations$obs[correlations$traits == "tofu_vs_mass" & correlations$expt == "sw2010"], 2)`,
+$p \leq 0.0001$,
+$df=$ `r round(correlations$df[correlations$traits == "tofu_vs_mass" & correlations$expt == "sw2010"], 2)`),
+whereas no significant correlation was detected between seed mass and overall fecundity in Sweden in 2011
+($r=$ `r round(correlations$obs[correlations$traits == "tofu_vs_mass" & correlations$expt == "sw2011"], 2)`,
+$p=$ `r round(correlations$p[correlations$traits == "tofu_vs_mass" & correlations$expt == "sw2011"], 3)`,
+$df=$ `r round(correlations$df[correlations$traits == "tofu_vs_mass" & correlations$expt == "sw2011"], 2)`),
+nor in Italy in either year
+($|r| \leq$ `r round(max(abs(correlations$obs[correlations$traits  == "tofu_vs_mass" & correlations$expt %in% c("it2010", "it2011")])), 2)`;
+$p \geq$ `r round(min(correlations$p[correlations$traits  == "tofu_vs_mass" & correlations$expt %in% c("it2010", "it2011")]), 3)`;
+$df \geq$
+`r round(min(correlations$df[correlations$traits == "tofu_vs_mass" & correlations$expt %in% c("it2010", "it2011")]), 2)`).
+Correlations between seed mass and seeds/fruit were very similar to those between seed mass and seeds/RP (Table \@ref(tab:cor-mass-numb)), with a significant negative correlation in Sweden in 2010
+($r=$ `r round(correlations$obs[correlations$traits == "numb_vs_mass" & correlations$expt == "sw2010"], 2)`,
+$p = 0.0002$,
+$df=$ `r round(correlations$df[correlations$traits == "numb_vs_mass" & correlations$expt == "sw2010"], 2)`),
+but no significant correlations in Sweden in 2011 or Italy in either year
+($|r| \leq$ `r round(max(abs(correlations$obs[correlations$traits  == "numb_vs_mass" & correlations$expt %in% c("sw2011", "it2010", "it2011")])), 2)`;
+$p \geq$ `r round(min(correlations$p[correlations$traits  == "numb_vs_mass" & correlations$expt %in% c("sw2011", "it2010", "it2011")]), 3)`;
+$df \geq$
+`r round(min(correlations$df[correlations$traits == "numb_vs_mass" & correlations$expt %in% c("sw2011", "it2010", "it2011")]), 2)`).
+
+## QTL show positive pleiotropy
+
+QTL for components of fitness that could be resolved to within 15.2 cM frequently colocalised with QTL for multiple components of fitness (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden), Table \@ref(tab:pairwise-pleiotropy)). Specifically, they tended to map to one of eleven distinct regions of the linkage map (Q1-Q11, indicated in grey in Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden)).
+Seven regions in Italy and three in Sweden harboured QTL for both survival and seeds/RP.
+Likewise, six regions in Italy and five in Sweden harboured QTL for both seeds/fruit and fruits/RP. In all but two of these cases, local alleles at the respective sites were associated with an increase in both fitness components.
+In Sweden in 2011, Q3 showed a significant epistatic interaction with Q6 for both seeds/fruit and fruits/RP (Figures \@ref(fig:epistatic-seed) and \@ref(fig:epistatic-frut)) as well as for both overall fecundity and overall  fitness [Figures \@ref(fig:epistatic-tofu) and \@ref(fig:epistatic-tfit); see also @agren_genetic_2013]. Plants with the Swedish genotype at Q3 had higher fecundity and fitness than plants with the Italian genotype at this locus, but only in the presence of the Italian genotype at Q6, whereas plants with the Swedish genotype at both loci had the lowest fitness of any of the genotypic combinations. Taken together, these observations indicate that regions containing pleiotropic QTL tend to affect pairs of fitness components in the same direction.
+
+```{r pairwise-pleiotropy}
+pairwise_pleiotropy <- matrix(c(
+    4, 4,13, 1, 5,13,11,
+    3, 2, 4, 1, 1, 3, 4,
+    3, 4, 2, 0, 5,11,12,
+    3, 2, 2, 1, 0, 1, 0,
+    1, 1, 1, 1, 1, 7, 7,
+    4, 2, 2, 3, 2, 2,12,
+    2, 5, 4, 3, 1, 2, 4
+  ), nrow = 7)
+
+trait_names <- c(
+  "Fruits/plant", "Seeds/fruit", "Seeds/plant", "Seed mass", "Survival", "Fruits/seedling", "Seeds/seedling")
+
+colnames(pairwise_pleiotropy) <- row.names(pairwise_pleiotropy) <- trait_names
+pairwise_pleiotropy <- as.data.frame(pairwise_pleiotropy)
+
+for(i in 1:nrow(pairwise_pleiotropy)){
+  pairwise_pleiotropy[i, i] <- cell_spec(pairwise_pleiotropy[i, i], "latex", bold=T)
+}
+
+kable(pairwise_pleiotropy, "latex", escape = F, 
+      caption = "Number of colocalising QTL detected for pairs of traits in a single experiment, summed over both years. QTL detected in Sweden are shown in the upper right, and QTL in Italy in the lower left. The diagonal shows the number of QTL for each trait detected in both years. Only QTL with credible intervals <15.2cM are included.") %>% 
+  kable_styling(bootstrap_options = "striped", full_width = F) %>%
+  row_spec(0, angle = 90)
+```
+
+We found one notable exception to the preponderance of positive pleiotropic effects. In Sweden in 2010, the Swedish allele at Q4 was associated with an increase in seeds/fruit, but a decrease in fruits/RP (Figure \@ref(fig:plot-qtl-sweden), Tables \@ref(tab:individual-seed-qtl) and \@ref(tab:individual-frut-qtl)). This antagonistic effect represents a trade-off between the two components of fecundity.
+
+Three QTL for seed mass in Italy and seven in Sweden were also found in pleiotropic regions (Q1, Q7, Q9 in Italy; Q1, Q2, Q5, Q7, Q8, Q9 and Q11 in Sweden; Figure \@ref(fig:plot-qtl-sweden), Table \@ref(tab:individual-mass-qtl)). At one of these regions in Italy (Q7) and three regions in Sweden (Q8, Q9, Q11) where QTL for seeds/RP were detected, local alleles were associated with an increase in both seed mass and fecundity. At two regions each in Italy (Q1, Q9) and Sweden (Q1, Q2), alleles were associated with effects in opposite directions on seed mass and seeds/RP. For a subset of these regions, overlap was also observed between positions of QTL for seed mass and seeds/fruit: local alleles were associated with an increase in both seed mass and seeds/fruit in two regions in Sweden (Q8, Q11), and with effects in opposite directions in two regions in Italy (Q1, Q9) and one region in Sweden (Q2; Figure \@ref(fig:plot-qtl-sweden)).  
+
+# Discussion
+
+The present study demonstrates that genetic differences influencing the number of seeds per fruit can make an important contribution to adaptive differentiation and the genetic basis of fitness variation among natural populations of *Arabidopsis thaliana*. In a reciprocal transplant between an Italian population located close to the southern margin of the European native range and a Swedish population located close to the northern range margin, the local ecotype produced more seeds per fruit than did the non-local ecotype, and including information about seed number per fruit thus increased the estimated magnitude of the fitness advantage of the local ecotype compared to estimates based on differences in fruit production and survival alone. Genetic correlations between fecundity and survival, and between components of fecundity were generally positive, and there was little evidence of a trade-off between fecundity and seed size. The genetic correlations were reflected in widespread pleiotropic effects of QTL for fecundity and survival, with allelic effects typically in the same directions. Below we discuss the results in relation to processes affecting adaptive differentiation and pleiotropic interactions among traits.
+
+## Adaptive differentiation for seed number per fruit
+
+The contribution of variation in seeds/fruit to adaptive differentiation varied between sites. In both years in Italy, the local ecotype produced more seeds/fruit than did the non-local ecotype, and had a greater overall fitness advantage when fitness was estimated including information about seeds/fruit (Figure \@ref(fig:selection-correlations)A). However, because selection through seeds/fruit was not as strong as selection through fruits/RP or survival (Figure \@ref(fig:selection-correlations)A), and because seeds/fruit was positively correlated with fruits/RP (Figure \@ref(fig:selection-correlations)C), much of the adaptive differentiation measured as seeds/seedling in Italy would have been captured by measuring fruits/seedling only. This is consistent with observations from similar experiments using *Arabidopsis lyrata* [@leinonen2011local] and *Hordeum spontaneum* [@Verhoeven2004] that found that variation in fruit production makes a greater contribution to adaptive differentiation than does seeds/fruit, but contrasts with those in *Mimulus guttatus* where the opposite pattern was observed [@Hall2006]. At the Italian site, the marked difference in flowering time of the two ecotypes coupled with strong selection for early flowering can explain much of the large local advantage in terms of fruit production [@agren_flowering_time]. Compared to the non-local Swedish ecotype, the local ecotype began to flower about 1.5 months earlier and produced 5.3 and 3.2 times more fruits before the onset of summer in the two years of study [@agren_genetic_2013; @agren_flowering_time]. This might indicate that the longer growing season in Italy allows for greater variation in fruits/plant than seeds/fruit. Despite strong selection through seeds/fruit in Italy, differences in fruit production makes a much larger contribution to local adaptation at this site.
+
+In Sweden, by contrast, differences in seeds/fruit made a significant contribution to local adaptation, but this contribution varied among years. In 2010, seeds/fruit was the only fitness component for which the parental ecotypes differed (Figure \@ref(fig:selection-correlations)B) and showed high heritability among the RILs (Figure \@ref(fig:heritabilities)). This was reflected in a significant overall advantage to the local ecotype that year (Figure \@ref(fig:selection-correlations)B), as well as the detection of four QTL for overall fitness that were detected only when this component was included in the estimate of overall fitness (Figure \@ref(fig:plot-qtl-sweden)). In that experiment, plants experienced a mild winter and heavy damage from rodents [@agren_reciprocal_2012]. However, in the 2011 experiment, local adaptation was expressed only as a difference in survival, and no selection through seeds/fruit was detected. By comparison, no significant differences in fruits/RP between the two ecotypes were detected in either year, nor in four additional years studied by @agren_reciprocal_2012. This suggests that selection through fruits/RP in Sweden is weak, and consistently weak across years, which at least partly can be attributed to the modest difference in flowering time between the two ecotypes at this site [3 and 9 days in the years of study; @agren_flowering_time]. These findings highlight that the relative importance of individual fitness components for local adaptation can fluctuate from year to year, and also the value of experiments conducted over multiple seasons.
+
+Including information on seed production into estimates of overall fitness allowed us to detect several QTL that were not detected when fitness is estimated based only on fruit production and survival (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden)). In four of the seven cases where a QTL was detected for seeds/seedling but not fruits/seedling the QTL co-localised with both a QTL for fruits/RP and a QTL for seeds/fruit in the same year. In one case it co-localised only with a QTL for fruits/RP and in two cases only with a QTL for seeds/fruit. This indicates that QTL for seeds/seedling act through both seeds/fruit and fruits/RP, and that the gain in power to detect additional QTL is due to a refinement of the phenotype that allows QTL close to the threshold of significance to be detected. In three of the four cases where QTL for overall fitness co-localised with QTL for both fruits/RP and QTL for seeds/fruit, the direction of effect was the same at the two component QTL, which should have facilitated the detection of the QTL for overall fitness. The exception to this pattern is the QTL for seeds/seedling at the end of chromosome 1 detected in Sweden in 2010 (75.4cm; Figure \@ref(fig:plot-qtl-sweden)), where the Swedish allele was associated with higher overall fitness and an increase in seeds/fruit, but a decrease in fruits/RP. This discrepancy in the direction of allelic effects of the component QTL indicates that this QTL for fitness was detected due to the strong effects via seeds/fruit. Despite this example of a genetic trade-off between components of fecundity, the results suggest that many QTL for seeds/seedling affect fruit and seed production in the same direction.
+
+Surprisingly, some QTL for fitness estimated as fruits/seedling were not detected when fitness was estimated as seeds/seedling (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden)). One explanation for this could be that QTL have weakly negative pleiotropic effects on one or more combinations of seeds/fruit, fruits/RP and survival. However, with the exception of Q4 in Sweden, wherever pleiotropy for seeds/fruit and fruits/RP was observed, the effects were positive (Figure \@ref(fig:plot-qtl-sweden)), so this seems unlikely. Alternatively, our estimates of seeds/fruit might be less precise than for fruits/RP, which would inflate the residual variance of our estimates of seeds/seedling. Although sample sizes for seeds/fruit and seed mass were much smaller than for survival and fruit production, this was not reflected in reduced heritability of seed traits (Figure \@ref(fig:heritabilities)), so this explanation also appears unlikely. A third explanation is that there are many loci affecting fitness, many of which have effects close to the threshold of statistical significance. This would be consistent with classical population-genetic theory, which posits that mutations with small effects on fitness dominate as populations get closer towards a local fitness optimum [@Fisher1930; @kimura2020neutral; @orr1998population]. Such subtle effects would be sensitive to the precise way in which fitness is defined, as well as to fluctuations in environmental noise. Because linkage mapping is designed to detect relatively few loci of large effect [@beavis1998qtl; @xu2003theoretical], this would cause some stochasticity in the loci detected and their map positions indicated by the stepwise-regression approach used in QTL mapping [@harrell2001regression; @Broman2009]. Consistent with this, the QTL that differed in models for fruits/seedling and seeds/seedling tended to have broader credible intervals around the estimates of their location (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden)) and show the weakest allelic effects (Tables \@ref(tab:individual-ffit-qtl), \@ref(tab:individual-tfit-qtl)). The apparent disappearance of fitness QTL when information on seed number is included could thus reflect a highly polygenic nature of fitness.
+
+## Positive pleiotropic effects on multiple fitness components
+
+Both genetic correlations in the RIL population and the QTL mapping showed evidence of positive pleiotropy between different components of fitness. Correlations between components of fecundity, and between fecundity and survival were positive, except in Sweden in 2010 when no significant correlation was observed between fecundity and survival (Figure \@ref(fig:selection-correlations)D). Moreover, QTL for these components of fitness tended to map to the same regions of the genome, and allelic effects were in the same direction in all cases, except for the fruits/RP and seeds/fruit QTL at the end of chromosome 1 in Sweden (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden)). These regions did not correspond to those of two QTL with pleiotropic effects on fruit number and survival identified in a panel of natural accessions tested in outdoor common-garden experiments, although pleiotropic region Q1 overlapped with a SNP associated with fruit production in that study [@fournier2011map]. Taken together, the overall positive genetic correlations among fitness components were thus reflected in positive pleiotropic effects of the underlying genetic loci in the present cross.
+
+In addition, we found that the epistatic interaction detected in Sweden 2011 between Q3 and Q6 for seeds/fruit, fruits/RP and both measures of fitness was “positively" pleiotropic, that is, the rank order of two-locus-genotype fitness estimates were the same across phenotypes (Figures \@ref(fig:epistatic-seed), \@ref(fig:epistatic-tofu), \@ref(fig:epistatic-tfit)). Counter to what one would expect under local adaptation, plants with Swedish genotypes at both loci had lower fitness than plants with recombinant genotypes. This epistatic interaction should contribute to the transgressive variation observed in fitness at the Swedish site [@agren_genetic_2013], and suggests that not only additive effects but also epistatic interactions among local alleles may be maladaptive. Possible causes of such maladaptive effects include higher genetic load in the Swedish population, lagging adaptation, and temporal variation in selection [@agren_genetic_2013].
+
+Two caveats about the nature of pleiotropic regions bear highlighting.
+First, as there is no established approach to formally identify colocalising QTL and measuring pleiotropy [@paaby2013many; @wagner2011pleiotropic] and the resolution of linkage mapping is relatively coarse, our method to identify pleiotropic regions based on QTL with overlapping credible intervals is necessarily heuristic.
+As such, the pleiotropic regions identified should not be viewed as being rigidly defined, but rather as an indication of the areas harbouring pleiotropic QTL.
+For example, there are several of QTL with point estimates that technically fall just outside the pleiotropic regions, but which are nevertheless likely to reflect the same QTL.
+Second, since linkage decays over many kilobases in a linkage-mapping population, the colocalisation of QTL for different traits might either reflect individual QTL with pleiotropic effects, or multiple closely linked loci that each affect a single trait.
+Distinguishing these hypotheses is difficult without dense markers and very large sample sizes [@jiang1995multiple].
+However, two tightly linked loci with little recombination will tend to be co-inherited, and hence will segregate much like a single locus [@paaby2013many]. Therefore, from an evolutionary perspective, it makes little difference whether a QTL reflects a single pleiotropic locus or multiple strongly linked loci, because both traits will co-evolve in a similar manner in both cases.
+
+The preponderance of positive genetic correlations and positive pleiotropy indicates that variation in overall condition, where the fittest genotypes have more resources overall to invest across fitness components, predominates over variation in relative allocation to different components of fitness in the RIL population [@VanNoordwijk1986; @Houle1991]. The greater condition, and thus higher fitness, of local genotypes likely reflects adaptive differentiation via many traits. For example, the Swedish ecotype has higher freezing tolerance [@oakley2014qtl] and a greater ability to optimize photosynthesis at cold, but non-freezing temperatures [@cohu2013minor; @adams2014associations; @oakley2017genetic]. This should provide a fitness advantage at the Swedish site where plants are exposed to cold conditions for an extended period, but may be associated with a fitness cost in the milder climate at the Italian site [@oakley2014qtl]. Consistent with this hypothesis, four of the seven QTL for freezing tolerance identified by @oakley2014qtl are located in pleiotropic regions identified here (Q4, Q5, Q9, Q11). QTL affecting these traits can thus be expected to have pleiotropic effects on overall fitness and its components.
+
+QTL for phenological variation may also play a key role in stress tolerance and resource acquisition that would contribute to variation in condition. Previous work on the same populations has demonstrated strong selection to tune the timing of germination [@akiyama2014conflicting; @postma_early_2016; @zacchello2020strong] and flowering time to match the local climate [@agren_flowering_time]. The timing of life history traits can have cascading effects on later life-history stages [@lindstrom1999early; @donohue2014ontogeny; @beckerman2002population; @postma_early_2016; @martinez2020functional; @hepworth2020natural], meaning that direct effects on early traits can cause pleiotropic effects on multiple fitness components. Consistent with this, all pleiotropic regions bar Q1 and Q2 identified here also harbour well-resolved QTL associated with flowering time at one or both sites [@agren_flowering_time], and loci such as FT (Q3), FLC (Q9) and VIN3 (Q11) with effects on flowering time documented in field experiments [e.g. @caicedo2004epistatic; @korves2007fitness; @taylor2019large; @hepworth2020natural]. Furthermore, Q10 overlaps with the primary QTL explaining variation in seed dormancy, which contains the candidate gene DOG1 [@postma_early_2016]. QTL affecting both physiological and phenological traits can thus be expected to influence condition and thereby have pleiotropic effects on multiple components of fitness.
+
+The role of variation in condition in local adaptation is a broadly important topic in evolutionary biology. In a meta-analysis of local adaptation across 74 studies of plants, animals, fungi and protists, @Hereford2009 was not able to test explicitly for correlations between selection through components of fitness, but did demonstrate that the advantage of local populations was greater when estimated based on overall fitness than when estimated based on survival or fecundity alone. Although not a formal test, this pattern would be expected if selection acts to increase overall condition, causing components of fitness to be positively correlated within populations. These observations indicate that adaptation frequently entails increased condition in the local environment, and that while local adaptation is reflected as trade-offs in performance across environments, it may often also be associated with positive genetic correlations among fitness components within a given environment in situations where there is genetic variation for overall fitness.
+
+## Limited evidence for a trade-off between offspring size and number
+
+There was substantial overlap between the positions of seed mass QTL detected in the present study and those of QTL that have previously been identified as affecting seed size. On one hand, @ren2019new found that the genetic architecture of seed mass in a panel of natural accessions was characterised by many loci of very small effect spread across the genome, and the single large-effect QTL detected does not correspond to any locus found in this study. On the other hand, using a RIL population derived from a cross between the L*er* and Cvi accessions, @alonso1999natural found QTL for seed mass in positions close to those of Q1, Q2 and Q8. Furthermore, @gnan2014genetic found QTL for seed size that co-localise with Q8, Q9, Q10 and Q11 in an intercross population derived from 16 natural accessions. Finally, using a panel of knock-out mutant lines, @van2012comparative identified thirteen candidate genes affecting seed mass, seven of which are found within the pleiotropic regions affecting seed mass identified here (DWARF11 in Q1, GW2 in Q1, CKX1 in Q2, ANT in Q8, GASA4 in Q9, CKX3 in Q11, and ARF2 in Q11). These genes are mostly transcription factors involved in cytokinin metabolism [@orozco2015networks]. The overlap between these studies indicates that alleles influencing seed mass are segregating in *A. thaliana* populations beyond the cross examined here.
+
+Even if QTL affecting seed mass are common, three observations indicate that selection on seed mass does not constrain the evolution of increased fecundity (seeds/RP). Firstly, differences in seed mass between the parental ecotypes were small to modest. The greatest difference we observed was in Italy in 2010, where the local genotype had 18% larger seeds than the Swedish genotype (Figure \@ref(fig:seed-mass)). For comparison, @alonso1999natural found an 81% difference in seed mass between the L*er* and Cvi accessions. However, we cannot exclude the possibility that variation in seed mass does contribute to differences in fitness via the earliest life-history stages, as has been shown under laboratory conditions for seedling survival [@krannitz1991effect] and early growth rate [@el2004quantitative] in *A. thaliana*. The present experiment was started with seedlings, precluding the detection of effects of seed size on germination rate and seedling establishment, and reducing the chance of observing effects of these life-history stages on overall fitness.
+
+Secondly, there was little evidence of a consistent genetically based trade-off between seed size and fecundity in the RIL population. Although seed mass and seeds/RP were negatively genetically correlated in Sweden in 2010, no significant genetic correlation was detected in the other three site × year combinations (Figures \@ref(fig:selection-correlations)C, \@ref(fig:selection-correlations)D and \@ref(fig:scatter-plots)). This was also true for correlations between seed mass and seeds/fruit. Previous studies have documented a negative correlation between seed size and seeds/fruit in mapping populations grown under controlled conditions and derived from crosses between other sets of *A. thaliana* accessions  [@alonso1999natural; @gnan2014genetic]. The negative correlation found in Sweden in 2010 shows that there are circumstances under which a genetic trade-off between seed size and number, albeit weak, can be expressed in the cross examined here. As previously noted, the plants in that experiment experienced an especially mild winter and the difference in fitness between the two parental genotypes was unusually small, so the expression of a trade-off may reflect reduced variation in condition compared to the other three site x year combinations. The results suggest that correlations between seed size and measures of fecundity may vary among crosses, and highlight the importance of field studies in understanding how the sign and magnitude of correlations between fitness components affect local adaptation.
+
+Thirdly, if the correlation between fecundity and seed size constrains the evolution of increased fecundity, we would expect to see trade-offs reflected in the directions of allelic effects at pleiotropic QTL affecting both seed mass and fecundity. In fact, although QTL for seed mass often co-localised with QTL for fecundity and seeds/fruit, pleiotropic effects on these two traits were as likely to be positive as antagonistic (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden)), which is consistent with the weak overall genetic correlation between the two traits. In contrast, only one of the ten seed mass QTL detected in the mapping population studied by @alonso1999natural, and one of the seed mass QTL documented by @gnan2014genetic showed evidence of a pleiotropic effect on seeds/fruit, and in both cases effects were antagonistic. Moreover, when single-gene-knock-out mutants showed pleiotropic effects on seed size and seeds/fruit, the effects were always antagonistic [@van2012comparative]. Further crosses to generate additional recombination are required to determine conclusively whether the co-localising QTL for seed size and number documented in the present study reflect pleiotropic loci, or distinct non-pleiotropic loci that are too close to each other to be resolved in this RIL population.  In summary, the lack of consistent differences between ecotypes, weak correlations between seed size and fecundity, and the limited evidence for widespread antagonistic pleiotropy for QTL affecting seed size and number do not support a role for variation in seed mass in local adaptation between the two ecotypes.
+
+## Conclusions
+
+In conclusion, this study has examined how variation in number of seeds per fruit and other components of fitness contribute to overall adaptive differentiation in *A. thaliana*. Our results show that there is adaptive variation in seed production independent of variation in fruit number, and that the advantage to local genotypes can be underestimated if this is ignored. Moreover, we demonstrate consistent positive pleiotropy among components of fitness reflected in both genetic correlations and effects of underlying QTL, and very little evidence of a trade-off between offspring size and number. These findings indicate that the process of population divergence has been due in large part to the fixation of alleles that increase overall vigour or condition at each site.
+
+# Acknowledgements
+
+This work was made possible by the help of J. Glans, M. Vass, J. Trunschke, L. Vikström, F. Ågren, E. Chapurlat and F. Spada, and a large number of field assistants who helped with transplanting and harvesting field experiments. We also thank P. Falzini and Y. Jonsson for permission to conduct experiments on their land, and to the Botanical Garden of Rome for generously allowing us to use their greenhouse facilities.
+
+# Funding
+
+The study was financially supported by grants from the Swedish Research Council to JÅ and from the National Science Foundation (DEB 1743273) to CGO.
+
+# Data availability
+
+Data, R scripts, and the R markdown document used to create this manuscript will be uploaded to a suitable public server on publication. In the meantime, they are available at https://github.com/ellisztamas/fecundity_components.
+
+# Competing interests
+
+The authors declare no conflict of interest.
+
+# Authors' contributions
+
+TJE performed analyses and wrote the manuscript. JÅ conceived the study, and JÅ, FMP and CGO co-ordinated data collection and critically revised the manuscript.
+
+# Literature cited
+
+<div id="refs"></div>
+
+\newpage
+
+# Supplementary material {-}
+
+\beginsupplement
+
+## Supplementary tables
+
+```{r individual-seed-qtl, fig.align='center', eval=T}
+# number of seeds per fruit
+ix <- "seed"
+tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
+            bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
+            bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
+            bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
+
+for(i in 1:4){
+  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+}
+tab <- do.call('rbind', tab)
+# mash together positions with their CIs
+tab$position <- paste(format(round(tab$ML_bayesint,1), nsmall = 1),
+                      " (",
+                      format(round(tab$min_bayesint, 1), nsmall = 1), 
+                      "-",
+                      format(round(tab$max_bayesint, 1), nsmall = 1),
+                      ")",
+                      sep="")
+# print the table
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      format="pandoc",
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption="QTL for number of seeds per fruit identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in seeds/fruit between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer seeds/fruit. Names indicated chromosome number and cM position.")
+```
+
+\newpage
+
+```{r epistatic-qtl-table, eval=T}
+# Traits to be presented.
+traits <- c("frut","seed", "tofu", "tfit", 'mass')
+
+epi_tab <- matrix(NA, nrow = 0, ncol=11)
+
+for(tr in traits){
+  for(sy in c("it2010", "it2011", "sw2010","sw2011")){
+    eepi_tab <- grep(":", row.names(summary(qtl_fits[[tr]][[sy]])$result.drop))
+    this_summ <- summary(qtl_fits[[tr]][[sy]])$result.drop[eepi_tab,]
+    this_summ <- c(tr, substr(sy, 1,2), substr(sy, 3,6),
+                   row.names(summary(qtl_fits[[tr]][[sy]])$result.drop)[eepi_tab], this_summ)
+    if(!all(this_summ %in% c(tr, substr(sy, 1,2), substr(sy, 3,6)))) epi_tab <- rbind(epi_tab, this_summ)
+  }
+}
+
+epi_tab <- as.data.frame(epi_tab)
+colnames(epi_tab)[1:4] <- c("Trait", "Site","Year", "QTL")
+epi_tab <- epi_tab[, c("Trait", "Site","Year", "QTL", "LOD", "%var")]
+# Comvert values from factors
+epi_tab$Trait  <- as.vector(epi_tab$Trait)
+epi_tab$LOD    <- as.numeric(as.vector(epi_tab$LOD))
+epi_tab$`%var` <- as.numeric(as.vector(epi_tab$`%var`))
+# Make QTL labels look nicer
+epi_split <- strsplit(as.character(epi_tab$QTL), ":")
+epi_split <- sapply(epi_split, function(x) paste(x[1], "x", x[2]))
+epi_tab$QTL <- epi_split
+
+# Add prettier names
+epi_tab$Trait[epi_tab$Trait == "mass"] <- "Seed mass"
+epi_tab$Trait[epi_tab$Trait == "seed"] <- "Seeds/fruit"
+epi_tab$Trait[epi_tab$Trait == "tofu"] <- "Seeds/RP"
+epi_tab$Trait[epi_tab$Trait == "tfit"] <- "Seeds/seedling"
+epi_tab$Trait[epi_tab$Trait == "frut"] <- "Fruits/RP"
+
+epi_tab$Site <- ifelse(epi_tab$Site == "it", "Italy", "Sweden")
+
+kable(epi_tab, digits = 2, row.names = F,
+      format= "pandoc",
+      col.names = c("Trait", "Site","Year", "QTL", "LOD", "% var. explained"),
+      caption = "Pairs of significant epistatic QTL detected across traits.  QTL names indicated chromosome number and cM position.")
+```
+
+\newpage
+
+```{r individual-ffit-qtl, eval=T}
+# number of fruits per seedling
+ix <- "ffit"
+tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
+            bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
+            bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
+            bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
+
+for(i in 1:4){
+  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+}
+tab <- do.call('rbind', tab)
+# mash together positions with their CIs
+tab$position <- paste(format(round(tab$ML_bayesint,1), nsmall = 1),
+                      " (",
+                      format(round(tab$min_bayesint, 1), nsmall = 1), 
+                      "-",
+                      format(round(tab$max_bayesint, 1), nsmall = 1),
+                      ")",
+                      sep="")
+# print the table
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],# "PDE")],
+      format= "pandoc",
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption = "QTL for number of fruits per seedling identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects, and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in fruits/seedling between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer fruits/seedling. Names indicated chromosome number and cM position.")
+
+```
+
+\newpage
+
+```{r individual-tfit-qtl, eval=T}
+# seeds/seedling
+ix <- "tfit"
+tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
+            bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
+            bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
+            bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
+
+for(i in 1:4){
+  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+}
+tab <- do.call('rbind', tab)
+# mash together positions with their CIs
+tab$position <- paste(format(round(tab$ML_bayesint,1), nsmall = 1),
+                      " (",
+                      format(round(tab$min_bayesint, 1), nsmall = 1), 
+                      "-",
+                      format(round(tab$max_bayesint, 1), nsmall = 1),
+                      ")",
+                      sep="")
+# print the table
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      format= "pandoc",
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption = "QTL for number of seeds per seedling identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in seeds/seedling between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer seeds/seedling. Names indicated chromosome number and cM position.")
+
+```
+
+\newpage
+
+```{r individual-mass-qtl, eval=T}
+# summary tables for each experiment
+ix <- "mass"
+
+tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
+            bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
+            bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
+            bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
+
+for(i in 1:4){
+  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+}
+tab <- do.call('rbind', tab)
+
+tab$site <- as.factor(tab$site)
+
+# mash together positions with their CIs
+tab$position <- paste(format(round(tab$ML_bayesint,1), nsmall = 1),
+                      " (",
+                      format(round(tab$min_bayesint, 1), nsmall = 1), 
+                      "-",
+                      format(round(tab$max_bayesint, 1), nsmall = 1),
+                      ")",
+                      sep="")
+d <- tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")]
+# print the table
+kable(d,#tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      format= "pandoc",
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption="QTL for seed mass identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in seed mass between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with lower seed mass. Names indicated chromosome number and cM position.")
+```
+
+\newpage
+
+```{r cor-mass-numb}
+d <- correlations[correlations$traits == 'numb_vs_mass',]
+
+d <- data.frame(
+  Site = c("Italy", "Italy", "Sweden", "Sweden"),
+  Year = c(2010, 2011, 2010, 2011),
+  r    = d$obs,
+  df   = d$df,
+  p    = d$p
+)
+
+kable(
+  d,
+  digits = c(0,0,2,0,3),
+  col.names = c("Site", "Year", "r", "Deg. freedom", "p-value"),
+  caption = "Pearson correlations between seed mass and number of seeds per fruit."
+)
+```
+
+\newpage
+
+```{r individual-surv-qtl, eval=T}
+# survival to reproduction
+site_names  <- c("Italy", "Italy", "Sweden")
+year_names  <- c(2010, 2011, 2011)
+
+
+ix <- "surv"
+tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
+            bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
+            #bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
+            bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
+
+pd <- parent_diffs[parent_diffs$trait == ix,c(1,2,4)]
+
+for(i in 1:3){
+  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$PDE <- (100* abs(tab[[i]]$effect_sizes)) / as.numeric(pd[i])
+}
+tab <- do.call('rbind', tab)
+# mash together positions with their CIs
+tab$position <- paste(format(round(tab$ML_bayesint,1), nsmall = 1),
+                      " (",
+                      format(round(tab$min_bayesint, 1), nsmall = 1), 
+                      "-",
+                      format(round(tab$max_bayesint, 1), nsmall = 1),
+                      ")",
+                      sep="")
+# print the table
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],# "PDE")],
+      format= "pandoc",
+      digits = c(0,0,0,0,0,1,3,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption = "QTL for survival to reproduction identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects, as a percentage of variance among RIL means, and as a percentage of the difference between parental means. Effect sizes are quantified as the least-square mean difference in survival between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with lower survival. Names indicated chromosome number and cM position.")
+
+```
+
+\newpage
+
+```{r individual-frut-qtl, eval=T}
+# summary tables for fruits/plant
+site_names  <- c("Italy", "Italy", "Sweden", "Sweden")
+year_names  <- c(2010, 2011, 2010, 2011)
+
+ix <- "frut"
+tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
+            bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
+            bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
+            bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
+
+for(i in 1:4){
+  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+}
+tab <- do.call('rbind', tab)
+# mash together positions with their CIs
+tab$position <- paste(format(round(tab$ML_bayesint,1), nsmall = 1),
+                      " (",
+                      format(round(tab$min_bayesint, 1), nsmall = 1), 
+                      "-",
+                      format(round(tab$max_bayesint, 1), nsmall = 1),
+                      ")",
+                      sep="")
+# print the table
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      format="pandoc",
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption="QTL for number of fruits per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in fruits/RP between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer fruits/RP. Names indicated chromosome number and cM position.")
+```
+
+\newpage
+
+```{r individual-tofu-qtl, eval=T}
+# total fecundity
+site_names  <- c("Italy", "Italy", "Sweden", "Sweden")
+year_names  <- c(2010, 2011, 2010, 2011)
+
+ix <- "tofu"
+tab <- list(bayesint_table(qtl_stepwise[[ix]]$it2010, qtl_fits[[ix]]$it2010),
+            bayesint_table(qtl_stepwise[[ix]]$it2011, qtl_fits[[ix]]$it2011),
+            bayesint_table(qtl_stepwise[[ix]]$sw2010, qtl_fits[[ix]]$sw2010),
+            bayesint_table(qtl_stepwise[[ix]]$sw2011, qtl_fits[[ix]]$sw2011))
+
+for(i in 1:4){
+  tab[[i]]$site <- rep(site_names[i], nrow(tab[[i]])) # add experiment names
+  tab[[i]]$year <- rep(year_names[i], nrow(tab[[i]])) # add experiment names
+  #tab[[i]]$PDE <- 100*abs(tab[[i]]$effect_sizes) / parent_diffs[parent_diffs$trait == ix, i]
+}
+tab <- do.call('rbind', tab)
+# mash together positions with their CIs
+tab$position <- paste(format(round(tab$ML_bayesint,1), nsmall = 1),
+                      " (",
+                      format(round(tab$min_bayesint, 1), nsmall = 1), 
+                      "-",
+                      format(round(tab$max_bayesint, 1), nsmall = 1),
+                      ")",
+                      sep="")
+# print the table
+kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE")],#, "PDE")],
+      format="pandoc",
+      digits = c(0,0,0,0,0,1,3,1,1),
+      col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
+      caption = "QTL for number of seeds per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in seeds/RP between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer seeds/RP. Names indicated chromosome number and cM position.")
+
+```
+
+\newpage
+
+## Supplementary figures
+
+```{r epistatic-seed, fig.width=16.9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for number of seeds per fruit, showing mean and standard errors for each genotype-by-genotype combination.", fig.scap = "Epistatic interactions for seeds/fruit", fig.align='center', eval=T}
+# number of seeds per fruit
+par(mfrow = c(1, 2))
+effectplot(
+  cross$seed,
+  pheno.col = "sw2010",
+  mname1 = "1@22.7",
+  mname2 = "5@70.6",
+  add.legend = F,
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Sweden 2010",
+  xlab = "QTL 5@70.6",
+  ylab = "Seeds/fruit"
+)
+legend(
+  'bottomright',
+  c("QTL 1@22.7", "It. allele", "Sw. allele"),
+  col = c(0, 2, 4),
+  pch = 1,
+  bty = "n",
+  cex = 0.8
+)
+
+effectplot(
+  cross$seed,
+  pheno.col = "sw2011",
+  mname1 = "1@61.1",
+  mname2 = "3@21.0",
+  add.legend = F,
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Sweden 2011",
+  xlab = "QTL 3@21.0",
+  ylab = "Seeds/fruit"
+)
+legend(
+  'topright',
+  c("QTL 1@61.1", "It. allele", "Sw. allele"),
+  col = c(0, 2, 4),
+  pch = 1,
+  bty = "n",
+  cex = 0.8
+)
+```
+
+\newpage
+
+```{r seed-mass, fig.cap="Mean seed mass of the Italian (closed symbols) and Swedish (open symbols) parental ecotypes at the field sites in Italy (It.) and Sweden (Sw.) in 2010 and 2011. Bars indicate standard error.", fig.scap = "Seed mass among parental lines", fig.align= "center", fig.width=8/2.54}
+# pdf("figures/02_seed_mass.pdf", width=11/2.54)
+
+par(mfrow=c(1,1))
+plot(c(1,4), c(15,30), type='n', axes = F, xlim=c(0.5, 4.5), xlab="",
+     ylab=expression(paste("Seed mass (",mu, "g)")))
+axis(2); box(); grid()
+axis(1, 1:4, c("It. 2010", "It. 2011", "Sw. 2010", "Sw. 2011"), las=2, tick = T)
+
+os <- 0.05
+segments((1:4)-os, (parents$it_parent+parents$it_se)[parents$variable == 'seed_mass'],
+         (1:4)-os, (parents$it_parent-parents$it_se)[parents$variable == 'seed_mass'],
+         lwd=2)
+segments((1:4)+os, (parents$sw_parent+parents$sw_se)[parents$variable == 'seed_mass'],
+         (1:4)+os, (parents$sw_parent-parents$sw_se)[parents$variable == 'seed_mass'],
+         lwd=2)
+points((1:4)-os, parents$it_parent[parents$variable == 'seed_mass'], pch=16)
+points((1:4)+os, parents$sw_parent[parents$variable == 'seed_mass'], pch=21, bg='white')
+
+
+# dev.off()
+```
+
+\newpage
+
+```{r epistatic-mass, fig.width=9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for seed mass, showing mean and standard errors for each genotype-by-genotype combination.", fig.scap = "Epistatic interactions for seed mass", fig.align='center', eval=T}
+# seed mass
+effectplot(
+  cross$mass,
+  pheno.col = "sw2011",
+  mname1 = "3@55.4",
+  mname2 = "5@78.2",
+  add.legend = F,
+  #ylim = c(500, 1100),
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Sweden 2011",
+  xlab = "QTL 5@78.2",
+  ylab = "Seed mass"
+)
+legend('bottomright', c("QTL 3@55.4", "It. allele", "Sw. allele"), col = c(0,2,4), pch=1, bty="n", cex=0.8)
+
+```
+
+\newpage
+
+```{r scatter-plots, fig.height=16/2.54, fig.width=16.9/2.54, fig.cap="Relationships between RIL-means for survival and fecundity (top), components of fecundity (middle), and between fecundity and seed mass (bottom). Pearson correlation coefficients ($r$), associated $p$-values and degrees of freedom (df) are indicated.", fig.scap = "Scatter plots between RIL-means for survival and fecundity, components of fecundity, and between overall fecundity and seed mass", fig.align= "center"}
+
+
+corsumm <- data.frame(
+  r = round(correlations$obs, 2),
+  p = round(correlations$p, 3),
+  df = correlations$df
+)
+corsumm$r <- paste("r = ", corsumm$r, sep="")
+corsumm$p <- ifelse(correlations$p < 0.0001, "p < 0.0001", paste("p = ",corsumm$p, sep=""))
+corsumm$df <- paste("df = ", corsumm$df, sep = "")
+
+# setEPS()
+# postscript(file = '../figures/trait_correlations.eps', family = "Times", width=16.9/2.56, height = 16/2.56)
+# pdf(file = 'figures/03_genetic_correlations.pdf', width=16.9/2.56, height = 16/2.56)
+par(mfrow=c(3,4), mar=c(4,3,1,0)+0.1, oma=c(0,1,1,1))
+
+# fecundity vs survival
+plot(ril_tofu$it2010, ril_surv$it2010, xlim=c(0,1600), ylim=c(0,1), xlab="", ylab="", main="Italy 2010")
+# text(1550, 0.25, bquote(atop('r'[P] ==  .(corsumm$r[5]),  .(corsumm$tp[5]))), c(1,0))
+legend(1300, -0.06, legend=corsumm[1,], bty='n', adj = 1, yjust = 0, xjust=0)
+
+title(ylab="Survival to reproduction", line=2)
+plot(ril_tofu$it2011, ril_surv$it2011, xlim=c(0,1000), ylim=c(0,1),  xlab="", ylab="", main="Italy 2011")
+# text(1000, 0.45, bquote(atop('r'[P] ==  .(corsumm$r[6]),  .(corsumm$tp[6]))), c(1,0))
+legend(800, -0.06, legend=corsumm[2,], bty='n', adj = 1, yjust = 0, xjust=0)
+
+#
+plot(ril_tofu$sw2010, ril_surv$sw2010,  xlim=c(0,5500), ylim=c(0, 1), xlab="", ylab="", main="Sweden 2010")
+# text(5500, 0, bquote(atop('r'[P] ==  .(corsumm$r[7]),  .(corsumm$tp[7]))), c(1,0))
+legend(4500,-0.06 , legend=corsumm[3,], bty='n', adj = 1, yjust = 0, xjust=0)
+
+#
+plot(ril_tofu$sw2011, ril_surv$sw2011,  xlim=c(0,4000), ylim=c(0,1), xlab="", ylab="", main="Sweden 2011")
+# text(4000, 0, bquote(atop('r'[P] ==  .(corsumm$r[8]),  .(corsumm$tp[8]))), c(1,0))
+legend(3200,-0.06 , legend=corsumm[4,], bty='n', adj = 1, yjust = 0, xjust=0)
+
+title(xlab="Number of seeds per reproductive plant", outer=T, line=-32.7)
+
+
+# Frut vs seed number
+plot(ril_frut$it2010, ril_numb$it2010, xlim=c(0,40), ylim=c(0,50), xlab="", ylab="", pch=1)
+# text(40, 10, bquote(atop('r'[P] ==  .(corsumm$r[1]),  .(corsumm$tp[1]))), c(1,0))
+legend(32, -3, legend=corsumm[5,], bty='n', adj = 1, yjust = 0, xjust=0)
+title(ylab="Number of seeds per fruit", line=2)
+# 
+plot(ril_frut$it2011, ril_numb$it2011, ylim=c(0,50), xlab="", ylab="", pch=1)
+legend(21, -3 , legend=corsumm[6,], bty='n', adj = 1, yjust = 0, xjust=0)
+# text(30, 10, bquote(atop('r'[P] ==  .(corsumm$r[2]),  .(corsumm$tp[2]))), c(1,0))
+# 
+plot(ril_frut$sw2010, ril_numb$sw2010, ylim=c(0,50), xlab="", ylab="", pch=1)
+# text(100, 10, bquote(atop('r'[P] ==  .(corsumm$r[3]),  .(corsumm$tp[3]))), c(1,0))
+legend(105, -3, legend=corsumm[7,], bty='n', adj = 1, yjust = 0, xjust=0)
+# 
+plot(ril_frut$sw2011, ril_numb$sw2011, ylim=c(0,50), xlab="", ylab="", pch=1)
+legend(70, -3, legend=corsumm[8,], bty='n', adj = 1, yjust = 0, xjust=0)
+# text(100, 10, bquote(atop('r'[P] ==  .(corsumm$r[4]),  .(corsumm$tp[4]))), c(1,0))
+title(xlab="Number of fruits per reproductive plant", line=-17, outer=T)
+
+# fecundity vs seed mass
+plot(ril_tofu$it2010, ril_mass$it2010, xlim=c(0,1600), ylim=c(0,50), xlab="", ylab="")
+# text(1550, 0, bquote(atop('r'[P] ==  .(corsumm$r[9]),  .(corsumm$tp[9]))), c(1,0))
+legend(1300, -3 , legend=corsumm[9,], bty='n', adj = 1, yjust = 0, xjust=0)
+title(ylab="Mean seed mass (\U00B5g)", line=2)
+title(xlab="Number of seeds per reproductive plant", ylab="", outer=T, line=-1.5)
+
+plot(ril_tofu$it2011, ril_mass$it2011, ylim=c(0,50), xlab="", ylab="")
+legend(650, -3 , legend=corsumm[10,], bty='n', adj = 1, yjust = 0, xjust=0)
+# text(1000, 0, bquote(atop('r'[P] ==  .(corsumm$r[10]),  .(corsumm$tp[10]))), c(1,0))
+
+plot(ril_tofu$sw2010, ril_mass$sw2010, xlim=c(0,6000), ylim=c(0,50), xlab="", ylab="")
+legend(4500, -3 , legend=corsumm[11,], bty='n', adj = 1, yjust = 0, xjust=0)
+# text(6000, 0, bquote(atop('r'[P] ==  .(format(round(corsumm$r[11], 2), nsmall = 2)), .(corsumm$tp[11]))), c(1,0))
+
+plot(ril_tofu$sw2011, ril_mass$sw2011, xlim=c(0,3500), ylim=c(0,50), xlab="", ylab="")
+legend(2800, -3 , legend=corsumm[12,], bty='n', adj = 1, yjust = 0, xjust=0)
+# text(3500, 0, bquote(atop('r'[P] ==  .(corsumm$r[12]),  .(corsumm$tp[12]))), c(1,0))
+# # dev.off()
+```
+
+\newpage
+
+```{r epistatic-frut, eval = T, fig.width = 16.9 / 2.54, fig.height = 10 /2.54, cache = T, cache.lazy = T, fig.cap = "Interaction plots for epistatic interactions detected for number of fruits per reproductive plant (fruits/RP), showing mean and standard errors for each genotype-by-genotype combination.", fig.scap = "Epistatic interactions for number of fruits per reproductive plant", fig.align='center', eval=T}
+# number of seeds per plant
+par(mfrow = c(1, 3))
+
+effectplot(
+  cross$frut,
+  pheno.col = "it2010",
+  mname1 = "5@7.5",
+  mname2 = "5@70.1",
+  add.legend = F,
+  # ylim = c(000, 500),
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Italy 2010",
+  xlab = "QTL 5@70.1",
+  ylab = "Fruits/RP"
+)
+legend(
+  'bottomleft',
+  c("QTL 5@7.5", "It. allele", "Sw. allele"),
+  col = c(0, 2, 4),
+  pch = 1,
+  bty = "n",
+  cex=0.8
+)
+
+# number of seeds per plant
+effectplot(
+  cross$frut,
+  pheno.col = "it2011",
+  mname1 = "1@58.6",
+  mname2 = "5@74.5",
+  add.legend = F,
+  # ylim = c(500, 1100),
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Italy 2011",
+  xlab = "QTL 5@74.5",
+  ylab = "Fruits/RP"
+)
+legend(
+  'bottomleft',
+  c("QTL 1@58.6", "It. allele", "Sw. allele"),
+  col = c(0, 2, 4),
+  pch = 1,
+  bty = "n",
+  cex=0.8
+)
+
+# number of seeds per plant
+effectplot(
+  cross$frut,
+  pheno.col = "sw2011",
+  mname1 = "1@61.8",
+  mname2 = "3@26.7",
+  add.legend = F,
+  # ylim = c(500, 1100),
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Sweden 2011",
+  xlab = "QTL 3@26.7",
+  ylab = "Fruits/RP"
+)
+legend(
+  'bottomleft',
+  c("QTL 1@61.8", "It. allele", "Sw. allele"),
+  col = c(0, 2, 4),
+  pch = 1,
+  bty = "n",
+  cex=0.8
+)
+
+
+```
+
+\newpage
+
+```{r epistatic-tofu, eval = T, fig.width = 16.9 / 2.54, fig.height = 10 /2.54, cache = T, cache.lazy = T, fig.cap = "Interaction plots for epistatic interactions detected for number of seeds per reproductive plant, showing mean and standard errors for each genotype-by-genotype combination.", fig.scap = "Epistatic interactions for seeds/RP", fig.align='center', eval=T}
+# number of seeds per plant
+par(mfrow = c(1, 2))
+
+effectplot(
+  cross$tofu,
+  pheno.col = "it2010",
+  mname1 = "5@9.4",
+  mname2 = "5@71.4",
+  add.legend = F,
+  ylim = c(000, 500),
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Italy 2010",
+  xlab = "QTL 5@71.4",
+  ylab = "Seeds/RP"
+)
+legend(
+  'bottomleft',
+  c("QTL 5@9.4", "It. allele", "Sw. allele"),
+  col = c(0, 2, 4),
+  pch = 1,
+  bty = "n",
+  cex=0.8
+)
+
+# number of seeds per plant
+effectplot(
+  cross$tofu,
+  pheno.col = "sw2011",
+  mname1 = "1@61.1",
+  mname2 = "3@24.4",
+  add.legend = F,
+  ylim = c(500, 1100),
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Sweden 2011",
+  xlab = "QTL 3@24.4",
+  ylab = "Seeds/RP"
+)
+legend(
+  'bottomleft',
+  c("QTL 1@61.1", "It. allele", "Sw. allele"),
+  col = c(0, 2, 4),
+  pch = 1,
+  bty = "n",
+  cex=0.8
+)
+
+
+```
+
+\newpage
+
+```{r epistatic-tfit, fig.width=16.9/2.54, fig.height=10/2.54, cache=T, cache.lazy=T, fig.cap="Interaction plots for epistatic interactions detected for number of seeds per seedling, showing mean and standard errors for each genotype-by-genotype combination.", fig.scap = "Epistatic interactions for number of seeds/seedling", fig.align='center', eval=T}
+# number of seeds per plant
+par(mfrow = c(1, 2))
+effectplot(
+  cross$tfit,
+  pheno.col = "it2010",
+  mname1 = "5@9.4",
+  mname2 = "5@71.4",
+  add.legend = F,
+  #ylim = c(500, 1100),
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Italy 2010",
+  xlab = "QTL 5@71.4",
+  ylab = "Seeds/seedling"
+)
+legend('bottomleft', c("QTL 5@9.4", "It. allele", "Sw. allele"), col = c(0,2,4), pch=1, bty="n", cex=0.8)
+
+effectplot(
+  cross$tfit,
+  pheno.col = "sw2011",
+  mname1 = "1@61.1",
+  mname2 = "3@24.4",
+  add.legend = F,
+  #ylim = c(500, 1100),
+  geno2 = c("It. allele", "Sw. allele"),
+  main = "Sweden 2011",
+  xlab = "QTL 3@24.4",
+  ylab = "Seeds/seedling"
+)
+legend('bottomleft', c("QTL 1@61.1", "It. allele", "Sw. allele"), col = c(0,2,4), pch=1, bty="n", cex=0.8)
+
+```
+
+\newpage
+
+```{r heritabilities, fig.cap="Broad-sense heritability estimates for survival to reproduction, number of fruits per reproductive plants (fruits/RP), number of seeds per fruit (Seeds/fr), number of fruits per seedling (Fruits/sdl), and seed mass. Open and closed symbols show values in 2010 and 2011 respectively. Error bars show 95% parametric bootstrap confidence intervals. Numbers indicate the number of individuals each estimate is based on."}
+
+# pdf("figures/heritabilities.pdf", width=16.9/2.54, height = 12/2.54)
+par(mfrow=c(1,2))
+
+os <- 0.1
+plot(
+  c(1, 6),
+  c(0, 0.6),
+  type = "n",
+  axes = F,
+  xlim = c(0.2, 5.5),
+  xlab = "",
+  ylab = "Broad-sense heritability",
+  main = "Italy"
+)
+axis(1, 1:5, las=2,
+     labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seed mass"))
+axis(2)
+box()
+# Confidence intervals
+segments((1:5) - os, H2$lower$`Italy 2010`,
+         (1:5) - os, H2$upper$`Italy 2010`)
+segments((1:5) + os, H2$lower$`Italy 2011`,
+         (1:5) + os, H2$upper$`Italy 2011`)
+# Overplot observed values
+points((1:5) - os, H2$obs$`Italy 2010`,   pch=16)
+points((1:5) + os, H2$obs$`Italy 2011`,   pch=21, bg="white")
+
+# Add sample sizes
+text((1:5) - 1.5*os, 0.6,
+     labels = H2$n$`Italy 2010`,
+     adj = 1,
+     srt=90,
+     cex=0.7)
+text((1:5) + 1.5*os, 0.6,
+     labels = H2$n$`Italy 2011`,
+     adj = 1,
+     srt=90,
+     cex=0.7)
+
+# 2011
+plot(c(1, 5), c(0,0.6), type="n", axes = F, xlim= c(0.5, 5.5),
+     xlab="", ylab="Broad-sense heritability", main="Sweden")
+axis(1, 1:5, las=2,
+     labels = c("Survival", "Fruits/RP", "Seeds/fr", "Fruits/sdl", "Seed mass"))
+axis(2)
+box()
+# Confidence intervals
+segments((1:5) - os, H2$lower$`Sweden 2010`,
+         (1:5) - os, H2$upper$`Sweden 2010`)
+segments((1:5) + os, H2$lower$`Sweden 2011`,
+         (1:5) + os, H2$upper$`Sweden 2011`)
+# Overplot observed values
+points((1:5) - os, H2$obs$`Sweden 2010`, pch=16)
+points((1:5) + os, H2$obs$`Sweden 2011`, pch=21, bg="white")
+
+
+# Add sample sizes
+text((1:5) - 1.5*os, 0.6,
+     labels = H2$n$`Sweden 2010`,
+     srt=90,
+     adj=1,
+     cex=0.7)
+text((1:5) + 1.5*os, 0.6,
+     labels = H2$n$`Sweden 2011`,
+     srt=90,
+     adj=1,
+     cex=0.7)
+
+# dev.off()
+```
+
+
