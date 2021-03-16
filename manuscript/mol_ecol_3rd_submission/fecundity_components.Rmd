@@ -679,7 +679,7 @@ The study was financially supported by grants from the Swedish Research Council 
 
 # Data availability
 
-Data, R scripts, and the Rmarkdown document used to create this manuscript are available from Zenodo with the DOI 10.5281/zenodo.4607369). The release of *arghqtl* accompanying this manuscript is available with the DOI 10.5281/zenodo.4607317.
+Data, R scripts, and the Rmarkdown document used to create this manuscript are available from Zenodo with the DOI 10.5281/zenodo.4607369. The release of *arghqtl* accompanying this manuscript is available with the DOI 10.5281/zenodo.4607317.
 
 
 # Competing interests
