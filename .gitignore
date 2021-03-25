@@ -1,0 +1,7 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+manuscript/.pdf
+manuscript/*_files
+manuscript/*_cache
