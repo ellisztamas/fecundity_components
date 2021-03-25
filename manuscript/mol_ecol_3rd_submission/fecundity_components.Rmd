@@ -3,14 +3,14 @@ title: Life-history trade-offs and the genetic basis of fitness in *Arabidopsis 
 # author: "Thomas James Ellis, Froukje M. Postma, Christopher G. Oakley and Jon Ågren"
 # date: "`r format(Sys.time(), '%d.%m.%Y')`"
 output:
-  bookdown::word_document2: null
   bookdown::pdf_book:
     toc: no
     keep_tex: yes
     number_sections: false
+  bookdown::word_document2: null
 always_allow_html: yes
-bibliography: ../references.bib
-csl: ../mol-ecol.csl
+bibliography: references.bib
+csl: mol-ecol.csl
 documentclass: article
 # fontfamily: mathpazo
 # fontsize: 12pt
@@ -33,6 +33,7 @@ editor_options:
 Sys.setenv(LANG = "en")
 Sys.time()
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, cache=F, cache.lazy=F)
+
 library('knitr')
 library('qtl')
 library("kableExtra")
@@ -100,7 +101,7 @@ year_names  <- c(2010, 2011, 2010, 2011)
 
 # Abstract
 
-Resources allocated to survival cannot be used to increase fecundity, but the extent to which this trade-off constrains adaptation depends on overall resource availability. Adaptation to local environmental conditions may therefore entail the evolution of traits that increase the amount of resources available to individuals (their resource status or “condition”). We examined the relative contribution of trade-offs and increased condition to adaptive evolution in a recombinant-inbred-line population of *Arabidopsis thaliana* planted at the native sites of the parental ecotypes in Italy and Sweden in two years. We estimated genetic correlations among fitness components based on genotypic means, and explored their causes with QTL mapping. Local ecotypes produced more seeds per fruit than did non-local ecotypes, reflected in stronger adaptive differentiation than was previously shown based on survival and fruit number only. Genetic correlations between survival and overall fecundity, and between number of fruits and number of seeds per fruit, were positive, and there was little evidence of a trade-off between seed size and number. Quantitative trait loci for these traits tended to map to the same regions of the genome, and showed positive pleiotropic effects. The results indicate that adaptive differentiation between the two focal populations largely reflects the evolution of increased ability to acquire resources in the local environment, rather than shifts in the relative allocation to different life-history traits. Differentiation both in phenology and tolerance to cold are likely to contribute to the advantage of the local genotype at the two sites.
+Resources allocated to survival cannot be used to increase fecundity, but the extent to which this trade-off constrains adaptation depends on overall resource status. Adaptation to local environmental conditions may therefore entail the evolution of traits that increase the amount of resources available to individuals (their resource status or “condition”). We examined the relative contribution of trade-offs and increased condition to adaptive evolution in a recombinant-inbred-line population of *Arabidopsis thaliana* planted at the native sites of the parental ecotypes in Italy and Sweden in two years. We estimated genetic correlations among fitness components based on genotypic means, and explored their causes with QTL mapping. The local ecotype produced more seeds per fruit than did the non-local ecotype, reflected in stronger adaptive differentiation than was previously shown based on survival and fruit number only. Genetic correlations between survival and overall fecundity, and between number of fruits and number of seeds per fruit, were positive, and there was little evidence of a trade-off between seed size and number. Quantitative trait loci for these traits tended to map to the same regions of the genome, and showed positive pleiotropic effects. The results indicate that adaptive differentiation between the two focal populations largely reflects the evolution of increased ability to acquire resources in the local environment, rather than shifts in the relative allocation to different life-history traits. Differentiation both in phenology and tolerance to cold are likely to contribute to the advantage of the local genotype at the two sites.
 
 # Introduction
 
@@ -585,37 +586,76 @@ $df \geq$
 
 ## QTL show positive pleiotropy
 
-QTL for components of fitness that could be resolved to within 15.2 cM frequently colocalised with QTL for multiple components of fitness (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden), Table \@ref(tab:pairwise-pleiotropy)). Specifically, they tended to map to one of eleven distinct regions of the linkage map (Q1-Q11, indicated in grey in Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden)).
+QTL for components of fitness that could be resolved to within 15.2 cM frequently colocalised with QTL for multiple components of fitness (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden), Tables \@ref(tab:pairwise-pleiotropy-it) and \@ref(tab:pairwise-pleiotropy-sw)). Specifically, they tended to map to one of eleven distinct regions of the linkage map (Q1-Q11, indicated in grey in Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden)).
 Seven regions in Italy and three in Sweden harboured QTL for both survival and seeds/RP.
 Likewise, six regions in Italy and five in Sweden harboured QTL for both seeds/fruit and fruits/RP. In all but two of these cases, local alleles at the respective sites were associated with an increase in both fitness components.
 In Sweden in 2011, Q3 showed a significant epistatic interaction with Q6 for both seeds/fruit and fruits/RP (Figures \@ref(fig:epistatic-seed) and \@ref(fig:epistatic-frut)) as well as for both overall fecundity and overall  fitness [Figures \@ref(fig:epistatic-tofu) and \@ref(fig:epistatic-tfit); see also @agren_genetic_2013]. Plants with the Swedish genotype at Q3 had higher fecundity and fitness than plants with the Italian genotype at this locus, but only in the presence of the Italian genotype at Q6, whereas plants with the Swedish genotype at both loci had the lowest fitness of any of the genotypic combinations. Taken together, these observations indicate that regions containing pleiotropic QTL tend to affect pairs of fitness components in the same direction.
 
-```{r pairwise-pleiotropy}
-pairwise_pleiotropy <- matrix(c(
-    4, 4,13, 1, 5,13,11,
-    3, 2, 4, 1, 1, 3, 4,
-    3, 4, 2, 0, 5,11,12,
-    3, 2, 2, 1, 0, 1, 0,
-    1, 1, 1, 1, 1, 7, 7,
-    4, 2, 2, 3, 2, 2,12,
-    2, 5, 4, 3, 1, 2, 4
-  ), nrow = 7)
+```{r pairwise-pleiotropy-data}
+pairwise_pleiotropy <- list(
+  it = matrix(
+    c("", 8, 4,11, 5, 4, 8, 9,
+      10,"", 3, 7, 2, 2, 6, 7,
+       4, 3,"", 5, 2, 3, 2, 4,
+       7, 5, 3,"", 3, 3, 8, 9,
+       2, 1, 0, 2,"", 1, 1, 2,
+       6, 5, 2, 5, 3,"", 3, 3,
+       8, 7, 3, 6, 2, 5,"", 7,
+       9, 8, 4, 7, 2, 6, 8,""
+    ),
+    nrow = 8,
+    byrow=TRUE),
+  sw = matrix(
+    c("", 7, 5, 5, 8, 3, 9, 6,
+       5,"", 3, 5, 4, 2, 7, 4,
+       4, 2,"", 4, 2, 2, 3, 4,
+       3, 3, 1,"", 3, 3, 5, 5,
+       5, 3, 1, 2,"", 3, 6, 3,
+       0, 0, 0, 0, 0,"", 3, 3,
+       1, 1, 0, 1, 0, 0,"", 6,
+       3, 3, 3, 2, 0, 0, 0,""
+    ),
+    nrow = 8,
+    byrow=TRUE)
+)
 
 trait_names <- c(
-  "Fruits/plant", "Seeds/fruit", "Seeds/plant", "Seed mass", "Survival", "Fruits/seedling", "Seeds/seedling")
+  "N. QTL",
+  "Fruits/plant",
+  "Seeds/fruit",
+  "Seeds/plant",
+  "Seed mass",
+  "Survival",
+  "Fruits/seedling",
+  "Seeds/seedling")
 
-colnames(pairwise_pleiotropy) <- row.names(pairwise_pleiotropy) <- trait_names
-pairwise_pleiotropy <- as.data.frame(pairwise_pleiotropy)
+pairwise_pleiotropy <- lapply(pairwise_pleiotropy, as.data.frame)
+colnames(pairwise_pleiotropy$it) <- row.names(pairwise_pleiotropy$it) <- trait_names
+colnames(pairwise_pleiotropy$sw) <- row.names(pairwise_pleiotropy$sw) <- trait_names
+# pairwise_pleiotropy <- as.data.frame(pairwise_pleiotropy)
 
-for(i in 1:nrow(pairwise_pleiotropy)){
-  pairwise_pleiotropy[i, i] <- cell_spec(pairwise_pleiotropy[i, i], "latex", bold=T)
-}
+# for(i in 1:nrow(pairwise_pleiotropy)){
+#   pairwise_pleiotropy[i, i] <- cell_spec(pairwise_pleiotropy[i, i], "latex", bold=T)
+# }
+```
 
-kable(pairwise_pleiotropy, "latex", escape = F, 
-      caption = "Number of colocalising QTL detected for pairs of traits in a single experiment, summed over both years. QTL detected in Sweden are shown in the upper right, and QTL in Italy in the lower left. The diagonal shows the number of QTL for each trait detected in both years. Only QTL with credible intervals <15.2cM are included.") %>% 
-  kable_styling(bootstrap_options = "striped", full_width = F) %>%
+```{r pairwise-pleiotropy-it}
+
+kable(pairwise_pleiotropy$it, "latex", escape = F, 
+      caption = "Number QTL detected for each trait, and the number of colocalising QTL detected for pairs of traits in 2010 (below the diagonal) and 2011 (above the diagonal) in Italy") %>% 
+  # kable_styling(bootstrap_options = "striped", full_width = F) %>%
+  # map(~ spec(0, angle=90))
   row_spec(0, angle = 90)
 ```
+
+```{r pairwise-pleiotropy-sw}
+kable(pairwise_pleiotropy$sw, "latex", escape = F, 
+      caption = "Number QTL detected for each trait, and the number of colocalising QTL detected for pairs of traits in 2010 (below the diagonal) and 2011 (above the diagonal) in 2011.") %>% 
+  # kable_styling(bootstrap_options = "striped", full_width = F) %>%
+  # map(~ spec(0, angle=90))
+  row_spec(0, angle = 90)
+```
+
 
 We found one notable exception to the preponderance of positive pleiotropic effects. In Sweden in 2010, the Swedish allele at Q4 was associated with an increase in seeds/fruit, but a decrease in fruits/RP (Figure \@ref(fig:plot-qtl-sweden), Tables \@ref(tab:individual-seed-qtl) and \@ref(tab:individual-frut-qtl)). This antagonistic effect represents a trade-off between the two components of fecundity.
 
