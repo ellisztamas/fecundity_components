@@ -3,11 +3,11 @@ title: Life-history trade-offs and the genetic basis of fitness in *Arabidopsis 
 # author: "Thomas James Ellis, Froukje M. Postma, Christopher G. Oakley and Jon Ågren"
 # date: "`r format(Sys.time(), '%d.%m.%Y')`"
 output:
-  bookdown::word_document2: null
   bookdown::pdf_book:
     toc: no
     keep_tex: yes
     number_sections: false
+  bookdown::word_document2: null
 always_allow_html: yes
 bibliography: references.bib
 csl: mol-ecol.csl
