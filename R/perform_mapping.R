@@ -1,5 +1,6 @@
 library("qtl")
 library("snow")
+source('R/quantnorm.R')
 
 #' Run QTL mapping on a trait measured in multiple experiments.
 #' 
@@ -46,7 +47,6 @@ perform_mapping <- function(ix, nclusters, nperms){
   
   # perform quantile normal transformations on each variable.
   cat("Performing quantile normal transformations.\n")
-  source('R/quantnorm.R')
   for(c in 2:5) cross$pheno[,c] <- quantnorm(cross$pheno[,c])
   
   ################
