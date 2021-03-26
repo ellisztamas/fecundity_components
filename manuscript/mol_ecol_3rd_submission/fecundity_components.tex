@@ -1,55 +1,42 @@
-% Options for packages loaded elsewhere
-\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
 \PassOptionsToPackage{hyphens}{url}
 %
-\documentclass[
-]{article}
+\documentclass[]{article}
 \usepackage{lmodern}
 \usepackage{amssymb,amsmath}
 \usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
 \ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provide euro and other symbols
-\else % if luatex or xetex
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
   \usepackage{unicode-math}
-  \defaultfontfeatures{Scale=MatchLowercase}
-  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
 \fi
-% Use upquote if available, for straight quotes in verbatim environments
+% use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-\IfFileExists{microtype.sty}{% use microtype if available
-  \usepackage[]{microtype}
-  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-\makeatletter
-\@ifundefined{KOMAClassName}{% if non-KOMA class
-  \IfFileExists{parskip.sty}{%
-    \usepackage{parskip}
-  }{% else
-    \setlength{\parindent}{0pt}
-    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
-}{% if KOMA class
-  \KOMAoptions{parskip=half}}
-\makeatother
-\usepackage{xcolor}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
 \hypersetup{
-  pdftitle={Life-history trade-offs and the genetic basis of fitness in Arabidopsis thaliana},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
-\urlstyle{same} % disable monospaced font for URLs
+            pdftitle={Life-history trade-offs and the genetic basis of fitness in Arabidopsis thaliana},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
 \usepackage[left=2.5cm, right=2.5cm, top=3cm, bottom=3cm]{geometry}
 \usepackage{longtable,booktabs}
-% Correct order of tables after \paragraph or \subparagraph
-\usepackage{etoolbox}
-\makeatletter
-\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
-\makeatother
-% Allow footnotes in longtable head/foot
-\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
-\makesavenoteenv{longtable}
+% Fix footnotes in tables (requires footnote package)
+\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -59,14 +46,25 @@
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
 \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-% Set default figure placement to htbp
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+% set default figure placement to htbp
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
-\setlength{\emergencystretch}{3em} % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
 \usepackage{lineno} \linenumbers \usepackage{setspace}\doublespacing \usepackage{caption} \captionsetup[figure]{font=singlespacing}
 \usepackage{float} \floatplacement{figure}{H} \newcommand{\beginsupplement}{\setcounter{table}{0}  \renewcommand{\thetable}{S\arabic{table}} \setcounter{figure}{0} \renewcommand{\thefigure}{S\arabic{figure}}}
 \usepackage{booktabs}
@@ -124,7 +122,7 @@ If fitness components are both heritable and correlated, this raises two questio
 
 In plants, three trade-off relationships are likely to be especially relevant for overall fitness. Firstly, resources invested in reproduction are not available for growth and defence, causing a trade-off between fecundity and survival. A trade-off between reproduction and subsequent survival has been documented in many iteroparous species (Williams 1966b; Edward \& Chapman 2011). However, a trade-off between reproduction and survival can also be expected in semelparous organisms if traits increasing the chance of juvenile survival reduces resources available to reproduction. Thus, we expect a negative correlation between fecundity and survival.
 
-Second, total seed production is a function of both the number of fruits produced and the number of seeds per fruit, and there may be a trade-off between these two components of fecundity. For practical reasons, studies of local adaptation in plants typically focus on either fruit production or estimates of total seed production as a measure of fecundity (e.g.~Latta 2009; Hall \emph{et al.} 2010; Fournier-Level \emph{et al.} 2011; Ågren \emph{et al.} 2013). To quantify components of fecundity, it is necessary to estimate both number of fruits and number of seeds per fruit, and substantial additional effort is required to collect and process data on two components compared to just one (e.g.~Maddox \& Antonovics 1983; Verhoeven \emph{et al.} 2004; Hall \& Willis 2006; Leinonen \emph{et al.} 2011; Ågren \& Schemske 2012). If investment in fruit production is negatively correlated with investment in seed production per fruit, relying on estimates of only one of these components of fecundity will overestimate variation in total fecundity. If investment in seed and fruit production are positively correlated, the opposite would be true.
+Second, total seed production is a function of both the number of fruits produced and the number of seeds per fruit, and there may be a trade-off between these two components of fecundity. For practical reasons, studies of local adaptation in plants typically focus on either fruit production or estimates of total seed production as a measure of fecundity (e.g. Latta 2009; Hall \emph{et al.} 2010; Fournier-Level \emph{et al.} 2011; Ågren \emph{et al.} 2013). To quantify components of fecundity, it is necessary to estimate both number of fruits and number of seeds per fruit, and substantial additional effort is required to collect and process data on two components compared to just one (e.g. Maddox \& Antonovics 1983; Verhoeven \emph{et al.} 2004; Hall \& Willis 2006; Leinonen \emph{et al.} 2011; Ågren \& Schemske 2012). If investment in fruit production is negatively correlated with investment in seed production per fruit, relying on estimates of only one of these components of fecundity will overestimate variation in total fecundity. If investment in seed and fruit production are positively correlated, the opposite would be true.
 
 Third, theory predicts a trade-off between investment in individual offspring and the total number of offspring (Lack 1954; Smith \& Fretwell 1974; Lloyd 1987). In plants this would be expressed as a negative correlation between seed size and number (Harper \emph{et al.} 1970; Leishman \emph{et al.} 2000), and selection for larger seeds may thus constrain the evolution of increased fecundity. Negative correlations between seed size and total seed number have been documented across species (Šerá \& Šerý 2004) and within crop species (Sadras 2007). Meanwhile studies within natural plant populations have found positive, negative, and negligible correlations between seed size and number (Silvertown 1989; Venable 1992). In \emph{Arabidopsis thaliana}, trade-offs between seed size and number of seeds per fruit have been observed for recombinant lines grown in controlled environments (Alonso-Blanco \emph{et al.} 1999; Gnan \emph{et al.} 2014), and both linkage mapping and mutant screens have found pleiotropic or closely linked QTL with antagonistic effects on seed size and number of seeds per fruit (Alonso-Blanco \emph{et al.} 1999; Van Daele \emph{et al.} 2012; Gnan \emph{et al.} 2014). However, the extent to which these relationships translate into a negative correlation between seed size and overall fecundity is not known and should depend on the direction and magnitude of the correlation between the two components of fecundity: number of seeds per fruit and number of fruits.
 
@@ -142,9 +140,9 @@ Here, we quantify seed output per fruit and mean seed size per fruit of the pare
 
 We estimated seed traits for recombinant inbred lines (RIL) and parental ecotypes in reciprocal transplant experiments conducted at the native sites of the source populations in two years (2010-2011 and 2011-2012; henceforth 2010 and 2011). These experiments have previously been described in detail by Ågren \& Schemske (2012) and Ågren \emph{et al.} (2013). Briefly, seeds of each ecotype and 398 RILs were germinated on agar and transplanted to local soils in plug trays at the source sites of the parental ecotypes in autumn at the time of seedling establishment in the local population (early September in Sweden, early November in Italy). Plants were harvested at the time of fruit maturation in spring (late April in Italy, late June in Sweden). Previous studies quantified survival to reproduction, number of fruits per reproductive plant, and number of fruits per seedling planted for the parental ecotypes and 398 RILs. We expanded these data by quantifying the number of seeds per fruit (henceforth ``seeds/fruit'') and mean seed mass per fruit. In each site × year combination we sampled a single mature fruit from between 1 and 12 plants per RIL and between 23 and 100 parental plants; sample sizes varied because lines varied in how well they survived in different sites and years. For each fruit, we counted the number of seeds and determined total seed mass to the nearest 0.01 mg on an AT261 balance (Mettler Toledo, Columbus, United States). We calculated mean seed mass as the mass of all seeds in a fruit, divided by the total number of seeds. We estimated genetic values for each line in each site × year combination as the mean across all individuals of the same RIL or parental ecotype. Not all RILs produced at least one fruit that could be harvested, but we could estimate genetic values for seeds/fruit and seed mass in 395 (Italy 2010), 398 (Italy 2011), 395 (Sweden 2010), and 394 (Sweden in 2011) of the total of 398 RILs. As such, there is unlikely to be substantial bias due to the RILs not included.
 
-We combined data on seeds/fruit with previously published data to obtain estimates of overall fecundity and overall fitness that include information on seed number. In previous analyses of data from these experiments (Ågren \emph{et al.} 2017, 2013; Ågren \& Schemske 2012), fecundity was defined as number of fruits per reproductive plant (``fruits/RP'') and overall fitness as number of fruits per seedling planted (``fruits/seedling''). Here, we estimated the overall fecundity of reproductive plants (henceforth: ``seeds/RP'') by multiplying individual fruits/RP by line-mean seeds/fruit. We chose to estimate fecundity this way because we did not have data on seeds/fruit for all individuals for which data on fruits/RP were available. Moreover, it was impractical to sample more than one fruit per plant, precluding any estimate of within-plant variation in seeds/fruit. We quantified total fitness as the number of seeds per seedling planted (``seeds/seedling''; zero for plants that did not survive to reproduce).
+We combined data on seeds/fruit with previously published data to obtain estimates of overall fecundity and overall fitness that include information on seed number. In previous analyses of data from these experiments (Ågren \& Schemske 2012; Ågren \emph{et al.} 2013, 2017), fecundity was defined as number of fruits per reproductive plant (``fruits/RP'') and overall fitness as number of fruits per seedling planted (``fruits/seedling''). Here, we estimated the overall fecundity of reproductive plants (henceforth: ``seeds/RP'') by multiplying individual fruits/RP by line-mean seeds/fruit. We chose to estimate fecundity this way because we did not have data on seeds/fruit for all individuals for which data on fruits/RP were available. Moreover, it was impractical to sample more than one fruit per plant, precluding any estimate of within-plant variation in seeds/fruit. We quantified total fitness as the number of seeds per seedling planted (``seeds/seedling''; zero for plants that did not survive to reproduce).
 
-We estimated broad-sense heritability (H\textsuperscript{2}) as the proportion of total phenotypic variation among individuals that is explained by RIL genotype in each site-year combination. We used a mixed-effect ANOVA estimated using the package \emph{lme4} (Bates \emph{et al.} 2015), with block as a fixed effect and RIL genotype as a random effect. To assess the uncertainty around these estimates we performed parametric bootstrapping on model parameters using the function \emph{bootMer}, and estimated 95\% confidence intervals as the 2.5\% and 97.5\% quantiles of 1000 bootstrap draws. We carried out data handling and statistical analyses in RStudio 1.1.442 using R 3.5.1 (RStudio Team 2016; R Core Team 2018)).
+We estimated broad-sense heritability (H\textsuperscript{2}) as the proportion of total phenotypic variation among individuals that is explained by RIL genotype in each site-year combination. We used a mixed-effect ANOVA estimated using the package \emph{lme4} (Bates \emph{et al.} 2015), with block as a fixed effect and RIL genotype as a random effect. To assess the uncertainty around these estimates we performed parametric bootstrapping on model parameters using the function \emph{bootMer}, and estimated 95\% confidence intervals as the 2.5\% and 97.5\% quantiles of 1000 bootstrap draws. We carried out data handling and statistical analyses in RStudio 1.1.442 using R 3.6.3 (RStudio Team 2016; R Core Team 2018)).
 
 \hypertarget{fitness-differences-between-ecotypes}{%
 \subsection{Fitness differences between ecotypes}\label{fitness-differences-between-ecotypes}}
@@ -156,16 +154,16 @@ We estimated confidence intervals for selection coefficients by non-parametric b
 \hypertarget{correlations-between-traits}{%
 \subsection{Correlations between traits}\label{correlations-between-traits}}
 
-For each site × year combination we quantified the genetic correlations between pairs of traits by calculating Pearson correlation coefficients, r, between RIL means. A genetic correlation is the correlation between genetic values, i.e.~trait means across individuals of the same genotype. This is distinct from phenotypic correlations, which incorporate both genetic values and environmental effects (Falconer \& Mackay 1996). We estimated 95\% confidence intervals around point estimates of genetic correlations by drawing 1000 non-parametric bootstrap samples from vectors of RIL means, recalculating correlation coefficients, and taking the 2.5\% and 97.5\% quantiles of the distribution of correlation coefficients across these resamples. We examined relationships between three pairs of traits: (1) survival and overall fecundity (seeds/RP), (2) the two components of fecundity (fruits/RP and seeds/fruit), and (3) offspring size (mean seed mass) and overall fecundity (seeds/RP) . We compared seed mass with seeds/RP rather than seeds/fruit or fruits/RP because the former is a more complete estimate of fecundity, but to allow comparison with other studies we also report the correlations between seed mass and seeds/fruit.
+For each site × year combination we quantified the genetic correlations between pairs of traits by calculating Pearson correlation coefficients, r, between RIL means. A genetic correlation is the correlation between genetic values, i.e.~trait means across individuals of the same genotype. This is distinct from phenotypic correlations, which incorporate both genetic values and environmental effects (Falconer \& Mackay 1996). We estimated 95\% confidence intervals around point estimates of genetic correlations by drawing 1000 non-parametric bootstrap samples from vectors of RIL means, recalculating correlation coefficients, and taking the 2.5\% and 97.5\% quantiles of the distribution of correlation coefficients across these resamples. We examined relationships between three pairs of traits: (1) survival and overall fecundity (seeds/RP), (2) the two components of fecundity (fruits/RP and seeds/fruit), and (3) offspring size (mean seed mass) and overall fecundity (seeds/RP). We compared seed mass with seeds/RP rather than seeds/fruit or fruits/RP because the former is a more complete estimate of fecundity, but to allow comparison with other studies we also report the correlations between seed mass and seeds/fruit.
 
 \hypertarget{qtl-mapping}{%
 \subsection{QTL mapping}\label{qtl-mapping}}
 
 We mapped QTL for fitness and its components using the \emph{R/qtl} package in R (Broman \emph{et al.} 2003; Broman \& Šen 2009) using additional visualisation tools from the package \emph{arghqtl} (Ellis 2018). We mapped QTL for seed mass, seeds/fruit, seeds/RP, and seeds/seedling. Mapping results for survival, fruits/RP and fruits/seedling were previously reported by Ågren \emph{et al.} (2013) based on 398 RILs. However, the number and positions of QTL detected can be affected by the number of RILs included because different subsets of lines contain different recombination events. To allow comparisons of QTL positions and examination of evidence of pleiotropic QTL effects, we therefore repeated QTL mapping for survival, fruits/RP and fruits/seedling including only those RILs with information on seed size and number in each site × year combination as described in ``Data collection''.
 
-We performed mapping based on RIL mean data for each site × year combination separately. We used Haley--Knott regression using genotype probabilities of the genetic markers and pseudomarkers in gaps \textgreater2 cM (Haley \& Knott 1992). We performed a two-QTL scan of the genome with 10,000 permutations of the phenotypic data to determine 5\% LOD-significance thresholds for inclusion of QTL and epistatic interactions (Doerge \& Churchill 1996; Broman \& Šen 2009). Based on these thresholds, we used \emph{R/qtl}'s automated stepwise model selection procedure to identify significant additive QTL and epistatic interactions. We applied a quantile normal transformation to phenotypes before model selection. Finally, we fitted a multiple-QTL model to untransformed data to calculate, for each locus, the proportion of the total phenotypic variance among RILs explained (PVE), and the effect size (in units of the trait) of a substitution of the Swedish homozygous genotype.
+We performed mapping based on RIL mean data for each site × year combination separately. We used Haley--Knott regression using genotype probabilities of the genetic markers and pseudomarkers in gaps \textgreater{}2 cM (Haley \& Knott 1992). We performed a two-QTL scan of the genome with 10,000 permutations of the phenotypic data to determine 5\% LOD-significance thresholds for inclusion of QTL and epistatic interactions (Doerge \& Churchill 1996; Broman \& Šen 2009). Based on these thresholds, we used \emph{R/qtl}'s automated stepwise model selection procedure to identify significant additive QTL and epistatic interactions. We applied a quantile normal transformation to phenotypes before model selection. Finally, we fitted a multiple-QTL model to untransformed data to calculate, for each locus, the proportion of the total phenotypic variance among RILs explained (PVE), and the effect size (in units of the trait) of a substitution of the Swedish homozygous genotype.
 
-To investigate whether QTL showed pleiotropic effects on multiple traits, we examined whether QTL for different traits map (co-localise) to the same region. There are currently no clear guidelines on how to formally delineate QTL in linkage-mapping studies, so we rely on a set of heuristic rules used in previous studies (Dittmar \emph{et al.} 2014; Oakley \emph{et al.} 2014; Ågren \emph{et al.} 2017, 2013; Postma \& Ågren 2018). We considered any pair of QTL to co-localise and represent the same QTL if the 95\% Bayesian credible intervals for these estimates overlapped. Based on these criteria, we identified `pleiotropic' regions associated with multiple traits if they contained co-localising QTL for two or more traits that were directly observed (fruits/RP, seeds/fruit, survival and seed mass). We excluded ``poorly-defined'' QTL whose credible intervals for QTL position were greater than one quarter of the length of the shortest chromosome (15.2cM) from assessments of co-localisation, because such QTL provide little information about position.
+To investigate whether QTL showed pleiotropic effects on multiple traits, we examined whether QTL for different traits map (co-localise) to the same region. There are currently no clear guidelines on how to formally delineate QTL in linkage-mapping studies, so we rely on a set of heuristic rules used in previous studies (Ågren \emph{et al.} 2013, 2017; Dittmar \emph{et al.} 2014; Oakley \emph{et al.} 2014; Postma \& Ågren 2018). We considered any pair of QTL to co-localise and represent the same QTL if the 95\% Bayesian credible intervals for these estimates overlapped. Based on these criteria, we identified `pleiotropic' regions associated with multiple traits if they contained co-localising QTL for two or more traits that were directly observed (fruits/RP, seeds/fruit, survival and seed mass). We excluded ``poorly-defined'' QTL whose credible intervals for QTL position were greater than one quarter of the length of the shortest chromosome (15.2cM) from assessments of co-localisation, because such QTL provide little information about position.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -222,12 +220,10 @@ in 2011 (Figure \ref{fig:selection-correlations}B).
 
 We found QTL for seeds/fruit across all five chromosomes that together explained between 24.3\% and 29.0\% of the variance in mean seeds/fruit among RILs in each site-year combination (Figures \ref{fig:plot-qtl-italy} and \ref{fig:plot-qtl-sweden}, Tables \ref{tab:individual-seed-qtl} and \ref{tab:epistatic-qtl-table}). For all QTL detected in Italy, the non-local Swedish allele was associated with fewer seeds per fruit (Figure \ref{fig:plot-qtl-italy}). In Sweden, the local allele was associated with an increase in seeds/fruit in all four QTL detected in 2010, and in three out of five QTL in 2011. For the other two QTL the local allele was associated with a decrease in seeds/fruit (Figure \ref{fig:plot-qtl-sweden}). Swedish alleles at QTL for seeds/fruit were thus associated with reduced seed output per fruit in Italy, whereas the direction of effects varied in Sweden. In addition, we detected two pairs of loci showing significant epistatic interactions for seeds/fruit in Sweden (Figure \ref{fig:epistatic-seed}, Table \ref{tab:epistatic-qtl-table}). In 2010, RILs with at the Italian genotype at both the QTL on chromosome 1 at 22.7cM (henceforth abbreviated to the format \href{mailto:1@22.7}{\nolinkurl{1@22.7}}) and \href{mailto:5@70.6}{\nolinkurl{5@70.6}} produced fewer seeds/fruit compared to RILs with other combinations of genotypes at these loci. In 2011, RILs with Swedish genotypes at both \href{mailto:1@61.1}{\nolinkurl{1@61.1}} and \href{mailto:3@21.0}{\nolinkurl{3@21.0}} produced the fewest seeds/fruit of any genotype combination, and the most seeds/fruit was recorded for RILs that were Swedish at \href{mailto:1@61.1}{\nolinkurl{1@61.1}} and Italian at \href{mailto:3@21.0}{\nolinkurl{3@21.0}} (Figure \ref{fig:epistatic-seed}).
 
-regions associated with multiple traits if they contained co-localising QTL for two or more traits that were directly observed
-
 \begin{figure}
 \centering
 \includegraphics{fecundity_components_files/figure-latex/plot-qtl-italy-1.pdf}
-\caption{\label{fig:plot-qtl-italy}QTL for fitness components, seed mass and estimates of total fitness in Italy. Lanes show QTL for number of fruits per reproductive plant (Fruits/RP), number of seeds per fruit (Seeds/fr), number of seeds per reproductive plant (Seeds/RP), seed mass (Sd mass), survival, number of fruits per seedling planted (Fruits/sdl), and number of seeds per seedling planted (Seeds/sdl). Grey boxes indicate pleiotropric regions Q1 to Q11 spanning the range of point estimates of co-localising QTL for two or more traits that were directly observed (Fruits/RP, Seeds/fr, survival and seed mass). Arrows indicate most-likely QTL position and direction of effect of the Swedish genotype on the phenotype (upward: increased; downward: decreased). Closed QTL symbols show QTL falling within pleiotropic regions. Vertical bars show the 95\% Bayesian credible intervals for QTL position. Tracks to the left of chromosomes show marker positions in cM. Orange QTL indicate loci for fruits/seedling but not seeds/seedling. Pink QTL indicate loci for seeds/seedling but not fruits/seedling.}
+\caption{\label{fig:plot-qtl-italy}QTL for fitness components, seed mass and estimates of total fitness in Italy. Lanes show QTL for number of fruits per reproductive plant (Fruits/RP), number of seeds per fruit (Seeds/fr), number of seeds per reproductive plant (Seeds/RP), seed mass (Sd mass), survival, number of fruits per seedling planted (Fruits/sdl), and number of seeds per seedling planted (Seeds/sdl). Grey boxes indicate pleiotropic regions Q1 to Q11 spanning the range of point estimates of QTL for two or more traits that were directly observed (Fruits/RP, Seeds/fr, survival and seed mass) and that co-localized in at least one site \textless{}U+00D7\textgreater{} year combination. Arrows indicate most-likely QTL position and direction of effect of the Swedish genotype on the phenotype (upward: increased; downward: decreased). Closed QTL symbols show QTL falling within pleiotropic regions. Vertical bars show the 95\% Bayesian credible intervals for QTL position. Tracks to the left of chromosomes show marker positions in cM. Orange QTL indicate loci for fruits/seedling but not seeds/seedling. Pink QTL indicate loci for seeds/seedling but not fruits/seedling.}
 \end{figure}
 
 Including information on seeds/fruit in estimates of overall fitness affected the number of fitness QTL detected (Figures \ref{fig:plot-qtl-italy} and \ref{fig:plot-qtl-sweden}, Tables \ref{tab:individual-ffit-qtl} and \ref{tab:individual-tfit-qtl}). Most QTL for seeds/seedling corresponded to a nearby QTL for fruits/seedling, and are likely to reflect the same QTL. However, in Italy, when fitness is quantified as seeds/seedling we detected four additional QTL that were not detected in the same year when fitness is defined as fruits/seedling, but did not detect one QTL that was previously found for fruits/seedling (Figure \ref{fig:plot-qtl-italy}). In Sweden, the four QTL detected for number of seeds per seedling planted in 2010 and one of the QTL identified in 2011 were not detected when fitness is quantified as fruits/seedling, whereas four QTL detected for fruits/seedling in 2010 or 2011 were not detected for seeds/seedling in the same year. When information on seed number is incorporated into estimates of overall fitness several new fitness QTL were detected, although this was partly offset by the loss of some QTL detected when fitness is estimated based on survival and fruit production only.
@@ -235,7 +231,7 @@ Including information on seeds/fruit in estimates of overall fitness affected th
 \begin{figure}
 \centering
 \includegraphics{fecundity_components_files/figure-latex/plot-qtl-sweden-1.pdf}
-\caption{\label{fig:plot-qtl-sweden}QTL for fitness components, seed mass and estimates of total fitness in Sweden. Lanes show QTL for number of fruits per reproductive plant (Fruits/RP), number of seeds per fruit (Seeds/fr), number of seeds per reproductive plant (Seeds/RP), seed mass (Sd mass), survival, number of fruits per seedling planted (Fruits/sdl), and number of seeds per seedling planted (Seeds/sdl). Grey boxes indicate pleiotropric regions Q1 to Q11 spanning the range of point estimates of co-localising QTL for two or more traits that were directly observed (Fruits/RP, Seeds/fr, survival and seed mass). Arrows indicate most-likely QTL position and direction of effect of the Swedish genotype on the phenotype (upward: increased; downward: decreased). Closed QTL symbols show QTL falling within pleiotropic regions. Vertical bars show the 95\% Bayesian credible intervals for QTL position. Tracks to the left of chromosomes show marker positions in cM. Orange QTL indicate loci for fruits/seedling but not seeds/seedling. Pink QTL indicate loci for seeds/seedling but not fruits/seedling.}
+\caption{\label{fig:plot-qtl-sweden}QTL for fitness components, seed mass and estimates of total fitness in Sweden. Lanes show QTL for number of fruits per reproductive plant (Fruits/RP), number of seeds per fruit (Seeds/fr), number of seeds per reproductive plant (Seeds/RP), seed mass (Sd mass), survival, number of fruits per seedling planted (Fruits/sdl), and number of seeds per seedling planted (Seeds/sdl). Grey boxes indicate pleiotropic regions Q1 to Q11 spanning the range of point estimates of QTL for two or more traits that were directly observed (Fruits/RP, Seeds/fr, survival and seed mass) and that co-localized in at least one site \textless{}U+00D7\textgreater{} year combination. Arrows indicate most-likely QTL position and direction of effect of the Swedish genotype on the phenotype (upward: increased; downward: decreased). Closed QTL symbols show QTL falling within pleiotropic regions. Vertical bars show the 95\% Bayesian credible intervals for QTL position. Tracks to the left of chromosomes show marker positions in cM. Orange QTL indicate loci for fruits/seedling but not seeds/seedling. Pink QTL indicate loci for seeds/seedling but not fruits/seedling.}
 \end{figure}
 
 \hypertarget{limited-differentiation-in-seed-mass}{%
@@ -276,7 +272,7 @@ while survival and seeds/RP were not significantly correlated
 \(p=\) 0.381,
 \(df=\) 393).
 
-Seed mass showed either negligible or negative correlations with (seeds/RP) and fecundity (Figures \ref{fig:selection-correlations}C, \ref{fig:selection-correlations}D and \ref{fig:scatter-plots}).
+Seed mass showed either negligible or negative correlations with fecundity (seeds/RP) and the fecundity component seeds/fruit (Figures \ref{fig:selection-correlations}C, \ref{fig:selection-correlations}D and \ref{fig:scatter-plots}).
 In Sweden in 2010, seed mass was negatively correlated with seeds/RP
 (\(r=\) -0.21,
 \(p \leq 0.0001\),
@@ -310,13 +306,13 @@ In Sweden in 2011, Q3 showed a significant epistatic interaction with Q6 for bot
 
 \begin{table}
 
-\caption{\label{tab:pairwise-pleiotropy-it}Number QTL detected for each trait, and the number of colocalising QTL detected for pairs of traits in 2010 (below the diagonal) and 2011 (above the diagonal) in Italy}
+\caption{\label{tab:pairwise-pleiotropy-it}Number of QTL detected for each trait, and the number of colocalising QTL detected for pairs of traits in 2010 (below the diagonal) and 2011 (above the diagonal) in Italy}
 \centering
 \begin{tabular}[t]{l|l|l|l|l|l|l|l|l}
 \hline
-\rotatebox{90}{ } & \rotatebox{90}{N. QTL} & \rotatebox{90}{Fruits/plant} & \rotatebox{90}{Seeds/fruit} & \rotatebox{90}{Seeds/plant} & \rotatebox{90}{Seed mass} & \rotatebox{90}{Survival} & \rotatebox{90}{Fruits/seedling} & \rotatebox{90}{Seeds/seedling}\\
+\rotatebox{90}{ } & \rotatebox{90}{No. QTL} & \rotatebox{90}{Fruits/plant} & \rotatebox{90}{Seeds/fruit} & \rotatebox{90}{Seeds/plant} & \rotatebox{90}{Seed mass} & \rotatebox{90}{Survival} & \rotatebox{90}{Fruits/seedling} & \rotatebox{90}{Seeds/seedling}\\
 \hline
-N. QTL &  & 8 & 4 & 11 & 5 & 4 & 8 & 9\\
+No. QTL &  & 8 & 4 & 11 & 5 & 4 & 8 & 9\\
 \hline
 Fruits/plant & 10 &  & 3 & 7 & 2 & 2 & 6 & 7\\
 \hline
@@ -337,13 +333,13 @@ Seeds/seedling & 9 & 8 & 4 & 7 & 2 & 6 & 8 & \\
 
 \begin{table}
 
-\caption{\label{tab:pairwise-pleiotropy-sw}Number QTL detected for each trait, and the number of colocalising QTL detected for pairs of traits in 2010 (below the diagonal) and 2011 (above the diagonal) in 2011.}
+\caption{\label{tab:pairwise-pleiotropy-sw}Number of QTL detected for each trait, and the number of colocalising QTL detected for pairs of traits in 2010 (below the diagonal) and 2011 (above the diagonal) in 2011.}
 \centering
 \begin{tabular}[t]{l|l|l|l|l|l|l|l|l}
 \hline
-\rotatebox{90}{ } & \rotatebox{90}{N. QTL} & \rotatebox{90}{Fruits/plant} & \rotatebox{90}{Seeds/fruit} & \rotatebox{90}{Seeds/plant} & \rotatebox{90}{Seed mass} & \rotatebox{90}{Survival} & \rotatebox{90}{Fruits/seedling} & \rotatebox{90}{Seeds/seedling}\\
+\rotatebox{90}{ } & \rotatebox{90}{No. QTL} & \rotatebox{90}{Fruits/plant} & \rotatebox{90}{Seeds/fruit} & \rotatebox{90}{Seeds/plant} & \rotatebox{90}{Seed mass} & \rotatebox{90}{Survival} & \rotatebox{90}{Fruits/seedling} & \rotatebox{90}{Seeds/seedling}\\
 \hline
-N. QTL &  & 7 & 5 & 5 & 8 & 3 & 9 & 6\\
+No. QTL &  & 7 & 5 & 5 & 8 & 3 & 9 & 6\\
 \hline
 Fruits/plant & 5 &  & 3 & 5 & 4 & 2 & 7 & 4\\
 \hline
@@ -364,7 +360,7 @@ Seeds/seedling & 3 & 3 & 3 & 2 & 0 & 0 & 0 & \\
 
 We found one notable exception to the preponderance of positive pleiotropic effects. In Sweden in 2010, the Swedish allele at Q4 was associated with an increase in seeds/fruit, but a decrease in fruits/RP (Figure \ref{fig:plot-qtl-sweden}, Tables \ref{tab:individual-seed-qtl} and \ref{tab:individual-frut-qtl}). This antagonistic effect represents a trade-off between the two components of fecundity.
 
-Three QTL for seed mass in Italy and seven in Sweden were also found in pleiotropic regions (Q1, Q7, Q9 in Italy; Q1, Q2, Q5, Q7, Q8, Q9 and Q11 in Sweden; Figure \ref{fig:plot-qtl-sweden}, Table \ref{tab:individual-mass-qtl}). At one of these regions in Italy (Q7) and three regions in Sweden (Q8, Q9, Q11) where QTL for seeds/RP were detected, local alleles were associated with an increase in both seed mass and fecundity. At two regions each in Italy (Q1, Q9) and Sweden (Q1, Q2), alleles were associated with effects in opposite directions on seed mass and seeds/RP. For a subset of these regions, overlap was also observed between positions of QTL for seed mass and seeds/fruit: local alleles were associated with an increase in both seed mass and seeds/fruit in two regions in Sweden (Q8, Q11), and with effects in opposite directions in two regions in Italy (Q1, Q9) and one region in Sweden (Q2; Figure \ref{fig:plot-qtl-sweden}).
+Three QTL for seed mass in Italy and seven in Sweden were also found in pleiotropic regions (Q1, Q7, Q9 in Italy; Q1, Q2, Q5, Q7, Q8, Q9 and Q11 in Sweden; Figures \ref{fig:plot-qtl-italy} and \ref{fig:plot-qtl-sweden}, Table \ref{tab:individual-mass-qtl}). At one of these regions in Italy (Q7) and three regions in Sweden (Q8, Q9, Q11) where QTL for seeds/RP were detected, local alleles were associated with an increase in both seed mass and fecundity. At two regions each in Italy (Q1, Q9) and Sweden (Q1, Q2), alleles were associated with effects in opposite directions on seed mass and seeds/RP. For a subset of these regions, overlap was also observed between positions of QTL for seed mass and seeds/fruit: local alleles were associated with an increase in both seed mass and seeds/fruit in two regions in Sweden (Q8, Q11), and with effects in opposite directions in two regions in Italy (Q1, Q9) and one region in Sweden (Q2; Figure \ref{fig:plot-qtl-sweden}).
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
@@ -374,7 +370,7 @@ The present study demonstrates that genetic differences influencing the number o
 \hypertarget{adaptive-differentiation-for-seed-number-per-fruit}{%
 \subsection{Adaptive differentiation for seed number per fruit}\label{adaptive-differentiation-for-seed-number-per-fruit}}
 
-The contribution of variation in seeds/fruit to adaptive differentiation varied between sites. In both years in Italy, the local ecotype produced more seeds/fruit than did the non-local ecotype, and had a greater overall fitness advantage when fitness was estimated including information about seeds/fruit (Figure \ref{fig:selection-correlations}A). However, because selection through seeds/fruit was not as strong as selection through fruits/RP or survival (Figure \ref{fig:selection-correlations}A), and because seeds/fruit was positively correlated with fruits/RP (Figure \ref{fig:selection-correlations}C), much of the adaptive differentiation measured as seeds/seedling in Italy would have been captured by measuring fruits/seedling only. This is consistent with observations from similar experiments using \emph{Arabidopsis lyrata} (Leinonen \emph{et al.} 2011) and \emph{Hordeum spontaneum} (Verhoeven \emph{et al.} 2004) that found that variation in fruit production makes a greater contribution to adaptive differentiation than does seeds/fruit, but contrasts with those in \emph{Mimulus guttatus} where the opposite pattern was documented (Hall \& Willis 2006). At the Italian site, the marked difference in flowering time of the two ecotypes coupled with strong selection for early flowering can explain much of the large local advantage in terms of fruit production (Ågren \emph{et al.} 2017). Compared to the non-local Swedish ecotype, the local ecotype began to flower about 1.5 months earlier, providing it with a correspondingly longer period of flowering, and produced 5.3 and 3.2 times more fruits before the onset of summer in the two years of study (Ågren \emph{et al.} 2017, 2013). This might indicate that the longer growing season in Italy allows for greater variation in fruits/plant than seeds/fruit. Despite strong selection through seeds/fruit in Italy, differences in fruit production makes a much larger contribution to local adaptation at this site.
+The contribution of variation in seeds/fruit to adaptive differentiation varied between sites. In both years in Italy, the local ecotype produced more seeds/fruit than did the non-local ecotype, and had a greater overall fitness advantage when fitness was estimated including information about seeds/fruit (Figure \ref{fig:selection-correlations}A). However, because selection through seeds/fruit was not as strong as selection through fruits/RP or survival (Figure \ref{fig:selection-correlations}A), and because seeds/fruit was positively correlated with fruits/RP (Figure \ref{fig:selection-correlations}C), much of the adaptive differentiation measured as seeds/seedling in Italy would have been captured by measuring fruits/seedling only. This is consistent with observations from similar experiments using \emph{Arabidopsis lyrata} (Leinonen \emph{et al.} 2011) and \emph{Hordeum spontaneum} (Verhoeven \emph{et al.} 2004) that found that variation in fruit production makes a greater contribution to adaptive differentiation than does seeds/fruit, but contrasts with those in \emph{Mimulus guttatus} where the opposite pattern was documented (Hall \& Willis 2006). At the Italian site, the marked difference in flowering time of the two ecotypes coupled with strong selection for early flowering can explain much of the large local advantage in terms of fruit production (Ågren \emph{et al.} 2017). Compared to the non-local Swedish ecotype, the local ecotype began to flower about 1.5 months earlier, providing it with a correspondingly longer period of flowering, and this was associated with a markedly higher fruit production (5.3- and 3.2- times more in the two years of study; Ågren \emph{et al.} 2013, 2017). Despite strong selection through seeds/fruit in Italy, differences in fruit production makes a much larger contribution to local adaptation at this site.
 
 In Sweden, by contrast, differences in seeds/fruit made a significant contribution to local adaptation, but this contribution varied among years. In 2010, seeds/fruit was the only fitness component for which the parental ecotypes differed (Figure \ref{fig:selection-correlations}B) and for which there was high heritability among the RILs (Figure \ref{fig:heritabilities}). This was reflected in a significant overall advantage to the local ecotype that year (Figure \ref{fig:selection-correlations}B), as well as the detection of four QTL for overall fitness that were detected only when this component was included in the estimate of overall fitness (Figure \ref{fig:plot-qtl-sweden}). In that experiment, plants experienced a mild winter and heavy damage from rodents (Ågren \& Schemske 2012). However, in the 2011 experiment, local adaptation was expressed only as a difference in survival, and no selection through seeds/fruit was detected. By comparison, no significant differences in fruits/RP between the two ecotypes were detected in either year, nor in four additional years studied by Ågren \& Schemske (2012). This suggests that selection through fruits/RP in Sweden is weak, and consistently weak across years, which at least partly can be attributed to the modest difference in flowering time between the two ecotypes at this site (3 and 9 days in the years of study; Ågren \emph{et al.} 2017). These findings highlight that the relative importance of individual fitness components for local adaptation can fluctuate from year to year, and also the value of experiments conducted over multiple seasons.
 
@@ -392,7 +388,7 @@ In addition, we found that the epistatic interaction detected in Sweden 2011 bet
 
 The preponderance of positive genetic correlations and positive pleiotropy indicates that variation in overall condition, where the fittest genotypes have more resources overall to invest across fitness components, predominates over variation in relative allocation to different components of fitness in the RIL population (Van Noordwijk \& Jong 1986; Houle 1991). The greater condition, and thus higher fitness, of local genotypes likely reflects adaptive differentiation via many traits. For example, the Swedish ecotype has higher freezing tolerance (Oakley \emph{et al.} 2014) and a greater ability to optimize photosynthesis at cold, but non-freezing temperatures (Cohu \emph{et al.} 2013; Adams \emph{et al.} 2014; Oakley \emph{et al.} 2017). This should provide a fitness advantage at the Swedish site where plants are exposed to cold conditions for an extended period, but may be associated with a fitness cost in the milder climate at the Italian site (Oakley \emph{et al.} 2014). Consistent with this hypothesis, four of the seven QTL for freezing tolerance identified by Oakley \emph{et al.} (2014) are located in pleiotropic regions identified here (Q4, Q5, Q9, Q11). QTL affecting these traits can thus be expected to have pleiotropic effects on overall fitness and its components.
 
-QTL for phenological variation may also play a key role in stress tolerance and resource acquisition that would contribute to variation in condition. Previous work on the same populations has demonstrated strong selection to tune the timing of germination (Akiyama \& Ågren 2014; Zacchello \emph{et al.} 2020; Postma \& Ågren 2016) and flowering time to match the local climate (Ågren \emph{et al.} 2017). The timing of life history traits can have cascading effects on later life-history stages (Lindström 1999; Beckerman \emph{et al.} 2002; Donohue 2014; Hepworth \emph{et al.} 2020; Martinez-Berdeja \emph{et al.} 2020; Postma \& Ågren 2016), meaning that direct effects on early traits can cause pleiotropic effects on multiple fitness components. Consistent with this, all pleiotropic regions bar Q1 and Q2 identified here also harbour well-resolved QTL associated with flowering time at one or both sites (Ågren \emph{et al.} 2017), and loci such as FT (Q3), FLC (Q9) and VIN3 (Q11) with effects on flowering time documented in field experiments (e.g.~Caicedo \emph{et al.} 2004; Korves \emph{et al.} 2007; Taylor \emph{et al.} 2019; Hepworth \emph{et al.} 2020). Furthermore, Q10 overlaps with the primary QTL explaining variation in seed dormancy, which contains the candidate gene DOG1 (Postma \& Ågren 2016). QTL affecting both physiological and phenological traits can thus be expected to influence condition and thereby have pleiotropic effects on multiple components of fitness.
+QTL for phenological variation may also play a key role in stress tolerance and resource acquisition that would contribute to variation in condition. Previous work on the same populations has demonstrated strong selection to tune the timing of germination (Akiyama \& Ågren 2014; Postma \& Ågren 2016; Zacchello \emph{et al.} 2020) and flowering time to match the local climate (Ågren \emph{et al.} 2017). The timing of life history traits can have cascading effects on later life-history stages (Lindström 1999; Beckerman \emph{et al.} 2002; Donohue 2014; Postma \& Ågren 2016; Hepworth \emph{et al.} 2020; Martinez-Berdeja \emph{et al.} 2020), meaning that direct effects on early traits can cause pleiotropic effects on multiple fitness components. Consistent with this, all pleiotropic regions bar Q1 and Q2 identified here also harbour well-resolved QTL associated with flowering time at one or both sites (Ågren \emph{et al.} 2017), and loci such as FT (Q3), FLC (Q9) and VIN3 (Q11) with effects on flowering time documented in field experiments (e.g. Caicedo \emph{et al.} 2004; Korves \emph{et al.} 2007; Taylor \emph{et al.} 2019; Hepworth \emph{et al.} 2020). Furthermore, Q10 overlaps with the primary QTL explaining variation in seed dormancy, which contains the candidate gene DOG1 (Postma \& Ågren 2016). QTL affecting both physiological and phenological traits can thus be expected to influence condition and thereby have pleiotropic effects on multiple components of fitness.
 
 The role of variation in condition in local adaptation is a broadly important topic in evolutionary biology. In a meta-analysis of local adaptation across 74 studies of plants, animals, fungi and protists, Hereford (2009) was not able to test explicitly for correlations between selection through components of fitness, but did demonstrate that the advantage of local populations was greater when estimated based on overall fitness than when estimated based on survival or fecundity alone. Although not a formal test, this pattern would be expected if selection acts to increase overall condition, causing components of fitness to be positively correlated within populations. These observations indicate that adaptation frequently entails increased condition in the local environment, and that while local adaptation is reflected as trade-offs in performance across environments, it may often also be associated with positive genetic correlations among fitness components within a given environment in situations where there is genetic variation for overall fitness.
 
@@ -585,11 +581,11 @@ Orozco-Arroyo G, Paolo D, Ezquer I, Colombo L (2015) Networks controlling seed s
 \leavevmode\hypertarget{ref-orr1998population}{}%
 Orr HA (1998) The population genetics of adaptation: The distribution of factors fixed during adaptive evolution. \emph{Evolution}, \textbf{52}, 935--949.
 
-\leavevmode\hypertarget{ref-postma2018among}{}%
-Postma FM, Ågren J (2018) Among-year variation in selection during early life stages and the genetic basis of fitness in \emph{Arabidopsis thaliana}. \emph{Molecular Ecology}, \textbf{27}, 2498--2511.
-
 \leavevmode\hypertarget{ref-postma_early_2016}{}%
 Postma FM, Ågren J (2016) Early life stages contribute strongly to local adaptation in \emph{Arabidopsis thaliana}. \emph{Proceedings of the National Academy of Sciences}, \textbf{113}, 7590--7595.
+
+\leavevmode\hypertarget{ref-postma2018among}{}%
+Postma FM, Ågren J (2018) Among-year variation in selection during early life stages and the genetic basis of fitness in \emph{Arabidopsis thaliana}. \emph{Molecular Ecology}, \textbf{27}, 2498--2511.
 
 \leavevmode\hypertarget{ref-RCT2015}{}%
 R Core Team (2018) \emph{R: A language and environment for statistical computing}. R Foundation for Statistical Computing, Vienna, Austria.
