@@ -1,0 +1,668 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={Supporting information},
+            pdfauthor={Thomas James Ellis, Froukje M. Postma, Christopher G. Oakley and Jon Ågren},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{longtable,booktabs}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{Supporting information}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{Thomas James Ellis, Froukje M. Postma, Christopher G. Oakley and Jon
+Ågren}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{13 November 2019}
+
+
+\begin{document}
+\maketitle
+
+This document contains supporting tables and figures for the manuscript
+``Life-history tradeoffs, and the genetic basis of fitness in
+\emph{Arabidopsis thaliana}'' by Thomas James Ellis, Froukje M. Postma,
+Christopher G. Oakley and Jon Ågren.
+
+\textbf{Tables:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Individual QTL for number of seeds per fruit
+\item
+  Individual QTL for number of seeds per reproductive plant
+\item
+  Individual QTL for number of fruits per reproductive plant
+\item
+  Individual QTL for number of fruits per seedling planted
+\item
+  Individual QTL for number of seeds per seedling planted
+\item
+  Individual QTL for seed mass
+\item
+  Individual QTL for survival
+\item
+  Epistatic interactions
+\end{enumerate}
+
+\textbf{Figures:}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Seed mass differences between parental lines
+\item
+  Scatter plots of RIL-means for fecundity and survival, components of
+  fecundity, and fecundity and seed mass
+\item
+  Epistatic interactions for number of seeds per fruit
+\item
+  Epistatic interactions for number of seeds per reproductive plant
+\item
+  Epistatic interactions for number of seeds per seedling planted
+\item
+  Broad-sense heritability estimates
+\end{enumerate}
+
+\newpage
+
+\begin{longtable}[]{@{}llrrlrrr@{}}
+\caption{QTL for number of seeds per fruit identifed in individual
+experiments. QTL positions are shown with their 95\% Bayesian credible
+intervals. Effect sizes are given as absolute values and as a percentage
+of variance among RIL means.}\tabularnewline
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endhead
+\href{mailto:1@9.5}{\nolinkurl{1@9.5}} & Italy & 2010 & 1 & 9.5 (
+7.3-12.6) & 9.2 & -1.372 & 8.5\tabularnewline
+\href{mailto:2@56.0}{\nolinkurl{2@56.0}} & Italy & 2010 & 2 & 56.0
+(32.6-60.9) & 4.2 & -0.918 & 3.8\tabularnewline
+\href{mailto:3@18.0}{\nolinkurl{3@18.0}} & Italy & 2010 & 3 & 18.0
+(14.7-19.7) & 6.6 & -1.163 & 6.0\tabularnewline
+\href{mailto:5@56.6}{\nolinkurl{5@56.6}} & Italy & 2010 & 5 & 56.6
+(50.5-58.6) & 8.6 & -1.316 & 7.9\tabularnewline
+\href{mailto:1@5.3}{\nolinkurl{1@5.3}} & Italy & 2011 & 1 & 5.3 (
+3.9-14.5) & 5.1 & -0.630 & 4.1\tabularnewline
+\href{mailto:1@60.2}{\nolinkurl{1@60.2}} & Italy & 2011 & 1 & 60.2
+(53.3-62.5) & 6.0 & -1.089 & 4.9\tabularnewline
+\href{mailto:2@32.6}{\nolinkurl{2@32.6}} & Italy & 2011 & 2 & 32.6
+(30.7-45.6) & 7.1 & -1.194 & 5.8\tabularnewline
+\href{mailto:5@15.0}{\nolinkurl{5@15.0}} & Italy & 2011 & 5 & 15.0
+(10.4-20.4) & 6.8 & -0.921 & 5.5\tabularnewline
+\href{mailto:5@50.2}{\nolinkurl{5@50.2}} & Italy & 2011 & 5 & 50.2
+(40.1-51.6) & 3.3 & -1.121 & 2.6\tabularnewline
+\href{mailto:5@60.1}{\nolinkurl{5@60.1}} & Italy & 2011 & 5 & 60.1
+(56.6-78.2) & 2.9 & -1.041 & 2.3\tabularnewline
+\href{mailto:1@22.7}{\nolinkurl{1@22.7}} & Sweden & 2010 & 1 & 22.7
+(16.1-32.4) & 2.8 & 0.808 & 2.5\tabularnewline
+\href{mailto:1@75.4}{\nolinkurl{1@75.4}} & Sweden & 2010 & 1 & 75.4
+(74.4-75.4) & 8.9 & 1.478 & 8.4\tabularnewline
+\href{mailto:4@41.0}{\nolinkurl{4@41.0}} & Sweden & 2010 & 4 & 41.0
+(39.1-42.3) & 9.1 & 1.497 & 8.6\tabularnewline
+\href{mailto:5@70.1}{\nolinkurl{5@70.1}} & Sweden & 2010 & 5 & 70.1
+(67.7-78.2) & 4.3 & 1.007 & 4.0\tabularnewline
+\href{mailto:1@61.0}{\nolinkurl{1@61.0}} & Sweden & 2011 & 1 & 61.0
+(58.6-61.1) & 9.6 & -0.552 & 9.4\tabularnewline
+\href{mailto:1@77.9}{\nolinkurl{1@77.9}} & Sweden & 2011 & 1 & 77.9
+(75.4-80.9) & 3.5 & 0.971 & 3.3\tabularnewline
+\href{mailto:3@21.0}{\nolinkurl{3@21.0}} & Sweden & 2011 & 3 & 21.0
+(18.0-22.3) & 13.5 & -1.274 & 13.5\tabularnewline
+\href{mailto:4@42.3}{\nolinkurl{4@42.3}} & Sweden & 2011 & 4 & 42.3
+(35.8-50.2) & 10.6 & 1.588 & 10.4\tabularnewline
+\href{mailto:5@74.5}{\nolinkurl{5@74.5}} & Sweden & 2011 & 5 & 74.5
+(70.1-78.2) & 8.6 & 1.433 & 8.3\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\begin{longtable}[]{@{}llrrlrrr@{}}
+\caption{QTL for number of seeds per reproductive plant identifed in
+individual experiments. QTL positions are shown with their 95\% Bayesian
+credible intervals. Effect sizes are given as absolute values and as a
+percentage of variance among RIL means.}\tabularnewline
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endhead
+\href{mailto:1@10.3}{\nolinkurl{1@10.3}} & Italy & 2010 & 1 & 10.3 (
+8.8-12.6) & 11.8 & -58.519 & 9.5\tabularnewline
+\href{mailto:1@57.3}{\nolinkurl{1@57.3}} & Italy & 2010 & 1 & 57.3
+(55.9-61.0) & 6.4 & -42.302 & 5.0\tabularnewline
+\href{mailto:2@56.0}{\nolinkurl{2@56.0}} & Italy & 2010 & 2 & 56.0
+(45.6-56.9) & 3.5 & -30.627 & 2.7\tabularnewline
+\href{mailto:4@20.7}{\nolinkurl{4@20.7}} & Italy & 2010 & 4 & 20.7
+(17.1-31.0) & 4.9 & -37.512 & 3.8\tabularnewline
+\href{mailto:5@2.6}{\nolinkurl{5@2.6}} & Italy & 2010 & 5 & 2.6 (
+0.0-15.0) & 3.2 & -29.715 & 2.4\tabularnewline
+\href{mailto:5@58.6}{\nolinkurl{5@58.6}} & Italy & 2010 & 5 & 58.6
+(54.8-61.3) & 8.4 & -48.165 & 6.7\tabularnewline
+\href{mailto:1@60.2}{\nolinkurl{1@60.2}} & Italy & 2011 & 1 & 60.2
+(57.3-61.0) & 10.9 & -34.350 & 6.5\tabularnewline
+\href{mailto:1@83.8}{\nolinkurl{1@83.8}} & Italy & 2011 & 1 & 83.8
+(77.0-83.8) & 4.2 & -20.492 & 2.4\tabularnewline
+\href{mailto:2@39.8}{\nolinkurl{2@39.8}} & Italy & 2011 & 2 & 39.8
+(31.7-48.0) & 7.2 & -25.714 & 4.2\tabularnewline
+\href{mailto:3@5.1}{\nolinkurl{3@5.1}} & Italy & 2011 & 3 & 5.1 ( 3.5-
+6.3) & 3.7 & 25.012 & 2.1\tabularnewline
+\href{mailto:3@14.7}{\nolinkurl{3@14.7}} & Italy & 2011 & 3 & 14.7
+(13.5-19.7) & 2.1 & -19.143 & 1.2\tabularnewline
+\href{mailto:3@64.9}{\nolinkurl{3@64.9}} & Italy & 2011 & 3 & 64.9
+(53.3-65.9) & 7.4 & -25.797 & 4.3\tabularnewline
+\href{mailto:4@52.8}{\nolinkurl{4@52.8}} & Italy & 2011 & 4 & 52.8
+(50.0-56.3) & 4.9 & -21.800 & 2.8\tabularnewline
+\href{mailto:5@18.5}{\nolinkurl{5@18.5}} & Italy & 2011 & 5 & 18.5 (
+5.7-43.0) & 2.7 & -15.873 & 1.5\tabularnewline
+\href{mailto:5@56.6}{\nolinkurl{5@56.6}} & Italy & 2011 & 5 & 56.6
+(54.3-61.3) & 9.5 & -33.015 & 5.6\tabularnewline
+\href{mailto:5@78.2}{\nolinkurl{5@78.2}} & Italy & 2011 & 5 & 78.2
+(72.1-78.2) & 6.1 & -26.323 & 3.5\tabularnewline
+\href{mailto:1@13.5}{\nolinkurl{1@13.5}} & Sweden & 2010 & 1 & 13.5 (
+0.0-20.8) & 3.4 & -145.367 & 3.8\tabularnewline
+\href{mailto:1@22.7}{\nolinkurl{1@22.7}} & Sweden & 2010 & 1 & 22.7
+(21.9-23.7) & 5.8 & 188.983 & 6.5\tabularnewline
+\href{mailto:3@30.5}{\nolinkurl{3@30.5}} & Sweden & 2010 & 3 & 30.5 (
+8.2-47.5) & 3.5 & 111.560 & 3.9\tabularnewline
+\href{mailto:1@61.1}{\nolinkurl{1@61.1}} & Sweden & 2011 & 1 & 61.1
+(61.0-62.5) & 11.0 & -41.342 & 11.2\tabularnewline
+\href{mailto:2@58.3}{\nolinkurl{2@58.3}} & Sweden & 2011 & 2 & 58.3 (
+0.0-60.9) & 2.8 & 69.157 & 2.7\tabularnewline
+\href{mailto:3@24.4}{\nolinkurl{3@24.4}} & Sweden & 2011 & 3 & 24.4
+(18.0-26.7) & 13.4 & -96.940 & 13.9\tabularnewline
+\href{mailto:4@42.3}{\nolinkurl{4@42.3}} & Sweden & 2011 & 4 & 42.3
+(37.4-47.8) & 7.8 & 118.161 & 7.8\tabularnewline
+\href{mailto:5@74.5}{\nolinkurl{5@74.5}} & Sweden & 2011 & 5 & 74.5
+(74.5-74.5) & 8.1 & 120.843 & 8.1\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\begin{longtable}[]{@{}llrrlrrr@{}}
+\caption{QTL for number of fruits per reproductive plant identifed in
+individual experiments. QTL positions are shown with their 95\% Bayesian
+credible intervals. Effect sizes are given as absolute values and as a
+percentage of variance among RIL means.}\tabularnewline
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endhead
+\href{mailto:1@10.3}{\nolinkurl{1@10.3}} & Italy & 2010 & 1 & 10.3 (
+9.5-13.5) & 11.9 & -1.506 & 8.3\tabularnewline
+\href{mailto:1@57.3}{\nolinkurl{1@57.3}} & Italy & 2010 & 1 & 57.3
+(55.9-57.3) & 8.5 & -1.259 & 5.8\tabularnewline
+\href{mailto:2@53.4}{\nolinkurl{2@53.4}} & Italy & 2010 & 2 & 53.4
+(44.3-56.9) & 2.1 & -0.613 & 1.4\tabularnewline
+\href{mailto:3@3.5}{\nolinkurl{3@3.5}} & Italy & 2010 & 3 & 3.5 ( 1.7-
+9.6) & 3.2 & 0.748 & 2.1\tabularnewline
+\href{mailto:3@54.1}{\nolinkurl{3@54.1}} & Italy & 2010 & 3 & 54.1
+(18.0-59.2) & 5.8 & -1.028 & 3.9\tabularnewline
+\href{mailto:4@18.3}{\nolinkurl{4@18.3}} & Italy & 2010 & 4 & 18.3
+(12.9-31.0) & 2.6 & -0.706 & 1.7\tabularnewline
+\href{mailto:4@50.6}{\nolinkurl{4@50.6}} & Italy & 2010 & 4 & 50.6
+(42.3-60.7) & 3.6 & -0.893 & 2.4\tabularnewline
+\href{mailto:5@7.5}{\nolinkurl{5@7.5}} & Italy & 2010 & 5 & 7.5 (
+0.0-12.0) & 3.5 & -0.851 & 2.3\tabularnewline
+\href{mailto:5@54.8}{\nolinkurl{5@54.8}} & Italy & 2010 & 5 & 54.8
+(52.4-71.4) & 2.4 & -0.708 & 1.6\tabularnewline
+\href{mailto:5@78.2}{\nolinkurl{5@78.2}} & Italy & 2010 & 5 & 78.2
+(70.6-78.2) & 3.4 & -0.847 & 2.3\tabularnewline
+\href{mailto:1@58.6}{\nolinkurl{1@58.6}} & Italy & 2011 & 1 & 58.6
+(57.3-61.0) & 14.5 & -0.952 & 8.6\tabularnewline
+\href{mailto:1@83.8}{\nolinkurl{1@83.8}} & Italy & 2011 & 1 & 83.8
+(77.0-83.8) & 4.1 & -0.537 & 2.3\tabularnewline
+\href{mailto:2@38.2}{\nolinkurl{2@38.2}} & Italy & 2011 & 2 & 38.2
+(34.3-49.7) & 7.2 & -0.676 & 4.1\tabularnewline
+\href{mailto:3@5.1}{\nolinkurl{3@5.1}} & Italy & 2011 & 3 & 5.1 ( 2.5-
+7.3) & 5.5 & 0.589 & 3.1\tabularnewline
+\href{mailto:3@57.1}{\nolinkurl{3@57.1}} & Italy & 2011 & 3 & 57.1
+(53.3-63.1) & 12.3 & -0.898 & 7.2\tabularnewline
+\href{mailto:4@52.8}{\nolinkurl{4@52.8}} & Italy & 2011 & 4 & 52.8
+(52.4-55.2) & 13.6 & -0.973 & 8.0\tabularnewline
+\href{mailto:5@56.6}{\nolinkurl{5@56.6}} & Italy & 2011 & 5 & 56.6
+(54.3-61.3) & 5.3 & -0.647 & 3.0\tabularnewline
+\href{mailto:5@75.8}{\nolinkurl{5@75.8}} & Italy & 2011 & 5 & 75.8
+(72.9-78.2) & 12.0 & -0.720 & 7.0\tabularnewline
+\href{mailto:3@30.5}{\nolinkurl{3@30.5}} & Sweden & 2010 & 3 & 30.5 (
+8.2-42.6) & 3.5 & 2.710 & 4.2\tabularnewline
+\href{mailto:1@61.8}{\nolinkurl{1@61.8}} & Sweden & 2011 & 1 & 61.8
+(61.0-62.5) & 10.4 & -1.701 & 11.3\tabularnewline
+\href{mailto:2@58.3}{\nolinkurl{2@58.3}} & Sweden & 2011 & 2 & 58.3 (
+3.1-60.9) & 4.1 & 2.320 & 4.3\tabularnewline
+\href{mailto:3@26.7}{\nolinkurl{3@26.7}} & Sweden & 2011 & 3 & 26.7
+(24.4-29.5) & 9.9 & -2.094 & 10.7\tabularnewline
+\href{mailto:4@42.3}{\nolinkurl{4@42.3}} & Sweden & 2011 & 4 & 42.3
+(37.4-56.3) & 5.0 & 2.563 & 5.2\tabularnewline
+\href{mailto:5@74.5}{\nolinkurl{5@74.5}} & Sweden & 2011 & 5 & 74.5
+(74.5-75.8) & 6.0 & 2.823 & 6.4\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\begin{longtable}[]{@{}llrrlrrr@{}}
+\caption{QTL for number of fruits per seedling planted identifed in
+individual experiments. QTL positions are shown with their 95\% Bayesian
+credible intervals. Effect sizes are given as absolute values, as a
+percentage of variance among RIL means, and as a percentage of the
+difference between parental means.}\tabularnewline
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endhead
+\href{mailto:1@10.3}{\nolinkurl{1@10.3}} & Italy & 2010 & 1 & 10.3 (
+7.3-12.6) & 10.0 & -0.782 & 6.4\tabularnewline
+\href{mailto:1@57.3}{\nolinkurl{1@57.3}} & Italy & 2010 & 1 & 57.3
+(57.3-57.3) & 11.0 & -0.823 & 7.1\tabularnewline
+\href{mailto:2@53.4}{\nolinkurl{2@53.4}} & Italy & 2010 & 2 & 53.4
+(48.7-56.0) & 7.3 & -0.658 & 4.6\tabularnewline
+\href{mailto:3@54.1}{\nolinkurl{3@54.1}} & Italy & 2010 & 3 & 54.1
+(52.0-59.2) & 7.0 & -0.639 & 4.4\tabularnewline
+\href{mailto:4@50.0}{\nolinkurl{4@50.0}} & Italy & 2010 & 4 & 50.0
+(50.0-52.8) & 5.1 & -0.511 & 3.2\tabularnewline
+\href{mailto:5@7.5}{\nolinkurl{5@7.5}} & Italy & 2010 & 5 & 7.5 ( 2.6-
+8.5) & 7.1 & -0.698 & 4.5\tabularnewline
+\href{mailto:5@54.8}{\nolinkurl{5@54.8}} & Italy & 2010 & 5 & 54.8
+(41.4-61.3) & 3.6 & -0.495 & 2.2\tabularnewline
+\href{mailto:5@77.4}{\nolinkurl{5@77.4}} & Italy & 2010 & 5 & 77.4
+(70.1-78.2) & 5.8 & -0.643 & 3.6\tabularnewline
+\href{mailto:1@61.8}{\nolinkurl{1@61.8}} & Italy & 2011 & 1 & 61.8
+(57.3-61.8) & 15.3 & -0.786 & 8.3\tabularnewline
+\href{mailto:1@83.8}{\nolinkurl{1@83.8}} & Italy & 2011 & 1 & 83.8
+(77.0-83.8) & 4.5 & -0.412 & 2.3\tabularnewline
+\href{mailto:2@49.5}{\nolinkurl{2@49.5}} & Italy & 2011 & 2 & 49.5
+(44.3-49.7) & 13.1 & -0.659 & 7.0\tabularnewline
+\href{mailto:3@2.2}{\nolinkurl{3@2.2}} & Italy & 2011 & 3 & 2.2 ( 0.0-
+8.2) & 3.7 & 0.344 & 1.9\tabularnewline
+\href{mailto:3@64.9}{\nolinkurl{3@64.9}} & Italy & 2011 & 3 & 64.9
+(63.1-65.9) & 15.5 & -0.725 & 8.4\tabularnewline
+\href{mailto:4@55.2}{\nolinkurl{4@55.2}} & Italy & 2011 & 4 & 55.2
+(51.1-56.6) & 11.2 & -0.625 & 5.9\tabularnewline
+\href{mailto:5@56.6}{\nolinkurl{5@56.6}} & Italy & 2011 & 5 & 56.6
+(56.6-57.7) & 8.6 & -0.632 & 4.5\tabularnewline
+\href{mailto:5@71.4}{\nolinkurl{5@71.4}} & Italy & 2011 & 5 & 71.4
+(70.1-78.2) & 6.4 & -0.548 & 3.3\tabularnewline
+\href{mailto:3@9.6}{\nolinkurl{3@9.6}} & Sweden & 2010 & 3 & 9.6 (
+8.2-34.4) & 3.1 & 0.334 & 3.7\tabularnewline
+\href{mailto:1@62.5}{\nolinkurl{1@62.5}} & Sweden & 2011 & 1 & 62.5
+(61.0-62.5) & 9.5 & -0.652 & 8.9\tabularnewline
+\href{mailto:2@56.9}{\nolinkurl{2@56.9}} & Sweden & 2011 & 2 & 56.9
+(35.6-60.9) & 2.9 & 0.679 & 2.6\tabularnewline
+\href{mailto:3@29.5}{\nolinkurl{3@29.5}} & Sweden & 2011 & 3 & 29.5
+(23.3-29.5) & 9.3 & -0.752 & 8.6\tabularnewline
+\href{mailto:4@42.3}{\nolinkurl{4@42.3}} & Sweden & 2011 & 4 & 42.3
+(37.4-56.6) & 6.7 & 1.059 & 6.2\tabularnewline
+\href{mailto:5@1.4}{\nolinkurl{5@1.4}} & Sweden & 2011 & 5 & 1.4 (
+0.0-25.4) & 3.7 & 0.784 & 3.3\tabularnewline
+\href{mailto:5@74.5}{\nolinkurl{5@74.5}} & Sweden & 2011 & 5 & 74.5
+(74.5-74.5) & 14.3 & 1.561 & 13.9\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\begin{longtable}[]{@{}llrrlrrr@{}}
+\caption{QTL for number of seeds per seedling planted identifed in
+individual experiments. QTL positions are shown with their 95\% Bayesian
+credible intervals. Effect sizes are given as absolute values and as a
+percentage of variance among RIL means.}\tabularnewline
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endhead
+\href{mailto:1@10.3}{\nolinkurl{1@10.3}} & Italy & 2010 & 1 & 10.3 (
+8.4-12.6) & 12.8 & -34.186 & 9.1\tabularnewline
+\href{mailto:1@58.8}{\nolinkurl{1@58.8}} & Italy & 2010 & 1 & 58.8
+(55.9-61.1) & 8.5 & -27.523 & 5.9\tabularnewline
+\href{mailto:2@53.4}{\nolinkurl{2@53.4}} & Italy & 2010 & 2 & 53.4
+(53.4-56.4) & 7.1 & -24.759 & 4.9\tabularnewline
+\href{mailto:3@18.0}{\nolinkurl{3@18.0}} & Italy & 2010 & 3 & 18.0
+(15.6-21.0) & 3.4 & -13.747 & 2.3\tabularnewline
+\href{mailto:4@20.7}{\nolinkurl{4@20.7}} & Italy & 2010 & 4 & 20.7
+(11.1-44.3) & 2.6 & -15.314 & 1.8\tabularnewline
+\href{mailto:5@12.0}{\nolinkurl{5@12.0}} & Italy & 2010 & 5 & 12.0
+(11.4-13.1) & 6.2 & -21.232 & 4.2\tabularnewline
+\href{mailto:5@58.6}{\nolinkurl{5@58.6}} & Italy & 2010 & 5 & 58.6
+(54.8-60.6) & 3.5 & -21.692 & 2.4\tabularnewline
+\href{mailto:5@71.4}{\nolinkurl{5@71.4}} & Italy & 2010 & 5 & 71.4
+(70.1-78.2) & 2.5 & -18.275 & 1.7\tabularnewline
+\href{mailto:1@13.5}{\nolinkurl{1@13.5}} & Italy & 2011 & 1 & 13.5 (
+0.0-28.1) & 2.9 & -12.058 & 1.5\tabularnewline
+\href{mailto:1@60.2}{\nolinkurl{1@60.2}} & Italy & 2011 & 1 & 60.2
+(57.3-61.8) & 11.3 & -26.326 & 6.1\tabularnewline
+\href{mailto:1@83.8}{\nolinkurl{1@83.8}} & Italy & 2011 & 1 & 83.8
+(77.0-83.8) & 4.7 & -16.502 & 2.5\tabularnewline
+\href{mailto:2@45.6}{\nolinkurl{2@45.6}} & Italy & 2011 & 2 & 45.6
+(44.3-49.5) & 14.7 & -28.565 & 8.2\tabularnewline
+\href{mailto:3@64.9}{\nolinkurl{3@64.9}} & Italy & 2011 & 3 & 64.9
+(53.3-66.8) & 7.1 & -18.862 & 3.8\tabularnewline
+\href{mailto:4@52.0}{\nolinkurl{4@52.0}} & Italy & 2011 & 4 & 52.0
+(50.0-53.9) & 7.5 & -19.907 & 4.0\tabularnewline
+\href{mailto:5@56.6}{\nolinkurl{5@56.6}} & Italy & 2011 & 5 & 56.6
+(56.6-56.6) & 12.7 & -30.653 & 7.0\tabularnewline
+\href{mailto:5@71.4}{\nolinkurl{5@71.4}} & Italy & 2011 & 5 & 71.4
+(70.1-78.2) & 6.3 & -21.562 & 3.3\tabularnewline
+\href{mailto:1@22.7}{\nolinkurl{1@22.7}} & Sweden & 2010 & 1 & 22.7
+(21.9-32.4) & 3.9 & 28.287 & 4.1\tabularnewline
+\href{mailto:1@75.4}{\nolinkurl{1@75.4}} & Sweden & 2010 & 1 & 75.4
+(70.4-80.9) & 3.7 & 27.572 & 3.9\tabularnewline
+\href{mailto:4@41.0}{\nolinkurl{4@41.0}} & Sweden & 2010 & 4 & 41.0
+(37.4-41.0) & 5.9 & 35.107 & 6.3\tabularnewline
+\href{mailto:1@61.0}{\nolinkurl{1@61.0}} & Sweden & 2011 & 1 & 61.0
+(61.0-61.1) & 10.0 & -17.519 & 9.1\tabularnewline
+\href{mailto:3@23.3}{\nolinkurl{3@23.3}} & Sweden & 2011 & 3 & 23.3
+(18.0-24.4) & 13.3 & -41.302 & 12.3\tabularnewline
+\href{mailto:4@42.3}{\nolinkurl{4@42.3}} & Sweden & 2011 & 4 & 42.3
+(35.8-45.5) & 8.9 & 50.210 & 8.0\tabularnewline
+\href{mailto:5@1.4}{\nolinkurl{5@1.4}} & Sweden & 2011 & 5 & 1.4 (
+0.0-31.2) & 2.6 & 27.148 & 2.3\tabularnewline
+\href{mailto:5@74.5}{\nolinkurl{5@74.5}} & Sweden & 2011 & 5 & 74.5
+(74.5-74.5) & 15.3 & 67.150 & 14.3\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\begin{longtable}[]{@{}llrrlrrr@{}}
+\caption{QTL for seed mass identifed in individual experiments. QTL
+positions are shown with their 95\% Bayesian credible intervals. Effect
+sizes are given as absolute values and as a percentage of variance among
+RIL means.}\tabularnewline
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endhead
+\href{mailto:1@48.9}{\nolinkurl{1@48.9}} & Italy & 2010 & 1 & 48.9
+(39.9-61.1) & 3.8 & -0.606 & 4.2\tabularnewline
+\href{mailto:3@57.1}{\nolinkurl{3@57.1}} & Italy & 2010 & 3 & 57.1
+(53.3-65.5) & 5.2 & -0.706 & 5.7\tabularnewline
+\href{mailto:1@14.1}{\nolinkurl{1@14.1}} & Italy & 2011 & 1 & 14.1 (
+7.3-17.1) & 4.4 & 0.763 & 4.5\tabularnewline
+\href{mailto:1@29.5}{\nolinkurl{1@29.5}} & Italy & 2011 & 1 & 29.5
+(22.7-64.9) & 3.6 & -0.691 & 3.7\tabularnewline
+\href{mailto:3@53.3}{\nolinkurl{3@53.3}} & Italy & 2011 & 3 & 53.3 (
+7.3-57.1) & 4.3 & -0.645 & 4.5\tabularnewline
+\href{mailto:4@9.3}{\nolinkurl{4@9.3}} & Italy & 2011 & 4 & 9.3 ( 6.1-
+9.3) & 5.5 & -0.731 & 5.7\tabularnewline
+\href{mailto:5@7.7}{\nolinkurl{5@7.7}} & Italy & 2011 & 5 & 7.7 (
+6.7-10.0) & 4.5 & 0.665 & 4.7\tabularnewline
+\href{mailto:1@3.4}{\nolinkurl{1@3.4}} & Sweden & 2010 & 1 & 3.4 ( 1.4-
+6.1) & 8.3 & 0.704 & 7.9\tabularnewline
+\href{mailto:1@43.5}{\nolinkurl{1@43.5}} & Sweden & 2010 & 1 & 43.5
+(21.9-51.5) & 2.9 & -0.409 & 2.6\tabularnewline
+\href{mailto:2@58.0}{\nolinkurl{2@58.0}} & Sweden & 2010 & 2 & 58.0
+(19.3-60.9) & 3.0 & -0.413 & 2.8\tabularnewline
+\href{mailto:3@65.9}{\nolinkurl{3@65.9}} & Sweden & 2010 & 3 & 65.9
+(47.5-70.5) & 4.9 & -0.527 & 4.6\tabularnewline
+\href{mailto:5@7.7}{\nolinkurl{5@7.7}} & Sweden & 2010 & 5 & 7.7 ( 2.6-
+7.7) & 9.7 & 0.762 & 9.3\tabularnewline
+\href{mailto:1@9.9}{\nolinkurl{1@9.9}} & Sweden & 2011 & 1 & 9.9 (
+6.1-12.0) & 5.3 & 0.847 & 5.9\tabularnewline
+\href{mailto:1@21.9}{\nolinkurl{1@21.9}} & Sweden & 2011 & 1 & 21.9
+(18.9-22.7) & 3.8 & -0.705 & 4.1\tabularnewline
+\href{mailto:5@2.6}{\nolinkurl{5@2.6}} & Sweden & 2011 & 5 & 2.6 ( 0.0-
+4.6) & 3.7 & 0.692 & 4.1\tabularnewline
+\href{mailto:5@16.8}{\nolinkurl{5@16.8}} & Sweden & 2011 & 5 & 16.8
+(11.4-18.5) & 2.1 & 0.506 & 2.3\tabularnewline
+\href{mailto:5@71.4}{\nolinkurl{5@71.4}} & Sweden & 2011 & 5 & 71.4
+(52.4-78.2) & 1.9 & 0.399 & 2.0\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\begin{longtable}[]{@{}llrrlrrr@{}}
+\caption{QTL for survival to reproduction identifed in individual
+experiments. QTL positions are shown with their 95\% Bayesian credible
+intervals. Effect sizes are given as absolute values, as a percentage of
+variance among RIL means, and as a percentage of the difference between
+parental means.}\tabularnewline
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+Name & Site & Year & Chr. & Position (cM) & LOD & Effect size & \% var.
+explained\tabularnewline
+\midrule
+\endhead
+\href{mailto:1@40.6}{\nolinkurl{1@40.6}} & Italy & 2010 & 1 & 40.6 (
+0.0-45.1) & 2.7 & -0.023 & 2.0\tabularnewline
+\href{mailto:1@62.5}{\nolinkurl{1@62.5}} & Italy & 2010 & 1 & 62.5
+(57.3-64.9) & 4.9 & -0.031 & 3.6\tabularnewline
+\href{mailto:2@53.4}{\nolinkurl{2@53.4}} & Italy & 2010 & 2 & 53.4
+(49.4-55.3) & 12.8 & -0.046 & 9.8\tabularnewline
+\href{mailto:3@59.2}{\nolinkurl{3@59.2}} & Italy & 2010 & 3 & 59.2
+(37.9-65.9) & 4.5 & -0.027 & 3.3\tabularnewline
+\href{mailto:5@9.4}{\nolinkurl{5@9.4}} & Italy & 2010 & 5 & 9.4 (
+5.7-12.0) & 9.1 & -0.039 & 6.7\tabularnewline
+\href{mailto:5@66.1}{\nolinkurl{5@66.1}} & Italy & 2010 & 5 & 66.1
+(64.1-74.5) & 9.6 & -0.040 & 7.2\tabularnewline
+\href{mailto:1@39.9}{\nolinkurl{1@39.9}} & Italy & 2011 & 1 & 39.9
+(36.7-53.3) & 5.1 & -0.023 & 4.9\tabularnewline
+\href{mailto:1@83.8}{\nolinkurl{1@83.8}} & Italy & 2011 & 1 & 83.8
+(74.4-83.8) & 3.8 & -0.020 & 3.6\tabularnewline
+\href{mailto:2@49.5}{\nolinkurl{2@49.5}} & Italy & 2011 & 2 & 49.5
+(44.3-51.0) & 9.1 & -0.031 & 9.0\tabularnewline
+\href{mailto:5@57.5}{\nolinkurl{5@57.5}} & Italy & 2011 & 5 & 57.5
+(52.4-68.7) & 8.4 & -0.030 & 8.2\tabularnewline
+\href{mailto:4@50.0}{\nolinkurl{4@50.0}} & Sweden & 2011 & 4 & 50.0
+(34.5-56.6) & 4.3 & 0.031 & 4.6\tabularnewline
+\href{mailto:5@1.4}{\nolinkurl{5@1.4}} & Sweden & 2011 & 5 & 1.4 (
+0.0-32.5) & 4.9 & 0.034 & 5.3\tabularnewline
+\href{mailto:5@74.5}{\nolinkurl{5@74.5}} & Sweden & 2011 & 5 & 74.5
+(73.6-75.8) & 12.3 & 0.054 & 14.0\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\begin{longtable}[]{@{}llllrr@{}}
+\caption{Pairs of significant epistatic QTL detected across
+traits.}\tabularnewline
+\toprule
+Trait & Site & Year & QTL & LOD & \% var. explained\tabularnewline
+\midrule
+\endfirsthead
+\toprule
+Trait & Site & Year & QTL & LOD & \% var. explained\tabularnewline
+\midrule
+\endhead
+Seeds per fruit & Italy & 2011 &
+\href{mailto:1@5.3}{\nolinkurl{1@5.3}}:\href{mailto:5@15.0}{\nolinkurl{5@15.0}}
+& 3.45 & 2.73\tabularnewline
+Seeds per fruit & Sweden & 2011 &
+\href{mailto:1@61.0}{\nolinkurl{1@61.0}}:\href{mailto:3@21.0}{\nolinkurl{3@21.0}}
+& 8.24 & 7.97\tabularnewline
+Seeds per reproductive plant & Sweden & 2011 &
+\href{mailto:1@61.1}{\nolinkurl{1@61.1}}:\href{mailto:3@24.4}{\nolinkurl{3@24.4}}
+& 9.21 & 9.28\tabularnewline
+Seeds per seedling planted & Italy & 2010 &
+\href{mailto:3@18.0}{\nolinkurl{3@18.0}}:\href{mailto:5@12.0}{\nolinkurl{5@12.0}}
+& 0.88 & 0.58\tabularnewline
+Seeds per seedling planted & Sweden & 2011 &
+\href{mailto:1@61.0}{\nolinkurl{1@61.0}}:\href{mailto:3@23.3}{\nolinkurl{3@23.3}}
+& 8.18 & 7.28\tabularnewline
+\bottomrule
+\end{longtable}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics{supporting_information_files/figure-latex/seed-mass-1} 
+
+}
+
+\caption[Seed mass among parental lines]{Mean seed mass of the Italian (closed symbols) and Swedish (open symbols) parental ecotypes at the field sites in Italy (It.) and Sweden (Sw.) in 2010 and 2011. Bars indicate standard error.}\label{fig:seed-mass}
+\end{figure}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics{supporting_information_files/figure-latex/scatter-plots-1} 
+
+}
+
+\caption[Scatter plots between RIL-means for survival and fecundity, components of fecundity, and between overall fecundity and seed mass]{Relationships between RIL-means for survival and fecundity (top), components of fecundity (middle), and between overall fecundity and seed mass (bottom). Pearson correlation coefficients ($r_P$) and associated $p$-values are indicated.}\label{fig:scatter-plots}
+\end{figure}
+
+\newpage
+
+\begin{figure}
+
+{\centering \includegraphics{supporting_information_files/figure-latex/fig: epistatic-seed-1} 
+
+}
+
+\caption[Epistatic interactions for number of seeds per fruit]{Interaction plots for epistatic interactions detected for number of seeds per fruit, showing mean and standard errors for each genotype-by-genotype combination.}\label{fig:fig: epistatic-seed}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics{supporting_information_files/figure-latex/fig:epistatic-tofu-1} 
+
+}
+
+\caption[Epistatic interactions for number of seeds per reproductive plant]{Interaction plots for epistatic interactions detected for number of seeds per reproductive plant, showing mean and standard errors for each genotype-by-genotype combination.}\label{fig:fig:epistatic-tofu}
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics{supporting_information_files/figure-latex/fig: epistatic-tfit-1} 
+
+}
+
+\caption[Epistatic interactions for number of seeds per seedling planted]{Interaction plots for epistatic interactions detected for number of seeds per seedling planted, showing mean and standard errors for each genotype-by-genotype combination.}\label{fig:fig: epistatic-tfit}
+\end{figure}
+
+\newpage
+
+\begin{figure}
+\centering
+\includegraphics{supporting_information_files/figure-latex/heritabilities-1.pdf}
+\caption{Broad-sense heritability estimates for survival to
+reproduction, number of fruits per reproductive plant (Fruits/RP),
+number of seeds per fruit (Seeds/fr), number of fruits per seedling
+planted (Fruits/sdl), and seed mass. Closed and open symbols show values
+in Italy and Sweden respectively. Error bars show 95\% parametric
+bootstrap confidence intervals. Numbers indicate the number of
+individuals each estimate is based on.}
+\end{figure}
+
+
+\end{document}
