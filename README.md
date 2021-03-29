@@ -30,43 +30,52 @@ We consider a total of seven traits. These have four letter abbreviations to kee
 7. **surv**: Survival to reproduction.
 
 Traits 3, 5 and 7 are taken directly from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/).
-Traits 4 and 6 are not directly observed, but estimated as the product of other variables. This is described in the main text, and done by `R/rqtl_files.R`.
+Traits 4 and 6 are not directly observed, but estimated as the product of other variables. This is described in the main text, and done by `R/002.rqtl_files.R`.
 
 ## Analysis workflow
 
 The master script `R/000.master_script.R` gives an overview of the scripts to:
 
-1. Format raw data
-2. Perform statistical tests
-3. Run QTL mapping for each trait
-4. Format QTL results.
-5. Calculate genetic correlations
+* Format raw data
+* Perform statistical tests
+* Run QTL mapping for each trait
+* Format QTL results.
+* Calculate genetic correlations
 
 The manuscript is created with the Rmarkdown document `manuscript/fecundity_manuscript.Rmd`. Supporting information is at the end of this document.
 
 ### Parental data
 
-* Parental lines are formatted in `R/parents.R`
-* Bootstraps of selection coefficients for parental fitness components are run in `R/boostrap_selection_coefficients.R`, and the output saved to `output/boostrap_selection_coefficients.rds`.
-* Wilcox-tests on parental seed mass data are run in `R/mass_wilcox_tests.R`
+* Parental lines are formatted in `R/001.parents.R`
+* Bootstraps of selection coefficients for parental fitness components are run in `R/003.boostrap_selection_coefficients.R`, and the output saved to `output/boostrap_selection_coefficients.rds`.
+* Wilcox-tests on parental seed mass data are run in `R/005.mass_wilcox_tests.R`
+* There is some horrible base-R code in this script. I'm sorry.
 
 ### RIL phenotypes
-* Formatting RIL phenotypes and preparation of input files for `R/qtl` is done in `R/rqtl_files.R`.
+* Formatting RIL phenotypes and preparation of input files for `Rqtl` is done in `R/002.rqtl_files.R`.
 * Genetic correlations and bootstrap confidence intervals are calculated in `R/014.genetic_correlations.R`, which outputs a summary table to `output/genetic_correlations.csv`.
-* `R/heritabilities.R` calculates broad sense heritabilities on traits that were directly observed (surv, frut, seed, mass, ffit) rather than inferred; see [experimental set up](#experimental-set-up). Outputs to `output/heritabilties.rds`.
+* `R/004.heritabilities.R` calculates broad sense heritabilities on traits that were directly observed (surv, frut, seed, mass, ffit) rather than inferred; see [experimental set up](#experimental-set-up). Outputs to `output/heritabilties.rds`.
 
 ### QTL mapping
 
-- `R/rqtl_files.R` formats RIL data into R/qtl files.
+- `R/002.rqtl_files.R` formats RIL data into R/qtl files.
 - `R/perform_mapping.R` is a generic function to import an R/qtl input file, run permutations, and fit `stepwiseqtl()` models to the data. Output is saved as as RDS file in `output` folder with a generic names like `stepwise_trait.rds`.
-- For each trait there is a script `R/mapping_trait.R` that called `perform_mapping.R` on that trait. Shell scripts to running these on a cluster using SLURM are given in `sh/`.
-- To create figure 5 it was necessary to repeat QTL analysis of number of fruits per reproductive plant using only those RILs for which data was also available for number of seeds per reproductive plant. This is set up at the end of `R/rqtl_files.R`, and mapping is performed using `R/mapping_ffit_reduced.R`.
+- For each trait there is a script `R/xxx_mapping_trait.R` that called `perform_mapping.R` on that trait.
 - `R/format_qtl_models.R` runs `fitqtl()` on each `stepwiseqtl()` model, and clusters colocalising QTL into groups. It groups cross objects, QTL models, model fits and clusters for a single trait into one list of objects, which is saved as an RDS file.
 
 ## Dependencies
+### With `renv`
+
+This repository is set up to be compatible with [`renv`](https://rstudio.github.io/renv/articles/renv.html), which takes a snapshot of the R-package names and versions used for this analysis and recreates them inside RStudio on your machine. It is essential to use the `fecundity_components.Rproj` file in RStudio. Install `renv` with `install.packages("renv")`, then open the RStudio project file, and the packages should install themselves, or such is the idea.
+
+`renv` has some trouble tracking packages from non-standard sources, so you may have to manually install `arghqtl` from github (see [Manual installation](#manual-installation).
+
+### Manual installation
+
 All analyses were done in R using RStudio. The following additional packages are required, which can be installed from CRAN using `install.packages()`:
 
 * `knitr`
+* `bookdown`
 * `kableExtra`
 * `qtl`
 * `lme4`
@@ -79,6 +88,8 @@ library('devtools')
 install_github('ellisztamas/arghqtl')
 ```
 
+The release of *arghqtl* accompanying this manuscript is also available from [Zenodo](https://zenodo.org/record/4607317#.YGFXImixXJw) with the DOI 10.5281/zenodo.4607317.
+
 Full details of the R package versions used can be found in the file `sessionInfo`.
 
 ## Data
@@ -89,29 +100,29 @@ Full details of the R package versions used can be found in the file `sessionInf
 
 Column headers used:
 
-- site: Italian or Swedish site
-- year: Year the experiment was transplanted.
-- tray: Block ID.
-- row: Row within block.
-- column: column within block
-- pos: Well position within block.
-- genotype: Italian or Swedish parent
-- subline: Italian and Swedish parents are divided into four sublines each; this is ignored in analysis
-- fruit_per_plant: Number of fruits per reproductive plant
-- fruit_per_seed: Number of fruits per planted seedling
-- nseeds: Number of seeds per fruit
-- mean_mass_ug: Mean seed mass
-- total_mass_mg: Total mass of all seeds in the fruit
+- **site**: Italian or Swedish site
+- **year**: Year the experiment was transplanted.
+- **tray**: Block ID.
+- **row**: Row within block.
+- **column**: column within block
+- **pos**: Well position within block.
+- **genotype**: Italian or Swedish parent
+- **subline**: Italian and Swedish parents are divided into four sublines each; this is ignored in analysis
+- **fruit_per_plant**: Number of fruits per reproductive plant
+- **fruit_per_seed**: Number of fruits per planted seedling
+- **nseeds**: Number of seeds per fruit
+- **mean_mass_ug**: Mean seed mass
+- **total_mass_mg**: Total mass of all seeds in the fruit
 
 ### Raw data on RILs
 #### From Ågren *et al.* (2013)
 Data from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/) are in `data_raw`:
-* **Agren2013_fitness_components.csv**: RIL mean survival (Surv) and fruits per reproductive plant (NFrFrPr) from
-* **Agren2013_LSMfitness.csv**: RIL least-square mean fruits per planted seedling (NFruit) from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/)
-* **RIL genotypes.csv**: RIL genotypes from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/)
-* **genetic_map_agren_etal_2013.csv**: Genetic map from [Ågren *et al.*, 2013](http://www.pnas.org/content/110/52/21077/), used for plotting QTL positions in the main text.
+* **Agren2013_fitness_components.csv**: RIL mean survival (Surv) and fruits per reproductive plant (NFrFrPr)
+* **Agren2013_LSMfitness.csv**: RIL least-square mean fruits per planted seedling (NFruit)
+* **RIL genotypes.csv**: RIL genotypes
+* **genetic_map_agren_etal_2013.csv**: Genetic map used for plotting QTL positions in the main text.
 
-Phenotype data column headers show RIL name (**id**), and then a code that shows abbreviations used by Ågren *et al.*:
+Phenotype data column headers show RIL name (**id**), and then a code that shows abbreviations used by Ågren *et al.* (2013):
 
 * year (F09, F10, F11)
 * site (IT, SW)
@@ -124,7 +135,7 @@ Genotype data are in R/QTL format, showing RIL names, following by each locus. L
 #### RIL seed size and number
 Data on seed size and number are in the file `data_raw/RIL_means_seedmass_seednumber.csv`. Columns show:
 
-* RIL name
+* **Genotype**: RIL identifier
 * **Mean # Seeds (good)**: average number of mature seeds per fruit
 * **N(# Seeds (good)**: Number of plants for which seeds were counted
 * **Mean(MSeedMass(ug))**: mean seed mass.
@@ -136,7 +147,7 @@ Raw data are in `data_raw/RILFieldExptItalySweden_SeedSizeNumber_SixYrs_398RIL E
 
 #### RIL-phenotype files
 
-The script `R/rqtl_files.R` formats RIL data. This outputs CSV files for each trait with RIL names in a common order for performing genetic correlations with five columns:
+The script `R/002.rqtl_files.R` formats RIL data. This outputs CSV files for each trait with RIL names in a common order for performing genetic correlations with five columns:
 
 * **id**: RIL name.
 * **it2010**: RIL means for Italy in 2010.
