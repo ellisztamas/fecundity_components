@@ -3,11 +3,11 @@ title: Life-history trade-offs and the genetic basis of fitness in *Arabidopsis 
 # author: "Thomas James Ellis, Froukje M. Postma, Christopher G. Oakley and Jon Ågren"
 # date: "`r format(Sys.time(), '%d.%m.%Y')`"
 output:
-  bookdown::word_document2: null
   bookdown::pdf_book:
     toc: no
     keep_tex: yes
     number_sections: false
+  bookdown::word_document2: null
 always_allow_html: yes
 bibliography: references.bib
 csl: mol-ecol.csl
@@ -41,7 +41,7 @@ library("kableExtra")
 # Install with devtools::install_github("ellisztamas/arghqtl", build=TRUE)
 library('arghqtl')
 
-
+writeLines(capture.output(sessionInfo()), "sessionInfo")
 ```
 
 ```{r data-import, include=F}
@@ -639,6 +639,28 @@ TJE performed analyses and wrote the manuscript. JÅ conceived the study, and J�
 
 \beginsupplement
 
+Supporting information for the manuscript "Life-history trade-offs and the genetic basis of fitness in Arabidopsis thaliana" by Thomas Ellis, Froukje M. Postma, Christopher G. Oakley and Jon Ågren.
+
+Contents:
+
+* Table \@ref(tab:individual-seed-qtl): QTL for number of seeds per fruit identified in individual experiments.
+* Table \@ref(tab:epistatic-qtl-table): Pairs of significant epistatic QTL detected across traits
+* Table \@ref(tab:individual-ffit-qtl): QTL for number of fruits per seedling identified in individual experiments
+* Table \@ref(tab:individual-tfit-qtl): QTL for number of fruits per reproductive plant identified in individual experiments
+* Table \@ref(tab:individual-mass-qtl): QTL for seed mass identified in individual experiments
+* Table \@ref(tab:cor-mass-numb): Pearson correlations between seed mass and number of seeds per fruit.
+* Table \@ref(tab:individual-surv-qtl): QTL for survival to reproduction identified in individual experiments
+* Figure \@ref(fig:epistatic-seed): Epistatic interactions detected for number of seeds per fruit
+* Figure \@ref(fig:seed-mass): Mean seed mass of parental ecotypes
+* Figure \@ref(fig:epistatic-mass): Epistatic interactions detected for seed mass
+* Figure \@ref(fig:scatter-plots): Scatter plots of RIL-mean survival, fecundity and seed mass.
+* Figure \@ref(fig:epistatic-frut): Epistatic interactions detected for number of fruits per reproductive plant
+* Figure \@ref(fig:epistatic-tofu): Epistatic interactions detected for number of seeds per reproductive plant
+* Figure \@ref(fig:epistatic-tfit): Epistatic interactions detected for number of seeds per seedling planted
+* Figure \@ref(fig:heritabilities): Broad-sense heritability estimates
+ 
+ \newpage
+
 ## Supplementary tables
 
 ```{r individual-seed-qtl, fig.align='center', eval=T}
@@ -668,7 +690,7 @@ kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE"
       format="pandoc",
       digits = c(0,0,0,0,0,1,3,1,1),
       col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
-      caption="QTL for number of seeds per fruit identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in seeds/fruit between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer seeds/fruit. Names indicated chromosome number and cM position.")
+      caption="QTL for number of seeds per fruit identified in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in seeds/fruit between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer seeds/fruit. Names indicated chromosome number and cM position.")
 ```
 
 \newpage
@@ -745,7 +767,7 @@ kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE"
       format= "pandoc",
       digits = c(0,0,0,0,0,1,3,1,1),
       col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
-      caption = "QTL for number of fruits per seedling identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects, and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in fruits/seedling between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer fruits/seedling. Names indicated chromosome number and cM position.")
+      caption = "QTL for number of fruits per seedling identified in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects, and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in fruits/seedling between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer fruits/seedling. Names indicated chromosome number and cM position.")
 
 ```
 
@@ -875,7 +897,7 @@ kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE"
       format= "pandoc",
       digits = c(0,0,0,0,0,1,3,1),
       col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
-      caption = "QTL for survival to reproduction identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects, as a percentage of variance among RIL means, and as a percentage of the difference between parental means. Effect sizes are quantified as the least-square mean difference in survival between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with lower survival. Names indicated chromosome number and cM position.")
+      caption = "QTL for survival to reproduction identified in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects, as a percentage of variance among RIL means, and as a percentage of the difference between parental means. Effect sizes are quantified as the least-square mean difference in survival between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with lower survival. Names indicated chromosome number and cM position.")
 
 ```
 
@@ -911,7 +933,7 @@ kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE"
       format="pandoc",
       digits = c(0,0,0,0,0,1,3,1,1),
       col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
-      caption="QTL for number of fruits per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in fruits/RP between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer fruits/RP. Names indicated chromosome number and cM position.")
+      caption="QTL for number of fruits per reproductive plant identified in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in fruits/RP between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer fruits/RP. Names indicated chromosome number and cM position.")
 ```
 
 \newpage
@@ -946,7 +968,7 @@ kable(tab[,c("name", "site", "year","chr","position","LOD", "effect_sizes","PVE"
       format="pandoc",
       digits = c(0,0,0,0,0,1,3,1,1),
       col.names = c("Name", "Site", "Year","Chr.","Position (cM)","LOD", "Effect size","% var. explained"),# "% diff. explained"),
-      caption = "QTL for number of seeds per reproductive plant identifed in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in seeds/RP between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer seeds/RP. Names indicated chromosome number and cM position.")
+      caption = "QTL for number of seeds per reproductive plant identified in individual experiments. QTL positions are shown with their 95% Bayesian credible intervals. Effect sizes are given as additive effects and as a percentage of variance among RIL means. Effect sizes are quantified as the least-square mean difference in seeds/RP between genotypes homozygous for the Swedish and Italian allele, respectively; negative values indicate that the Swedish genotype is associated with fewer seeds/RP. Names indicated chromosome number and cM position.")
 
 ```
 
@@ -1000,7 +1022,7 @@ legend(
 
 \newpage
 
-```{r seed-mass, fig.cap="Mean seed mass of the Italian (closed symbols) and Swedish (open symbols) parental ecotypes at the field sites in Italy (It.) and Sweden (Sw.) in 2010 and 2011. Bars indicate standard error.", fig.scap = "Seed mass among parental lines", fig.align= "center", fig.width=8/2.54}
+```{r seed-mass, fig.cap="Mean seed mass of the Italian (closed symbols) and Swedish (open symbols) parental ecotypes at the field sites in Italy (It.) and Sweden (Sw.) in 2010 and 2011. Bars indicate standard error.", fig.scap = "Seed mass among parental lines", fig.align= "center", fig.width=12/2.54}
 # pdf("figures/02_seed_mass.pdf", width=11/2.54)
 
 par(mfrow=c(1,1))
