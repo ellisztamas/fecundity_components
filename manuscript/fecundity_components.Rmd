@@ -16,10 +16,9 @@ documentclass: article
 # fontsize: 12pt
 geometry: "left=2.5cm, right=2.5cm, top=3cm, bottom=3cm"
 header-includes:
-  
   \usepackage{lineno}
   \linenumbers
-  \usepackage{setspace}\doublespacing 
+  \usepackage{setspace}\doublespacing
   \usepackage{caption}
   \captionsetup[figure]{font=singlespacing}
   
@@ -282,7 +281,7 @@ in 2011 (Figure \@ref(fig:selection-correlations)B).
 
 ## QTL for seeds/fruit contribute to differences in fecundity
 
-We found QTL for seeds/fruit across all five chromosomes that together explained between 24.3% and 29.0% of the variance in mean seeds/fruit among RILs in each site-year combination (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden), Tables \@ref(tab:individual-seed-qtl) and \@ref(tab:epistatic-qtl-table)). For all QTL detected in Italy, the non-local Swedish allele was associated with fewer seeds per fruit (Figure \@ref(fig:plot-qtl-italy)). In Sweden, the local allele was associated with an increase in seeds/fruit in all four QTL detected in 2010, and in three out of five QTL in 2011. For the other two QTL the local allele was associated with a decrease in seeds/fruit (Figure \@ref(fig:plot-qtl-sweden)). Swedish alleles at QTL for seeds/fruit were thus associated with reduced seed output per fruit in Italy, whereas the direction of effects varied in Sweden. In addition, we detected two pairs of loci showing significant epistatic interactions for seeds/fruit in Sweden (Figure \@ref(fig:epistatic-seed), Table \@ref(tab:epistatic-qtl-table)). In 2010, RILs with at the Italian genotype at both the QTL on chromosome 1 at 22.7cM (henceforth abbreviated to the format 1@22.7) and 5@70.6 produced fewer seeds/fruit compared to RILs with other combinations of genotypes at these loci. In 2011, RILs with Swedish genotypes at both 1@61.1 and 3@21.0 produced the fewest seeds/fruit of any genotype combination, and the most seeds/fruit was recorded for RILs that were Swedish at 1@61.1 and Italian at 3@21.0 (Figure \@ref(fig:epistatic-seed)).
+We found QTL for seeds/fruit across all five chromosomes that together explained between 24.3% and 29.0% of the variance in mean seeds/fruit among RILs in each site-year combination (Figures \@ref(fig:plot-qtl-italy) and \@ref(fig:plot-qtl-sweden), Tables \@ref(tab:individual-seed-qtl) and \@ref(tab:epistatic-qtl-table)). For all QTL detected in Italy, the non-local Swedish allele was associated with fewer seeds per fruit (Figure \@ref(fig:plot-qtl-italy)). In Sweden, the local allele was associated with an increase in seeds/fruit in all four QTL detected in 2010, and in three out of five QTL in 2011. For the other two QTL the local allele was associated with a decrease in seeds/fruit (Figure \@ref(fig:plot-qtl-sweden)). Swedish alleles at QTL for seeds/fruit were thus associated with reduced seed output per fruit in Italy, whereas the direction of effects varied in Sweden. In addition, we detected two pairs of loci showing significant epistatic interactions for seeds/fruit in Sweden (Figure \@ref(fig:epistatic-seed), Table \@ref(tab:epistatic-qtl-table)). In 2010, RILs with at the Italian genotype at both the QTL on chromosome 1, 22.7cM (henceforth abbreviated to the format 1@22.7) and 5@70.6 produced fewer seeds/fruit compared to RILs with other combinations of genotypes at these loci. In 2011, RILs with Swedish genotypes at both 1@61.1 and 3@21.0 produced the fewest seeds/fruit of any genotype combination, and the most seeds/fruit was recorded for RILs that were Swedish at 1@61.1 and Italian at 3@21.0 (Figure \@ref(fig:epistatic-seed)).
 
 ```{r list-pleiotropic-qtl}
 
