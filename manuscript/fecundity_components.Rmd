@@ -16,9 +16,9 @@ documentclass: article
 # fontsize: 12pt
 geometry: "left=2.5cm, right=2.5cm, top=3cm, bottom=3cm"
 header-includes:
-  # \usepackage{lineno}
-  # \linenumbers
-  # \usepackage{setspace}\doublespacing
+  \usepackage{lineno}
+  \linenumbers
+  \usepackage{setspace}\doublespacing
   \pagestyle{empty}
   \usepackage{caption}
   \captionsetup[figure]{font=singlespacing}
@@ -88,6 +88,8 @@ year_names  <- c(2010, 2011, 2010, 2011)
 ```
 
 **Authors**: Thomas James Ellis^1,2^, Froukje M. Postma^1^, Christopher G. Oakley^3^ and Jon Ågren^1^
+
+**Corresponding author**: Jon Ågren (jon.agren@ebc.uu.se)
 
 **Affiliations**:
 
@@ -618,7 +620,7 @@ The study was financially supported by grants from the Swedish Research Council 
 
 # Data availability
 
-Data, R scripts, and the Rmarkdown document used to create this manuscript are available from Zenodo with the DOI 10.5281/zenodo.4643754 The release of *arghqtl* accompanying this manuscript is available with the DOI 10.5281/zenodo.4607317.
+Data, R scripts, and the Rmarkdown document used to create this manuscript are available from Zenodo with the DOI 10.5281/zenodo.4644166. The release of *arghqtl* accompanying this manuscript is available with the DOI 10.5281/zenodo.4607317.
 
 
 # Competing interests
